@@ -1,0 +1,737 @@
+.PanelMenu
+{
+	background-color: "#CFCFCF"; 
+	border: "1 solid"; 
+	border-top-color: "#EFEFEF"; 
+	border-left-color: "#EFEFEF"; 
+	border-right-color: "#505050"; 
+	border-bottom-color: "#505050"; 
+	font-size: 8pt; 
+	font-family: Arial;
+	padding-top: 2px;
+	padding-left: 2px;
+}
+
+.PanelWhite
+{
+	border-right: #dedede 1px solid;
+	border-top: #dedede 1px solid;
+	border-left: #dedede 1px solid;
+	border-bottom: #dedede 1px solid;
+	background-color: #ffffff;
+	text-decoration: none;
+	font-weight: normal;
+	font-size: 12px;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;	
+}
+.PanelWhite1
+{
+    BORDER-RIGHT: #d0d0d0 1px solid;
+    BORDER-TOP: #d0d0d0 1px solid;
+    BORDER-LEFT: #d0d0d0 1px solid;
+    BORDER-BOTTOM: #d0d0d0 1px solid;
+    BACKGROUND-COLOR: #ffffff;
+}
+.PanelWhite2
+{
+	border-right: #b4b4b4 1px solid;
+	border-top: #b4b4b4 1px solid;
+	border-left: #b4b4b4 1px solid;
+	border-bottom: #b4b4b4 1px solid;
+	background-color: #ffffff;
+}
+.PanelWhite3
+{
+	border-right: #545454 1px solid;
+	border-top: #545454 1px solid;
+	border-left: #545454 1px solid;
+	border-bottom: #545454 1px solid;
+	background-color: #ffffff;
+}
+.PanelSilver
+{
+    BORDER-RIGHT: #dddddd 1px solid;
+    BORDER-TOP: #dddddd 1px solid;
+    BORDER-LEFT: #dddddd 1px solid;
+    BORDER-BOTTOM: #dddddd 1px solid;
+    BACKGROUND-COLOR: #eeeeee;
+}
+.PanelSilver1
+{
+    BORDER-RIGHT: #d0d0d0 1px solid;
+    BORDER-TOP: #d0d0d0 1px solid;
+    BORDER-LEFT: #d0d0d0 1px solid;
+    BORDER-BOTTOM: #d0d0d0 1px solid;
+    BACKGROUND-COLOR: #e6e6e6;
+}
+.PanelGray
+{
+	border-right: #c2c2c2 1px solid;
+	border-top: #c2c2c2 1px solid;
+	border-left: #c2c2c2 1px solid;
+	border-bottom: #c2c2c2 1px solid;
+	background-color: #d8d8d8;
+}
+.PanelGray1
+{
+	border-right: #7c7c7c 1px solid;
+	border-top: #7c7c7c 1px solid;
+	border-left: #7c7c7c 1px solid;
+	border-bottom: #7c7c7c 1px solid;
+	background-color: #bcbcbc;
+}
+.PanelBlue
+{
+	border-right: #dadaff 1px solid;
+	border-top: #dadaff 1px solid;
+	border-left: #dadaff 1px solid;
+	border-bottom: #dadaff 1px solid;
+	background-color: #e8e8ff;
+}
+.PanelBlue1
+{
+	border-right: #bebeff 1px solid;
+	border-top: #bebeff 1px solid;
+	border-left: #bebeff 1px solid;
+	border-bottom: #bebeff 1px solid;
+	background-color: #dadaff;
+}
+.PanelBlue2
+{
+	border-right: #6f6fbb 1px solid;
+	border-top: #6f6fbb 1px solid;
+	border-left: #6f6fbb 1px solid;
+	border-bottom: #6f6fbb 1px solid;
+	background-color: #9b9bd9;
+}
+.PanelBlue3
+{
+	border-right: #373791 1px solid;
+	border-top: #373791 1px solid;
+	border-left: #373791 1px solid;
+	border-bottom: #373791 1px solid;
+	background-color: #6363bd;
+}
+.PanelPurple
+{
+	border-right: #e0cae0 1px solid;
+	border-top: #e0cae0 1px solid;
+	border-left: #e0cae0 1px solid;
+	border-bottom: #e0cae0 1px solid;
+	background-color: #f0dbf7;
+}
+.PanelPurple1
+{
+	border-right: #cbadd5 1px solid;
+	border-top: #cbadd5 1px solid;
+	border-left: #cbadd5 1px solid;
+	border-bottom: #cbadd5 1px solid;
+	background-color: #e6cde9;
+}
+.PanelPurple2
+{
+	border-right: #b183b1 1px solid;
+	border-top: #b183b1 1px solid;
+	border-left: #b183b1 1px solid;
+	border-bottom: #b183b1 1px solid;
+	background-color: #ceabce;
+}
+.PanelPurple3
+{
+	border-right: #843284 1px solid;
+	border-top: #843284 1px solid;
+	border-left: #843284 1px solid;
+	border-bottom: #843284 1px solid;
+	background-color: #bc7fbd;
+}
+.PanelGreen
+{
+	border-right: #ccffcc 1px solid;
+	border-top: #ccffcc 1px solid;
+	border-left: #ccffcc 1px solid;
+	border-bottom: #ccffcc 1px solid;
+	background-color: #e8ffe8;
+}
+.PanelGreen1
+{
+	border-right: #74daa7 1px solid;
+	border-top: #74daa7 1px solid;
+	border-left: #74daa7 1px solid;
+	border-bottom: #74daa7 1px solid;
+	background-color: #ccffcc;
+}
+.PanelGreen2
+{
+	border-right: #58be8b 1px solid;
+	border-top: #58be8b 1px solid;
+	border-left: #58be8b 1px solid;
+	border-bottom: #58be8b 1px solid;
+	background-color: #b0e3b0;
+}
+.PanelGreen3
+{
+	border-right: #4a914a 1px solid;
+	border-top: #4a914a 1px solid;
+	border-left: #4a914a 1px solid;
+	border-bottom: #4a914a 1px solid;
+	background-color: #86c786;
+}
+.PanelCyan
+{
+	border-right: #a7d4c9 1px solid;
+	border-top: #a7d4c9 1px solid;
+	border-left: #a7d4c9 1px solid;
+	border-bottom: #a7d4c9 1px solid;
+	background-color: #b7e9d9;
+}
+.PanelCyan1
+{
+	border-right: #339999 1px solid;
+	border-top: #339999 1px solid;
+	border-left: #339999 1px solid;
+	border-bottom: #339999 1px solid;
+	background-color: #5dcbbf;
+}
+.PanelCyan2
+{
+	border-right: #237c6d 1px solid;
+	border-top: #237c6d 1px solid;
+	border-left: #237c6d 1px solid;
+	border-bottom: #237c6d 1px solid;
+	background-color: #41a68b;
+}
+.PanelCyan3
+{
+	border-right: #005239 1px solid;
+	border-top: #005239 1px solid;
+	border-left: #005239 1px solid;
+	border-bottom: #005239 1px solid;
+	background-color: #288474;
+}
+.PanelRed
+{
+	border-right: #ffd0d4 1px solid;
+	border-top: #ffd0d4 1px solid;
+	border-left: #ffd0d4 1px solid;
+	border-bottom: #ffd0d4 1px solid;
+	background-color: #ffe5e5;
+}
+.PanelRed1
+{
+	border-right: #ffa6a6 1px solid;
+	border-top: #ffa6a6 1px solid;
+	border-left: #ffa6a6 1px solid;
+	border-bottom: #ffa6a6 1px solid;
+	background-color: #ffcbcb;
+}
+.PanelRed2
+{
+	border-right: #d94040 1px solid;
+	border-top: #d94040 1px solid;
+	border-left: #d94040 1px solid;
+	border-bottom: #d94040 1px solid;
+	background-color: #ff8787;
+}
+.PanelRed3
+{
+	border-right: #750420 1px solid;
+	border-top: #750420 1px solid;
+	border-left: #750420 1px solid;
+	border-bottom: #750420 1px solid;
+	background-color: #cc0033;
+}
+.PanelOrange
+{
+	border-right: #ffd792 1px solid;
+	border-top: #ffd792 1px solid;
+	border-left: #ffd792 1px solid;
+	border-bottom: #ffd792 1px solid;
+	background-color: #ffe5c4;
+}
+.PanelOrange1
+{
+	border-right: #ffa941 1px solid;
+	border-top: #ffa941 1px solid;
+	border-left: #ffa941 1px solid;
+	border-bottom: #ffa941 1px solid;
+	background-color: #ffce69;
+}
+.PanelOrange2
+{
+	border-right: #d96700 1px solid;
+	border-top: #d96700 1px solid;
+	border-left: #d96700 1px solid;
+	border-bottom: #d96700 1px solid;
+	background-color: orange;
+}
+.PanelOrange3
+{
+	border-right: #ab2f00 1px solid;
+	border-top: #ab2f00 1px solid;
+	border-left: #ab2f00 1px solid;
+	border-bottom: #ab2f00 1px solid;
+	background-color: #ff5900;
+}
+.PanelYellow
+{
+	border-right: #fff187 1px solid;
+	border-top: #fff187 1px solid;
+	border-left: #fff187 1px solid;
+	border-bottom: #fff187 1px solid;
+	background-color: #ffffc2;
+}
+.PanelYellow1
+{
+	border-right: #f7e24e 1px solid;
+	border-top: #f7e24e 1px solid;
+	border-left: #f7e24e 1px solid;
+	border-bottom: #f7e24e 1px solid;
+	background-color: #f7f487;
+}
+.PanelYellow2
+{
+	border-right: #ffc92e 1px solid;
+	border-top: #ffc92e 1px solid;
+	border-left: #ffc92e 1px solid;
+	border-bottom: #ffc92e 1px solid;
+	background-color: #f9de59;
+}
+.PanelYellow3
+{
+	border-right: #ffab00 1px solid;
+	border-top: #ffab00 1px solid;
+	border-left: #ffab00 1px solid;
+	border-bottom: #ffab00 1px solid;
+	background-color: #ffce04;
+}
+.PanelBrown
+{
+	border-right: #e6d9c2 1px solid;
+	border-top: #e6d9c2 1px solid;
+	border-left: #e6d9c2 1px solid;
+	border-bottom: #e6d9c2 1px solid;
+	background-color: #f7ebd1;
+}
+.PanelBrown1
+{
+	border-right: #c9ad79 1px solid;
+	border-top: #c9ad79 1px solid;
+	border-left: #c9ad79 1px solid;
+	border-bottom: #c9ad79 1px solid;
+	background-color: #dfd1b4;
+}
+.PanelBrown2
+{
+	border-right: #9b7546 1px solid;
+	border-top: #9b7546 1px solid;
+	border-left: #9b7546 1px solid;
+	border-bottom: #9b7546 1px solid;
+	background-color: #c6a774;
+}
+.PanelBrown3
+{
+	border-right: #6b4318 1px solid;
+	border-top: #6b4318 1px solid;
+	border-left: #6b4318 1px solid;
+	border-bottom: #6b4318 1px solid;
+	background-color: #a7724d;
+}
+.PanelBlack
+{
+	border-right: black 1px solid;
+	border-top: black 1px solid;
+	border-left: black 1px solid;
+	border-bottom: black 1px solid;
+	background-color: dimgray;
+}
+.PanelBlack1
+{
+	border-right: black 1px solid;
+	border-top: black 1px solid;
+	border-left: black 1px solid;
+	border-bottom: black 1px solid;
+	background-color: #4d4d4d;
+}
+.PanelBlack2
+{
+	border-right: black 1px solid;
+	border-top: black 1px solid;
+	border-left: black 1px solid;
+	border-bottom: black 1px solid;
+	background-color: #313131;
+}
+
+.PanelSteel
+{
+	border-right: #919191 1px solid;
+	padding-right: 3px;
+	border-top: lightgrey 1px solid;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	border-left: #c2c2c2 1px solid;
+	color: black;
+	padding-top: 3px;
+	border-bottom: #8e8e8e 1px solid;
+	background-color: #e1e1e0;
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#00c2c2c2', EndColorStr='#FF666677');
+}
+
+
+.PhotoPaper
+{
+	padding-left:10px;
+	padding-top:10px;
+	padding-right:10px;
+	padding-bottom:10px;
+    BORDER-TOP: #f6f6f6 1px solid;
+	BORDER-BOTTOM: #e1e1e1 1px solid;
+	BORDER-Left: #f6f6f6 1px solid;
+	BORDER-RIGHT: #e1e1e1 1px solid;
+}
+	
+.BevelBlue
+{
+	border-right: #9d9dd8 2px inset;
+	border-top: #ccccff 2px solid;
+	border-left: #ccccff 2px double;
+	border-bottom: #9d9dd8 2px inset;
+	background-color: #9999ff;
+}
+.BevelBlue2
+{
+	border-right: #9d9dd8 1px inset;
+	border-top: #DFE8F1 1px solid;
+	border-left: #DFE8F1 1px double;
+	border-bottom: #9d9dd8 1px inset;
+	background-color: #CCD8E4;
+	font-size :11px ;
+}
+.BevelLightGold
+{
+	border-right: #F2CC03 1px inset;
+	border-top: #FCE77B 1px solid;
+	border-left: #FCE77B 1px double;
+	border-bottom: #F2CC03 1px inset;
+	background-color: #FFE144;
+	font-size :11px ;
+	color :#996D03;
+}
+
+.BevelLightPurple
+{
+	border-right: #D29DCD 1px inset;
+	border-top: #ECDFF1 1px solid;
+	border-left: #ECDFF1 1px double;
+	border-bottom: #D29DCD 1px inset;
+	background-color: #DDCCE4;
+	font-size :11px ;
+	color :#AC5CCD;
+}
+.BevelLightGreen
+{
+	border-right: #97D6AA 2px inset;
+	border-top: #E4F3DD 2px solid;
+	border-left: #E4F3DD 2px double;
+	border-bottom: #97D6AA 2px inset;
+	background-color: #D2E7C9;
+	font-size :11px ;
+}
+
+.BevelLightSilver
+{
+	border-right: #D5D9DD 1px inset;
+	border-bottom: #D5D9DD 1px inset;
+	background-color: #E5EBF2;
+	font-size :11px ;
+}
+
+
+
+.BevelGray
+{
+    BORDER-RIGHT: #d0d0d0 2px inset;
+    BORDER-TOP: #e8e8e8 2px solid;
+    BORDER-LEFT: #e8e8e8 2px double;
+    BORDER-BOTTOM: #d0d0d0 2px inset;
+    BACKGROUND-COLOR: #dddddd;
+}
+.BevelRed
+{
+	border-right: #f06d6d 2px inset;
+	border-top: #f4aead 2px solid;
+	border-left: #f4aead 2px double;
+	border-bottom: #f06d6d 2px inset;
+	background-color: #ff8787;
+}
+.BevelGreen
+{
+	border-right: #1aa04d 2px inset;
+	border-top: #82da82 2px solid;
+	border-left: #82da82 2px double;
+	border-bottom: #1aa04d 2px inset;
+	background-color: #00cc66;
+}
+
+.BevelBlack
+{
+	border-right: #000000 2px inset;
+	border-top: #727272 2px solid;
+	border-left: #727272 2px double;
+	border-bottom: #000000 2px double;
+	background-color: #383838;
+}
+
+
+
+
+
+HR.LineSilver
+{
+	border-right: lightgrey 2px solid;
+	border-top: lightgrey 2px solid;
+	border-left: lightgrey 2px solid;
+	border-bottom: lightgrey 2px solid;
+}
+HR.LineGray
+{
+	border-right: darkgray 2px solid;
+	border-top: darkgray 2px solid;
+	border-left: darkgray 2px solid;
+	border-bottom: darkgray 2px solid;
+}
+HR.LineBlack
+{
+	border-right: black 2px solid;
+	border-top: black 2px solid;
+	border-left: black 2px solid;
+	border-bottom: black 2px solid;
+}
+HR.LineBlue
+{
+	border-right: royalblue 2px solid;
+	border-top: royalblue 2px solid;
+	border-left: royalblue 2px solid;
+	border-bottom: royalblue 2px solid;
+}
+HR.LineGreen
+{
+	border-right: mediumseagreen 2px solid;
+	border-top: mediumseagreen 2px solid;
+	border-left: mediumseagreen 2px solid;
+	border-bottom: mediumseagreen 2px solid;
+}
+HR.LineRed
+{
+	border-right: red 2px solid;
+	border-top: red 2px solid;
+	border-left: red 2px solid;
+	border-bottom: red 2px solid;
+	
+}
+
+
+.FloatPanel
+{
+  BEHAVIOR: url("/lib/htc/floatpanel.htc");
+}
+.MovePanel
+{
+	BEHAVIOR: url("/lib/htc/floatpanel.htc");
+}
+DIV.DropdownPanel
+{
+    BEHAVIOR: url("/lib/htc/dropdownpanel.htc");
+}
+.TabBlue
+{
+    BORDER-RIGHT: #3333ac 2px outset;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #8b8bff 2px outset;
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #8b8bff 2px outset;
+    CURSOR: hand;
+    COLOR: #a9a9cc;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #3333ac 2px inset;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #3333bc;
+}
+.TabBlueOn
+{
+    BORDER-RIGHT: #3333ac 2px outset;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #8b8bff 2px outset;
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #8b8bff 2px outset;
+    CURSOR: hand;
+    COLOR: white;
+    PADDING-TOP: 2px;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #7373ec;
+}
+.TabBlueBody
+{
+    BORDER-RIGHT: #5353b9 2px inset;
+    BORDER-LEFT: #8b8bff 2px outset;
+    BORDER-BOTTOM: #333389 2px inset;
+    BACKGROUND-COLOR: #7373ec;
+}
+
+.TabLightBlue
+{
+    BORDER-RIGHT: #DADEE5 2px outset;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #DADEE5 2px outset;
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #DADEE5 2px outset;
+    CURSOR: hand;
+    COLOR: #a9a9cc;
+    PADDING-TOP: 2px;
+   
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #B4CEF4;
+}
+.TabLightBlueOn
+{
+    BORDER-RIGHT: #DADEE5 2px outset;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #DADEE5 2px outset;
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #DADEE5 2px outset;
+    CURSOR: hand;
+    COLOR: white;
+    PADDING-TOP: 2px;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #B4CEF4;
+}
+.TabLightBlueBody
+{
+	BORDER-LEFT: #DADEE5 2px outset;
+	BORDER-TOP: #DADEE5 1px solid;
+    BORDER-RIGHT: #B6C0D2 2px inset;
+    BORDER-BOTTOM: #B6C0D2 2px inset;
+    BACKGROUND-COLOR: #CED4E0;
+}
+
+.TabSilver
+{
+	border-right: #7d7d7d 1px solid;
+	padding-right: 2px;
+	border-top: #dedede 1px solid;
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 11px;
+	padding-bottom: 2px;
+	border-left: #d9d9d9 2px outset;
+	cursor: hand;
+	color: dimgray;
+	padding-top: 2px;
+	border-bottom: #a2a2a2 1px solid;
+	font-family: Tahoma;
+	background-color: #b7b7b7;
+}
+.TabSilverOn
+{
+	border-right: #9e9e9e 2px outset;
+	padding-right: 2px;
+	border-top: #dfdfdf 2px outset;
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 11px;
+	padding-bottom: 2px;
+	border-left: #cdcdcd 2px outset;
+	cursor: hand;
+	padding-top: 2px;
+	font-family: Tahoma;
+	background-color: #eaeaea;
+}
+.TabSilverBody
+{
+	border-right: #919191 1px solid;
+	padding-right: 3px;
+	border-top: lightgrey 1px solid;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	border-left: #c2c2c2 1px solid;
+	color: black;
+	padding-top: 3px;
+	border-bottom: #8e8e8e 1px solid;
+	background-color: #e1e1e0;
+}
+
+
+SELECT.TabSheet
+{
+    DISPLAY: none;
+    BEHAVIOR: url("/lib/htc/tabsheet.htc") ;
+}
+UL.TabSheet
+{
+	border-right: black 1px solid;
+	padding-right: 3px;
+	border-top: black 1px solid;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	behavior: url( "/lib/htc/tabsheet1.htc" ) ;
+	border-left: black 1px solid;
+	padding-top: 3px;
+	border-bottom: black 1px solid;
+	list-style-type: none;
+}
+DL.TabSheet
+{
+	behavior: url( "/lib/htc/tabsheet1.htc" ) ; 
+	list-style-type: none;
+    DISPLAY: none;
+}
+DT.Sheet
+{
+	border-right: #7575cb 2px inset;
+	border-top: #8b8bff 1px solid;
+	border-left: #8b8bff 2px outset;
+	width: 500px;
+	border-bottom: #6a6ac9 2px inset;
+	height: 300px;
+	background-color: #8e8eec;
+}
+UL.Tree
+{
+    BEHAVIOR: url("/lib/htc/tree.htc") ;
+}
+
+UL.TopDownTree
+{
+    BEHAVIOR: url("/lib/htc/topdowntree.htc") ;
+}
+
+.HoverLink
+{
+    BEHAVIOR: url("/lib/htc/hoverlink.htc") ;
+}
+
+.RoundedWhite
+{
+    BEHAVIOR: url("/lib/htc/roundedpanel.htc") ;
+}
+
+.TableAct
+{
+	font-weight: normal;
+	font-size: 12px;
+	font-family: Arial, Tahoma;
+    BEHAVIOR: url("/lib/htc/TableAct.htc") ;
+}
+
+.userData {behavior:url(#default#userdata);}

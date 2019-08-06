@@ -1,0 +1,240 @@
+.btn     { width: 22px; height: 22px; border: 1px solid buttonface; margin: 0; padding: 0; }
+.btnOver { width: 22px; height: 22px; border: 1px outset; }
+.btnDown { width: 22px; height: 22px; border: 1px inset; background-color: buttonhighlight; }
+.btnNA   { width: 22px; height: 22px; border: 1px solid buttonface; filter: alpha(opacity=25);  }
+.cMenu     { background-color: threedface; color: menutext; cursor: Default; font-family: MS Sans Serif; font-size: 8pt; padding: 2 12 2 16; }
+.cMenuOver { background-color: highlight; color: highlighttext; cursor: Default; font-family: MS Sans Serif; font-size: 8pt; padding: 2 12 2 16; }
+.cMenuDivOuter { background-color: threedface; height: 9 }
+.cMenuDivInner { margin: 0 4 0 4; border-width: 1; border-style: solid; border-color: threedshadow threedhighlight threedhighlight threedshadow; }
+
+.FormBase
+{
+	padding-right: 2px;
+	padding-left: 2px;
+	padding-bottom: 2px;
+	margin: 2px;
+	padding-top: 2px;
+    FONT-SIZE: 12px;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputBox
+{
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	behavior: url(/lib/htc/inputbox.htc) ;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	background-color: transparent;
+}
+.InputText1
+{
+	background-color:#F0F0F0;
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55888888, endcolorstr=#55ffffff);	
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	
+}
+
+.InputText
+{
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	behavior: url(/lib/htc/inputtext.htc) ;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	background-color: transparent;
+}
+.InputTextOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputtext.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b;
+}
+.InputDate
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputdate.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputDateOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputdate.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b
+}
+.InputDateTime
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputdatetime.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputDateTimeOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputdatetime.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b
+}
+.InputTime
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputtime.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputTimeOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputtime.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b
+}
+.InputNumber
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputnumber.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    TEXT-ALIGN: right
+}
+.InputNumberOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputnumber.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b;
+    TEXT-ALIGN: right
+}
+.InputColor
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputcolor.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputColorOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/inputcolor.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b
+}
+.InputURL
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.InputURLOn
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ffe08b
+}
+.InputArea
+{
+}
+.InputAreaOn
+{
+}
+.InputStyle
+{
+}
+.InputStyleOn
+{
+}
+.InputFolder
+{
+}
+.InputFolderOn
+{
+}
+.InputButton
+{
+	background-color:#C8C8C8;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12px;
+    FONT-FAMILY: Arial, Tahoma;
+	border-color:#606060;
+	border-width:1px;
+	border-style:Solid;    
+    FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55ffffff, endcolorstr=#55888888)
+}
+
+
+
+.OutputText
+{
+    BORDER-RIGHT: lightgrey 2px solid;
+    BORDER-TOP: lightgrey 2px solid;
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/outputtext.htc) ;
+    BORDER-LEFT: lightgrey 2px solid;
+    BORDER-BOTTOM: lightgrey 2px solid;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+    BACKGROUND-COLOR: #ececec
+}
+TEXTAREA.InputHtml
+{
+    BEHAVIOR: url(/lib/htc/inputhtml.htc) ;
+}
+TEXTAREA.InputHtml2
+{
+    BEHAVIOR: url(/lib/htc/inputhtml2.htc) ;
+}
+SELECT.ComboSelect
+{
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	behavior: url(/lib/htc/comboselect.htc) ;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	background-color: transparent;
+}
+
+SELECT.InputSelect
+{
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	behavior: url(/lib/htc/inputselect.htc) ;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	background-color: transparent;
+}
+.InputDate1
+{
+    PADDING-LEFT: 2px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    BEHAVIOR: url(/lib/htc/Inputdate1.htc) ;
+    FONT-FAMILY: Sans-Serif, Verdana, Arial, Tahoma;
+}
+

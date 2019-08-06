@@ -1,0 +1,16 @@
+<SmoothEnterprise>
+  <Application>
+    <Version value="2.0" />
+    <Name value="SmoothEnterprise.NET" />
+    <Type value="Web" />
+    <RootURL value="/" />
+    <ContentWatcher value="true" />
+    <LogonTimeout value="false" showalert="true" />
+  </Application>
+ 
+  <Database>
+    <!--<ConnectionString value="Provider=SQLOLEDB.1;Password=mat2009;Persist Security Info=True;User ID=smooth;Initial Catalog=EIPA;Data Source=192.168.0.238;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=WEB242;Use Encryption for Data=False;Tag with column collation when possible=False" conntype="0" />-->
+    <ConnectionString value="Provider=SQLOLEDB.1;Data Source=192.168.0.238;Initial Catalog=EIPA;Persist Security Info=True;User ID=smooth;Password=mat2009" providerName="System.Data.SqlClient" />
+  </Database>
+ 
+</SmoothEnterprise>

@@ -1,0 +1,864 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="attach1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.HeaderText" xml:space="preserve">
+    <value>Order no</value>
+  </data>
+  <data name="BoundFieldResource2.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource2.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource2.HeaderText" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="BoundFieldResource3.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource3.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource3.HeaderText" xml:space="preserve">
+    <value>Products no</value>
+  </data>
+  <data name="BoundFieldResource4.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource4.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource4.HeaderText" xml:space="preserve">
+    <value>Part Name Specification</value>
+  </data>
+  <data name="BoundFieldResource5.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource5.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource5.HeaderText" xml:space="preserve">
+    <value>Specification</value>
+  </data>
+  <data name="BoundFieldResource6.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource6.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource6.HeaderText" xml:space="preserve">
+    <value>Sales Unit</value>
+  </data>
+  <data name="BoundFieldResource7.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource7.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource7.HeaderText" xml:space="preserve">
+    <value>Actual Delivery Qty</value>
+  </data>
+  <data name="BUTTON_backResource1.Text" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="BUTTON_backResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_deleteResource1.Text" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="BUTTON_deleteResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_RemindReviewerResource1.Text" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="BUTTON_RemindReviewerResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_saveResource1.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="BUTTON_saveResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_SendRequestResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_SendRequestResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_StopRequestResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_StopRequestResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckBoxFile1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckBoxFileResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ContentDescriptorResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_addrResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_addrResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Annotate_salesResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Annotate_salesResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Annotate_userResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Annotate_userResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_balResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_balResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_companynameResource1.Text" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="FIELD_companynameResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_currResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_currResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_gem02_3Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_gem02_3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_gen02_4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_gen02_4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_salesResource1.ItemAll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_salesResource1.ItemNone.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_salesResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_userResource1.ItemAll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_userResource1.ItemNone.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_Improve_userResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_l_amt01Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_l_amt01Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_l_amt02Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_l_amt02Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_LsendResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_LsendResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_MATTERResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_MATTERResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_no_orderResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_no_orderResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_noResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_noResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_0Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_0Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_1Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_2Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_occ02_2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga00Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga00Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga01Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga01Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga02Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga02Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga03Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga03Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga04Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga04Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga14Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga14Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga15Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga15Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga16Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga16Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga18Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga18Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga211Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga211Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga21Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga21Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga23Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga23Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga24Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga24Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga50Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga50Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga902Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_oga902Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_plantidResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_plantidResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_programidResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_programidResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_salesResource1.ItemAll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_salesResource1.ItemNone.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_salesResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_userResource1.ItemAll.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_userResource1.ItemNone.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_reason_userResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_SalesResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_SalesResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_statusResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_statusResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_totResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_totResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlowFeedbackViewer1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.Caption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.EmptyDataText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource1.AlternateText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource2.AlternateText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InputButton2Resource1.Text" xml:space="preserve">
+    <value>Void</value>
+  </data>
+  <data name="InputButton2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InputFile1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_gem02_4Resource1.Text" xml:space="preserve">
+    <value>Sales Dept</value>
+  </data>
+  <data name="LABEL_gem02_4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_gen02_3Resource1.Text" xml:space="preserve">
+    <value>Salesman</value>
+  </data>
+  <data name="LABEL_gen02_3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_l_amt1Resource1.Text" xml:space="preserve">
+    <value>Credit Limit</value>
+  </data>
+  <data name="LABEL_l_amt1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_l_amt2Resource1.Text" xml:space="preserve">
+    <value>Credit Balance</value>
+  </data>
+  <data name="LABEL_l_amt2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_oah02_9Resource1.Text" xml:space="preserve">
+    <value>Order no.</value>
+  </data>
+  <data name="LABEL_oah02_9Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pma02_8Resource1.Text" xml:space="preserve">
+    <value>Edition</value>
+  </data>
+  <data name="LABEL_pma02_8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmc03Resource1.Text" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="LABEL_pmc03Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pme031_1Resource1.Text" xml:space="preserve">
+    <value>Org. AMT</value>
+  </data>
+  <data name="LABEL_pme031_1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmk01Resource1.Text" xml:space="preserve">
+    <value>Advice No./Delivery Note No.</value>
+  </data>
+  <data name="LABEL_pmk01Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmk02Resource1.Text" xml:space="preserve">
+    <value>Shipment Type</value>
+  </data>
+  <data name="LABEL_pmk02Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmk04Resource1.Text" xml:space="preserve">
+    <value>Advice Date/Delivery Note Date</value>
+  </data>
+  <data name="LABEL_pmk04Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmk21Resource1.Text" xml:space="preserve">
+    <value>Tax Rate</value>
+  </data>
+  <data name="LABEL_pmk21Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LABEL_pmk22Resource1.Text" xml:space="preserve">
+    <value>Curr Exchange Rate</value>
+  </data>
+  <data name="LABEL_pmk22Resource1.ToolTip" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Label10Resource1.Text" xml:space="preserve">
+    <value>Credit Checking</value>
+  </data>
+  <data name="Label10Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label11Resource1.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Label11Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label12Resource1.Text" xml:space="preserve">
+    <value>plant no.</value>
+  </data>
+  <data name="Label12Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label13Resource1.Text" xml:space="preserve">
+    <value>Shipping Cust</value>
+  </data>
+  <data name="Label13Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label14Resource1.Text" xml:space="preserve">
+    <value>Shipping Address</value>
+  </data>
+  <data name="Label14Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label15Resource1.Text" xml:space="preserve">
+    <value>Billing Customer</value>
+  </data>
+  <data name="Label15Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label16Resource1.Text" xml:space="preserve">
+    <value>Over limit reason</value>
+  </data>
+  <data name="Label16Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label17Resource1.Text" xml:space="preserve">
+    <value>Tax Rate</value>
+  </data>
+  <data name="Label17Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label18Resource1.Text" xml:space="preserve">
+    <value>Applicat maintain</value>
+  </data>
+  <data name="Label18Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label19Resource1.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Label19Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1Resource1.Text" xml:space="preserve">
+    <value>EIP no.</value>
+  </data>
+  <data name="Label1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label20Resource1.Text" xml:space="preserve">
+    <value>Credit limit over reason</value>
+  </data>
+  <data name="Label20Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label21Resource1.Text" xml:space="preserve">
+    <value>Improve the scheme</value>
+  </data>
+  <data name="Label21Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label22Resource1.Text" xml:space="preserve">
+    <value>Remark</value>
+  </data>
+  <data name="Label22Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label23Resource1.Text" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="Label23Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label24Resource1.Text" xml:space="preserve">
+    <value>Maintain by sales</value>
+  </data>
+  <data name="Label24Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label25Resource1.Text" xml:space="preserve">
+    <value>Credit Checking Reason</value>
+  </data>
+  <data name="Label25Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label26Resource1.Text" xml:space="preserve">
+    <value>Improve the scheme</value>
+  </data>
+  <data name="Label26Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label27Resource1.Text" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Label27Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label28Resource1.Text" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="Label28Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label29Resource1.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Label29Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label2Resource1.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Label2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label30Resource1.Text" xml:space="preserve">
+    <value>Sign by relative personnel</value>
+  </data>
+  <data name="Label30Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label31Resource1.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Label31Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label32Resource1.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Label32Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label33Resource1.Text" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Label33Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label34Resource1.Text" xml:space="preserve">
+    <value>Maintain by local sales</value>
+  </data>
+  <data name="Label34Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label3Resource1.Text" xml:space="preserve">
+    <value>&lt;=30 day over</value>
+  </data>
+  <data name="Label3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label40Resource1.Text" xml:space="preserve">
+    <value>no over</value>
+  </data>
+  <data name="Label4Resource1.Text" xml:space="preserve">
+    <value>Currency of Credit</value>
+  </data>
+  <data name="Label4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label55Resource1.Text" xml:space="preserve">
+    <value>an urgent dispatch</value>
+  </data>
+  <data name="Label5Resource1.Text" xml:space="preserve">
+    <value>&gt;30 day over</value>
+  </data>
+  <data name="Label5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label6Resource1.Text" xml:space="preserve">
+    <value>Release Credit Limit Application</value>
+  </data>
+  <data name="Label6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label7Resource1.Text" xml:space="preserve">
+    <value>Account receivable</value>
+  </data>
+  <data name="Label7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label8Resource1.Text" xml:space="preserve">
+    <value>Account receivable</value>
+  </data>
+  <data name="Label8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label9Resource1.Text" xml:space="preserve">
+    <value>E  R  P    Data</value>
+  </data>
+  <data name="Label9Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton1Resource1.Text" xml:space="preserve">
+    <value>Choose Improvement</value>
+  </data>
+  <data name="RadioButton1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton2Resource1.Text" xml:space="preserve">
+    <value>Others Improvement</value>
+  </data>
+  <data name="RadioButton2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton3Resource1.Text" xml:space="preserve">
+    <value>Choose Reason</value>
+  </data>
+  <data name="RadioButton3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton4Resource1.Text" xml:space="preserve">
+    <value>Others Reason</value>
+  </data>
+  <data name="RadioButton4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton5Resource1.Text" xml:space="preserve">
+    <value>Choose Improvement</value>
+  </data>
+  <data name="RadioButton5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioButton6Resource1.Text" xml:space="preserve">
+    <value>Others Improvement</value>
+  </data>
+  <data name="RadioButton6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioSe1Resource1.Text" xml:space="preserve">
+    <value>Choose Reason</value>
+  </data>
+  <data name="RadioSe1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioSe2Resource1.Text" xml:space="preserve">
+    <value>Others Reason</value>
+  </data>
+  <data name="RadioSe2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Show_CommentResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Show_CommentResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+</root>

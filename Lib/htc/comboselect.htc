@@ -1,0 +1,1199 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onpropertychange" ONEVENT="event_onpropertychange()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onerror" ONEVENT="event_onerror()"></PUBLIC:ATTACH>
+
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY NAME="listPosition" />
+<PUBLIC:PROPERTY NAME="EditAble" />
+<PUBLIC:PROPERTY NAME="EditIconDisplayed" />
+<PUBLIC:PROPERTY NAME="ButtonIconUrl" />
+<PUBLIC:PROPERTY NAME="ButtonClick" />
+<PUBLIC:PROPERTY NAME="FadeSpeed" />
+<PUBLIC:PROPERTY NAME="TextBoxStyle" />
+<PUBLIC:PROPERTY NAME="ShowIcon" />
+
+<PUBLIC:METHOD name="optOnMouseOver" />
+<PUBLIC:METHOD name="optOnMouseOut" />
+<PUBLIC:METHOD name="optOnMouseDown" />
+<PUBLIC:METHOD name="alignList" />
+
+<PUBLIC:PROPERTY NAME="Required" />
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+<PUBLIC:METHOD name="Trim" />
+
+<PUBLIC:METHOD name="addNewOption" />
+
+<SCRIPT language="JScript">
+var thisbackgroundcolor = "";
+
+var thisWidth=0;
+var thisHeight=0;
+var inputobj, btnobj,optListDiv,inputDiv,iconimg,optTextTbl;
+var btnwidth=17;
+var loadready=false;
+var listshowing = false;
+var iconwidth=15;
+var iconheight=13;
+
+var _selectedcolor="white";
+var _selectedbgcolor="MediumSlateBlue";
+var _hoverbgcolor="#928fff";
+var maxRowIndex=0;
+
+
+//====================================================================//
+function event_onerror(errorMessage, url, line)
+{
+	var errmsg;
+	errmsg = "The DoubleGreen Client Script Debugger \n\n";
+    errmsg += "Click OK to continue.\n\n";
+    errmsg += "Error message: " + errorMessage + "\n";
+    errmsg += "URL: " + url + "\n";
+    errmsg += "Line #: " + line;
+    alert(errmsg);
+    return true
+}
+
+function InputBehavior(o)
+{	
+	if (!o) return;
+	o.attachEvent("onfocusin",event_onfocusin); 
+	o.attachEvent("onfocusout",event_onfocusout); 
+	if((o.className =="") || (o.className == null))
+	{
+		with(o.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (o.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	
+	if (o.getAttribute("Required")!=null)
+	{
+		o.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+		o.style.backgroundPosition = 'right top';
+		o.style.backgroundAttachment = "fixed";
+		o.style.backgroundRepeat = "no-repeat";
+	}
+	
+	if (!FocusoutColor) FocusoutColor = o.style.backgroundColor;
+
+}
+
+function event_onfocusin()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+   thisbackgroundcolor = o.style.backgroundColor ;
+  // alert(FocusinColor);
+   if(FocusinColor)
+   {
+	  o.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  o.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+
+   if(FocusoutColor)
+	  o.style.backgroundColor = FocusoutColor;
+   else
+	  o.style.backgroundColor = thisbackgroundcolor;
+}
+
+//-------- input comon function -----------
+function Trim(str)
+{
+  str = str.replace(/^\s*(.*)/, "$1");
+  str = str.replace(/(.*?)\s*$/, "$1");
+  return str;
+}
+//===================================================================================//
+
+
+
+
+function event_oncontentready()
+{
+	//this.addBehavior("/lib/htc/errmsg.htc");
+	window.onerror = event_onerror;
+	
+	if (EditAble!=null && EditAble.toUpperCase()!="FALSE")
+		EditAble=true;
+	else
+	   EditAble=false;	
+	
+	if (!getAttribute("ButtonIconUrl") || getAttribute("ButtonIconUrl")=="" )
+	{
+		if(EditAble!=true)
+			 ButtonIconUrl="/lib/img/icon-downarrow.gif";
+		else
+			 ButtonIconUrl="/lib/img/icon-edit.gif";
+	}
+	
+	if(EditAble) ButtonIconUrl="/lib/img/icon-dot.gif";
+	
+		
+	if (!getAttribute("FadeSpeed") || getAttribute("FadeSpeed")=="" ) FadeSpeed="0";
+	if (!getAttribute("TextBoxStyle") || getAttribute("TextBoxStyle")=="" )	TextBoxStyle="3DStyle";
+	ShowIcon = true;	
+
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+	window.document.body.attachEvent("onclick",event_bodyonclick); 
+	
+}
+
+
+function event_bodyonclick()
+{
+	if (!loadready) return;
+	var o=window.event.srcElement;
+	if (!o) return;
+	
+	if(o.id==inputobj.id || o.id==btnobj.id || o.id==inputDiv.id || o.id==optListDiv.id) return;
+	if(!listshowing) return;
+	
+	optListDiv.hide();
+	listshowing=false;
+}
+
+
+function event_ondocumentready()
+{
+
+	if(this.style.width!="" && this.style.width)
+		thisWidth = parseInt(this.style.width);
+	else	
+		thisWidth=this.offsetWidth;
+	if(thisWidth==0) thisWidth=135;		//default width	
+	
+	if(ShowIcon==true) thisWidth=thisWidth+16;
+
+	if(this.style.height!="" && this.style.height)
+		thisHeight = parseInt(this.style.height);
+	else	
+		thisHeight=this.offsetHeight;
+
+	var showflag=true;
+	if (this.style.display=="none") showflag = false;
+	
+	this.style.display="none";
+	if (!this.multiple)
+	{
+		var src 	= this;
+		while (src.tagName != "BODY")
+		{
+			src = src.parentElement;
+			if(src.tagName == "TABLE" )
+			{
+				src.attachEvent("onresize",event_onmove);		
+				src.attachEvent("onmove",event_onmove);		
+			}	
+		}
+	}			 
+	
+	if(EditIconDisplayed!=null && EditIconDisplayed.toUpperCase()!="FALSE") 
+		EditIconDisplayed=true;
+	else
+		EditIconDisplayed	=false;
+	
+	//================Build Select Input DIV ======================//
+	 inputDiv = document.createElement("span");
+
+	this.insertAdjacentElement("afterEnd",inputDiv);
+	inputDiv.id = "inputDiv_"+this.id;
+	inputDiv.style.filter = this.style.filter;
+	inputDiv.style.backgroundColor = this.style.backgroundColor;
+	//inputDiv.style.cssText = this.style.cssText;
+	if(this.multiple) inputDiv.style.visibility="hidden";
+	var nobr = document.createElement("nobr");
+	inputDiv.insertAdjacentElement("afterBegin",nobr);
+	var showiconflag = false;
+	if(ShowIcon) //always
+	{
+		iconimg =  document.createElement("img");
+		iconimg.src="/lib/img/icon-transparent.gif";
+		iconimg.align="absmiddle";
+		iconimg.hspace=1;
+		iconimg.vspace=1;
+		iconimg.width=iconwidth;
+		iconimg.height =iconheight;
+//		window.status =this.selectedIndex;
+		if (this.selectedIndex!=-1)
+		{
+			if (this.options[selectedIndex].iconUrl!="" && this.options[selectedIndex].iconUrl!=null)
+			{
+				iconimg.src= this.options[selectedIndex].iconUrl;
+				iconimg.width=iconwidth;
+				iconimg.height =iconheight;
+				showiconflag=true;
+			}
+			else
+			{
+				iconimg.width=0;
+				iconimg.hspace=0;
+				iconimg.vspace=0;
+			}
+		}
+		else
+		{
+				iconimg.width=0;
+				iconimg.hspace=0;
+				iconimg.vspace=0;
+		}
+		inputDiv.insertAdjacentElement("afterBegin",iconimg);
+	}
+	
+	//---------------------------Build Input ----------------------------------------------//
+	inputobj= document.createElement("input");
+	if(!iconimg)
+		inputDiv.insertAdjacentElement("afterBegin",inputobj);
+	else	
+		iconimg.insertAdjacentElement("afterEnd",inputobj);
+//	inputDivTD.insertAdjacentElement("afterBegin",inputobj);
+	inputobj.id = "comboinput_"+this.id;
+	inputobj.name = inputobj.id;
+	
+	inputobj.setAttribute("Required",this.getAttribute("Required"));
+	inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+    inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+    if (this.disabled) inputobj.disabled=true;
+		
+//	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+	if (this.currentStyle.fontFamily!="")
+		inputobj.style.fontFamily = this.currentStyle.fontFamily;
+	else
+		inputobj.style.fontFamily="Arial, Tahoma";
+	
+	inputobj.style.fontSize = this.currentStyle.fontSize;
+	inputobj.style.fontWeight = this.currentStyle.fontWeight;
+	inputobj.style.fontStyle = this.currentStyle.fontStyle;
+	inputobj.style.color = this.currentStyle.color;		
+	inputobj.style.filter = this.style.filter;
+	inputobj.style.border="none";
+	inputobj.style.borderWidth="0px";
+	inputobj.style.paddingLeft="3px";
+	inputobj.style.marginTop="-1px";
+	inputobj.style.marginBottom="-1px";
+	inputobj.style.zIndex = 9;
+	inputobj.style.background = this.style.background;
+	if (this.className!="" && !this.className)
+		inputobj.className = this.className;
+	else
+		inputobj.className = "normal";
+	inputobj.tabIndex =this.tabIndex;
+	if (EditAble==false) 
+	{
+		inputobj.readOnly=true;
+		inputobj.unselectable="on"	;
+		if (ButtonClick!=null && ButtonClick.toUpperCase()!="FALSE")
+			inputobj.attachEvent("onclick",btnClick);
+		inputobj.tabIndex =-1;
+		
+		if (this.getAttribute("Required")!=null)
+		{
+			inputobj.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+			inputobj.style.backgroundPosition = 'right top';
+			inputobj.style.backgroundAttachment = "fixed";
+			inputobj.style.backgroundRepeat = "no-repeat";
+		}
+		
+	}	
+	else
+	{
+		//inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+		InputBehavior(inputobj);
+		
+		inputobj.attachEvent("onfocusin",preaddOption);
+		inputobj.attachEvent("onfocusout",addOption);
+		inputobj.tabIndex =this.tabIndex;
+	}	
+	
+	if ( EditAble!=false && !this.multiple )
+	{
+		if( this.EditValue!="" &&  typeof( this.EditValue)!="undefined")
+		{
+			var flag1=false;
+			for (var i=0;i<this.options.length;i++)
+			{
+				if (this.EditValue.toLowerCase()==this.options[i].value) flag1=true;
+			}
+			if (!flag1)
+			{
+				inputobj.value = this.EditValue;
+				
+				if (EditIconDisplayed )
+				{
+						iconimg.src= this.EditValue;
+						iconimg.width=iconwidth;
+						iconimg.height =iconheight;
+						showiconflag=true;
+				}
+			}
+			else
+			{
+				if (this.selectedIndex!=-1) 
+				{
+					if ( this.options[this.selectedIndex].showtextfield!=null && typeof( this.options[this.selectedIndex].showtextfield)!="undefined")
+						inputobj.value = this.options[this.selectedIndex].showtextfield;						
+					else
+						inputobj.value = this.options[this.selectedIndex].text;
+				}
+			}
+		}
+		else
+		{
+			inputobj.value="";
+			iconimg.src="/lib/img/icon-transparent.gif";
+			iconimg.width=0;
+			iconimg.hspace=0;
+			iconimg.vspace=0;
+		}
+		
+	}
+	else
+	{
+		if (!this.multiple && this.selectedIndex!=-1) 
+		{
+			if ( this.options[this.selectedIndex].showtextfield!=null && typeof( this.options[this.selectedIndex].showtextfield)!="undefined")
+				inputobj.value = this.options[this.selectedIndex].showtextfield;						
+			else
+				inputobj.value = this.options[this.selectedIndex].text;
+		}
+	}
+
+	if(parseInt(thisWidth)!=0)
+	{
+		if(TextBoxStyle=="3DStyle")
+		{	
+			inputobj.style.width=thisWidth-19;
+			inputDiv.style.width=thisWidth+2;
+		}
+		else 
+		{
+			inputobj.style.width=thisWidth-17;
+			inputDiv.style.width=thisWidth+2;
+		}
+	}	
+	else
+		inputDiv.style.width = inputobj.offsetWidth+btnwidth+3;
+
+		inputobj.style.width = parseInt(inputobj.style.width) - parseInt(iconimg.width) - (parseInt(iconimg.hspace)*2);
+
+	//----------------------------------------------------------------------------------------------------------------------------------------//
+	//---------------------------Build Button ----------------------------------------------//
+	
+		btnobj = document.createElement("button");
+		btnobj.style.backgroundColor = this.style.backgroundColor;	
+		btnobj.style.filter = this.style.filter;
+
+		if (this.disabled){ 
+			btnobj.disabled=true;
+			//btnobj.style.filter+= "alpha(opacity=60);"
+		}
+		inputobj.insertAdjacentElement("afterEnd",btnobj);
+		
+		btnobj.id = "btn_" + this.id;
+		btnobj.style.cursor = "default";
+		btnobj.style.zIndex = 10;
+		btnobj.style.width = btnwidth; 
+		if (parseInt(thisHeight)!=0)	
+			btnobj.style.height = thisHeight-4;
+		else	
+			btnobj.style.height =btnwidth+"px";		
+		
+		if (ButtonClick!=null && ButtonClick.toUpperCase()=="FALSE")
+			btnobj.disabled=true;
+		else
+			btnobj.attachEvent("onclick",btnClick);
+		
+	
+		btnobj.style.marginTop="-1px";
+		btnobj.style.marginBottom="-1px";
+		
+		if (EditAble==false) 
+			btnobj.tabIndex =this.tabIndex;
+		else
+			inputobj.tabIndex =-1;
+		
+		if (ButtonIconUrl!=null)
+		{
+			var btnimg = document.createElement("img");
+			btnimg.src = ButtonIconUrl;
+			if(btnimg.width>=15)
+			{
+				btnimg.width = 11;
+				btnimg.height=11;			
+			}
+			
+			btnimg.align = "absmiddle";
+			btnimg.border = 0;  
+			btnobj.insertAdjacentElement("afterBegin",btnimg);
+		}
+		
+	switch(TextBoxStyle)
+	{
+		case "3DStyle":
+		{
+			inputDiv.style.border="2px inset ";
+		}
+		break;
+		case "FlatStyle":
+		{
+			if (this.style.border!="")
+			{
+					inputDiv.style.border = this.style.border;
+					inputDiv.style.borderWidth =1;
+					btnobj.style.borderWidth =0;
+					 inputobj.style.borderRight= this.style.border;
+			}
+			if (this.style.backgroundColor!="")	btnobj.style.backgroundColor = this.style.backgroundColor;
+		}
+		break;	
+	}
+		
+	//---------------------------Build Options LIST DIV ----------------------------------------------//
+	optListDiv = document.createElement("span");
+	
+	this.insertAdjacentElement("afterEnd",optListDiv);
+	optListDiv.style.width=thisWidth;
+	if (!this.multiple)
+		optListDiv.style.height="100px";
+	else
+		optListDiv.style.height = thisHeight;
+	optListDiv.style.border="1px solid #333333 ";
+	optListDiv.style.backgroundColor="white";
+	//optListDiv.style.width=thisWidth
+	optListDiv.id = this.id+"_optlistDiv";
+	
+	if(!this.multiple) 
+	{
+		optListDiv.addBehavior("/lib/htc/floatpanel1.htc");	
+		optListDiv.style.position = "absolute";
+		optListDiv.style.visibility="hidden";
+	}
+	
+	optListDiv.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#B6C0D2,endColorstr=#EBF1F5)";			
+	
+	optListDiv.style.fontSize = this.currentStyle.fontSize;
+	optListDiv.style.fontFamily="Arial, Tahoma";
+	optListDiv.style.padding="1 1 1 1";
+	optListDiv.style.overflowY="auto";
+	this.alignList(inputDiv,optListDiv);	
+	
+//	var totalHeight=0;
+	optTextTbl= document.createElement("table");
+	optListDiv.insertAdjacentElement("afterBegin",optTextTbl);
+	optTextTbl.border=0;
+	optTextTbl.cellPadding=1;
+	optTextTbl.cellSpacing=0;
+	optTextTbl.width="100%";
+	optTextTbl.style.cursor="default";
+	optTextTbl.id=this.id+"_texttbl";
+//	optTextTbl.attachEvent("onmouseout",event_list_onmosueout);
+	if ((this.className != "") || (this.className !=null)) optTextTbl.className=this.className;
+	if (this.currentStyle.fontFamily!="")
+		optTextTbl.style.fontFamily = this.currentStyle.fontFamily;
+	else
+		optTextTbl.style.fontFamily="Arial, Tahoma";
+	optTextTbl.style.fontSize = this.currentStyle.fontSize;
+	optTextTbl.style.fontWeight = this.currentStyle.fontWeight;
+	optTextTbl.style.fontStyle = this.currentStyle.fontStyle;
+	optTextTbl.style.color = this.currentStyle.color;		
+	
+	var Row_Index = 0;
+	
+	for(var i=0;i<this.children.length;i++)
+	{
+		if (this.children.item(i).tagName.toLowerCase()=="optgroup")
+		{
+			//=====================================================			
+			var optTR = optTextTbl.insertRow();
+			optTR.id=this.id+"_listrow_"+i;
+			optTR.rowidx = i;
+			var optTD = optTR.insertCell();
+			optTD.colSpan=3;
+			
+				var optGrpTable = document.createElement("table");
+				optTD.insertAdjacentElement("afterBegin",optGrpTable);
+				optGrpTable.border=0;
+				optGrpTable.cellPadding=1;
+				optGrpTable.cellSpacing=0;
+				optGrpTable.width="100%";
+				optGrpTable.style.cursor="default";
+				optGrpTable.className="normal";
+				
+				
+				//=====================   build the Group Option Table ====================
+				var optGrpTR = optGrpTable.insertRow();
+				var otpGrpTD = optGrpTR.insertCell();
+				otpGrpTD.colSpan=3;
+				otpGrpTD.innerText=this.children.item(i).label;
+			//	otpGrpTD.bgColor="#B6C0D2";
+				otpGrpTD.style.paddingLeft ="2px";
+				otpGrpTD.className ="normalbold";
+				//otpGrpTD.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=1,startColorstr=#226CA9,endColorstr=#D2DFEA)";			
+				//otpGrpTD.background="/lib/img/bg-caption.gif";
+				
+				for (j=0;j<this.children.item(i).children.tags("option").length ;j++)
+				{
+					var opt_item=this.children.item(i).children.tags("option").item(j);
+					
+					optGrpTR = optGrpTable.insertRow();
+			//		alert(this.children.item(i).children.tags("option").item(j).text);
+					optGrpTR.id=this.id+"_grplistrow_"+j;
+					optGrpTR.rowidx = Row_Index;
+					if (this.selectedIndex==Row_Index)
+					{
+						//optGrpTR.bgColor="blue";
+							optGrpTR.style.color="white";
+							optGrpTR.style.backgroundColor=_selectedbgcolor;
+					}
+					
+					optGrpTR.attachEvent("onmouseover",optOnMouseOver);
+					optGrpTR.attachEvent("onmouseout",optOnMouseOut);
+					optGrpTR.attachEvent("onmousedown",optOnMouseDown);
+					if (opt_item.RowHeight!=null && opt_item.RowHeight!="")
+						optGrpTR.height=opt_item.RowHeight;
+					var optitemTD;
+					for (var k=0;k<=2;k++)
+					{
+						optitemTD = optGrpTR.insertCell();
+						if(k==0) 
+						{
+							optitemTD.align="center";
+							optitemTD.valign="middle";
+							optitemTD.width=1;
+							//=============可複選型 ==================
+							if (this.multiple)   
+							{
+								var optChk=document.createElement("input");
+								optChk.type="checkbox";
+								optitemTD.insertAdjacentElement("afterBegin",optChk);
+								optChk.id=this.id+"_chk_"+Row_Index;
+							//	optChk.id="chk_"+this.children.item(i).value;
+								optChk.value=opt_item.value;
+								optChk.attachEvent("onclick",optchk_onCilck);
+								if (opt_item.selected ) optChk.checked=true;
+							}
+						}
+						else if (k==1)
+						{
+							if (opt_item.iconUrl!=null && opt_item.iconUrl!="")
+							{
+								optitemTD.align="center";
+								optitemTD.valign="middle";
+								optitemTD.width=18;
+								var optIcon=document.createElement("img");
+								optIcon.src=opt_item.iconUrl;
+								optIcon.align="absmiddle";
+								optitemTD.insertAdjacentElement("afterBegin",optIcon);
+							}
+							else
+							{
+								optitemTD.align="center";
+								optitemTD.valign="middle";
+								optitemTD.width=5;
+							}
+						}
+						else if (k==2)
+						{
+							optitemTD.noWrap=true;
+							optitemTD.innerText=opt_item.text;
+							optitemTD.setAttribute("value",opt_item.value);
+							optitemTD.style.cssText = this.children.item(i).style.cssText;
+						}
+					}
+					Row_Index+=1;
+				}
+			
+			//======================================================
+		}
+		else if (this.children.item(i).tagName.toLowerCase()=="option")
+		{
+				var optTR = optTextTbl.insertRow();
+			//	optTR.id=this.id+"_listrow_"+i;
+				optTR.id=this.id+"_listrow_"+Row_Index;
+				optTR.rowidx = Row_Index;
+				optTR.attachEvent("onmouseover",optOnMouseOver);
+				optTR.attachEvent("onmouseout",optOnMouseOut);
+				optTR.attachEvent("onmousedown",optOnMouseDown);
+				
+				if (this.selectedIndex==Row_Index)
+				{
+						optTR.style.color="white";
+						optTR.style.backgroundColor=_selectedbgcolor;
+				}
+				
+				if (this.children.item(i).RowHeight!=null && this.children.item(i).RowHeight!="")
+					optTR.height=this.children.item(i).RowHeight;
+				var optTD;
+				for (var j=0;j<=2;j++)
+				{
+					optTD = optTR.insertCell();
+					if(j==0) 
+					{
+						optTD.align="center";
+						optTD.valign="middle";
+						optTD.width=1;
+						//=============可複選型 ==================
+						if (this.multiple)   
+						{
+							var optChk=document.createElement("input");
+							optChk.type="checkbox";
+							optTD.insertAdjacentElement("afterBegin",optChk);
+							optChk.id=this.id+"_chk_"+Row_Index;
+						//	optChk.id="chk_"+this.children.item(i).value;
+							optChk.value=this.children.item(i).value;
+							optChk.attachEvent("onclick",optchk_onCilck);
+							if (this.children.item(i).selected ) optChk.checked=true;
+						}
+					}
+					else if (j==1)
+					{
+						if (this.children.item(i).iconUrl!=null && this.children.item(i).iconUrl!="")
+						{
+							optTD.align="center";
+							optTD.valign="middle";
+							optTD.width=18;
+							var optIcon=document.createElement("img");
+							optIcon.src=this.children.item(i).iconUrl;
+							optIcon.align="absmiddle";
+							optTD.insertAdjacentElement("afterBegin",optIcon);
+						}
+						else
+						{
+							optTD.align="center";
+							optTD.valign="middle";
+							optTD.width=1;
+						}
+					}
+					else if (j==2)
+					{
+						optTD.noWrap=true;
+						optTD.innerText=this.children.item(i).text;
+						optTD.setAttribute("value",this.children.item(i).value);
+						optTD.style.cssText = this.children.item(i).style.cssText;
+						if (this.children.item(i).showtextfield && this.children.item(i).showtextfield!="" )
+							optTD.setAttribute("showtextfield",this.children.item(i).showtextfield);
+					}
+				}
+				Row_Index+=1;
+		}
+	}
+	
+	maxRowIndex = Row_Index;
+
+	if (optTextTbl.offsetHeight>150) 
+		optListDiv.style.height="150px";
+	else if(optTextTbl.offsetHeight<150 && optTextTbl.offsetHeight!=0)
+		optListDiv.style.height=optTextTbl.offsetHeight+4;	
+	
+	if(showflag==false && inputDiv)  inputDiv.style.display="none";
+
+	loadready=true;
+}
+
+function preaddOption()
+{
+	var o=event.srcElement;
+	if (!o) return;
+}
+
+function addOption()
+{
+	var o=event.srcElement;
+	if (!o) return;
+	if(o.value=="") 
+	{
+		if (this.options.length==0) return;
+
+		var owidth = iconimg.width;
+		var ohspace = iconimg.hspace*2;
+			iconimg.src = "/lib/img/icon-transparent.gif";
+			iconimg.width=0;
+			iconimg.hspace=0;
+			iconimg.vspace=0;
+		inputobj.style.width =parseInt(inputobj.style.width)+(owidth-iconimg.width)+(ohspace-(iconimg.hspace*2));
+		return;
+	}
+
+	var newOption = document.createElement("Option");
+	newOption.text=o.value;
+	newOption.value=o.value;
+	newOption.iconUrl=o.value;
+	
+	this.add(newOption);
+	this.value=o.value;
+	
+	if(EditIconDisplayed && EditAble)
+	{
+		var owidth = iconimg.width;
+		var ohspace = iconimg.hspace*2;
+
+		iconimg.src= newOption.iconUrl;
+		iconimg.width=iconwidth;
+		iconimg.height =iconheight;
+		inputobj.style.width =parseInt(inputobj.style.width)+(owidth-iconimg.width)+(ohspace-(iconimg.hspace*2));	
+	}
+	
+}
+
+function optchk_onCilck()
+{
+	var o=event.srcElement;
+	if (!o) return;
+	var optValue=o.value;
+	for (var i=0;i<this.options.length;i++)
+	{
+		if (this.options[i].value==optValue)
+		{
+			this.options[i].selected=o.checked;
+			break;
+		}
+	}
+	
+}
+
+function btnMouseDown()
+{
+	//inputDiv.style.filter="alpha(opacity=100);"
+}
+
+function btnMouseUp()
+{
+	//inputDiv.style.filter=""
+}
+
+
+function event_list_onmosueout()
+{
+	var o = window.event.srcElement;
+	if (!o || o.id=="") return;
+	if(o.tagName!="SPAN") return;
+	
+	if (!this.multiple)
+	{
+		//var kt=window.setTimeout(o.id+".style.visibility='hidden';",3000);
+		var kt=window.setTimeout(o.id+".hide();"+o.id+".style.visibility='hidden';",3000);
+		listshowing=false;
+	}	
+
+}
+
+//var ocssText="";
+//var oselectedcssText="";
+
+function optOnMouseOver()
+{
+	var o=event.srcElement;
+	if (!o ) return;
+	while(o.tagName.toUpperCase()!="TR")
+	{
+		o=o.parentElement;
+		if(o.tagName.toUpperCase()=="TR") break;
+	}
+	
+//	ocssText = o.style.cssText;
+	o.style.color=_selectedcolor;
+	o.style.backgroundColor=_hoverbgcolor;
+}
+
+
+function optOnMouseOut()
+{
+	var o=event.srcElement;
+	if (!o) return;
+		while(o.tagName!="TR")
+		{
+			o=o.parentElement;
+			if(o.tagName=="TR") break;
+		}
+
+	o.style.color = this.currentStyle.color;			
+	o.style.backgroundColor = "";
+
+	if (this.selectedIndex!=-1)
+	{
+		var selected_row = window.document.getElementById(this.id+"_listrow_"+this.selectedIndex);
+		if (selected_row)
+		{
+			if (o==selected_row) 
+			{
+					o.style.backgroundColor=_selectedbgcolor;
+					o.style.color=_selectedcolor;
+			}
+		} 
+	}	
+}
+
+function optOnMouseDown()
+{
+	var o=event.srcElement;
+	if(o.tagName=="INPUT") return;
+	if (!o) return;
+	while(o.tagName!="TR")
+	{
+		o=o.parentElement;
+		if(o.tagName=="TR") break;
+	}
+	var index=o.rowidx;
+
+	if (this.selectedIndex!=-1)
+	{
+		var selected_row = window.document.getElementById(this.id+"_listrow_"+this.selectedIndex);
+		if (selected_row) 
+		{
+				selected_row.style.backgroundColor="";
+				selected_row.style.color="black";		
+		}
+	}
+
+
+	o.style.backgroundColor=_selectedbgcolor;
+	o.style.color=_selectedcolor;
+	
+	if(this.multiple)
+	{
+		var chk = window.document.getElementById(this.id+"_chk_"+index);
+		if(chk)
+		{
+			chk.click();
+		}
+	}
+	else
+	{
+		var thetd=o.children.item(2);
+		if(EditAble==true)
+		{
+			if (thetd.showtextfield!=null && typeof(thetd.showtextfield)!="undefined")
+				inputobj.value = thetd.showtextfield;
+			else
+			{
+				if (thetd.value!="")
+					inputobj.value=thetd.innerText;
+				else
+					inputobj.value="";		
+			}
+		}
+		else
+		{
+			if (thetd.showtextfield!=null && typeof(thetd.showtextfield)!="undefined")
+				inputobj.value = thetd.showtextfield;
+			else
+				inputobj.value=thetd.innerText;
+		}
+		
+		
+		if (this.value!=thetd.value) 
+		{
+			for (var i=0;i<this.options.length;i++)
+			{
+				if(this.options[i].value==thetd.value)
+				{
+					this.selectedIndex=i;
+					if (ShowIcon && iconimg)
+					{
+						var owidth = iconimg.width;
+						var ohspace = iconimg.hspace*2;
+						if(this.options[i].iconUrl!=null && this.options[i].iconUrl!="") 
+						{
+							iconimg.src=this.options[i].iconUrl;
+							iconimg.width=iconwidth;
+							iconimg.height=iconheight;
+							iconimg.hspace=1;
+						}
+						else
+						{
+							iconimg.src="/lib/img/icon-transparent.gif";	
+							iconimg.width=0;
+							iconimg.height=iconheight;
+							iconimg.hspace=0;
+							iconimg.vspace=1;
+						}
+						
+						inputobj.style.width =parseInt(inputobj.style.width)+(owidth-iconimg.width)+(ohspace-(iconimg.hspace*2));
+					}
+					break;
+				}			
+			}
+			this.value=thetd.value;
+			if(this.onchange!=null)
+				this.onchange();   /////  when option change
+		}
+	//	this.value=thetd.value;
+		optListDiv.style.visibility="hidden";
+	}	
+	
+}
+
+
+
+function btnClick()
+{
+	if(!loadready) return;
+	if(optListDiv.readyState!="complete") return;
+	
+	if(optListDiv.style.visibility=="visible")
+	{
+		optListDiv.hide();
+		listshowing=false;
+	}	
+	else
+	{
+		if (this.getAttribute("listPosition")!=null)
+		{
+			if(listPosition.toLowerCase()=="right")
+				this.alignList(inputDiv,optListDiv);	
+			else
+			{
+				optListDiv.style.left = posLeft(inputDiv) -2;
+				optListDiv.style.top = posTop(inputDiv) +thisHeight-1;
+			}
+		}	
+		else
+		{
+				optListDiv.style.left = posLeft(inputDiv) -2;
+				optListDiv.style.top = posTop(inputDiv) +thisHeight-3;
+		}
+		
+		optListDiv.show(parseInt(optListDiv.style.top),parseInt(optListDiv.style.left),10,null,FadeSpeed);
+		optListDiv.style.visibility="visible";	
+		listshowing = true;	
+	}
+}
+
+//==============================================
+
+function posTop(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var top = window.document.body.scrollTop+rect.top;
+	return top;
+}
+
+function posLeft(el)
+{
+	var left = 0;
+    var rect = el.getClientRects()[0];
+    var left = window.document.body.scrollLeft+rect.left;
+	return left;
+}
+
+function event_onmove()
+{
+	//this.alignList(inputDiv,optListDiv);
+}
+
+function alignList(el,el1)
+{
+	if (this.multiple) return;
+	if (loadready==false) return;
+	
+	if (this.getAttribute("listPosition")!=null)
+	{
+		if(listPosition.toLowerCase()=="right")
+		{
+				optListDiv.style.left = posLeft(inputDiv) + thisWidth;
+				optListDiv.style.top = posTop(inputDiv) -2 ;
+		}
+		else
+		{
+				optListDiv.style.left = posLeft(inputDiv) -2;
+				optListDiv.style.top = posTop(inputDiv) +thisHeight-1;
+		}
+	}
+	else
+	{
+				optListDiv.style.left = posLeft(inputDiv) -2;
+				optListDiv.style.top = posTop(inputDiv) +thisHeight-1;
+	}	
+}
+
+function FadeIn(obj)
+{
+    obj.style.filter+="blendTrans(duration=0.3)";
+	// Make sure filter is not playing.
+    if ((obj.visibility != "visible") && (obj.filters.blendTrans.status != 2))
+    {
+       obj.filters.blendTrans.Apply();
+       obj.style.visibility="visible";
+       obj.filters.blendTrans.Play();
+    }	
+
+}
+
+function ListFadeOut() 
+{
+//alert("asd");
+/*
+	var obj = optListDiv;
+	alert(obj);
+    obj.style.filter="blendTrans(duration=0.5)";
+	// Make sure filter is not playing.
+	if ((obj.visibility != "hidden") && (obj.filters.blendTrans.status != 2)) 
+	{
+        obj.filters.blendTrans.Apply();
+        obj.style.visibility="hidden";
+	    obj.filters.blendTrans.Play();
+	}
+*/	
+}
+
+function event_list_onfocusout()
+{
+	//alert("asdf");
+}
+
+function event_onpropertychange()
+{
+	if (!loadready) return;
+	
+	//alert(event.propertyName);
+	
+
+}
+
+function addNewOption()
+{
+	var optIconUrl="";
+	var optText="";
+	var optValue="";
+	var optselected = false;
+	//alert(arguments.length);
+	if (arguments.length==1) 
+	{
+		optText=arguments[0];
+		optValue = optText;
+	}
+	else if(arguments.length==2) 
+	{
+		optText=arguments[0];
+		optValue=arguments[1];
+	}
+	else if(arguments.length==3) 
+	{
+		optText=arguments[0];
+		optValue=arguments[1];
+		optIconUrl=arguments[2];
+	}
+	else if(arguments.length==4) 
+	{
+		optText=arguments[0];
+		optValue=arguments[1];
+		optIconUrl=arguments[2];
+		optselected = arguments[3];
+	}
+
+	if (optText=="") 
+	{
+		alert("error:InputSelect "+this.id+" addOption(): option text can not be empty!");
+		return;
+	}	
+	
+		var optTR = optTextTbl.insertRow();
+		maxRowIndex++;
+		optTR.id=this.id+"_listrow_"+maxRowIndex;
+		optTR.rowidx = maxRowIndex;
+		optTR.attachEvent("onmouseover",optOnMouseOver);
+		optTR.attachEvent("onmouseout",optOnMouseOut);
+		optTR.attachEvent("onmousedown",optOnMouseDown);
+	
+//		if (this.children.item(i).RowHeight!=null && this.children.item(i).RowHeight!="")
+//			optTR.height=this.children.item(i).RowHeight;
+		var optTD;
+		for (var j=0;j<=2;j++)
+		{
+			optTD = optTR.insertCell();
+			if(j==0) 
+			{
+				optTD.align="center";
+				optTD.valign="middle";
+				optTD.width=1;
+				//=============可複選型 ==================
+				if (this.multiple)   
+				{
+					var optChk=document.createElement("input");
+					optChk.type="checkbox";
+					optTD.insertAdjacentElement("afterBegin",optChk);
+					optChk.id=this.id+"_chk_"+maxRowIndex;
+				//	optChk.id="chk_"+this.children.item(i).value;
+					optChk.value = optValue;
+					optChk.attachEvent("onclick",optchk_onCilck);
+				}
+			}
+			else if (j==1)
+			{
+				
+				if(optIconUrl!="")
+				{
+					optTD.align="center";
+					optTD.valign="middle";
+					optTD.width=18;
+					var optIcon=document.createElement("img");
+					optIcon.src=optIconUrl;
+					optIcon.align="absmiddle";
+					optTD.insertAdjacentElement("afterBegin",optIcon);
+				}
+				else
+				{
+					optTD.align="center";
+					optTD.valign="middle";
+					optTD.width=1;
+				}
+			}
+			else if (j==2)
+			{
+				optTD.noWrap=true;
+				optTD.innerText=optText;
+				optTD.setAttribute("value",optValue);
+			}
+		}
+
+				
+	var newOption = document.createElement("Option");
+	newOption.text=optText;
+	newOption.value=optValue;
+	newOption.iconUrl=optIconUrl;
+	
+	if (optTextTbl.offsetHeight<150) 
+		optListDiv.style.height=optTextTbl.offsetHeight+4;	
+	
+	this.add(newOption);
+	if (optselected)
+	{
+		optTR.style.backgroundColor=_selectedbgcolor;
+		optTR.style.color=_selectedcolor;
+	
+		this.value=optValue;
+		inputobj.value = 	optText;
+		if (optIconUrl!=""	)
+		{
+				var owidth = iconimg.width;
+				var ohspace = iconimg.hspace*2;
+				iconimg.src= optIconUrl;
+				iconimg.width=iconwidth;
+				iconimg.height =iconheight;
+				inputobj.style.width =parseInt(inputobj.style.width)+(owidth-iconimg.width)+(ohspace-(iconimg.hspace*2));	
+		}	
+	}
+}
+
+</SCRIPT>
+</PUBLIC:COMPONENT>
+
+
+

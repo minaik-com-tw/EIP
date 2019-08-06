@@ -1,0 +1,281 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onmouseenter" ONEVENT="event_onmouseover()" />
+<PUBLIC:ATTACH EVENT="onmouseleave" ONEVENT="event_onmouseout()" />
+<PUBLIC:ATTACH EVENT="onclick" ONEVENT="event_onclick()" />
+
+<PUBLIC:METHOD NAME="active" />
+<PUBLIC:METHOD NAME="deactive" />
+
+<PUBLIC:PROPERTY NAME="submenu" />
+<PUBLIC:PROPERTY NAME="menutype" />
+<PUBLIC:PROPERTY NAME="iconurl" />
+<PUBLIC:PROPERTY NAME="dx" />
+<PUBLIC:PROPERTY NAME="dy" />
+<PUBLIC:PROPERTY NAME="linkurl" />
+
+<SCRIPT language="JScript">
+
+var thisclass,thiszindex,parent;
+var parentfound = false;
+var loadready = false;
+
+function event_ondocumentready()
+{	
+	if (!this.id)
+		this.id = newid();
+	//var el=this.offsetParent;
+	thisclass = this.className;
+	thisfontfamily = this.currentStyle.fontFamily;
+	thisfontsize = this.currentStyle.fontSize;
+	thisfontweight = this.currentStyle.fontWeight;
+	thiscolor = this.currentStyle.color;
+	this.style.zIndex=10;
+	if (submenu)
+		eval(submenu + '.auto="true"');
+	if ((submenu) && (menutype!='topdown'))
+	{
+	var tabletag = document.createElement("table");
+	tabletag.width="100%";
+	tabletag.border=0;
+	tabletag.cellPadding=0;
+	tabletag.cellSpacing=0;
+	var trobj = tabletag.insertRow();
+	var tdobj=trobj.insertCell();
+	tdobj.innerHTML=this.innerHTML;
+	tdobj.width="99%";
+	tdobj.style.fontFamily=thisfontfamily;
+	tdobj.style.fontSize=thisfontsize;
+	tdobj.style.fontWeight=thisfontweight;
+	tdobj.style.color=thiscolor;
+	tdobj=trobj.insertCell();
+	tdobj.width="1%"
+	var icontag = document.createElement("img");
+	if (iconurl)
+		icontag.src=iconurl;
+	else
+		icontag.src="/lib/img/icon-rightang.gif";
+	icontag.border=0;
+	icontag.align="absmiddle";
+	tdobj.insertAdjacentElement("beforeend",icontag);
+	this.innerHTML="";
+	this.insertAdjacentElement("afterBegin",tabletag);
+
+	//while ((!parent) && (el))
+	//{
+	//	if (el.className.toLowerCase()=="floatpanel")
+	//	{
+	//		parent = el.id;
+	//	}
+	//	el=el.offsetParent;		
+	//}
+	
+	}
+
+	loadready=true;
+}
+
+function active()
+{
+	if (this.className!=thisclass+'On')
+		this.className = thisclass+'On';
+}
+
+function deactive()
+{
+	//writedebug('menu-deactive():'+this.id);
+	this.className = thisclass;
+	if (submenu)
+	{
+		if (eval(submenu+'.actived')!='showed')
+			eval(submenu + '.hide()');
+		eval(submenu + '.eventafterhide=""');
+	}
+}
+
+function event_onclick()
+{
+	if (this.getAttribute("linkurl")!=null)
+	{
+		window.location=linkurl;
+	}
+}
+
+function event_onmouseover()
+{
+	if (!loadready)
+		return;
+		
+	var top,left,zindex,obj;
+
+	this.className = thisclass+'On';
+	
+	if (!parentfound)
+		findparent();
+
+	top = posTop(this);
+	left = posLeft(this);
+	
+	if (menutype=='topdown')
+		top = top + this.offsetHeight;
+	else
+		left = left + this.offsetParent.offsetWidth-3;
+	
+
+	if (parent)
+		zindex = eval(parent + '.style.zIndex') + 1;
+	else
+		zindex = this.style.zIndex + 1;
+	if (this.getAttribute("dx")!=null)
+	{
+		left = left + eval(dx);
+	}
+	if (this.getAttribute("dy")!=null)
+	{
+		top = top + eval(dy);
+	}
+
+	if (submenu)
+	{		
+		//eval(submenu + '.resetscrollheight(30)');
+		if (left + eval(submenu+'.offsetWidth')>window.document.body.clientWidth)
+		{
+			left = window.document.body.clientWidth-eval(submenu+'.offsetWidth')-5;	
+			if (top<posTop(this)+this.offsetHeight)
+				top = top + this.offsetHeight;							
+		}
+		eval(submenu + '.eventmouseover="' + this.id + '.active"');
+		eval(submenu + '.eventafterhide="' + this.id + '.deactive"');
+		if (parent)
+		{
+			//writedebug('aaa');
+			eval(submenu + '.show(' + top + ',' + left + ',' + zindex + ',' + parent + ')')
+		}
+		else
+			eval(submenu + '.show(' + top + ',' + left + ',' + zindex + ')')
+	}
+}
+
+function event_onmouseout()
+{
+	if (!loadready)
+		return;
+
+	var eobj=window.event.toElement;
+	var obj;
+	
+	if (this.contains(eobj))	
+	{
+		return;
+	}
+		
+	obj = window.document.getElementById(submenu);
+	
+	if (!((obj) && (obj.contains(eobj))))
+	{
+		//writedebug('hide');
+		this.className = thisclass;
+		if (submenu)
+		{
+			eval(submenu + '.hide()');
+		}
+	}
+}
+
+function findparent()
+{
+	var el=this.offsetParent;
+
+	while ((!parent) && (el))
+	{
+		if (el.className.toLowerCase()=="floatpanel")
+		{
+			parent = el.id;
+		}
+		el=el.offsetParent;		
+	}
+}
+
+function posTop(el)
+{
+	var top = 0;
+	while (el)
+	{
+		try
+		{
+		if (el.currentStyle.borderTopWidth)
+			if (parseInt(el.currentStyle.borderTopWidth)>0)
+				top += parseInt(el.currentStyle.borderTopWidth);
+		}
+		catch (e)
+		{
+			alert(el.currentStyle.borderTopWidth);
+		}
+		finally
+		{
+		}
+		top += el.offsetTop;
+		el = el.offsetParent;
+	}
+	return top;
+/*
+	var top = 0;
+	while (el)
+	{
+		top += el.offsetTop
+		el = el.offsetParent
+	}
+	return top;*/
+}
+
+function posLeft(el)
+{
+/*	var left = 0;
+	while (el)
+	{
+		left += el.offsetLeft
+		el = el.offsetParent
+	}
+	return left;*/
+	var left = 0;
+	while (el)
+	{
+		try
+		{
+		if (el.currentStyle.borderLeftWidth)
+			if (parseInt(el.currentStyle.borderLeftWidth)>0)
+				left += parseInt(el.currentStyle.borderLeftWidth);
+		}
+		catch (e)
+		{
+			alert(el.currentStyle.borderLeftWidth);
+		}
+		finally
+		{
+		}
+		left += el.offsetLeft
+		el = el.offsetParent
+	}
+	return left;	
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+function writedebug(str)
+{
+	
+	debug.innerHTML= str + '<br>' + debug.innerHTML
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

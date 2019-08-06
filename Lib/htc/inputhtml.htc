@@ -1,0 +1,1276 @@
+<!-- ---------------------------------------------------------------------
+//
+//  Copyright 2003 Double Green Information Tech.  All Rights Reserved.
+//
+//  File:         inputhtml.htc
+//
+//  Description:  DHTMLSafe Editor.
+//
+//-------------------------------------------------------------------- -->
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" handler="init"	/>
+<PUBLIC:ATTACH EVENT="onpropertychange" handler="propertychange"/>
+
+<PUBLIC:PROPERTY NAME="width" value="500"/>
+<PUBLIC:PROPERTY NAME="height" value="250"/>
+<PUBLIC:PROPERTY NAME="baseurl" value=""/>
+<PUBLIC:PROPERTY NAME="uploadbase"	 value=""/>
+<PUBLIC:PROPERTY NAME="toolbar" value="true"/>
+<PUBLIC:PROPERTY NAME="dochtml" value="true"/>
+
+<PUBLIC:METHOD NAME="gethtml"/>
+
+
+<script language="javascript">
+//
+// Command IDs
+//
+
+DECMD_BOLD =                      5000;
+DECMD_COPY =                      5002;
+DECMD_CUT =                       5003;
+DECMD_DELETE =                    5004;
+DECMD_DELETECELLS =               5005;
+DECMD_DELETECOLS =                5006;
+DECMD_DELETEROWS =                5007;
+DECMD_FINDTEXT =                  5008;
+DECMD_FONT =                      5009;
+DECMD_GETBACKCOLOR =              5010;
+DECMD_GETBLOCKFMT =               5011;
+DECMD_GETBLOCKFMTNAMES =          5012;
+DECMD_GETFONTNAME =               5013;
+DECMD_GETFONTSIZE =               5014;
+DECMD_GETFORECOLOR =              5015;
+DECMD_HYPERLINK =                 5016;
+DECMD_IMAGE =                     5017;
+DECMD_INDENT =                    5018;
+DECMD_INSERTCELL =                5019;
+DECMD_INSERTCOL =                 5020;
+DECMD_INSERTROW =                 5021;
+DECMD_INSERTTABLE =               5022;
+DECMD_ITALIC =                    5023;
+DECMD_JUSTIFYCENTER =             5024;
+DECMD_JUSTIFYLEFT =               5025;
+DECMD_JUSTIFYRIGHT =              5026;
+DECMD_LOCK_ELEMENT =              5027;
+DECMD_MAKE_ABSOLUTE =             5028;
+DECMD_MERGECELLS =                5029;
+DECMD_ORDERLIST =                 5030;
+DECMD_OUTDENT =                   5031;
+DECMD_PASTE =                     5032;
+DECMD_REDO =                      5033;
+DECMD_REMOVEFORMAT =              5034;
+DECMD_SELECTALL =                 5035;
+DECMD_SEND_BACKWARD =             5036;
+DECMD_BRING_FORWARD =             5037;
+DECMD_SEND_BELOW_TEXT =           5038;
+DECMD_BRING_ABOVE_TEXT =          5039;
+DECMD_SEND_TO_BACK =              5040;
+DECMD_BRING_TO_FRONT =            5041;
+DECMD_SETBACKCOLOR =              5042;
+DECMD_SETBLOCKFMT =               5043;
+DECMD_SETFONTNAME =               5044;
+DECMD_SETFONTSIZE =               5045;
+DECMD_SETFORECOLOR =              5046;
+DECMD_SPLITCELL =                 5047;
+DECMD_UNDERLINE =                 5048;
+DECMD_UNDO =                      5049;
+DECMD_UNLINK =                    5050;
+DECMD_UNORDERLIST =               5051;
+DECMD_PROPERTIES =                5052;
+
+//Begin Custom
+DECMD_VIEWSOURCE =				  6000;
+DECMD_EDITSOURCE = 				  6001;
+DECMD_ABOUT =					  6002;
+DECMD_HELP = 					  6003;
+DECMD_TOGGLE_DETAILS = 			  6004;
+DECMD_SAVE = 					  6005;
+DECMD_EDITTABLE =				  6006;
+DECMD_SPELLCHECK =				  6007;
+DECMD_SPECIAL_CHARS = 			  6008;
+DECMD_TOGGLE_BORDERS = 			  6009;
+DECMD_QUICKTABLE =				  6010;
+DECMD_TOGGLE_TOOLBAR = 			  6011;
+
+//
+// Enums
+//
+
+// OLECMDEXECOPT  
+OLECMDEXECOPT_DODEFAULT =         0;
+OLECMDEXECOPT_PROMPTUSER =        1;
+OLECMDEXECOPT_DONTPROMPTUSER =    2;
+
+// DHTMLEDITCMDF
+DECMDF_NOTSUPPORTED =             0;
+DECMDF_DISABLED =                 1;
+DECMDF_ENABLED =                  3;
+DECMDF_LATCHED =                  7;
+DECMDF_NINCHED =                  11;
+
+// DHTMLEDITAPPEARANCE
+DEAPPEARANCE_FLAT =               0;
+DEAPPEARANCE_3D =                 1;
+
+// OLE_TRISTATE
+OLE_TRISTATE_UNCHECKED =          0;
+OLE_TRISTATE_CHECKED =            1;
+OLE_TRISTATE_GRAY =               2;
+
+
+/**********************/
+/* global variables   */
+/**********************/
+var oDs;						// DHTMLSafe object
+var oToolbar;					// toolbar
+var oFrame;						// iframe object
+var oQuickTable;				// quick table object
+var error;
+var WriteBack = false;
+
+var aspbase;					// default baseurl of asp or html which uses this htc
+var dsbase;						// default baseurl of this htc
+var imgbase;					// 'images' folder of toolbar
+//var toolbar = true;
+
+var MENU_SEPARATOR = "";		// constant
+var isIE4 = ((parseInt(navigator.appVersion) == 4) && (navigator.userAgent.toLowerCase().indexOf("msie 5") == -1) && (navigator.userAgent.toLowerCase().indexOf("msie 6") == -1));
+
+var Menu = new Array();			// context menu
+var gMenu = new Array();		// general context menu
+var tMenu = new Array();		// table context menu
+
+
+/**********************/
+/* methods            */
+/**********************/
+function gethtml()
+{
+	if (oDs == null) return null;
+	return eval(dochtml) ? oDs.documenthtml : oDs.DOM.body.innerHTML;
+}
+
+/**********************/
+/* event handlers     */
+/**********************/
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+}
+
+function init()
+{
+	error = 0;
+	if (tagName.toLowerCase() != "textarea")
+	{
+		error = 1;		// support 'textarea' only
+		alert("DHTMLSave Editor can only be used in TEXTAREA");
+		return;
+	}
+	style.display = "none";
+	
+	var url;
+	url = window.document.URL;
+	aspbase = url.substring(0, url.lastIndexOf("/")+1);
+	if (uploadbase == "")
+		uploadbase = aspbase.substr(aspbase.indexOf("/", aspbase.indexOf("://")+3));
+	else if (uploadbase.substring(0, 1) != "/")
+		uploadbase = aspbase.substr(aspbase.indexOf("/", aspbase.indexOf("://")+3)) + uploadbase;
+
+	url = document.URL;
+	dsbase = url.substring(0, url.lastIndexOf("/")+1);
+	//imgbase = dsbase + "images/";
+	imgbase="/lib/img/"
+	
+	menu_init();
+	oDs = ds_init();
+	oToolbar = tb_init();
+	oDs.focus();
+	
+	var f = window.document.createElement("iframe");
+	f.style.visibility	= "hidden";
+	f.style.position	= "absolute";
+	f.style.zIndex		= 2;
+	f.vspace			= 0;
+	f.hspace			= 0;
+	f.marginHeight		= 0;
+	f.marginWidth		= 0;
+	f.scrolling			= "no";
+	f.frameBorder		= "0";
+	window.document.body.appendChild(f);
+	oFrame = f;
+}
+
+function propertychange()
+{
+	switch (window.event.propertyName)
+	{
+	case "value":
+		if (oDs != null && !WriteBack)
+		{
+			if (eval(dochtml))
+				oDs.documenthtml = (value == "") ? " " : value;
+			else
+				oDs.DOM.body.innerHTML = (value == "") ? "" : value;
+		}
+		break;
+	case "baseurl":
+		if (oDs != null)
+			oDs.baseurl = (baseurl == "") ? "" : baseurl;
+		break;
+	case "width":
+		if (oDs != null)
+			oDs.width = width;
+		break;
+	case "height":
+		if (oDs != null)
+			oDs.height = height;
+		break;
+	case "toolbar":
+		tb_init();
+		break;
+	default:
+		break;
+	}
+}
+
+function ds_onclick()
+{
+//	tb_state();
+}
+
+function ds_displaychanged()
+{
+	tb_state();
+}
+
+function ds_oncommand()
+{
+	var src = window.event.srcElement;
+	oncommand(parseInt(src.cid), src);
+}
+
+function ds_showmenu(x, y)
+{
+	var allowEditSource = true;
+	var menuStr, menuState;
+	var i, state;
+	
+	menuStr   = new Array();
+	menuState = new Array();
+
+	Menu.length = 0;
+	for (i = allowEditSource ? 0 : 2; i < gMenu.length; i++)
+		Menu[Menu.length] = gMenu[i];
+	
+	var tableselected = false;
+	if (oDs.DOM.selection.type == "Control")
+	{
+		var se = oDs.DOM.selection.createRange();
+		if (se.length == 1 && se(0).tagName.toLowerCase() == "table")
+			tableselected = true;
+	}
+		
+	if (oDs.querystatus(DECMD_INSERTROW) != DECMDF_DISABLED)
+		for (i=2; i < tMenu.length; i++)
+			Menu[Menu.length] = tMenu[i];
+	else if (tableselected)
+		for (i=0; i < 2; i++)
+			Menu[Menu.length] = tMenu[i];
+		
+
+	for (i=0; i < Menu.length; i++)
+	{
+		menuStr[i] = Menu[i].str;
+		
+		state = (menuStr[i] != MENU_SEPARATOR && Menu[i].cid < 6000) 
+			? oDs.querystatus(Menu[i].cid) : DECMDF_ENABLED;
+			
+		switch (state)
+		{
+		case DECMDF_DISABLED:
+		case DECMDF_NOTSUPPORTED:
+			menuState[i] = OLE_TRISTATE_GRAY;
+			break;
+		case DECMDF_ENABLED:
+		case DECMDF_NINCHED:
+			menuState[i] = OLE_TRISTATE_UNCHECKED;
+			break;
+		default:			// DECMDF_LATCHED
+			menuState[i] = OLE_TRISTATE_CHECKED;
+			break;
+		}
+		
+		// custom Attribute Toggle Glyphs
+		switch (Menu[i].cid)
+		{
+		case DECMD_TOGGLE_DETAILS:
+			menuState[i] = oDs.showdetails ? OLE_TRISTATE_CHECKED : OLE_TRISTATE_UNCHECKED;
+			break;
+		case DECMD_TOGGLE_BORDERS:
+			menuState[i] = oDs.showborders ? OLE_TRISTATE_CHECKED : OLE_TRISTATE_UNCHECKED;
+			break;
+		case DECMD_EDITSOURCE:
+			menuState[i] = (false)/*sourceview == null)*/ ? OLE_TRISTATE_CHECKED : OLE_TRISTATE_UNCHECKED;
+			break;
+		case DECMD_TOGGLE_TOOLBAR:
+			menuState[i] = eval(toolbar) ? OLE_TRISTATE_CHECKED : OLE_TRISTATE_UNCHECKED;
+			break;
+		}
+	}
+
+	// set the context menu
+	oDs.setcontextmenu(menuStr, menuState);
+}
+
+function ds_menuaction(i)
+{
+	oncommand(Menu[i].cid);
+}
+
+function qf_change()
+{
+	var src = window.event.srcElement;
+	window.status =src.value;
+	oDs.execcommand(DECMD_SETBLOCKFMT, OLECMDEXECOPT_DODEFAULT, src.value);
+	oDs.focus();
+	oDs.DOM.body.focus();
+}
+
+function ft_change()
+{
+	var src = window.event.srcElement;
+	oDs.execcommand(DECMD_SETFONTNAME, OLECMDEXECOPT_DODEFAULT, src.value);
+	oDs.focus();
+	oDs.DOM.body.focus();
+}
+
+function fs_change()
+{
+	var src = window.event.srcElement;
+	oDs.execcommand(DECMD_SETFONTSIZE, OLECMDEXECOPT_DODEFAULT, src.value);
+	oDs.focus();
+	oDs.DOM.body.focus();
+}
+
+function img_propertychange()
+{
+	if (window.event.propertyName == "state")
+		setstyle(window.event.srcElement);
+}
+
+function img_mouseover()
+{
+	window.event.srcElement.state = "outset";
+}
+
+function img_mouseout()
+{
+	window.event.srcElement.state = "flat";
+}
+
+function img_mousedown()
+{
+	window.event.srcElement.state = "inset";
+}
+
+function img_mouseup()
+{
+	window.event.srcElement.state = "outset";
+}
+
+
+/**********************/
+/* helper functions   */
+/**********************/
+function tb_init()
+{
+	if (eval(toolbar))		// default: true
+	{
+		if (oToolbar != null) 
+		{
+			oToolbar.style.display = "";
+			return oToolbar;
+		}
+	}
+	else
+	{
+		if (oToolbar != null)
+			oToolbar.style.display = "none";
+		return oToolbar;
+	}
+
+//	if (!eval(toolbar))		
+//		return null;
+		
+	var a = new Array(
+		new Array("cid", "src", "alt", "status"),
+		new Array("", "space.gif", "", "", "false"),	// cid, src, alt, status, eventattach
+		new Array("5003", "cut.gif", "Cut", "Cut the selected text into the clipboard"),
+		new Array("5002", "copy.gif", "Copy", "Copy the selected text into the clipboard"),
+		new Array("5032", "paste.gif", "Paste", "Paste the contents of the clipboard into the workspace"),
+		new Array("", "space.gif", "", "", "false"),
+		new Array("5033", "redo.gif", "Redo", "Redo the last operation"),
+		new Array("5049", "undo.gif", "Undo", "Undo the last operation"),
+		new Array("", "space.gif", "", "", "false"),
+		new Array("5009", "fgcolor.gif", "Font", "Change font and color"),
+		new Array("5000", "bold.gif", "Bold", "Make selected text bold"),
+		new Array("5023", "italic.gif", "Italic", "Make selected text italic"),
+		new Array("5048", "under.gif", "Underline", "Underline the selected text"),
+		new Array("", "space.gif", "", "", "false"),
+		new Array("5031", "deindent.gif", "Decrease Indent", "Reverse indent the current line"),
+		new Array("5018", "inindent.gif", "Indent", "Indent the current line"),
+		new Array("6004", "paragraph.gif", "Show Details", "Displays hidden elements as glyphs"),
+		new Array("6008", "specialchar.gif", "Special Characters", "Insert a Special Character"));
+
+	var b = new Array(
+		new Array("cid", "src", "alt", "status", "eventattach"),
+		new Array("5025", "left.gif", "Align Left", "Left justify the current line"),
+		new Array("5024", "center.gif", "Center", "Center the current line"),
+		new Array("5026", "right.gif", "Align Right", "Right justify the current line"),
+		new Array("5051", "bullist.gif", "Bullets", "Insert a bullet on current line"),
+		new Array("5030", "numlist.gif", "Numbering", "Insert a numbered list on current line"),
+		new Array("", "space.gif", "", "", "false"),
+		new Array("5022", "instable.gif", "Insert Table", "Insert a table"),
+		new Array("5022", "tbdown.gif", "Quick Table", "Insert a table", qt_init),
+		new Array("5017", "image.gif", "Insert Image", "Insert an image"),
+		new Array("5016", "link.gif", "Insert Hyperlink", "Insert a hyperlink on selected text"),
+		new Array("", "space.gif", "", "", "false"),
+		new Array("5008", "find.gif", "Find", "Find text in the document"));
+
+	var s = window.document.createElement("<span id=dsToolbar>");
+	qf_insert(s);
+	insertAdjacentElement("afterEnd", s);
+	img_insert(s, a);
+	s.appendChild(window.document.createElement("br"));
+	ft_insert(s);
+	fs_insert(s);
+	img_insert(s, b);
+	s.appendChild(window.document.createElement("br"));
+	return s;
+}
+
+function ds_init()
+{
+	var p = window.document.createElement("span");
+	var ds = window.document.createElement("object");
+	ds.classid = "clsid:2D360201-FFF5-11d1-8D03-00A0C959BC0A";
+	//var i=1;
+	//while (eval(window.document.all("oDs"+i)) != null) i++;
+	//ds.id = "oDs" + i;
+	ds.width = (width == null) ? 560 : width;
+	ds.height = (height == null) ? 450 : height;
+	p.appendChild(ds);
+
+	//ds.documentHTML = (value == "") ? " " : value;   ///BUG  *************** 2004/10/11
+//	ds.NewDocument();
+	ds.BaseURL = (baseurl == "") ? aspbase : baseurl;
+	ds.ShowBorders = false;
+	ds.UseDivOnCarriageReturn = true;
+	
+	/*
+	DHTMLSafe.NewDocument();
+	DHTMLSafe.BaseURL=ae_baseurl[num];
+ 	set_tbstates(num);
+	ae_onLoad(num);
+	ae_HTMLMode[num] = false;	
+	
+	*/
+	
+	//ds.attachEvent("onclick", ds_onclick);
+	ds.attachEvent("displaychanged", ds_displaychanged);
+	ds.attachEvent("showcontextmenu", ds_showmenu);
+	ds.attachEvent("contextmenuaction", ds_menuaction);
+	ds.attachEvent("onbeforedeactivate", ds_ondeactivate);
+	insertAdjacentElement("afterEnd", p);
+
+	return ds;
+}
+
+function ds_ondeactivate()
+{
+	if (oDs.isdirty)
+	{
+		WriteBack = true;
+		value = gethtml();
+		WriteBack = false;
+		oDs.refresh();
+	}
+}
+
+function menu_init()
+{
+	var i = 0;
+	gMenu[i++] = new MenuItem("Edit Source", DECMD_EDITSOURCE);
+	gMenu[i++] = new MenuItem(MENU_SEPARATOR, 0);
+	gMenu[i++] = new MenuItem("Find", DECMD_FINDTEXT);
+	gMenu[i++] = new MenuItem("Show Details", DECMD_TOGGLE_DETAILS);
+	gMenu[i++] = new MenuItem("Show Borders", DECMD_TOGGLE_BORDERS);
+	gMenu[i++] = new MenuItem("Show Toolbar", DECMD_TOGGLE_TOOLBAR);
+
+	i = 0;
+	if (!isIE4)		// no edit table in IE 4
+	{
+		tMenu[i++] = new MenuItem(MENU_SEPARATOR, 0);
+	  	tMenu[i++] = new MenuItem("Edit Table", DECMD_EDITTABLE);
+	}
+
+	tMenu[i++] = new MenuItem(MENU_SEPARATOR, 0);
+	tMenu[i++] = new MenuItem("Insert Row", DECMD_INSERTROW);
+	tMenu[i++] = new MenuItem("Delete Rows", DECMD_DELETEROWS);
+	tMenu[i++] = new MenuItem(MENU_SEPARATOR, 0);
+	tMenu[i++] = new MenuItem("Insert Column", DECMD_INSERTCOL);
+	tMenu[i++] = new MenuItem("Delete Columns", DECMD_DELETECOLS);
+	tMenu[i++] = new MenuItem(MENU_SEPARATOR, 0);
+	tMenu[i++] = new MenuItem("Insert Cell", DECMD_INSERTCELL);
+	tMenu[i++] = new MenuItem("Delete Cells", DECMD_DELETECELLS);
+	tMenu[i++] = new MenuItem("Merge Cells", DECMD_MERGECELLS);
+	tMenu[i++] = new MenuItem("Split Cell", DECMD_SPLITCELL);
+}
+
+function oncommand(cid, src)
+{
+	switch (cid)
+	{
+	case DECMD_TOGGLE_DETAILS:	// 6004
+		if (oDs.showdetails = !(oDs.showdetails))
+		{
+			if (src != null)
+			{
+				src.state = "latched";
+				detach(src);
+			}
+		}
+		else
+		{
+			if (src != null)
+			{
+				src.state = "outset";
+				attach(src);
+			}
+		}
+		break;
+	case DECMD_EDITSOURCE:
+		ds_editsource();
+		break;
+	case DECMD_INSERTTABLE:
+		ds_oninserttable();
+		break;
+	case DECMD_EDITTABLE:
+		ds_onedittable();
+		break;
+	case DECMD_IMAGE:
+		ds_oninsertimage();
+		break;
+	case DECMD_SPECIAL_CHARS:
+		ds_specialchar();
+		break;
+	case DECMD_TOGGLE_BORDERS:
+		oDs.showborders = !(oDs.showborders);
+		break;
+	case DECMD_TOGGLE_TOOLBAR:
+		toolbar = !toolbar;
+		break;
+	case DECMD_QUICKTABLE:
+		qt_init();
+		break;
+	default:
+		if (oDs.querystatus(cid) != DECMDF_DISABLED)
+			oDs.execcommand(cid, OLECMDEXECOPT_DODEFAULT);
+		oDs.focus();
+		oDs.DOM.body.focus();
+		break;
+	}
+	//oDs.focus();
+	//oDs.DOM.body.focus();
+}
+
+function qf_insert1(p)
+{
+	var f = new ActiveXObject("DEGetBlockFmtNamesParam.DEGetBlockFmtNamesParam");
+    oDs.execcommand(DECMD_GETBLOCKFMTNAMES, OLECMDEXECOPT_DODEFAULT, f);
+	var o, s = window.document.createElement("<select id=dsQF>");
+	var i, a = (new VBArray(f.Names)).toArray();
+	for (i=0; i < a.length; i++)
+	{
+		o = document.createElement("option");
+		s.options.add(o);
+		o.text = a[i];
+		o.value = a[i];
+	}
+	s.style.width = "120px";
+	s.style.font  = "9pt Verdana;";
+	s.style.verticalAlign = "middle";
+	s.onchange = qf_change;
+	p.appendChild(s);
+}
+
+
+function qf_insert(p)
+{
+	var o, s = window.document.createElement("<select id=dsQF>");
+	var f_type=new Array("本文","已格式化","位址","標題 1","標題 2","標題 3","標題 4","標題 5","標題 6",
+									"編號清單","分項清單","目錄清單","功能表清單","定義項目","定義","段落");
+	var f_typeval=new Array("<P>","<PRE>","<address>","<h1>","<h2>","<h3>","<h4>","<h5>","<h6>",
+									"<ol>","<ul>","<dir>","<menu>","定義項目","定義","段落");
+									
+	for (var i=0;i<=f_type.length-1;i++ )
+	{
+		o = document.createElement("option");
+		s.options.add(o);
+		o.text = f_type[i];
+		o.value = f_typeval[i];	
+	}
+	s.style.width = "120px";
+	s.style.font  = "9pt Verdana;";
+	s.style.verticalAlign = "middle";
+	s.onchange = qf_change;
+	p.appendChild(s);
+}
+
+function ft_insert(p)
+{
+	var i, a = new Array("Arial", "Courier New", "Helvetica", "Times New Roman", "Verdana");
+	var o, s = window.document.createElement("<select id=dsFT>");
+	for (i=0; i < a.length; i++)
+	{
+		o = document.createElement("option");
+		s.options.add(o);
+		o.text = a[i];
+		o.value = a[i];
+	}
+	s.style.width = "120px";
+	s.style.font  = "9pt Verdana;";
+	s.style.verticalAlign = "middle";
+	s.onchange = ft_change;
+	p.appendChild(s);
+}
+
+function fs_insert(p)
+{
+	var i, a = new Array("8", "10", "12", "14", "18", "24", "36");
+	var o, s = window.document.createElement("<select id=dsFS>");
+	for (i=0; i < a.length; i++)
+	{
+		o = document.createElement("option");
+		s.options.add(o);
+		o.text = a[i];
+		o.value = i+1;
+	}
+	s.style.width = "42px";
+	s.style.font  = "9pt Verdana;";
+	s.style.verticalAlign = "middle";
+	s.value = "10";
+	s.onchange = fs_change;
+	p.appendChild(s);
+}
+
+function img_insert(p, a)
+{
+	var i, j, img, fn;
+	for (i=1; i < a.length; i++)
+	{
+		fn = null;
+		img = window.document.createElement("img");
+		p.appendChild(img);
+		for (j=0; j < a[i].length; j++)
+		{
+			switch (a[0][j])
+			{
+			case "src":
+				img.setAttribute(a[0][j], imgbase+a[i][j])
+				break;
+			case "eventattach":
+				fn = a[i][j];
+				break;
+			default:
+				img.setAttribute(a[0][j], a[i][j]);
+				break;
+			}
+		}
+		if (a[i][0] != "")
+		{
+			attach(img);
+			img.onclick	= (fn == null) ? ds_oncommand: fn;
+		}
+		img.onpropertychange = img_propertychange;
+		img.state = "flat";
+	}
+}
+
+function setstyle(img)
+{
+	switch (img.state)
+	{
+	case "flat":
+		img.style.borderRight	= img.style.borderBottom	= "1px";
+		img.style.borderTop		= img.style.borderLeft		= "1px";
+		img.style.filter		= "";
+		img.style.margin		= "1px";
+		img.style.backgroundColor = "";
+		break;
+	case "outset":
+		img.style.borderRight	= img.style.borderBottom	= "darkgray 1px solid";
+		img.style.borderTop		= img.style.borderLeft		= "lightgrey 1px solid";
+		img.style.filter		= "";
+		img.style.margin		= "0px";
+		img.style.backgroundColor = "";
+		break;
+	case "inset":
+		img.style.border		= "1px inset";
+		img.style.margin		= "0px";
+		img.style.filter		= "";
+		img.style.backgroundColor = "";
+		break;
+	case "disabled":
+	    img.style.borderWidth	= "0px";
+	    img.style.filter		= "mask() mask(color=buttonshadow) dropshadow(offX=1,offY=1,color=buttonhighlight,positive=1)";
+		img.style.margin		= "1px";
+		break;	
+	case "latched":
+		img.style.border		= "1px inset";
+		img.style.filter		= "";
+		img.style.margin		= "0px";
+		img.style.backgroundColor = "#eeeeee";
+		break;
+	case "space":
+		img.style.filter		= "";
+		img.style.margin		= "0px";
+		break;
+	default:
+		img.state = "flat";
+		return;
+	}
+	
+	img.style.padding		= "0px 0px";
+	img.style.visibility	= "visible";
+	img.style.verticalAlign	= "middle";
+}
+
+function attach(img)
+{
+	if (!img.attached)		// attach default mouse events
+	{
+		img.attachEvent("onmouseover", img_mouseover);
+		img.attachEvent("onmouseout",  img_mouseout);
+		img.attachEvent("onmousedown", img_mousedown);
+		img.attachEvent("onmouseup",   img_mouseup);
+		img.attached = true;
+	}
+}
+
+function detach(img)
+{
+	if (img.attached)		// detach default mouse events
+	{
+		img.detachEvent("onmouseover", img_mouseover);
+		img.detachEvent("onmouseout",  img_mouseout);
+		img.detachEvent("onmousedown", img_mousedown);
+		img.detachEvent("onmouseup",   img_mouseup);
+		img.attached = false;
+	}
+}
+
+function tb_state()			// query the state of toolbar
+{
+	if (oDs.busy)
+	{
+		setTimeout(tb_state, 80);
+		return;
+	}
+	
+	if (oDs.querystatus(5002) != oDs.querystatus(5003))		// DECMD_COPY, DECMD_CUT
+		return;
+		
+	var tb = element.nextSibling;
+	var cid, i, s, o, a = tb.all.tags("img");
+	for (i=0; i < a.length; i++)
+	{
+		o = a(i);
+		if (o.cid == "") continue;
+		cid = parseInt(o.cid);
+		if (cid < 6000 /*&& cid != DECMD_HYPERLINK*/)	// 5016
+		{
+			s = oDs.querystatus(cid);
+			switch (s)
+			{
+			case DECMDF_DISABLED:
+			case DECMDF_NOTSUPPORTED:
+				if (o.state != "disabled")
+				{
+					o.state = "disabled";
+					detach(o);
+				}
+				break;
+			case DECMDF_ENABLED:
+			case DECMDF_NINCHED:
+				if (o.state != "flat")
+				{
+					o.state = "flat";
+					attach(o);
+				}
+				break;
+			default:	// latched
+				if (o.state != "latched")
+				{
+					o.state = "latched";
+					detach(o);
+				}
+				break;
+			}
+		}
+		else if (cid == 6004)	// DECMD_TOGGLE_DETAILS
+		{
+			o.state = (oDs.showdetails) ? "latched" : "flat";
+		}
+		else if (cid == 6009)	// DECMD_TOGGLE_BORDERS
+		{
+			o.state = (oDs.showborders) ? "latched" : "flat";
+		}
+	}
+	
+	var f, opt;
+	if (o = eval(tb.all.dsQF))		//  quick format
+	{
+		if (oDs.querystatus(DECMD_SETBLOCKFMT) != DECMDF_DISABLED && oDs.DOM.selection.type != "Control")
+		{
+			if (o.disabled) o.disabled = false;
+			f = oDs.execcommand(DECMD_GETBLOCKFMT)
+			if (f != null && f != "") o.value = f;
+		}
+		else
+		{
+			if (!o.disabled) o.disabled = true;
+		}
+	}
+	
+	if (o = eval(tb.all.dsFT))		//  quick font
+	{
+		if (oDs.querystatus(DECMD_SETFONTNAME) != DECMDF_DISABLED && oDs.DOM.selection.type != "Control")
+		{
+			if (o.disabled) o.disabled = false;
+			f = oDs.execcommand(DECMD_GETFONTNAME);
+			if (f != null && f != "") o.value = f;
+			if (o.selectedIndex == -1)		// add new font
+			{
+				opt = window.document.createElement("option");
+				o.options.add(opt);
+				opt.text = f;
+				opt.value = f;
+				opt.selected = true;
+			}
+		}
+		else
+		{
+			if (!o.disabled) o.disabled = true;
+		}
+	}
+
+	if (o = eval(tb.all.dsFS))		//  quick font size
+	{
+		if (oDs.querystatus(DECMD_SETFONTSIZE) != DECMDF_DISABLED && oDs.DOM.selection.type != "Control")
+		{
+			if (o.disabled) o.disabled = false; 
+			f = oDs.execcommand(DECMD_GETFONTSIZE);
+			if (f != null && f != "") o.value = f;
+		}
+		else
+		{
+			if (!o.disabled) o.disabled = true;
+		}
+	}
+}
+
+/**********************/
+/* helper windows     */
+/**********************/
+function ds_editsource()
+{
+	var w = window.open("", "", "width=485,height=475,location=no,resizable=yes,menubar=no,status=no,toolbar=no");
+	oDs.DOM.selection.empty();
+	if (w.document.readyState != "complete");
+	window.document.activeDs = oDs;
+	if (eval(dochtml))
+		w.document.body.innerHTML = "<textarea id=source wrap=off style='scrollbar-base-color:#99ccff;font-face:verdana;overflow:auto;background-color:#f0f0f0;width:100%;height:95%;border:1 outset #99ccff;'>" + oDs.documenthtml + "</textarea>"
+			+ "<div align=center style='font-face:verdana;padding-top:3;'><input type=button style='cursor:hand;background:#ffe4c4;border-color:#f0f0f0;color:#1d039e;font-weight:bold;' value='Apply' onclick='window.opener.document.activeDs.documenthtml=(document.all.source.value == \"\") ? \" \" : document.all.source.value;window.opener.document.activeDs.baseurl=\"" + oDs.baseurl + "\";window.close();'>"
+			+ "<input type=button style='cursor:hand;background:#ffe4c4;border-color:#f0f0f0;color:#1d039e;font-weight:bold;' value='Cancel' onclick='window.close()'></div>";
+	else
+		w.document.body.innerHTML = "<textarea id=source wrap=off style='scrollbar-base-color:#99ccff;font-face:verdana;overflow:auto;background-color:#f0f0f0;width:100%;height:95%;border:1 outset #99ccff;'>" + oDs.DOM.body.innerHTML + "</textarea>"
+			+ "<div align=center style='font-face:verdana;padding-top:3;'><input type=button style='cursor:hand;background:#ffe4c4;border-color:#f0f0f0;color:#1d039e;font-weight:bold;' value='Apply' onclick='window.opener.document.activeDs.DOM.body.innerHTML=(document.all.source.value == \"\") ? \" \" : document.all.source.value;window.opener.document.activeDs.baseurl=\"" + oDs.baseurl + "\";window.close();'>"
+			+ "<input type=button style='cursor:hand;background:#ffe4c4;border-color:#f0f0f0;color:#1d039e;font-weight:bold;' value='Cancel' onclick='window.close()'></div>";
+	
+	w.document.title = "DHTML Source Editor";
+}
+
+function ds_oninserttable()
+{
+	if (oDs.querystatus(DECMD_INSERTTABLE) == DECMDF_DISABLED)
+		return;
+
+	window.document.activeDs = oDs;
+	var w = window.open(dsbase + "table.htm", "", "width=528,height=365,location=no,menubar=no,status=no,toolbar=no");
+	//w.document.title = "Insert Table";
+}
+
+function ds_onedittable()
+{
+	window.document.activeDs = oDs;
+	var w = window.open(dsbase + "table.htm", "", "width=528,height=365,location=no,menubar=no,status=no,toolbar=no");
+	//w.document.title = "Edit Table";
+}
+
+function ds_oninsertimage()
+{
+	window.document.activeDs = oDs;
+	window.open(dsbase + "image.asp?targetfolder=" + uploadbase, "", "width=528,height=365,location=no,menubar=no,status=no,toolbar=no");	
+}
+
+function ds_specialchar()
+{
+	var w = window.open("", "", "width=485,height=250,location=no,menubar=no,status=no,toolbar=no");
+	if (w.document.readyState != "complete");
+	var c = new Array(
+		new Array("&quot;", "", "Quotation mark"),
+		new Array("&amp;", "", "Ampersand"),
+		new Array("&lt;", "", "Less than"),
+		new Array("&gt;", "", "Greater than"),
+		new Array("&#153;", "", ""),
+		new Array("&nbsp;", "", "Nonbreaking space"),
+		new Array("&iexcl;", "", "Inverted exclamation"),
+		new Array("&cent;", "", "Cent sign"),
+		new Array("&pound;", "", "Pound sterling"),
+		new Array("&curren;", "", "General currency sign"),
+		new Array("&yen;", "", "Yen sign"),
+		new Array("&brvbar;", "", "Broken vertical bar"),
+		new Array("&sect;", "", "Section sig"),
+		new Array("&uml;", "", "Diaresis / Umlaut"),
+		new Array("&copy;", "", "Copyright"),
+		new Array("&ordf;", "", "Feminine ordinal"),
+		new Array("&laquo;", "", "Left angle quote, guillemet left"),
+		new Array("&not;", "", "Not sign"),
+		//new Array("&shy;", "", "Soft hyphen"),
+		new Array("&reg;", "", "Registered trademark"),
+		new Array("&macr;", "", "Macron accent"),
+		new Array("&deg;", "", "Degree sign"),
+		new Array("&plusmn;", "", "Plus or minus"),
+		new Array("&sup2;", "", "Superscript two"),
+		new Array("&sup3;", "", "Superscript three"),
+		new Array("&acute;", "", "Acute accent"),
+		new Array("&micro;", "", "Micro sign"),
+		new Array("&para;", "", "Paragraph sign"),
+		new Array("&middot;", "", "Middle dot"),
+		new Array("&cedil;", "", "Cedilla"),
+		new Array("&sup1;", "", "Superscript one"),
+		new Array("&ordm;", "", "Masculine ordinal"),
+		new Array("&raquo;", "", "Right angle quote, guillemet right"),
+		new Array("&frac14;", "", "Fraction one-fourth"),
+		new Array("&frac12;", "", "Fraction one-half"),
+		new Array("&frac34;", "", "Fraction three-fourths"),
+		new Array("&iquest;", "", "Inverted question mark"),
+		new Array("&Agrave;", "", "Capital A, grave accent"),
+		new Array("&Aacute;", "", "Capital A, acute accent"),
+		new Array("&Acirc;", "", "Capital A, circumflex"),
+		new Array("&Atilde;", "", "Capital A, tilde"),
+		new Array("&Auml;", "", "Capital A, diaresis / umlaut"),
+		new Array("&Aring;", "", "Capital A, ring"),
+		new Array("&AElig;", "", "Capital AE ligature"),
+		new Array("&Ccedil;", "", "Capital C, cedilla"),
+		new Array("&Egrave;", "", "Capital E, grave accent"),
+		new Array("&Eacute;", "", "Capital E, acute accent"),
+		new Array("&Ecirc;", "", "Capital E, circumflex"),
+		new Array("&Euml;", "", "Capital E, diaresis / umlaut"),
+		new Array("&Igrave;", "", "Capital I, grave accent"),
+		new Array("&Iacute;", "", "Capital I, acute accent"),
+		new Array("&Icirc;", "", "Capital I, circumflex"),
+		new Array("&Iuml;", "", "Capital I, diaresis / umlaut"),
+		new Array("&ETH;", "", "Capital Eth, Icelandic"),
+		new Array("&Ntilde;", "", "Capital N, tilde"),
+		new Array("&Ograve;", "", "Capital O, grave accent"),
+		new Array("&Oacute;", "", "Capital O, acute accent"),
+		new Array("&Ocirc;", "", "Capital O, circumflex"),
+		new Array("&Otilde;", "", "Capital O, tilde"),
+		new Array("&Ouml;", "", "Capital O, diaresis / umlaut"),
+		new Array("&times;", "", "Multiply sign"),
+		new Array("&Oslash;", "", "Capital O, slash"),
+		new Array("&Ugrave;", "", "Capital U, grave accent"),
+		new Array("&Uacute;", "", "Capital U, acute accent"),
+		new Array("&Ucirc;", "", "Capital U, circumflex"),
+		new Array("&Uuml;", "", "Capital U, diaresis / umlaut"),
+		new Array("&Yacute;", "", "Capital Y, acute accent"),
+		new Array("&THORN;", "", "Capital Thorn, Icelandic"),
+		new Array("&szlig;", "", "Small sharp s, German sz"),
+		new Array("&agrave;", "", "Small a, grave accent"),
+		new Array("&aacute;", "", "Small a, acute accent"),
+		new Array("&acirc;", "", "Small a, circumflex"),
+		new Array("&atilde;", "", "Small a, tilde"),
+		new Array("&auml;", "", "Small a, diaresis / umlaut"),
+		new Array("&aring;", "", "Small a, ring"),
+		new Array("&aelig;", "", "Small ae ligature"),
+		new Array("&ccedil;", "", "Small c, cedilla"),
+		new Array("&egrave;", "", "Small e, grave accent"),
+		new Array("&eacute;", "", "Small e, acute accent"),
+		new Array("&ecirc;", "", "Small e, circumflex"),
+		new Array("&euml;", "", "Small e, diaresis / umlaut"),
+		new Array("&igrave;", "", "Small i, grave accent"),
+		new Array("&iacute;", "", "Small i, acute accent"),
+		new Array("&icirc;", "", "Small i, circumflex"),
+		new Array("&iuml;", "", "Small i, diaresis / umlaut"),
+		new Array("&eth;", "", "Small eth, Icelandic"),
+		new Array("&ntilde;", "", "Small n, tilde"),
+		new Array("&ograve;", "", "Small o, grave accent"),
+		new Array("&oacute;", "", "Small o, acute accent"),
+		new Array("&ocirc;", "", "Small o, circumflex"),
+		new Array("&otilde;", "", "Small o, tilde"),
+		new Array("&ouml;", "", "Small o, diaresis / umlaut"),
+		new Array("&divide;", "", "Division sign"),
+		new Array("&oslash;", "", "Small o, slash"),
+		new Array("&ugrave;", "", "Small u, grave accent"),
+		new Array("&uacute;", "", "Small u, acute accent"),
+		new Array("&ucirc;", "", "Small u, circumflex"),
+		new Array("&uuml;", "", "Small u, diaresis / umlaut"),
+		new Array("&yacute;", "", "Small y, acute accent"),
+		new Array("&thorn;", "", "Small thorn, Icelandic"),
+		new Array("&yuml;", "", "Small y, diaresis / umlaut"),
+		new Array("&euro;", "", ""),
+		new Array("&ndash;", "", ""),
+		new Array("&mdash;", "", ""),
+		new Array("&lsquo;", "", ""),
+		new Array("&rsquo;", "", ""),
+		new Array("&ldquo;", "", ""),
+		new Array("&rdquo;", "", ""));
+	var i, s = "";
+	for (i=0; i < c.length; i++)
+	{
+		switch (i % 16)
+		{
+		case 0:
+			s = s + "<tr><td width=18 align=center>" + c[i][0] + "</td>";
+			break;
+		case 15:
+			s = s + "<td width=18 align=center>" + c[i][0] + "</td></tr>";
+			break;
+		default:
+			s = s + "<td width=18 align=center>" + c[i][0] + "</td>";
+			break;
+		}
+	}
+	
+	if ((i % 16) != 0)
+	{
+		while ((i % 16) != 0)
+		{
+			s = s + "<td width=18 align=center>&nbsp;</td>";
+			i++;
+		}
+		s = s + "</tr>";
+	}
+	window.document.activeDs = oDs;
+	w.document.body.innerHTML = "<div><table align=center border='1' bordercolor='#a0a0a0' cellspacing=0 cellpadding=4" 
+		+ " style='color:#1d039e;font-face:Verdana,Arial;font-size:10pt;font-weight:bold;'"
+		+ " onmouseover='var s=window.event.srcElement; if (s.tagName.toLowerCase() == \"td\"){s.style.cursor=\"hand\";s.style.color=\"red\";}'"
+		+ " onmouseout='var s=window.event.srcElement; if (s.tagName.toLowerCase() == \"td\") s.style.color=\"#1d039e\";'"
+		+ " onclick='var s=window.event.srcElement; if (s.tagName.toLowerCase() == \"td\") window.opener.document.activeDs.DOM.selection.createRange().pasteHTML(s.innerHTML);'>" + s + "</table></div>"
+		+ "<div align=right style='padding-top:10;padding-right:18;'><input type=button value='Close' style='cursor:hand;background:#ffe4c4;border-color:#f0f0f0;color:#1d039e;font-weight:bold;' onclick='window.close()'></div>";
+	w.document.title = "Special Characters";
+}
+
+/**********************/
+/* quick table        */
+/**********************/
+function qt_init()
+{
+	if (oDs.querystatus(DECMD_INSERTTABLE) == DECMDF_DISABLED) 
+		return;
+
+	var f;
+	if ((f=oFrame) == null) return;
+	f.style.visibility	= "visible";
+	f.style.left		= window.event.x;
+	f.style.top			= window.event.y;
+	
+	var s = f.contentWindow.document.createElement("span");
+	s.style.position		= "absolute";
+	s.style.zIndex			= 2;
+	s.style.pixelTop		= 0;
+	s.style.pixelLeft		= 0;
+	s.style.border			= "1 outset #ffffff";
+	f.contentWindow.document.body.appendChild(s);
+
+	var i, j, r, c;
+	var t = f.contentWindow.document.createElement("table");
+	t.selrow = t.selcol		= 0;
+	t.border				= "5";
+	t.cellPadding			= "0";
+	t.cellSpacing			= "0";
+	t.style.tableLayout		= "fixed";
+	t.style.borderStyle		= "solid";
+	t.style.cursor			= "default";
+	t.onmouseover			= qt_paint;
+	t.onmousedown			= qt_insert;
+	for (i=0; i < 4; i++)
+	{
+		r = t.insertRow();
+		for (j=0; j < 5; j++)
+		{
+			c = r.insertCell();
+			c.style.pixelWidth  = 15;
+			c.style.pixelHeight = 15;
+			c.innerHTML = "&nbsp;";
+		}
+	}
+	s.appendChild(t);
+	
+	var d = f.contentWindow.document.createElement("div");
+	d.style.backgroundColor	= "#f0f0f0";
+	d.style.textAlign		= "center";
+	d.style.fontSize		= "12";
+	d.innerHTML				= "&nbsp;";
+	s.appendChild(d);
+	
+	oQuickTable = s;
+	oDs.attachEvent("onmousedown", qt_cancel);
+	window.document.body.attachEvent("onmousedown", qt_cancel);
+
+	f.style.pixelWidth = t.offsetWidth + 3;
+	f.style.pixelHeight = t.offsetHeight + 3 + d.offsetHeight;
+}
+
+function qt_paint()
+{
+	var f = oFrame;
+	var src = f.contentWindow.event.srcElement;
+	if (src.tagName.toLowerCase() != "td") return;
+	
+	var t = src.parentElement, r, c;
+	var ri, ci, i, j;
+	while (t.tagName.toLowerCase() != "table") t = t.parentElement;
+	ri = src.parentElement.rowIndex;
+	ci = src.cellIndex;
+	
+	if (t.rows.length == ri+1)
+	{
+		r = t.insertRow();
+		for (i=0; i < t.rows(0).cells.length; i++)
+		{
+			c = r.insertCell();
+			c.innerHTML = "&nbsp;";
+			c.style.pixelWidth  = 15;
+			c.style.pixelHeight = 15;
+		}
+	}
+
+	if (t.rows(0).cells.length == ci+1)
+	{
+		for (i=0; i < t.rows.length; i++)
+		{
+			c = t.rows(i).insertCell();
+			c.innerHTML = "&nbsp;";
+			c.style.pixelWidth  = 15;
+			c.style.pixelHeight = 15;
+		}
+	}
+	
+	if (ri < t.selrow)
+	{
+		for (i=ri+1; i < t.selrow; i++)
+			for (j=0; j < t.selcol; j++)
+				t.rows(i).cells(j).style.backgroundColor = "";
+		if (ci < t.selcol)
+		{
+			for (i=0; i <= ri; i++)
+				for (j=ci+1; j < t.selcol; j++)
+					t.rows(i).cells(j).style.backgroundColor = "";
+		}
+		else
+		{
+			for (i=0; i <= ri; i++)
+				for (j=t.selcol; j <= ci; j++)
+					t.rows(i).cells(j).style.backgroundColor = "blue";
+		}
+	}
+	else
+	{
+		for (i=t.selrow; i <= ri; i++)
+			for (j=0; j <= ci; j++)
+				t.rows(i).cells(j).style.backgroundColor = "blue";
+		if (ci < t.selcol)
+		{
+			for (i=0; i < t.selrow; i++)
+				for (j=ci+1; j < t.selcol; j++)
+					t.rows(i).cells(j).style.backgroundColor = "";
+		}
+		else
+		{
+			for (i=0; i < t.selrow; i++)
+				for (j=t.selcol; j <= ci; j++)
+					t.rows(i).cells(j).style.backgroundColor = "blue";
+		}
+	}
+	
+	t.selrow = ri+1;
+	t.selcol = ci+1;
+	
+	var d = t.nextSibling;
+	d.innerHTML = (ri+1) + " x " + (ci+1);
+	window.status = (ri+1) + " x " + (ci+1);
+	
+	f.style.pixelWidth = t.offsetWidth + 3;
+	f.style.pixelHeight = t.offsetHeight + 3 + d.offsetHeight;
+}
+
+function qt_insert()
+{
+	var f = oFrame;
+	var src = f.contentWindow.event.srcElement;
+	if (src.tagName.toLowerCase() != "td") return;
+	
+	var t = src.parentElement, r, c;
+	while (t.tagName.toLowerCase() != "table") t = t.parentElement;
+	qt_cancel();
+	ds_inserttable(t.selrow, t.selcol);
+	oDs.focus();
+	oDs.DOM.body.focus();
+	//window.status = "(r, c) = (" + t.selrow + ", " + t.selcol + ")";
+}
+
+function qt_cancel()
+{
+	if (oQuickTable == null) return;
+	oDs.detachEvent("onmousedown", qt_cancel);
+	window.document.body.detachEvent("onmousedown", qt_cancel);
+	var f = oFrame;
+	f.contentWindow.document.body.removeChild(oQuickTable);
+	f.style.visibility = "hidden";
+	f.style.pixelWidth = 1;
+	f.style.pixelHeight = 1;
+	oQuickTable = null;
+	window.status = "Done";
+}
+
+function ds_inserttable(r, c, attr)	// rows, cols, attrs
+{
+	var p = new ActiveXObject("DEInsertTableParam.DEInsertTableParam");
+	p.numrows		= (r == null) ? 3 : r;
+	p.numcols		= (c == null) ? 3 : c;   
+	p.caption		= "";
+	p.tableattrs	= (attr == null) ? "border=1 cellpadding=0 cellspacing=0 width=75%" : attr;
+	p.cellattrs		= "";
+	oDs.execcommand(DECMD_INSERTTABLE, OLECMDEXECOPT_DODEFAULT, p);    
+	oDs.focus();
+	oDs.DOM.body.focus();
+}
+
+/**********************/
+/* constructor        */
+/**********************/
+function MenuItem(s, cid)
+{
+	this.str = s;
+	this.cid = cid;
+}
+</script>
+</PUBLIC:COMPONENT>

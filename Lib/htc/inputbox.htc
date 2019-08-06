@@ -1,0 +1,2366 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onkeypress" ONEVENT="event_onkeypress()" />
+<PUBLIC:ATTACH EVENT="onblur" ONEVENT="event_onfocusout()" />
+
+<PUBLIC:PROPERTY NAME="Required" />
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+
+<PUBLIC:PROPERTY NAME="Mask" />
+<PUBLIC:PROPERTY NAME="SetFormatValue" />
+<PUBLIC:PROPERTY NAME="FormatType" />
+<PUBLIC:PROPERTY NAME="DateType" />
+<PUBLIC:PROPERTY NAME="DateSeparator" />
+<PUBLIC:PROPERTY NAME="ButtonIconUrl" />
+<PUBLIC:PROPERTY name="ButtonClick" />
+<PUBLIC:PROPERTY name="OnClickMore" />
+<PUBLIC:PROPERTY NAME="POSTEXEC" />
+<PUBLIC:PROPERTY name="Month" />
+<PUBLIC:PROPERTY name="Year" />
+<PUBLIC:PROPERTY name="CalendarClass" />
+
+<PUBLIC:METHOD name="selectday" />
+<PUBLIC:METHOD name="selectday1" />
+<PUBLIC:METHOD name="BuildCalendar" />
+<PUBLIC:METHOD name="setDateValue" />
+<PUBLIC:METHOD name="setDateValue1" />
+<PUBLIC:METHOD name="setDateValue2" />
+<PUBLIC:METHOD name="setTimeValue" />
+
+
+<PUBLIC:METHOD name="setDate" />
+<PUBLIC:METHOD name="setHour" />
+<PUBLIC:METHOD name="setMinute" />
+<PUBLIC:METHOD name="Next" />
+<PUBLIC:METHOD name="Prev" />
+<PUBLIC:METHOD name="NextY" />
+<PUBLIC:METHOD name="PrevY" />
+<PUBLIC:METHOD name="Calendar_MouseOver" />
+<PUBLIC:METHOD name="Calendar_MouseOut" />
+<PUBLIC:METHOD name="SetColor" />
+<PUBLIC:METHOD name="Close" />
+<PUBLIC:METHOD name="ChangeYear" />
+<PUBLIC:METHOD name="ChangeMonth" />
+
+<SCRIPT language="JScript">
+/* ======Default FormatType====== *\
+
+
+* YearMonth - YYYY/MM
+* Date - MM/DD/YYYY,
+* DateTime - yyyymmdd hh:mm
+* ShortDate - mmdd
+* ShortTime - hh:mm
+
+* Phone - 
+* MobilePhone - #### - ######
+* ColorCode  - #colorcode
+* Percent
+* Currency
+
+* Number
+* Email
+* URL
+* PID - Personal ID Number
+
+Custom
+
+DateSeparator - "/" , "-" , "." , "," 
+FormatType 待增加 
+IP,File Path,  ....
+
+\* =========================== */
+
+var thisWidth;
+var thisHeight;
+var btnwidth=17;
+var inputobj, btnobj,inputDiv,chkobj;
+var loadready=false;
+var keypattern ="0123456789,.-/: ";
+
+var toolobj,thiscolor;
+var ctype = "default";  //calendar type
+var isactive;
+var calendarobj;
+var datesplit="";
+var colorpicker;
+var odx,ody;
+var idx=0;
+var idy=0;
+var BodyHeight;
+var BodyWidth;
+var listshowing = false;
+var thisdayHH="00";
+var thisdayMM="00";
+var thisDate;
+
+var thisbackgroundcolor = "";
+    
+function event_oncontentready()
+{
+
+//	this.addBehavior("/lib/htc/errmsg.htc");
+//	this.addBehavior("/lib/htc/inputbehaviors.htc");
+	if (!getAttribute("ButtonIconUrl") || getAttribute("ButtonIconUrl")=="" )
+	{///lib/img/icon-pickdate
+	  if(FormatType =="DateTime" || FormatType =="DateTime1" || FormatType =="Date" || FormatType =="Date1" || FormatType =="ShortDate" || FormatType =="ShortTime" || FormatType =="YearMonth")
+//		ButtonIconUrl="\\lib\\img\\icon-pickdate.gif";	
+          ButtonIconUrl="/lib/img/icon-pickdate.gif";	 //update by carol 2019/02/15
+	  else if(FormatType =="ColorCode")
+//		ButtonIconUrl="\\lib\\img\\icon-pickcolor.gif";	
+          ButtonIconUrl="/lib/img/icon-pickcolor.gif";	//update by carol 2019/02/15
+	  else		
+	  	//ButtonIconUrl="\\lib\\img\\icon-machine.gif";	
+          ButtonIconUrl="/lib/img/icon-machine.gif";	//update by carol 2019/02/15
+	}	
+	if (!getAttribute("DateSeparator") || getAttribute("DateSeparator")=="" )
+		DateSeparator ="/";	
+	if(!getAttribute("DateType") || getAttribute("DateType")=="" )	
+		DateType ="YYYYMMDD";
+	
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+		this.style.paddingLeft= "2px";
+		
+	
+	/**/
+   if(FormatType =="DateTime" || FormatType =="DateTime1"  || FormatType =="Date" || FormatType =="Date1" || FormatType =="ShortDate" || FormatType =="ShortTime" || FormatType =="YearMonth")
+   {
+		if(this.value!="")
+		{
+			var valuearray = this.value.split(" ");
+			if( FormatType !="DateTime" && FormatType!="DateTime1" && FormatType!="ShortTime")
+				this.value=valuearray[0];
+			else
+			{
+				if(this.value.indexOf(":")>=0)
+				{
+					var timearray = valuearray[1].split(":");
+					this.value =valuearray[0]+" "+timearray[0]+":"+timearray[1];
+					thisdayHH=timearray[0];
+					thisdayMM=timearray[1];
+					thisDate = valuearray[0];
+					if (thisdayHH.length<2) thisdayHH="0"+thisdayHH;
+					if (thisdayMM.length<2) thisdayMM="0"+thisdayMM;
+				}
+			}
+			
+		}   
+   }
+
+
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+	
+	//if(FormatType =="DateTime" || FormatType =="Date" || FormatType =="Date1" || FormatType =="ShortDate" || FormatType =="ShortTime" || FormatType =="YearMonth" || FormatType =="ColorCode")
+	//	window.document.body.attachEvent("onclick",event_bodyonclick); 
+}
+
+function event_bodyonclick()
+{
+	if (!loadready) return;
+	var o=window.event.srcElement;
+	if (!o) return;
+	if(!btnobj || !toolobj) return;
+	//alert(o.id);
+	if(o.id==inputobj.id || o.id==btnobj.id || o.id==toolobj.id) return;
+
+	if(!listshowing) return;
+		toolobj.hide();
+		listshowing=false;
+}
+
+function event_ondocumentready()
+{
+	if(FormatType =="ColorCode" ) 
+		keypattern ="0123456789abcdefABCDEF#";
+	else if ( FormatType=="PID")
+		keypattern ="0123456789abcdefghijklmkopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	else if ( FormatType=="Phone" || FormatType=="MobilePhone" )
+		keypattern ="0123456789";
+	else 	if ( FormatType=="Number")
+		keypattern ="0123456789-";
+	else if (FormatType=="Decimal")
+		keypattern ="0123456789-.";
+
+
+	if(this.style.width!="" && this.style.width)
+		thisWidth = parseInt(this.style.width);
+	else	
+		thisWidth=this.offsetWidth;
+	if(thisWidth==0) thisWidth=135;		
+
+	if(this.style.height!="" && this.style.height)
+		thisHeight = parseInt(this.style.height);
+	else	
+		thisHeight=this.offsetHeight;
+		
+	this.style.display="none";	
+			//DateSplit = getDateSplit(this.value);   /// 取得日期格式的拆解字元
+	
+			/*
+				var src 	= this;
+				while (src.tagName != "BODY")
+				{
+					src = src.parentElement;
+					if(src.tagName == "TABLE" )
+					{
+						src.attachEvent("onresize",event_onmove);		
+						src.attachEvent("onmove",event_onmove);		
+					}	
+				}
+			*/
+			//================Build Input Span ======================//
+			inputDiv = document.createElement("span");
+			this.insertAdjacentElement("afterEnd",inputDiv);
+	//		inputDiv.style.width=thisWidth+1;
+			//inputDiv.style.height=parseInt(thisHeight)-1;
+			inputDiv.style.border="2px inset ";
+			inputDiv.style.filter = this.style.filter;
+			
+			//======================Build CheckBox for Date1 =====================//
+			if(FormatType=="Date1" || FormatType =="DateTime1" )
+			{
+				this.attachEvent("onpropertychange",event_onpropertychange);
+				chkobj= document.createElement("input");
+				chkobj.type="checkbox"
+				chkobj.tabIndex = -1;
+				chkobj.id = "chk_"+this.id;
+				chkobj.className="small";
+				chkobj.style.marginTop="-2px";
+			    chkobj.style.marginBottom="-2px";
+			    chkobj.style.filter = this.style.filter;
+				inputDiv.insertAdjacentElement("afterBegin",chkobj);
+				inputDiv.style.width=thisWidth+21;
+				if (this.disabled) 
+					chkobj.checked=false;
+				else
+					chkobj.checked = true;
+				chkobj.attachEvent("onpropertychange",event_chkonclick);		
+			}
+			
+			//---------------------------Build Input ----------------------------------------------//
+			inputobj= document.createElement("input");
+			if(!chkobj)
+				inputDiv.insertAdjacentElement("afterBegin",inputobj);
+			else
+				chkobj.insertAdjacentElement("afterEnd",inputobj);
+				
+			//inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+			inputobj.id = this.id+"_formatvalue";
+			inputobj.title = this.title ; 
+			inputobj.name = inputobj.id;
+			inputobj.setAttribute("Required",this.getAttribute("Required"));
+			//inputobj.setAttribute("Format",this.getAttribute("Format"));
+			inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+			inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+	        inputobj.attachEvent("onfocus", InputFocus);
+			inputobj.attachEvent("onblur", InputBlur);
+			inputobj.attachEvent("onfocusin", event_onfocusin);
+			inputobj.attachEvent("onfocusout", event_onfocusout);
+			
+			if (FormatType!="InputCombo")
+			{
+				inputobj.realvalue = this.value;
+				inputobj.value = this.value;
+				if (FormatType =="Date" || FormatType=="Date1")
+				{
+					if (DateType=="YYYYMMDD")
+						inputobj.datetypevalue = "YYYY"+DateSeparator+"MM"+DateSeparator+"DD";
+					else if (DateType=="MMDDYYYY")
+						inputobj.datetypevalue = "MM"+DateSeparator+"DD"+DateSeparator+"YYYY";
+				}
+				else if (FormatType =="YearMonth" )
+				{
+					if (DateType=="YYYYMMDD")
+						inputobj.datetypevalue = "YYYY"+DateSeparator+"MM";
+					else if (DateType=="MMDDYYYY")
+						inputobj.datetypevalue = "MM"+DateSeparator+"YYYY";
+				}
+				else if  (FormatType =="ShortDate")
+					inputobj.datetypevalue = "MM"+DateSeparator+"DD";
+				else if  (FormatType =="ShortTime")
+						inputobj.datetypevalue = "HH:MM";
+				else if  (FormatType =="DateTime" || FormatType =="DateTime1")
+				{
+					if (DateType=="YYYYMMDD")
+						inputobj.datetypevalue = "YYYY"+DateSeparator+"MM"+DateSeparator+"DD HH:MM";
+					else if (DateType=="MMDDYYYY")
+						inputobj.datetypevalue = "MM"+DateSeparator+"DD"+DateSeparator+"YYYY HH:MM";
+				}
+				else
+					inputobj.datetypevalue="";
+		    }
+		    else
+		    {
+				inputobj.attachEvent("onchange", InputChange);
+				if(SetFormatValue!="" && SetFormatValue!=null) 
+				{
+					inputobj.value = SetFormatValue;
+					inputobj.realvalue = SetFormatValue;
+				}
+		    }
+		    
+//			InputBlur();
+			
+			if (this.disabled) inputobj.disabled=true;
+				
+		//	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+			if (this.currentStyle.fontFamily!="")
+				inputobj.style.fontFamily = this.currentStyle.fontFamily;
+			else
+				inputobj.style.fontFamily="Arial, Tahoma";
+		
+			inputobj.style.fontSize = this.currentStyle.fontSize;
+			inputobj.style.fontWeight = this.currentStyle.fontWeight;
+			inputobj.style.color = this.currentStyle.color;		
+			inputobj.style.filter = this.style.filter;
+			inputobj.style.border="none";
+			inputobj.style.borderWidth="0px";
+			inputobj.style.paddingLeft="3px";
+			inputobj.readOnly = this.readOnly;
+			//inputobj.style.display="none";
+			inputobj.style.marginTop="-1px";
+			inputobj.style.marginBottom="-1px";
+			inputobj.tabIndex =this.tabIndex;
+			
+			inputobj.style.zIndex = 9;
+	//		inputobj.style.background = this.style.background;
+			if(this.style.backgroundColor!="") inputobj.style.backgroundColor=this.style.backgroundColor;
+			if (FormatType!="Email" && FormatType!="URL" && FormatType!="InputCombo")
+				inputobj.attachEvent("onkeypress",blockKey);
+			
+			InputBlur();
+			
+			
+			if(parseInt(thisWidth)!=0)
+			{
+				inputobj.style.width=thisWidth-19;
+				inputDiv.style.width=thisWidth+2;
+				if(chkobj) inputDiv.style.width = parseInt(inputDiv.style.width)+ chkobj.offsetWidth;
+			}	
+			else
+				inputDiv.style.width = inputobj.offsetWidth+btnwidth+3;		
+					
+			//----------------------------------------------------------------------------------------------------------------------------------------//
+			//---------------------------Build Button ----------------------------------------------//
+				if(FormatType!="InputCombo" && FormatType!="ColorCode" && FormatType!="YearMonth" && FormatType!="Date" && FormatType!="Date1"  && FormatType!="DateTime"  && FormatType!="DateTime1" && FormatType!="ShortDate" && FormatType!="ShortTime" )	
+					inputobj.style.width = thisWidth-2;
+				else
+				{
+					btnobj = document.createElement("button");
+					btnobj.style.filter = this.style.filter;
+					if (this.disabled)	btnobj.disabled=true;
+					inputobj.insertAdjacentElement("afterEnd",btnobj);
+					btnobj.id = "btn_"+ this.id;
+					btnobj.style.cursor = "default";
+					btnobj.style.zIndex = 10;
+					btnobj.style.width = btnwidth; 
+					if (parseInt(thisHeight)!=0)
+						btnobj.style.height = thisHeight-4;
+					else	
+						btnobj.style.height ="17px";
+					btnobj.style.marginTop="-1px";
+					btnobj.style.marginBottom="-1px";
+					btnobj.tabIndex = -1;
+					if(FormatType=="InputCombo")
+					{
+						if(OnClickMore!=null && OnClickMore!="") btnobj.attachEvent("onclick",button_onclickmore);
+					}
+					else
+					{
+						if (ButtonClick!=null && ButtonClick.toUpperCase()=="FALSE")
+							btnobj.disabled=true;
+						else
+							btnobj.attachEvent("onclick",button_show_onclick);
+						
+					}
+					
+					if (ButtonIconUrl!=null)
+					{
+						var btnimg = document.createElement("img");
+						btnimg.src = ButtonIconUrl;
+						if(btnimg.width>=15)
+						{
+							btnimg.width = 11;
+							btnimg.height=11;			
+						}
+						btnimg.border = 0;  
+						btnobj.insertAdjacentElement("afterBegin",btnimg);
+					}
+				}
+			//--------------------------------------------- Build Calendar or other handy tool  ---------------------------------------------//
+			if (FormatType=="ColorCode")
+			{
+				colorpicker= document.createElement("div");
+				window.document.body.appendChild(colorpicker);
+				colorpicker.id="colorpicker_"+this.id;
+				colorpicker.addBehavior("/lib/htc/floatpanel1.htc");	
+				toolobj=colorpicker;
+			}
+			else if (FormatType=="YearMonth" || FormatType=="DateTime"  || FormatType=="DateTime1" || FormatType=="Date"  || FormatType=="Date1" || FormatType=="ShortDate" || FormatType=="ShortTime")
+			{
+				calendarobj = document.createElement("div");
+				window.document.body.appendChild(calendarobj);
+				calendarobj.id="calendar_"+this.id;
+				calendarobj.addBehavior("/lib/htc/floatpanel1.htc");
+				calendarobj.addBehavior("/lib/htc/dragdrop.htc");
+				ody =btnobj.offsetTop; 
+				odx = btnobj.offsetLeft;
+				calendarobj.style.posTop=ody;
+				calendarobj.style.posLeft=odx+20;
+				toolobj=calendarobj;
+			}	
+			
+	thiscolor = inputobj.style.color ;
+
+	// ==================== inputbehavior ======================//	
+	if((this.className =="") || (this.className == null))
+	{
+		with(this.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (inputobj.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	if (this.getAttribute("Required")!=null)
+	{
+		inputobj.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+		inputobj.style.backgroundPosition = 'right top';
+		inputobj.style.backgroundAttachment = "fixed";
+		inputobj.style.backgroundRepeat = "no-repeat";
+	}	
+	//================================================//
+
+	loadready = true;
+}
+
+
+function button_show_onclick()
+{
+	if (toolobj.actived()) 
+	{
+		toolobj.hide();
+		listshowing==false;
+	}
+
+	if(FormatType=="ColorCode")
+	{
+			var els = window.document.all.tags("DIV")
+			for (var i=0; i < els.length; i++)
+			{
+				var el = els.item(i)	
+				if(el.id.indexOf("colorpicker")>=0)
+				{
+					if(el.id != toolobj.id) 	el.hide();
+				}
+			}	
+			BuildColorTable();
+
+	}
+	else if(FormatType=="YearMonth" || FormatType=="DateTime" || FormatType=="DateTime1" || FormatType=="Date"  || FormatType=="Date1" || FormatType=="ShortDate" || FormatType=="ShortTime")
+	{
+			var els = window.document.all.tags("DIV")
+			for (var i=0; i < els.length; i++)
+			{
+				var el = els.item(i);
+			
+				if(el.readyState!="complete") return;
+				if(el.id.indexOf("calendar")>=0)
+				{
+					if(el.id != toolobj.id) 	el.hide();
+				}
+			}	
+			showcalendar();
+	}	
+	
+}
+
+function lastdayof(y,m)
+{
+	if (m==2)
+	{
+		if ((y%4 == 0) && (!((y%100 == 0) && (y%400 != 0))))
+			return 29;
+		else
+			return 28;
+	}
+	else if ((m<=7 && m%2!=0) || (m>=8 && m%2==0))
+		return 31;
+	else 
+		return 30;
+}
+
+function setHour(h)
+{
+	thisdayHH=h;
+}
+
+function setMinute(m)
+{
+	thisdayMM=m;
+}
+
+function setDate(datevalue)
+{
+
+	//thisDate=datevalue;
+	this.Day = new Date(datevalue).getDate();
+	//alert(this.Day);
+}
+
+function setDateValue2()
+{
+	if (FormatType=="DateTime" || FormatType=="DateTime1")
+		setDateValue(this.Year,this.Month,this.Day,thisdayHH,thisdayMM);
+	else if (FormatType=="ShortTime")	
+		setDateValue("","","",thisdayHH,thisdayMM);
+	else
+		setDateValue(this.Year,this.Month,this.Day,"","");	
+}
+
+function setDateValue1(y,m,d)
+{
+	if (FormatType=="DateTime" || FormatType=="DateTime1")
+		setDateValue(y,m,d,thisdayHH,thisdayMM);
+	else
+		setDateValue(y,m,d,"","");	
+}
+
+//function setDateValue(y,m,d)
+function setDateValue()
+{
+	var y = arguments[0];
+	var m = arguments[1];
+	var d = arguments[2];
+	var hh = arguments[3];
+	var mm = arguments[4];
+	
+
+	//待加 HH:MM 的值
+
+	var fDatestr="";
+	m++;
+	//inputobj.realvalue = y + "/" + m + "/" + d;   //temp	
+	//inputobj.realvalue = m + "/" + d +"/" + y;   //temp	
+	if (hh!=null && hh!="" && mm!=null && mm!="" )
+	{
+		if (y!="" && m!="" && d!="")
+			inputobj.realvalue = y + "/" + m +"/" + d+" "+hh+":"+mm;  
+		else	
+			inputobj.realvalue = hh+":"+mm;   //shorttime
+	}
+	else	
+		inputobj.realvalue = y + "/" + m + "/" + d;   //temp	
+	
+	fDatestr = FormatValue();
+//	this.value = inputobj.realvalue;
+	
+	inputobj.value = fDatestr;   //Format 後的值
+	inputobj.style.color = this.currentStyle.color;		
+	this.value = setRealDate( inputobj.value, FormatType);		
+	
+
+	
+//	if (FormatType=="ShortTime" || FormatType=="ShortDate" || FormatType=="YearMonth")
+//	{
+//		 this.value = inputobj.value ;
+//	}	 
+	if ((POSTEXEC!=null) && (POSTEXEC!=""))
+	{
+		window.execScript(POSTEXEC);
+	}
+	calendarobj.hide();	
+	listshowing=false;
+
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       FormatValue
+//
+//  Description:    Called by tags which have an innerText attribute (as versus
+//                  a value attribute).  Calls formatting functions, depending
+//                  on the preset property, and formats the innerText of the tag.
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function FormatValue()
+{
+	var fValue="";
+    switch(FormatType)
+    {
+        case "YearMonth"         :
+        case "ShortDate"            :
+        case "Date"            :
+        case "Date1"            :
+        case "DateTime"            :
+        case "DateTime1"            :
+        case "ShortTime"            :
+            fValue = MaskDate(inputobj.realvalue, FormatType);
+            break;
+		case "ColorCode"			:
+            fValue = MaskColor(inputobj.realvalue, FormatType);
+            break;
+ /*           
+        case "mediumdate"           :
+            innerText = MaskDate(innerText, "medium");
+            break;
+        case "longdate"             :
+            innerText = MaskDate(innerText, "long");
+            break;
+     */       
+        case "Decimal"             :
+            fValue = MaskDecimal(inputobj.realvalue);
+            break;
+        case "Currency"             :
+            fValue = MaskMoney(inputobj.realvalue);
+            break;
+        case "Percent"              :
+            fValue = MaskPercent(inputobj.realvalue);
+            break;
+        case "Phone"                :
+            fValue = MaskPhone(inputobj.realvalue);
+            break;
+        case "MobilePhone"                :
+            fValue = MaskMobilePhone(inputobj.realvalue);
+            break;
+        case "Custom"                :
+            fValue = MaskCustom(inputobj.realvalue);
+            break;
+        case "PID"                :
+			var chk = CheckID(inputobj.realvalue);
+			if(chk) fValue=inputobj.realvalue;
+            break;
+        case "Email"                :
+			var chk = CheckEmail(inputobj.realvalue);
+			if(chk) fValue=inputobj.realvalue;
+            break;
+        case "URL"                :
+			var chk = CheckURL(inputobj.realvalue);
+			if(chk) fValue=inputobj.realvalue;
+            break;
+        case "zip"                  :
+            innerText = MaskZip(innerText);
+            break;
+    }
+    return fValue;
+}
+
+
+//--------------------------------------------------
+//
+//   function : BuildCalendar
+//   type : default   /  full  /   month   /   time
+//
+//--------------------------------------------------
+
+//function BuildCalendar(y,m)
+function BuildCalendar(y,m,type)
+{
+	var thisday = new Date();
+	var thisdayY = thisday.getFullYear();
+	var thisdayM = thisday.getMonth() ; 
+	var thisdayD = thisday.getDate();  //today
+
+	var curday = new Date(y,m,1);
+	if (isNaN(curday))
+	{
+		curday = new Date();
+		var curY = curday.getFullYear();
+		var curM = curday.getMonth();		
+	}
+	else
+	{
+		var curY = curday.getFullYear();
+		var curM = curday.getMonth();
+	}
+	
+	this.Year=y;
+	this.Month=m;
+	this.Day=new Date(thisDate).getDate();
+	if (isNaN(this.Day)) this.Day=thisdayD;
+	
+	var curD = curday.getDate();
+	var curW = curday.getDay();
+	var lDay = new Date(curY,curM,lastdayof(curY,curM+1));
+	var lDayD = lDay.getDate();
+	
+	//alert(lDayD);
+	
+	var sameflag;
+	if (thisday.getYear()==curY && thisday.getMonth()==curM)
+		sameflag = true;
+	else
+		sameflag = false;
+
+	var i,k
+	
+	//window.status =thisdayY+"@"+thisdayM;
+	
+	var mName = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+/*		var yselstr = ""
+
+	for (i=curY-50;i<=curY+50;i++)
+	{
+		if (i==curY)
+			yselstr += "<option value=" + i + " selected>" + i + "</option>"
+		else
+			yselstr += "<option value=" + i + ">" + i + "</option>"
+	}
+	var mselstr = ""
+	for (i=0;i<12;i++)
+	{
+		if (i==curM)
+			mselstr += "<option value=" + i + " selected>" + (parseInt(i)+1) + "</option>"
+		else
+			mselstr += "<option value=" + i + ">" + (parseInt(i)+1) + "</option>"
+	}
+	var funcstr = "<select class=smallbold id=ysel onchange='window.document.getElementById(\"" + this.id + "\").ChangeYear(this.value);' >" + yselstr + "</select><select class=smallbold id=msel onchange='window.document.getElementById(\"" + this.id + "\").ChangeMonth(this.value);' >" + mselstr + "</select>"
+	*/
+	
+	if(type=="month")
+	{
+		//tablestr="<tr><td>month</td></tr>"
+		var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td  style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" align=left  drag=true><font color=white class=small><b>"+ mName[this.Month]+", "+this.Year+"</b></font></td><td align=right width='1%'><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> ";
+		tablestr+="<tr align=center  class=small><td colspan=2> <table border=0 cellspacing=0 cellpadding=1 width=100%>";
+		tablestr+="<tr align=center ><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").PrevY()' style='cursor:hand;'><</td><td  class='bevellightgold'><b> "+this.Year+" </b></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").NextY()' style='cursor:hand;'>></td>";
+		//tablestr+="<td  class='bevellightgold' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD + ");'  ><b>today</b></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Prev()' style='cursor:hand;'><</td><td  class='bevellightgold'><b> "+mName[this.Month]+" </b></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Next()' style='cursor:hand;'>></td></tr>";
+		tablestr+="<td  class='bevellightgold' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD + ");'  ><b>Today</b></td></tr>";
+		tablestr+="<tr><td colspan=7><table border=0 width=100% cellspacing=0>";
+		
+		for(var m=1;m<=12;m++)
+		{
+			if(m==1||m==5||m==9 )	tablestr+="<tr  align=center height=20>";
+			
+			if(this.Year == thisdayY && m==curM+1)
+			{
+				if (this.Year == thisdayY && thisdayM==m-1)	
+					tablestr+=	"<td class='bevellightgreen' width='25%'  id=\""+this.id+"_selectday\" style='cursor:hand;color:blue;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," +  (m-1) + "," + curW + ");' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday1(this);'  onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>"+ mName[m-1]+"</td>";
+				else	
+					tablestr+=	"<td class='bevellightgreen' width='25%'  id=\""+this.id+"_selectday\" style='cursor:hand;color:blue;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," +  (m-1) + "," + curW + ");' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday1(this);'  onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>"+ mName[m-1]+"</td>";				
+			}
+			else if (this.Year == thisdayY && thisdayM==m-1)	
+				tablestr+=	"<td class='BevelBlue2' width='25%'  style='cursor:hand;color:blue;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," +  (m-1) + "," + curW + ");' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday1(this);'  onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>"+ mName[m-1]+"</td>";
+			else	
+				tablestr+=	"<td class='BevelBlue2' width='25%' style='cursor:hand;color:black;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," +  (m-1) + "," + curW + ");' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday1(this);'  onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>"+ mName[m-1]+"</td>";
+				
+			if(m==4||m==8||m==12 )	tablestr+="</tr>";
+		}
+		tablestr+="</table></td></tr>";
+	}
+	else if(type=="time")
+	{
+	//		tablestr="<table><tr><td></td></tr></table>"
+//			var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td  style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" align=left  drag=true><font color=white class=small><b>"+ mName[this.Month]+", "+this.Year+"</b></font></td><td align=right width='1%'><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> ";
+//			tablestr+="<tr align=center  class=small><td colspan=2> <table class='normal' border=1 cellspacing=0 cellpadding=1 width=100%>";
+			
+//			tablestr+="<tr><td><button class='smaller'  style='width:30px;height;2px' >s</button><br><input  class='smaller' type=button style='width:20px;height;10px' value=v></td><td align=right><input class=normal value='09' style='width:30px;border:1px black solid;' maxlength=2></td><td align=center width=10><b>:</b></td>";
+//			tablestr+="<td><input class=normal  value='09' style='width:30px;border:1px black solid;' maxlength=2></td><td></td></tr>"
+//			tablestr+="</table></td></tr>";
+			
+				var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td  style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" align=left  drag=true><font color=white class=small><b>"+ mName[this.Month]+", "+this.Year+"</b></font></td><td align=right width='1%'><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> ";
+				tablestr+="<tr><td colspan=2 class=BevelLightSilver>{timeselect}</td></tr>";
+				var timetblstr = "<table border=0 cellpadding=0 cellspacing=0 class=small><tr  valign=middle><td> Time :  </td><td><select class=small onchange='window.document.getElementById(\"" + this.id + "\").setHour(this.value);''>";
+				var hh=""
+				for(var h=0;h<24;h++)
+				{
+					var t=h.toString();
+					if(t.length<2)	t="0"+t;
+					
+					if (h==thisdayHH)
+						hh+="<option value='"+h+"' style='background-color:#f6f6f6;' selected>"+t+"</option>";
+					else
+						hh+="<option value='"+h+"' style='background-color:#f6f6f6;'>"+t+"</option>";
+				}
+				timetblstr+=hh;
+				timetblstr+="</select>";
+				
+				timetblstr+="</td><td width=10 align=center><b>:</b></td><td><select class='small'  onchange='window.document.getElementById(\"" + this.id + "\").setMinute(this.value);'>";
+				var mm=""
+				for(var m=0;m<60;m++)
+				{
+					var t=m.toString();
+					if(t.length<2) t="0"+m;
+					if (m==thisdayMM)
+						mm+="<option value='"+m+"' style='background-color:#f6f6f6;' selected>"+t+"</option>";
+					else
+						mm+="<option value='"+m+"' style='background-color:#f6f6f6;'>"+t+"</option>";
+				}
+				timetblstr+=mm;
+				timetblstr+="</select>";
+					
+				timetblstr+="</td><td>&nbsp;&nbsp;<input type=\"button\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue2();'  class='inputbutton' value=\"ok\" style=\"width:45;\" /></td></tr></table>"
+				tablestr=tablestr.replace("{timeselect}",timetblstr);
+			
+			
+			
+	}	
+	else if (type=="default")
+	{
+			if (inputobj.value!="")
+			{
+				var iDate = Date.parse(inputobj.value);
+				if (!isNaN(iDate))
+				{
+					var DD = inputobj.value.split(" ");
+					thisDate=DD[0];
+				}
+			}
+			
+			var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td width='99%' style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" align=left  drag=true><font color=white class=small><b>"+ mName[this.Month]+", "+this.Year+"</b></font></td><td align=right width='1%'><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> ";
+			//tablestr = tablestr +"<tr><td colspan=7 class=smallbold align=center>&nbsp&nbsp&nbsp" + funcstr + "&nbsp&nbsp&nbsp</td></tr>";
+			tablestr = tablestr + "<tr align=center  class=small><td colspan=2> "
+			//tablestr = tablestr +"<tr align=center ><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").PrevY()' style='cursor:hand;'>Pre</td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Prev()' style='cursor:hand;'><</td><td colspan=3 class='bevellightgold'><p style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD + ");'  ><b>Today</b></p></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Next()' style='cursor:hand;'>></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").NextY()' style='cursor:hand;'>Nex</td></tr>"
+			tablestr = tablestr +"<table cellpadding=1 cellspacing=0 width=100%><tr align=center ><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").PrevY()' style='cursor:hand;'>Prev</td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Prev()' style='cursor:hand;'><</td><td colspan=3 class='bevellightgold'><p style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD +");'  >&nbsp;&nbsp;<b>Today</b>&nbsp;&nbsp;</p></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Next()' style='cursor:hand;'>></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").NextY()' style='cursor:hand;'>Next</td></tr></table>  "
+			tablestr = tablestr +"<table border=0 cellspacing=0 cellpadding=1 ><tr bgcolor='#d7d7d7' align=center><td  class=BevelBlue2  style=\"color:red;width:24px;\"><b>Sun</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Mon</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Tue</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Wed</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Thu</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Fri</b></td><td class=BevelBlue2 style=\"color:red;width:24px\"><b>Sat</b></td> </tr>";
+			tablestr = tablestr + "<tr align=center  class=small>"
+			
+			for (i=0;i<curW;i++)
+			{
+				tablestr = tablestr + "<td style=\"height:20px\" background='/lib/img/bg-mask.gif'>&nbsp;</td>"
+			}
+			i = 1
+			k = curW
+			while (i<=lDayD)
+			{
+				if (k==0) tablestr = tablestr + "<tr align=center height=20>"
+				var idate =curY+"/"+(curM+1)+"/"+i;
+				if(k==6 || k==0)
+				{
+					if(thisDate == idate)
+						tablestr = tablestr + "<td class=BevelLightGreen  id=\""+this.id+"_selectday\"  style=\"cursor:hand;color:blue;\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");'  onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"					
+					else if (sameflag && (i==thisdayD))
+						tablestr = tablestr + "<td class=bevellightpurple  style=\"cursor:hand;color:blue;\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);' onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+					else
+						tablestr = tablestr + "<td class='bevellightpurple' style=\"cursor:hand;color:red; \" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+				}
+				else
+				{	
+					if(thisDate == idate)
+						tablestr = tablestr + "<td class=BevelLightGreen  id=\""+this.id+"_selectday\"   style=\"cursor:hand;color:blue;\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"					
+					else if (sameflag && (i==thisdayD))
+						tablestr = tablestr + "<td class=BevelLightSilver   style=\"cursor:hand;color:blue;\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+					else
+						tablestr = tablestr + "<td class=BevelLightSilver style=\"cursor:hand;color:black; \" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue1(" + curY + "," + curM + "," + i + ");' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmousedown='window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+				}
+					
+				if (k==6 && (i!=lDay))
+					tablestr = tablestr + "</tr>"
+				if (k==6)
+					k = 0
+				else
+					k++;
+				i = i + 1
+			}
+			if (k!=0)
+			{
+				for (i=k;i<=6;i++)
+				{
+					tablestr = tablestr + "<td style=\"height:20px\"  background='/lib/img/bg-mask.gif'>&nbsp;</td>";
+				}
+			}
+			tablestr = tablestr +"</tr></table></tr>";
+	
+	}
+	else
+	{
+			if (inputobj.value!="")
+			{
+				var iDate = Date.parse(inputobj.value);
+				if (!isNaN(iDate))
+				{
+					var DD = inputobj.value.split(" ");
+					thisDate=DD[0];
+				}
+			}
+			
+			var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td width='99%' style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" align=left  drag=true><font color=white class=small><b>"+ mName[this.Month]+", "+this.Year+"</b></font></td><td align=right width='1%'><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> ";
+			//tablestr = tablestr +"<tr><td colspan=7 class=smallbold align=center>&nbsp&nbsp&nbsp" + funcstr + "&nbsp&nbsp&nbsp</td></tr>";
+			tablestr = tablestr + "<tr align=center  class=small><td colspan=2> "
+			//tablestr = tablestr +"<tr align=center ><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").PrevY()' style='cursor:hand;'>Pre</td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Prev()' style='cursor:hand;'><</td><td colspan=3 class='bevellightgold'><p style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD + ");'  ><b>Today</b></p></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Next()' style='cursor:hand;'>></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").NextY()' style='cursor:hand;'>Nex</td></tr>"
+			tablestr = tablestr +"<table cellpadding=1 cellspacing=0 width=100%><tr align=center ><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").PrevY()' style='cursor:hand;'>Prev</td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Prev()' style='cursor:hand;'><</td><td colspan=3 class='bevellightgold'><p style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + thisdayY + "," + thisdayM + "," + thisdayD +");'  >&nbsp;&nbsp;<b>Today</b>&nbsp;&nbsp;</p></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").Next()' style='cursor:hand;'>></td><td class='bevellightgold' onclick='window.document.getElementById(\"" + this.id + "\").NextY()' style='cursor:hand;'>Next</td></tr></table>  "
+			tablestr = tablestr +"<table border=0 cellspacing=0 cellpadding=1 ><tr bgcolor='#d7d7d7' align=center><td  class=BevelBlue2  style=\"color:red;width:24px;\"><b>Sun</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Mon</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Tue</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Wed</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Thu</b></td><td class=BevelBlue2 style=\"width:24px\"><b>Fri</b></td><td class=BevelBlue2 style=\"color:red;width:24px\"><b>Sat</b></td> </tr>";
+			tablestr = tablestr + "<tr align=center  class=small>"
+			
+			for (i=0;i<curW;i++)
+			{
+				tablestr = tablestr + "<td style=\"height:20px\" background='/lib/img/bg-mask.gif'>&nbsp;</td>"
+			}
+			i = 1
+			k = curW
+			while (i<=lDayD)
+			{
+				if (k==0) tablestr = tablestr + "<tr align=center height=20>"
+				var idate =curY+"/"+(curM+1)+"/"+i;
+				if(k==6 || k==0)
+				{
+					if(thisDate == idate)
+						tablestr = tablestr + "<td class=BevelLightGreen  id=\""+this.id+"_selectday\" style=\"cursor:hand;color:blue;\" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"					
+					else if (sameflag && (i==thisdayD))
+						tablestr = tablestr + "<td class=bevellightpurple  style=\"cursor:hand;color:blue;\" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+					else
+						tablestr = tablestr + "<td class=bevellightpurple  style=\"cursor:hand;color:red;;\" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+				}
+				else
+				{	
+					if(thisDate == idate)
+						tablestr = tablestr + "<td class=BevelLightGreen id=\""+this.id+"_selectday\"  style=\"cursor:hand;color:blue;\" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"					
+					else if (sameflag && (i==thisdayD))
+						tablestr = tablestr + "<td class=BevelLightSilver   style=\"cursor:hand;color:blue;\" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+					else
+						tablestr = tablestr + "<td class=BevelLightSilver style=\"cursor:hand;color:black; \" onmousedown='window.document.getElementById(\"" + this.id + "\").setDate(\"" + curY + "/" + (curM+1) + "/" + i + "\");window.document.getElementById(\"" + this.id + "\").selectday(this);' onmouseover='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOver(this);'  onmouseout='window.document.getElementById(\"" + this.id + "\").Calendar_MouseOut(this);'>" + i + "</td>"
+				}
+					
+				if (k==6 && (i!=lDay))
+					tablestr = tablestr + "</tr>"
+				if (k==6)
+					k = 0
+				else
+					k++;
+				i = i + 1
+			}
+			if (k!=0)
+			{
+				for (i=k;i<=6;i++)
+				{
+					tablestr = tablestr + "<td style=\"height:20px\"  background='/lib/img/bg-mask.gif'>&nbsp;</td>";
+				}
+			}
+			tablestr = tablestr +"</tr></table></tr>";
+			
+			if (type=="full")
+			{
+				tablestr = tablestr +"<tr><td colspan=2 class=BevelLightSilver>{timeselect}</td></tr>";
+				var timetblstr = "<table cellpadding=0 cellspacing=0 class=small><tr><td valign=middle> Time :  &nbsp;</td><td><select class=small onchange='window.document.getElementById(\"" + this.id + "\").setHour(this.value);''>";
+				var hh=""
+				for(var h=0;h<24;h++)
+				{
+					var t=h.toString();
+					if(t.length<2)	t="0"+t;
+					
+					if (h==thisdayHH)
+						hh+="<option value='"+h+"' style='background-color:#f6f6f6;' selected>"+t+"</option>";
+					else
+						hh+="<option value='"+h+"' style='background-color:#f6f6f6;'>"+t+"</option>";
+				}
+				timetblstr+=hh;
+				timetblstr+="</select>";
+				
+				timetblstr+="</td><td width=10 align=center><b>:</b></td><td><select class='small'  onchange='window.document.getElementById(\"" + this.id + "\").setMinute(this.value);'>";
+				var mm=""
+				for(var m=0;m<60;m++)
+				{
+					var t=m.toString();
+					if(t.length<2) t="0"+m;
+					if (m==thisdayMM)
+						mm+="<option value='"+m+"' style='background-color:#f6f6f6;' selected>"+t+"</option>";
+					else
+						mm+="<option value='"+m+"' style='background-color:#f6f6f6;'>"+t+"</option>";
+				}
+				timetblstr+=mm;
+				timetblstr+="</select>";
+					
+				timetblstr+="</td><td>&nbsp;&nbsp;<input type=\"button\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue2();'  class='inputbutton' value=\"ok\" style=\"width:45;\" /></td></tr></table>"
+				tablestr=tablestr.replace("{timeselect}",timetblstr);
+				
+				
+			}
+	}
+	
+	if (CalendarClass) 
+		tablestr = "<table width=150 bgcolor=white border=0 cellspacing=0 cellpadding=2 class='"+CalendarClass+"'>" + tablestr + "</table>";
+	else
+		tablestr = "<table  width=150 bgcolor=white border=0 cellspacing=0 cellpadding=2 class='PanelSilver'>" + tablestr + "</table>";
+	calendarobj.innerHTML=tablestr;
+
+		alignToolObj(btnobj, toolobj);
+		calendarobj.show(idy-25,idx+16,0);
+		listshowing=true;
+}
+
+var oColor="";
+var oClassName ="";
+function Calendar_MouseOver(o)
+{
+	oColor = o.style.color;
+	o.style.color="Blue";
+}
+
+function Calendar_MouseOut(o)
+{
+	o.style.color=oColor;
+	//o.className=oClassName;
+}
+
+function ChangeYear(y)
+{
+	BuildCalendar(y, this.Month ,ctype);
+}
+
+function ChangeMonth(m)
+{
+	BuildCalendar(this.Year, m ,ctype);
+}
+
+function Next()
+{
+	if ( parseInt(this.Month) >= 11 ) 
+		BuildCalendar( parseInt(this.Year)+1, 0,ctype );
+	else
+		BuildCalendar(this.Year,  parseInt(this.Month) +1 ,ctype);
+}
+
+function Prev()
+{
+	if ( parseInt(this.Month) <= 0  ) 
+		BuildCalendar( parseInt(this.Year)-1, 11,ctype );
+	else
+		BuildCalendar(this.Year, parseInt(this.Month) - 1 ,ctype);
+}
+
+function NextY()
+{
+	BuildCalendar(parseInt(this.Year)+1, this.Month ,ctype );
+}
+
+function PrevY()
+{
+	
+	BuildCalendar(parseInt(this.Year)-1, this.Month ,ctype );
+}
+
+function Close()
+{
+	calendarobj.hide();
+}
+
+function showcalendar()
+{
+		var today,iYear,iMonth,iDay;
+		inputobj.value = MaskDate(inputobj.realvalue,FormatType);
+		
+		//Default Date
+		today = new Date(); 
+		iYear = today.getFullYear();		
+		iMonth = today.getMonth();
+		
+		
+		if (FormatType=="YearMonth") ctype="month";
+		if (FormatType=="ShortTime") ctype="time";
+		if (FormatType=="DateTime" || FormatType=="DateTime1") ctype="full";
+		
+		
+		if ((this.value=="") || (this.value==null) )
+			BuildCalendar(iYear,iMonth,ctype);
+		else
+		{
+			var iDate = Date.parse(inputobj.value);
+			if (isNaN(iDate))
+			{
+				var datestr= inputobj.value;
+				
+				if (DateSeparator!="")
+				{
+					var date_array = datestr.split(DateSeparator);
+					if (FormatType=="YearMonth")
+					{
+						iYear = date_array[0];
+						iMonth = date_array[1] -1;	
+						if(parseInt(iYear)<1900 || parseInt(iYear)>2100)	iYear = 	today.getFullYear();						
+						if(parseInt(iMonth)<1 || parseInt(iMonth)>12)	iMonth = today.getMonth();
+					}
+					else if (FormatType=="ShortDate")
+					{
+						today = new Date(); 
+						iYear = today.getFullYear();		
+						iMonth = date_array[0] -1;													
+						iDay = date_array[1];
+						if(parseInt(iMonth)<1 || parseInt(iMonth)>12)	iMonth = today.getMonth();
+					}
+				}
+				else
+				{
+				//	alert("Date split error !!");
+					return "";				
+				}
+			}			
+			else
+			{
+				today = new Date(this.value);
+				iYear = today.getFullYear();		
+				iMonth = today.getMonth();
+			}	
+			BuildCalendar(iYear,iMonth,ctype);
+		}	
+}
+
+function event_onmove()
+{
+	if(!loadready) return;
+	this.alignInput(this,inputobj);
+	this.alignBtn(this,btnobj);
+}
+
+//---------------------------------//
+function isLeapYear(year)
+{
+	if((year%4==0&&year%100!=0)||(year%400==0))
+	{
+		return true;
+	} 
+	return false;
+}					
+//================================//
+function event_onkeypress()
+{
+
+}
+
+realValue = "";                         // Property that tracks the value
+                                        //   entered by the user
+
+var zMonth = new Array                  // Array of months (for date mask)
+    ('January','February','March',
+     'April','May','June','July',
+     'August','September','October',
+     'November','December');
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       MaskDate
+//
+//  Description:    Takes the innerText or value of the tag (depending on the
+//                  type of tag), and formats it as either a short, medium, or
+//                  long date, depending on the preset property.
+//
+//  Arguments:      sValue - innerText or value of the tag
+//                  sType - the format the date should be parsed in; either
+//                      "short", "medium" or "long"
+//
+//  Returns:        "" (empty string) if sValue is an empty string
+//                  a formatted date, depending on the type (short, med, long)
+//
+//-----------------------------------------------------------------------------
+
+function MaskDate(sValue, sType)
+{
+    if (sValue.length == 0) return "";
+	var dateFlag = true;
+	
+	var iDate = Date.parse(sValue);
+    var iToday = new Date();
+	//var datesplit="";
+	
+	if (sValue.indexOf(DateSeparator)>0)
+		datesplit = DateSeparator ;
+	else
+		datesplit = getDateSplit(sValue);
+	
+	if (isNaN(iDate))
+		  dateFlag = false;
+	else
+	{
+		iDate = new Date(iDate);
+		var iDay = iDate.getDate();
+		var iMonth = iDate.getMonth();
+		var iYear = iDate.getFullYear();
+		var iHour = iDate.getHours(); 
+		var iMinute = iDate.getMinutes(); 
+	}
+	
+	
+	//  Apply formatting for short, medium, or long dates
+	switch(sType)
+	{
+        case "YearMonth"     :    /////// YYYY/MM
+			if(dateFlag==true)
+			{
+        		iMonth = iMonth + 1   ;
+				return iYear + DateSeparator + iMonth ;
+			}
+			else
+			{
+				if(datesplit!="" )
+				{
+					var sArray=sValue.split(datesplit);
+					
+					//------------sort array-----------------
+					for (var i=0;i<sArray.length;i++)
+					{
+						if(sArray[i].toString().length==4)
+						{
+							if (i!=sArray.length-1)
+							{
+								var tmp =sArray[i];
+								sArray[i] = sArray[i+1];
+								sArray[i+1] = tmp;
+							}
+						}	
+					}
+					
+					var fYear = sArray[sArray.length-1];
+					var fMonth = sArray[0];
+					return fYear + DateSeparator + fMonth ;
+				}
+				else
+				{
+					if (sValue.length <=4) return "";
+					var fYear = sValue.substring(0,4);
+					var fMonth = sValue.substring(4,6);
+					return fYear + DateSeparator + fMonth ;
+				}
+            }
+            break;
+
+        case "ShortDate"     :    /////// MM/DD
+			if(dateFlag==true)
+			{
+        		iMonth = iMonth + 1   ;
+				return iMonth + DateSeparator + iDay ;
+			}
+			else
+			{
+				if(datesplit!="" )
+				{
+					var sArray=sValue.split(datesplit);
+					//------------sort array-----------------
+					for (var i=0;i<sArray.length;i++)
+					{
+						if(sArray[i].toString().length==4)
+						{
+							if (i!=sArray.length-1)
+							{
+								var tmp =sArray[i];
+								sArray[i] = sArray[i+1];
+								sArray[i+1] = tmp;
+							}
+						}	
+					}
+					
+					var fMonth = sArray[0];
+					var fDay = sArray[1];
+					return fMonth + DateSeparator + fDay ;
+				}
+				else
+				{
+					if (sValue.length <=4) return "";
+					var fMonth = sValue.substring(0,2);
+					var fDay = sValue.substring(2,4);
+					return fMonth + DateSeparator + fDay ;
+				}
+            }
+            break;
+		case "Date1"   :	
+        case "Date"     :    /////// MM/DD/YYYY  -> YYYY/MM/DD
+			if(dateFlag==true)
+			{
+        		iMonth = iMonth + 1   ;
+				
+				switch (DateType)
+				{
+					case "YYYYMMDD":
+						return iYear+DateSeparator+ iMonth + DateSeparator + iDay ;
+						break;
+					case "MMDDYYYY":
+						return iMonth + DateSeparator + iDay + DateSeparator + iYear;
+						break;	
+				}
+			}
+			else
+			{
+				if(datesplit!="" )
+				{
+					var sArray=sValue.split(datesplit);
+					if (sArray.length==3)
+					{
+						//------------sort array-----------------
+						for (var i=0;i<sArray.length;i++)
+						{
+							if(sArray[i].toString().length==4)
+							{
+								if (i!=sArray.length-1)
+								{
+									var tmp =sArray[i];
+									sArray[i] = sArray[i+1];
+									sArray[i+1] = tmp;
+								}
+							}	
+						}
+						var fMonth = sArray[0];
+						var fDay = sArray[1];
+						var fYear = sArray[2];
+						switch (DateType)
+						{
+							case "YYYYMMDD":
+								return fYear+DateSeparator+ fMonth + DateSeparator + fDay ;
+								break;
+							case "MMDDYYYY":
+								return fMonth + DateSeparator + fDay + DateSeparator + fYear;
+								break;	
+						}
+					}
+					else
+					{
+						//alert("Date Split Error !!");
+						return "";
+					}
+				}
+				else  //   yyyymmdd
+				{
+					if (sValue.length <=6) return "";
+					var fYear = sValue.substring(0,4);
+					var fMonth = sValue.substring(4,6);
+					
+					var fDay = sValue.substring(6,8);
+					switch (DateType)
+					{
+						case "YYYYMMDD":
+							return fYear+DateSeparator+ fMonth + DateSeparator + fDay ;
+							break;
+						case "MMDDYYYY":
+							return fMonth + DateSeparator + fDay + DateSeparator + fYear;
+							break;	
+					}
+					
+				}
+            }
+            break;
+		case "DateTime1"     : 
+        case "DateTime"     :    ///////    MM/DD/YYYY HH:MM
+			if(dateFlag==true)
+			{
+        		iMonth = iMonth + 1   ;
+        		if (iHour.toString().length<2) iHour = "0"+iHour;
+        		if (iMinute.toString().length<2) iMinute = "0"+iMinute;
+        		
+				switch (DateType)
+				{
+					case "YYYYMMDD":
+						return iYear + DateSeparator + iMonth + DateSeparator + iDay +" "+iHour+":"+iMinute;
+						break;
+					case "MMDDYYYY":
+						return iMonth + DateSeparator + iDay + DateSeparator + iYear +" "+iHour+":"+iMinute;
+						break;	
+				}
+				
+			}
+			else
+			{
+				if(datesplit!="" )
+				{
+					var sArray = sValue.split(" ");
+					var sDate = sArray[0];
+					var sTime = sArray[1];	
+				
+					var dArray=sDate.split(datesplit);
+					if (dArray.length==3)
+					{
+						//------------sort array-----------------
+						for (var i=0;i<dArray.length;i++)
+						{
+							if(dArray[i].toString().length==4)
+							{
+								if (i!=dArray.length-1)
+								{
+									var tmp =dArray[i];
+									dArray[i] = dArray[i+1];
+									dArray[i+1] = tmp;
+								}
+							}	
+						}
+					
+						var fYear = dArray[2];
+						var fMonth = dArray[0];
+						var fDay = dArray[1];
+					
+						
+						if ( typeof(sTime)!="undefined")
+						{
+				//		if (sTime.indexOf(":")>=0 && sTime!="" )
+				//		{	
+							var tArray=sTime.split(":");
+							var fHour = tArray[0];
+							var fMinute = tArray[1];
+							if (typeof(fMinute)=="undefined") fMinute="00";
+							
+							fHour = parseInt(fHour);
+							fMinute = parseInt(fMinute);
+							
+							if (fHour>23) fHour = fHour%24;
+							if (fMinute>59) fMinute = fMinute%60;
+        					if (fHour.toString().length<2) fHour = "0"+fHour;
+        					if (fMinute.toString().length<2) fMinute = "0"+fMinute;
+				//		}
+						}
+						else
+						{
+							fHour="00";
+							fMinute="00";
+						}
+						switch (DateType)
+						{
+							case "YYYYMMDD":
+								return fYear+DateSeparator+ fMonth + DateSeparator + fDay +" "+fHour+":"+fMinute;
+								break;
+							case "MMDDYYYY":
+								return fMonth + DateSeparator + fDay + DateSeparator + fYear +" "+fHour+":"+fMinute;
+								break;	
+						}
+						
+					}
+					else
+					{
+						//alert("Date Split Error !!");
+						return "";
+					}
+				}
+				else  //   yyyymmdd hh:mm
+				{
+					if (sValue.length <=6) return "";
+					var fYear = sValue.substring(0,4);
+					var fMonth = sValue.substring(4,6);
+					var fDay = sValue.substring(6,8);
+					
+					var fHour="00";
+					var fMinute ="00";
+					var sArray = sValue.split(" ");
+					if (sArray.length>1)
+					{
+						var sTime = sArray[1];	
+						if(sTime.indexOf(":")>0)
+						{
+							var tArray=sTime.split(":");
+							var fHour = tArray[0];
+							var fMinute = tArray[1];
+						//	if (typeof(fMinute)=="undefined") fMinute="00";
+							
+							fHour = parseInt(fHour);
+							fMinute = parseInt(fMinute);
+							if (fHour>23) fHour = fHour%24;
+							if (fMinute>59) fMinute = fMinute%60;
+        					if (fHour.toString().length<2) fHour = "0"+fHour;
+        					if (fMinute.toString().length<2) fMinute = "0"+fMinute;
+						}
+					}
+					switch (DateType)
+					{
+						case "YYYYMMDD":
+							return fYear+DateSeparator+ fMonth + DateSeparator + fDay +" "+fHour+":"+fMinute;
+							break;
+						case "MMDDYYYY":
+							return fMonth + DateSeparator + fDay + DateSeparator + fYear +" "+fHour+":"+fMinute;
+							break;	
+					}
+					
+					//return fMonth + DateSeparator + fDay + DateSeparator + fYear + " " + fHour+":"+fMinute;
+					
+				}
+            }
+            break;
+
+		//=========
+        case "ShortTime"     :    ///////   HH:MM
+			if(dateFlag==true)
+			{
+        		if (iHour.toString().length<2) iHour = "0"+iHour;
+        		if (iMinute.toString().length<2) iMinute = "0"+iMinute;
+				return iHour+":"+iMinute;
+			}
+			else
+			{
+				if(datesplit!="" )
+				{
+					var sArray = sValue.split(" ");
+					if(sArray.length<2)
+						 var tArray = sValue.split(":");
+					else
+					{
+						var sTime = sArray[1];	
+						var tArray=sTime.split(":");
+					}
+					
+						var fHour = tArray[0];
+						var fMinute = tArray[1];
+						if (typeof(fMinute)=="undefined") fMinute="00";
+						
+						fHour = parseInt(fHour);
+						fMinute = parseInt(fMinute);
+						
+						if (fHour>23) fHour = fHour%24;
+						if (fMinute>59) fMinute = fMinute%60;
+        				if (fHour.toString().length<2) fHour = "0"+fHour;
+        				if (fMinute.toString().length<2) fMinute = "0"+fMinute;
+						
+						return fHour +":" + fMinute ;
+				}
+				else  //   hhmm
+				{
+					if (sValue.length <4) return "";
+					var fHour = sValue.substring(0,2);
+					var fMinute = sValue.substring(2,4);
+						fHour = parseInt(fHour);
+						fMinute = parseInt(fMinute);
+						
+						if (fHour>23) fHour = fHour%24;
+						if (fMinute>59) fMinute = fMinute%60;
+        				if (fHour.toString().length<2) fHour = "0"+fHour;
+        				if (fMinute.toString().length<2) fMinute = "0"+fMinute;
+					
+					return fHour +DateSeparator + fMinute ;
+				}
+            }
+            break;
+		
+        //==========    	
+        case "medium"               :
+            var sMonth = zMonth[iMonth].substring(0,3);
+            return iDay + "-" + sMonth + "-" + iYear;
+            break;
+            
+        case "long"                 :
+            var sMonth = zMonth[iMonth];
+            return sMonth + " " + iDay + ", " + iYear;
+            break;
+
+	    default                     :
+			var iMonthNumber = iMonth + 1;
+	        return iMonthNumber + "/" + iDay  + "/" + iYear;
+	        break;
+	}
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       MaskMoney
+//
+//  Description:    Takes the innerText or value of the tag (depending on the
+//                  type of tag), and formats it as US$ currency.
+//
+//  Arguments:      sValue - innerText or value of the tag
+//
+//  Returns:        "" (empty string) if sValue is an empty string
+//                  "$" + sValue - parsed and formatted currency       
+//
+//-----------------------------------------------------------------------------
+
+function MaskMoney(sValue) 
+{
+    if (sValue.length == 0) return "";
+
+    if (sValue.charAt(0) == "$")
+    {
+		sValue = sValue.substring(1,sValue.length);
+    }
+
+    //  Parse the value into a float number
+	var iValue = parseFloat(sValue);
+	iValue = (Math.round(iValue * 100)) / 100;
+	
+	//  If the value is not a number, return an error
+	if (isNaN(iValue))
+	{
+	    ReturnError("Not a valid amount");
+	    return "";
+    }
+    
+    //  Return the value to a string to apply formatting
+    sValue = iValue.toString();
+    
+    //
+    //  Fill in zeros (if necessary) to show two digits to the right 
+    //  of the decimal
+    //
+    if (sValue.indexOf(".") == -1)
+    {
+        sValue = sValue + ".00";
+    }
+    else
+    {
+        if (sValue.indexOf(".") == sValue.length - 1)
+        {
+            sValue = sValue + "00";
+        }
+        else if (sValue.indexOf(".") == sValue.length - 2)
+        {
+            sValue = sValue + "0";
+        }
+    }
+    
+    //  Add commas if necessary
+    if (sValue.indexOf(".") > 3)
+    {
+        sValue = sValue.substring(0,sValue.indexOf(".") - 3) + ","
+            + sValue.substring(sValue.indexOf(".") - 3,sValue.length);
+    }
+	
+	return "$" + sValue;
+}
+
+
+
+function MaskDecimal(sValue)
+{
+    if (sValue.length == 0) return "";
+    if(sValue != "0")
+    {
+        if (sValue.indexOf(".") == -1)
+        {
+            sValue = sValue + ".00";
+        }
+        else
+        {
+            if (sValue.indexOf(".") == sValue.length - 1)
+            {
+                sValue = sValue + "00";
+            }
+            else if (sValue.indexOf(".") == sValue.length - 2)
+            {
+                sValue = sValue + "0";
+            }
+        }
+        
+        if(!parseFloat(sValue)) 
+        {
+            alert("Not a valid decimal");	
+            sValue="";
+        }
+    }
+	return sValue;
+}
+
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       MaskPercent
+//
+//  Description:    Takes the innerText or value of the tag (depending on the
+//                  type of tag), and formats it as a percentage.
+//
+//  Arguments:      sValue - innerText or value of the tag
+//
+//  Returns:        "" (empty string) if sValue is an empty string
+//                  iValue + "%" - parsed and formatted percentage
+//
+//-----------------------------------------------------------------------------
+
+function MaskPercent(sValue)
+{
+    if (sValue.length == 0) return "";
+
+    if (sValue.charAt(0) == "%")
+    {
+		sValue = sValue.substring(1,sValue.length);
+    }
+
+    iValue = parseFloat(sValue);
+    
+    if (iValue < 1 && sValue.charAt(sValue.indexOf(".")-1) != "0")
+    {
+        iValue *= 100;
+    }
+    
+    //  If the value is not a number, return an error
+    if (isNaN(iValue))
+	{
+	    ReturnError("Not a valid amount");
+	    return "";
+    }
+    
+    return iValue + "%";
+}
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       MaskPhone
+//
+//  Description:    Takes the innerText or value of the tag (depending on the
+//                  type of tag), and formats it as a 7 or 10 digit phone number.
+//
+//  Arguments:      sValue - innerText or value of the tag
+//
+//  Returns:        "" (empty string) if sValue is an empty string
+//                  sNewValue - parsed and formatted phone number
+//
+//-----------------------------------------------------------------------------
+
+function MaskPhone(sValue)
+{
+    var sNewValue = sValue;
+    var iLength = 7;
+    
+    //  Parse out applicable characters by calling ParseChar()
+    var zChar = new Array(' ', '(', ')', '-', '.');
+    
+    sNewValue = ParseChar(sNewValue, zChar);
+ 
+    //  Determine if this is a 7 or  9  or 10 digit phone number
+    if (sNewValue.length == 7);
+    else if (sNewValue.length == 9) iLength = 9;    
+    else if (sNewValue.length == 10) iLength = 10;
+    else if (sNewValue.length == 11) iLength = 11;    
+    else if (sNewValue.length == 0) return "";
+    else if (sNewValue.length < 7)
+    {
+  //      while (sNewValue.length < 7) sNewValue += "0";
+        //ReturnError("Not a valid phone number");
+    }
+    else if (sNewValue.length < 10)
+    {
+        sNewValue = sNewValue.substring(0,7);
+      //  ReturnError("Not a valid phone number");
+    }
+    else if (sNewValue.length > 10)
+    {
+        iLength = 10;
+        
+        if (sNewValue.charAt(0) == "1" && sNewValue.length == 11)
+        {
+            sNewValue = sNewValue.substring(1,11);
+        }
+        
+        else sNewValue = sNewValue.substring(0,10);
+        //ReturnError("Not a valid phone number");
+    }
+    
+    //  Call FormatPhone() to apply formatting
+    sNewValue = FormatPhone(sNewValue,iLength);
+    
+    return sNewValue;
+}
+
+
+function MaskMobilePhone(sValue)
+{
+    var sNewValue = sValue;
+    var iLength = 10;
+    
+    //  Parse out applicable characters by calling ParseChar()
+    var zChar = new Array(' ', '(', ')', '-', '.');
+    
+    sNewValue = ParseChar(sNewValue, zChar);
+ 
+//    if (sNewValue.length == 10);
+  //  else if (sNewValue.length < 10)
+  //  {
+  //       while (sNewValue.length < 10) sNewValue += "0";
+  //  }
+     
+    var rNewPhone=""; 
+    if (iLength == 10)
+    {
+        rNewPhone = sNewValue.substring(0,4) + "-" + sNewValue.substring(4,10);
+    }     
+     return rNewPhone;
+     
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       FormatPhone
+//
+//  Description:    Adds the proper formatting for a phone number (either 7 or
+//                  10 digits) to a string of numbers passed in.
+//
+//  Arguments:      sPhone - a 7 or 10 digit string of numbers
+//                  iLength - the desired phone number length
+//
+//  Returns:        sNewPhone - the formatted phone number
+//
+//-----------------------------------------------------------------------------
+
+function FormatPhone(sPhone, iLength)
+{
+    var sNewPhone = "";
+    if (iLength == 7)
+    {
+        sNewPhone = sPhone.substring(0,3) + "-" + sPhone.substring(3,7);
+    }
+    if (iLength == 9)
+    {
+        sNewPhone = "(" + sPhone.substring(0,2) + ") " + sPhone.substring(2,5)
+            + "-" + sPhone.substring(5,9);
+    }
+    if (iLength == 10)
+    {
+        sNewPhone = "(" + sPhone.substring(0,2) + ") " + sPhone.substring(2,6)
+            + "-" + sPhone.substring(6,10);
+    }
+
+    return sNewPhone;
+}
+
+////    MaskColor
+function MaskColor(sValue)
+{
+    if (sValue.length == 0) return "";
+    if (sValue.length < 6) return "";
+
+    if (sValue.charAt(0) == "#")
+    {
+		sValue = sValue.substring(0,7);
+    }
+    else
+    {
+		sValue = "#"+sValue.substring(0,6);
+    }
+	return sValue;
+}
+
+// 自訂格式
+function MaskCustom(sValue)
+{
+
+/*
+	var maskchar =Mask;
+	var re1 = new RegExp ('#', 'gi') ;
+	maskchar = maskchar.replace(re1,"");
+//	alert(maskchar);
+	var mArray = new Array();
+	for (var i=0;i<maskchar.length;i++)
+	{
+			mArray[i] = new Object();
+			mArray[i].mchar = maskchar.charAt(i);
+	}	
+	
+	//mArray[i]..pos="1";
+	//alert(mArray[i].pos);
+
+	for (var i=0;i<mArray.length;i++)
+	{	
+		var c = mArray[i].mchar;
+		var space=0;
+		for (var j=0;j<Mask.length;j++)
+		{
+			var tmpchar = Mask.charAt(j);
+			if(tmpchar)
+			space++;		
+		}
+	}		
+*/	
+}
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       ParseChar
+//
+//  Description:    This function takes a string and parses out certain
+//                  characters.  The characters to be parsed out are passed in
+//                  as a string or as a array.
+//
+//  Arguments:      sStr - The string intended to be parsed
+//                  sChar - A string or array of characters to be parsed out
+//                      of sStr
+//
+//  Returns:        sNewStr - The rebuilt (parsed) string
+//
+//-----------------------------------------------------------------------------
+
+function ParseChar(sStr, sChar)
+{
+    //  If sChar is a string, create an array to hold it
+    if (sChar.length == null) 
+    {
+        zChar = new Array(sChar);
+    }
+    else zChar = sChar;
+    
+    //  Iterate through the array, removing each character from the string
+    for (i=0; i<zChar.length; i++)
+    {
+        sNewStr = "";
+    
+        var iStart = 0;
+        var iEnd = sStr.indexOf(sChar[i]);
+    
+        while (iEnd != -1)
+        {
+            sNewStr += sStr.substring(iStart, iEnd);
+            iStart = iEnd + 1;
+            iEnd = sStr.indexOf(sChar[i], iStart);
+        }
+        sNewStr += sStr.substring(sStr.lastIndexOf(sChar[i]) + 1, sStr.length);
+        
+        sStr = sNewStr;
+    }
+    
+    return sNewStr;
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       InputFocus
+//
+//  Description:    Called by tags which have a value attribute (as versus an
+//                  innerText attribute).  Replaces the formatted value of the 
+//                  tag with the actual value previously entered by the user
+//                  (before formatting was applied).
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function InputFocus() 
+{
+	var o=window.event.srcElement;
+	if(!o) return;
+	
+	if(FormatType=="InputCombo") return;
+	if (typeof(o.realvalue)!="undefined")
+		o.value=o.realvalue;
+	//value = realValue;
+	
+}
+
+
+//+----------------------------------------------------------------------------
+//
+//  Function:       InputBlur
+//
+//  Description:    Called by tags which have a value attribute (as versus an
+//                  innerText attribute).  Calls formatting functions, depending
+//                  on the preset property, and formats the value of the tag.
+//
+//  Arguments:      none
+//
+//  Returns:        nothing
+//
+//-----------------------------------------------------------------------------
+
+function InputBlur() 
+{
+	var o = inputobj;
+    o.realvalue = o.value;   //save the orginal value
+    
+	if(FormatType == "InputCombo") 
+	{
+		if(o.value=="") this.value="";
+		return;
+	}
+	    
+	o.value = FormatValue();
+	
+	if (o.value=="") 
+	{
+		o.value=o.datetypevalue;
+		o.style.color ="gray";
+	}
+	else
+		o.style.color = this.currentStyle.color;		
+	
+	if(FormatType !="Phone" && FormatType!="MobilePhone"  && FormatType!="Currency" && FormatType!="Percent" && FormatType!="Decimal" )
+	{
+		this.value = setRealDate( o.value, FormatType);		
+		if (this.value==o.datetypevalue) this.value="";
+	//	alert(this.value);
+			
+		if (FormatType=="ShortTime")
+		{
+			if(this.value.indexOf(":")>=0)
+			{
+				var timearray = this.value.split(":");
+				thisdayHH=timearray[0];
+				thisdayMM=timearray[1];
+				if (thisdayHH.length<2) thisdayHH="0"+thisdayHH;
+				if (thisdayMM.length<2) thisdayMM="0"+thisdayMM;
+			}
+		}
+		else if ( FormatType=="DateTime1" || FormatType=="DateTime")
+		{
+			var valuearray = this.value.split(" ");
+			if (valuearray[1]!="" && valuearray[1]!=null)
+			{
+				var timearray = valuearray[1].split(":");
+				thisdayHH=timearray[0];
+				thisdayMM=timearray[1];
+				if (thisdayHH.length<2) thisdayHH="0"+thisdayHH;
+				if (thisdayMM.length<2) thisdayMM="0"+thisdayMM;
+			}
+		}
+	}
+	else
+		this.value = o.realvalue;	
+		
+}
+
+function getDateSplit(datestr)
+{
+	if(datestr=="") return;
+	var _split=""
+	if (datestr.indexOf("/") >=0 )
+		_split = "/";
+	else if(datestr.indexOf(".") >=0 )
+		_split = ".";
+	else if(datestr.indexOf(",") >=0 )
+		_split = ",";
+	else if(datestr.indexOf("-") >=0 )
+		_split = "-";
+	else if(datestr.indexOf(":") >=0 )
+		_split = ":";		
+	return _split;
+}
+
+
+function BuildColorTable()
+{
+	var c = new Array();
+	c[1] = "FF";
+	c[2] = "CC";
+	c[3] = "99";
+	c[4] = "66";
+	c[5] = "33";
+	c[6] = "00";
+	var tempstr="";
+	tempstr = "<table border=0 cellpadding=0 cellspacing=0  bgcolor=\"#000000\">\n"
+	tempstr = tempstr + "<tr><td><table border=0 bordercolor=#000000 cellpadding=0 cellspacing=1>\n"
+	tempstr = tempstr + "<tr>\n"
+	var d = 0;
+	for (i=1;i <=6;i++){
+		if (i >1){
+		tempstr = tempstr +  "</tr>\n<tr>\n";
+		}
+		for (m=1;m <=6;m++){		
+			for (n=1;n <=6;n++){	
+				d++;
+				colour = c[i] + c[m] + c[n];
+				tempstr = tempstr +  "<td bgcolor=\"#"+ colour +"\" width=1% class=\"text\"><a href=\"javascript:void(0)\" onclick=\" window.document.getElementById('" + this.id + "').SetColor('#" + colour + "');\"><img  width=7 height=7 name=\"a"+d+"\" border=0></td>\n";
+			}
+		}
+	}
+	
+	tempstr = tempstr + "</tr> </table> </table>";
+	colorpicker.innerHTML=tempstr;
+	
+	alignToolObj(inputDiv,toolobj);
+	toolobj.show(idy,idx,10);
+	
+}
+
+function SetColor(ColorValue)
+{
+	inputobj.value=ColorValue;
+	inputobj.realvalue = ColorValue;
+	this.value=ColorValue;
+	
+	colorpicker.hide();
+	listshowing=false;
+}
+
+
+
+function posTop(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var top = window.document.body.scrollTop+rect.top;
+    //window.status="top:"+top; 
+	return top;
+}
+
+function posLeft(el)
+{
+	var left = 0;
+    var rect = el.getClientRects()[0];
+    var left = window.document.body.scrollLeft+rect.left;
+
+	return left;
+}
+
+function event_onmove()
+{
+	this.alignList(inputDiv,toolobj);
+}
+
+function alignToolObj(el,el1)
+{
+	if (loadready==false) return;
+	
+	el1.style.left = posLeft(el) -2;
+	el1.style.top = posTop(el) +thisHeight-1;
+	idx = parseInt(el1.style.left) ;
+	idy = parseInt(el1.style.top) ;
+}
+
+
+function blockKey()
+{
+	var ikey=window.event.keyCode;
+	var realkey = String.fromCharCode(ikey).toLowerCase(); 
+	if (keypattern.indexOf(realkey)>=0 )
+		event.returnValue = true;
+	else
+		event.returnValue = false;	
+}
+
+function CheckURL(url)
+{
+	if(url=="") return;
+	var checkresult = false;
+
+	//var urlexp = /^(((ht|f)tp(s?))\:\/\/)?(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\.(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&%\$#\=~_\-]+))*$/;
+	//var urlexp = /^(((ht|f)tp(s?))\:\/\/)?(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\.(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\;\?\\\\+&%\$#\=~_\-]+))*$/;
+	//var urlexp = https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?
+	//var urlexp = (((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))  //ip
+	//var urlexp = /(\w+):\/\/([\w.]+)\/(\S*)/;
+    //var urlexp = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/,
+	var urlexp = new RegExp("^(http|ftp)://(www\.)?.+\.(com|net|org)$"); 
+
+    var result = urlexp.test(url);
+     if (result != false) checkresult=true;
+
+	if(checkresult==false)
+		alert("URL is not correct !!");
+	return checkresult;	
+
+}
+
+
+function CheckEmail(email)
+{
+	if(email=="") return;
+	var checkresult = false;
+    var emailFormat = /^\w(\.?[\w-])*@\w(\.?[\w-])*\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2})?$/i;
+	if (email.search(emailFormat) == -1)
+		checkresult = false;
+	else
+		checkresult=true;
+
+
+	if(checkresult==false)
+		alert("Email is not correct !!");
+	return checkresult;	
+}
+
+
+//身分證檢查
+function CheckID(idnumber)
+{
+		if (idnumber=="") return;
+		idnumber = idnumber.toUpperCase();
+		var checkresult = false;
+		
+		if (idnumber.length==10)
+		{
+				if (((idnumber.charAt(0)>="A") && (idnumber.charAt(0)<="Z")) && ((idnumber.charAt(1)>="A") && (idnumber.charAt(1)<="Z")) && isNaN(idnumber.substring(2,9))==false)
+					checkresult=true;
+				else 
+				{
+						var no2check=( (idnumber.charAt(1)==1) ||	(idnumber.charAt(1)==2) )
+						var no1check=( (idnumber.charAt(0)>="A") &&	(idnumber.charAt(0)<="Z") ) 
+						if (no2check && no1check)
+					    {
+								var id1 = idnumber.charAt(0)
+								if (id1 == 'A') id0=1
+								else if (id1 == 'B') id0=10
+								else if (id1 == 'C') id0=19
+								else if (id1 == 'D') id0=28
+								else if (id1 == 'E') id0=37
+								else if (id1 == 'F') id0=46
+								else if (id1 == 'G') id0=55
+								else if (id1 == 'H') id0=64
+								else if (id1 == 'I') id0=39
+								else if (id1 == 'J') id0=73
+								else if (id1 == 'K') id0=82
+								else if (id1 == 'L') id0=2
+								else if (id1 == 'M') id0=11
+								else if (id1 == 'N') id0=20
+								else if (id1 == 'O') id0=48
+								else if (id1 == 'P') id0=29
+								else if (id1 == 'Q') id0=38
+								else if (id1 == 'R') id0=47
+								else if (id1 == 'S') id0=56
+								else if (id1 == 'T') id0=65
+								else if (id1 == 'U') id0=74
+								else if (id1 == 'V') id0=83
+								else if (id1 == 'W') id0=21
+								else if (id1 == 'X') id0=3
+								else if (id1 == 'Y') id0=12
+								else if (id1 == 'Z') id0=30
+								var id2 = id0 + idnumber.charAt(1)*8 +
+								idnumber.charAt(2)*7 + idnumber.charAt(3)*6 +
+								idnumber.charAt(4)*5 + idnumber.charAt(5)*4 +
+								idnumber.charAt(6)*3 + idnumber.charAt(7)*2 +
+								idnumber.charAt(8)*1 + idnumber.charAt(9)*1
+								if (id2 % 10 == 0) checkresult=true;
+								else checkresult=false;
+							}
+				}
+		}
+		
+		if(checkresult==false)
+			alert("ID Number error!!");
+		return checkresult;
+}
+
+function setRealDate(val, ftype)
+{
+	if(val=="") return "";
+	var realValue="";
+	
+	//將 this.value 轉為正確的日期格式
+	if (ftype =="Date" || ftype =="Date1")   
+	{
+			var sArray = val.split(DateSeparator);
+			realValue = sArray[0]+"/"+sArray[1]+"/"+sArray[2];
+	}
+	else if (ftype =="DateTime" || ftype =="DateTime1")
+	{
+		var re = new RegExp (DateSeparator, 'gi') ;
+		realValue =val.replace(re,"/");
+	} 
+	else if (ftype =="YearMonth")
+	{
+		//	var rValue = "";
+		//	rValue = o.value;
+			var sArray = val.split(DateSeparator);
+			realValue = sArray[0]+"/"+sArray[1];
+	} 
+	else if (ftype =="ShortDate")
+	{
+		//	var rValue = "";
+		//	rValue = o.value;
+			var sArray = val.split(DateSeparator);
+			realValue = sArray[0]+"/"+sArray[1];
+	}
+	else
+		 realValue=val;
+		 
+	return realValue;	 
+}
+
+var oinputValue="";
+
+function event_chkonclick()
+{
+	if(!loadready) return;
+	if(event.propertyName=="checked" )
+	{
+			var o=window.event.srcElement;
+			var disabled = o.checked;
+			if (!disabled)
+			{
+				this.disabled = true;
+				btnobj.disabled = true;
+			//	inputobj.disabled = true;
+				oinputValue = inputobj.value;
+				this.value="";
+				inputobj.value="";
+			}
+			else
+			{
+				this.disabled = false;
+				btnobj.disabled = false;
+				inputobj.disabled = false;	
+				inputobj.value = oinputValue;
+				this.value = inputobj.value ;
+			}
+	}
+}
+
+function button_onclickmore()
+{
+	window.execScript(OnClickMore);
+}
+
+function InputChange()
+{
+	var o=window.event.srcElement;
+	
+	this.value = o.value;
+}
+
+function event_onpropertychange()
+{
+	// can't fire the disabled=true event .....
+	//	alert(event.propertyName);
+	if(event.propertyName=="value" && loadready)
+	{
+		 inputobj.value = this.value;
+		 inputobj.realvalue = this.value;
+	}
+}
+
+function selectday(o)
+{
+	var oclass=o.className;
+	var e = window.document.getElementById(this.id+"_selectday");
+	if (e)
+	{
+		if(e==o) return;
+		var selectclass = e.className;
+		o.id=e.id;
+		e.id="";
+		var cdatestr =this.Year+"/"+(this.Month+1)+"/"+e.innerText;
+		var curdate=new Date(cdatestr);
+		var iday = curdate.getDay();
+		if(iday==0 || iday==6)
+			e.className="BevelLightPurple"
+		else
+			e.className="BevelLightSilver"
+		
+		o.className = selectclass;
+	
+	} 
+}
+
+function selectday1(o)
+{
+	var oclass=o.className;
+	var e = window.document.getElementById(this.id+"_selectday");
+	if (e)
+	{
+		if(e==o) return;
+		var selectclass = e.className;
+		o.id=e.id;
+		e.id="";
+		e.className="BevelBlue2"
+		o.className = selectclass;
+	} 
+}
+
+function event_onfocusin()
+{
+   thisbackgroundcolor = this.style.backgroundColor ;
+   if(FocusinColor!="" && FocusinColor!=null)
+   {
+	  inputobj.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  inputobj.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+   if(FocusoutColor!="" && FocusoutColor!=null)
+	  inputobj.style.backgroundColor = FocusoutColor;
+   else
+	  inputobj.style.backgroundColor = thisbackgroundcolor;
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>
+

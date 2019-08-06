@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0086)http://share3.esd105.wednet.edu/garciaa/webcurriculum/htmlarea/popups/insert_char.html -->
+<!-- note: this version of the special character inserter is optimized for IE 5.5+ only --><HTML><HEAD><TITLE>Insert Special Character</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=big5">
+<SCRIPT language=javascript>
+function _CloseOnEsc() {
+  if (event.keyCode == 27) { window.close(); return; }
+}
+
+function Init() {                                                       // run on page load
+  document.body.onkeypress = _CloseOnEsc;
+}
+
+function View(charcode) {                                               // preview character
+  document.all.Chars.value =  '&' + charcode + ';'; 
+}
+
+
+function Set(code) {                                                    // select character
+   window.returnValue = code;                                           // set return value
+   window.close();                                                      // close dialog
+}
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY bgColor=#000000 leftMargin=0 topMargin=0 onload=Init()>
+<FORM name=sel onsubmit="Set(document.all.Chars.value); return false;" 
+method=get>
+<TABLE style="CURSOR: hand" cellSpacing=1 cellPadding=0 bgColor=#000000 
+border=0>
+  <TBODY>
+  <TR>
+  <TR>
+    <TD onmouseover="View('nbsp')" onclick="Set('&nbsp;')" align=middle width=16 
+    bgColor=#ffffff>&nbsp;</TD>
+    <TD onmouseover="View('quot')" onclick="Set('&quot;')" align=middle width=16 
+    bgColor=#ffffff>"</TD>
+    <TD onmouseover="View('iexcl')" onclick="Set('&iexcl;')" align=middle width=16 
+    bgColor=#ffffff>&iexcl;</TD>
+    <TD onmouseover="View('cent')" onclick="Set('&cent;')" align=middle width=16 
+    bgColor=#ffffff>&cent;</TD>
+    <TD onmouseover="View('pound')" onclick="Set('&pound;')" align=middle width=16 
+    bgColor=#ffffff>&pound;</TD>
+    <TD onmouseover="View('curren')" onclick="Set('&curren;')" align=middle width=16 
+    bgColor=#ffffff>&curren;</TD>
+    <TD onmouseover="View('yen')" onclick="Set('&yen;')" align=middle width=16 
+    bgColor=#ffffff>&yen;</TD>
+    <TD onmouseover="View('brvbar')" onclick="Set('&brvbar;')" align=middle width=16 
+    bgColor=#ffffff>&brvbar;</TD>
+    <TD onmouseover="View('sect')" onclick="Set('§')" align=middle width=16 
+    bgColor=#ffffff>§</TD>
+    <TD onmouseover="View('uml')" onclick="Set('&uml;')" align=middle width=16 
+    bgColor=#ffffff>&uml;</TD>
+    <TD onmouseover="View('copy')" onclick="Set('&copy;')" align=middle width=16 
+    bgColor=#ffffff>&copy;</TD>
+    <TD onmouseover="View('ordf')" onclick="Set('&ordf;')" align=middle width=16 
+    bgColor=#ffffff>&ordf;</TD>
+    <TD onmouseover="View('laquo')" onclick="Set('&laquo;')" align=middle width=16 
+    bgColor=#ffffff>&laquo;</TD>
+    <TD onmouseover="View('not')" onclick="Set('&not;')" align=middle width=16 
+    bgColor=#ffffff>&not;</TD></TR>
+  <TR>
+    <TD onmouseover="View('shy')" onclick="Set('&shy;')" align=middle width=16 
+    bgColor=#ffffff>&shy;</TD>
+    <TD onmouseover="View('reg')" onclick="Set('&reg;')" align=middle width=16 
+    bgColor=#ffffff>&reg;</TD>
+    <TD onmouseover="View('macr')" onclick="Set('¯')" align=middle width=16 
+    bgColor=#ffffff>¯</TD>
+    <TD onmouseover="View('deg')" onclick="Set('°')" align=middle width=16 
+    bgColor=#ffffff>°</TD>
+    <TD onmouseover="View('plusmn')" onclick="Set('±')" align=middle width=16 
+    bgColor=#ffffff>±</TD>
+    <TD onmouseover="View('sup2')" onclick="Set('&sup2;')" align=middle width=16 
+    bgColor=#ffffff>&sup2;</TD>
+    <TD onmouseover="View('sup3')" onclick="Set('&sup3;')" align=middle width=16 
+    bgColor=#ffffff>&sup3;</TD>
+    <TD onmouseover="View('acute')" onclick="Set('&acute;')" align=middle width=16 
+    bgColor=#ffffff>&acute;</TD>
+    <TD onmouseover="View('micro')" onclick="Set('&micro;')" align=middle width=16 
+    bgColor=#ffffff>&micro;</TD>
+    <TD onmouseover="View('para')" onclick="Set('&para;')" align=middle width=16 
+    bgColor=#ffffff>&para;</TD>
+    <TD onmouseover="View('middot')" onclick="Set('·')" align=middle width=16 
+    bgColor=#ffffff>·</TD>
+    <TD onmouseover="View('cedil')" onclick="Set('&cedil;')" align=middle width=16 
+    bgColor=#ffffff>&cedil;</TD>
+    <TD onmouseover="View('sup1')" onclick="Set('&sup1;')" align=middle width=16 
+    bgColor=#ffffff>&sup1;</TD>
+    <TD onmouseover="View('ordm')" onclick="Set('&ordm;')" align=middle width=16 
+    bgColor=#ffffff>&ordm;</TD></TR>
+  <TR>
+    <TD onmouseover="View('raquo')" onclick="Set('&raquo;')" align=middle width=16 
+    bgColor=#ffffff>&raquo;</TD>
+    <TD onmouseover="View('frac14')" onclick="Set('&frac14;')" align=middle width=16 
+    bgColor=#ffffff>&frac14;</TD>
+    <TD onmouseover="View('frac12')" onclick="Set('&frac12;')" align=middle width=16 
+    bgColor=#ffffff>&frac12;</TD>
+    <TD onmouseover="View('frac34')" onclick="Set('&frac34;')" align=middle width=16 
+    bgColor=#ffffff>&frac34;</TD>
+    <TD onmouseover="View('iquest')" onclick="Set('&iquest;')" align=middle width=16 
+    bgColor=#ffffff>&iquest;</TD>
+    <TD onmouseover="View('times')" onclick="Set('×')" align=middle width=16 
+    bgColor=#ffffff>×</TD>
+    <TD onmouseover="View('Oslash')" onclick="Set('&Oslash;')" align=middle width=16 
+    bgColor=#ffffff>&Oslash;</TD>
+    <TD onmouseover="View('divide')" onclick="Set('÷')" align=middle width=16 
+    bgColor=#ffffff>÷</TD>
+    <TD onmouseover="View('oslash')" onclick="Set('&oslash;')" align=middle width=16 
+    bgColor=#ffffff>&oslash;</TD>
+    <TD onmouseover="View('fnof')" onclick="Set('&#402;')" align=middle width=16 
+    bgColor=#ffffff>&#402;</TD>
+    <TD onmouseover="View('circ')" onclick="Set('&#710;')" align=middle width=16 
+    bgColor=#ffffff>&#710;</TD>
+    <TD onmouseover="View('tilde')" onclick="Set('&#732;')" align=middle width=16 
+    bgColor=#ffffff>&#732;</TD>
+    <TD onmouseover="View('ndash')" onclick="Set('–')" align=middle width=16 
+    bgColor=#ffffff>–</TD>
+    <TD onmouseover="View('mdash')" onclick="Set('—')" align=middle width=16 
+    bgColor=#ffffff>—</TD></TR>
+  <TR>
+    <TD onmouseover="View('lsquo')" onclick="Set('‘')" align=middle width=16 
+    bgColor=#ffffff>‘</TD>
+    <TD onmouseover="View('rsquo')" onclick="Set('’')" align=middle width=16 
+    bgColor=#ffffff>’</TD>
+    <TD onmouseover="View('sbquo')" onclick="Set('&#8218;')" align=middle width=16 
+    bgColor=#ffffff>&#8218;</TD>
+    <TD onmouseover="View('ldquo')" onclick="Set('“')" align=middle width=16 
+    bgColor=#ffffff>“</TD>
+    <TD onmouseover="View('rdquo')" onclick="Set('”')" align=middle width=16 
+    bgColor=#ffffff>”</TD>
+    <TD onmouseover="View('bdquo')" onclick="Set('&#8222;')" align=middle width=16 
+    bgColor=#ffffff>&#8222;</TD>
+    <TD onmouseover="View('dagger')" onclick="Set('&#8224;')" align=middle width=16 
+    bgColor=#ffffff>&#8224;</TD>
+    <TD onmouseover="View('Dagger')" onclick="Set('&#8225;')" align=middle width=16 
+    bgColor=#ffffff>&#8225;</TD>
+    <TD onmouseover="View('bull')" onclick="Set('&#8226;')" align=middle width=16 
+    bgColor=#ffffff>&#8226;</TD>
+    <TD onmouseover="View('hellip')" onclick="Set('…')" align=middle width=16 
+    bgColor=#ffffff>…</TD>
+    <TD onmouseover="View('permil')" onclick="Set('&#8240;')" align=middle width=16 
+    bgColor=#ffffff>&#8240;</TD>
+    <TD onmouseover="View('lsaquo')" onclick="Set('&#8249;')" align=middle width=16 
+    bgColor=#ffffff>&#8249;</TD>
+    <TD onmouseover="View('rsaquo')" onclick="Set('&#8250;')" align=middle width=16 
+    bgColor=#ffffff>&#8250;</TD>
+    <TD onmouseover="View('euro')" onclick="Set('€')" align=middle width=16 
+    bgColor=#ffffff>€</TD></TR>
+  <TR>
+    <TD onmouseover="View('trade')" onclick="Set('&#8482;')" align=middle width=16 
+    bgColor=#ffffff>&#8482;</TD>
+    <TD onmouseover="View('Agrave')" onclick="Set('&Agrave;')" align=middle width=16 
+    bgColor=#ffffff>&Agrave;</TD>
+    <TD onmouseover="View('Aacute')" onclick="Set('&Aacute;')" align=middle width=16 
+    bgColor=#ffffff>&Aacute;</TD>
+    <TD onmouseover="View('Acirc')" onclick="Set('&Acirc;')" align=middle width=16 
+    bgColor=#ffffff>&Acirc;</TD>
+    <TD onmouseover="View('Atilde')" onclick="Set('&Atilde;')" align=middle width=16 
+    bgColor=#ffffff>&Atilde;</TD>
+    <TD onmouseover="View('Auml')" onclick="Set('&Auml;')" align=middle width=16 
+    bgColor=#ffffff>&Auml;</TD>
+    <TD onmouseover="View('Aring')" onclick="Set('&Aring;')" align=middle width=16 
+    bgColor=#ffffff>&Aring;</TD>
+    <TD onmouseover="View('AElig')" onclick="Set('&AElig;')" align=middle width=16 
+    bgColor=#ffffff>&AElig;</TD>
+    <TD onmouseover="View('Ccedil')" onclick="Set('&Ccedil;')" align=middle width=16 
+    bgColor=#ffffff>&Ccedil;</TD>
+    <TD onmouseover="View('Egrave')" onclick="Set('&Egrave;')" align=middle width=16 
+    bgColor=#ffffff>&Egrave;</TD>
+    <TD onmouseover="View('Eacute')" onclick="Set('&Eacute;')" align=middle width=16 
+    bgColor=#ffffff>&Eacute;</TD>
+    <TD onmouseover="View('Ecirc')" onclick="Set('&Ecirc;')" align=middle width=16 
+    bgColor=#ffffff>&Ecirc;</TD>
+    <TD onmouseover="View('Euml')" onclick="Set('&Euml;')" align=middle width=16 
+    bgColor=#ffffff>&Euml;</TD>
+    <TD onmouseover="View('Igrave')" onclick="Set('&Igrave;')" align=middle width=16 
+    bgColor=#ffffff>&Igrave;</TD></TR>
+  <TR>
+    <TD onmouseover="View('Iacute')" onclick="Set('&Iacute;')" align=middle width=16 
+    bgColor=#ffffff>&Iacute;</TD>
+    <TD onmouseover="View('Icirc')" onclick="Set('&Icirc;')" align=middle width=16 
+    bgColor=#ffffff>&Icirc;</TD>
+    <TD onmouseover="View('Iuml')" onclick="Set('&Iuml;')" align=middle width=16 
+    bgColor=#ffffff>&Iuml;</TD>
+    <TD onmouseover="View('ETH')" onclick="Set('&ETH;')" align=middle width=16 
+    bgColor=#ffffff>&ETH;</TD>
+    <TD onmouseover="View('Ntilde')" onclick="Set('&Ntilde;')" align=middle width=16 
+    bgColor=#ffffff>&Ntilde;</TD>
+    <TD onmouseover="View('Ograve')" onclick="Set('&Ograve;')" align=middle width=16 
+    bgColor=#ffffff>&Ograve;</TD>
+    <TD onmouseover="View('Oacute')" onclick="Set('&Oacute;')" align=middle width=16 
+    bgColor=#ffffff>&Oacute;</TD>
+    <TD onmouseover="View('Ocirc')" onclick="Set('&Ocirc;')" align=middle width=16 
+    bgColor=#ffffff>&Ocirc;</TD>
+    <TD onmouseover="View('Otilde')" onclick="Set('&Otilde;')" align=middle width=16 
+    bgColor=#ffffff>&Otilde;</TD>
+    <TD onmouseover="View('Ouml')" onclick="Set('&amp;;Ouml')" align=middle 
+    width=16 bgColor=#ffffff>&Ouml;</TD>
+    <TD onmouseover="View('times')" onclick="Set('×')" align=middle width=16 
+    bgColor=#ffffff>×</TD>
+    <TD onmouseover="View('slash')" onclick="Set('&Oslash;')" align=middle width=16 
+    bgColor=#ffffff>&Oslash;</TD>
+    <TD onmouseover="View('Ugrave')" onclick="Set('&Ugrave;')" align=middle width=16 
+    bgColor=#ffffff>&Ugrave;</TD>
+    <TD onmouseover="View('Uacute')" onclick="Set('&Uacute;')" align=middle width=16 
+    bgColor=#ffffff>&Uacute;</TD></TR>
+  <TR>
+    <TD onmouseover="View('Ucirc')" onclick="Set('&Ucirc;')" align=middle width=16 
+    bgColor=#ffffff>&Ucirc;</TD>
+    <TD onmouseover="View('Uuml')" onclick="Set('&Uuml;')" align=middle width=16 
+    bgColor=#ffffff>&Uuml;</TD>
+    <TD onmouseover="View('Yacute')" onclick="Set('&Yacute;')" align=middle width=16 
+    bgColor=#ffffff>&Yacute;</TD>
+    <TD onmouseover="View('THORN')" onclick="Set('&THORN;')" align=middle width=16 
+    bgColor=#ffffff>&THORN;</TD>
+    <TD onmouseover="View('szlig')" onclick="Set('&szlig;')" align=middle width=16 
+    bgColor=#ffffff>&szlig;</TD>
+    <TD onmouseover="View('agrave')" onclick="Set('&agrave;')" align=middle width=16 
+    bgColor=#ffffff>&agrave;</TD>
+    <TD onmouseover="View('aacute')" onclick="Set('&aacute;')" align=middle width=16 
+    bgColor=#ffffff>&aacute;</TD>
+    <TD onmouseover="View('acirc')" onclick="Set('&acirc;')" align=middle width=16 
+    bgColor=#ffffff>&acirc;</TD>
+    <TD onmouseover="View('atilde')" onclick="Set('&atilde;')" align=middle width=16 
+    bgColor=#ffffff>&atilde;</TD>
+    <TD onmouseover="View('auml')" onclick="Set('&auml;')" align=middle width=16 
+    bgColor=#ffffff>&auml;</TD>
+    <TD onmouseover="View('aring')" onclick="Set('&aring;')" align=middle width=16 
+    bgColor=#ffffff>&aring;</TD>
+    <TD onmouseover="View('aelig')" onclick="Set('&aelig;')" align=middle width=16 
+    bgColor=#ffffff>&aelig;</TD>
+    <TD onmouseover="View('ccedil')" onclick="Set('&ccedil;')" align=middle width=16 
+    bgColor=#ffffff>&ccedil;</TD>
+    <TD onmouseover="View('egrave')" onclick="Set('&egrave;')" align=middle width=16 
+    bgColor=#ffffff>&egrave;</TD></TR>
+  <TR>
+    <TD onmouseover="View('eacute')" onclick="Set('&eacute;')" align=middle width=16 
+    bgColor=#ffffff>&eacute;</TD>
+    <TD onmouseover="View('ecirc')" onclick="Set('&ecirc;')" align=middle width=16 
+    bgColor=#ffffff>&ecirc;</TD>
+    <TD onmouseover="View('euml')" onclick="Set('&euml;')" align=middle width=16 
+    bgColor=#ffffff>&euml;</TD>
+    <TD onmouseover="View('igrave')" onclick="Set('&igrave;')" align=middle width=16 
+    bgColor=#ffffff>&igrave;</TD>
+    <TD onmouseover="View('iacute')" onclick="Set('&iacute;')" align=middle width=16 
+    bgColor=#ffffff>&iacute;</TD>
+    <TD onmouseover="View('icirc')" onclick="Set('&icirc;')" align=middle width=16 
+    bgColor=#ffffff>&icirc;</TD>
+    <TD onmouseover="View('iuml')" onclick="Set('&iuml;')" align=middle width=16 
+    bgColor=#ffffff>&iuml;</TD>
+    <TD onmouseover="View('eth')" onclick="Set('&eth;')" align=middle width=16 
+    bgColor=#ffffff>&eth;</TD>
+    <TD onmouseover="View('ntilde')" onclick="Set('&ntilde;')" align=middle width=16 
+    bgColor=#ffffff>&ntilde;</TD>
+    <TD onmouseover="View('ograve')" onclick="Set('&ograve;')" align=middle width=16 
+    bgColor=#ffffff>&ograve;</TD>
+    <TD onmouseover="View('oacute')" onclick="Set('&oacute;')" align=middle width=16 
+    bgColor=#ffffff>&oacute;</TD>
+    <TD onmouseover="View('ocirc')" onclick="Set('&ocirc;')" align=middle width=16 
+    bgColor=#ffffff>&ocirc;</TD>
+    <TD onmouseover="View('otilde')" onclick="Set('&otilde;')" align=middle width=16 
+    bgColor=#ffffff>&otilde;</TD>
+    <TD onmouseover="View('ouml')" onclick="Set('&ouml;')" align=middle width=16 
+    bgColor=#ffffff>&ouml;</TD></TR>
+  <TR>
+    <TD onmouseover="View('divide')" onclick="Set('÷')" align=middle width=16 
+    bgColor=#ffffff>÷</TD>
+    <TD onmouseover="View('oslash')" onclick="Set('&oslash;')" align=middle width=16 
+    bgColor=#ffffff>&oslash;</TD>
+    <TD onmouseover="View('ugrave')" onclick="Set('&ugrave;')" align=middle width=16 
+    bgColor=#ffffff>&ugrave;</TD>
+    <TD onmouseover="View('uacute')" onclick="Set('&uacute;')" align=middle width=16 
+    bgColor=#ffffff>&uacute;</TD>
+    <TD onmouseover="View('ucirc')" onclick="Set('&ucirc;')" align=middle width=16 
+    bgColor=#ffffff>&ucirc;</TD>
+    <TD onmouseover="View('uuml')" onclick="Set('&uuml;')" align=middle width=16 
+    bgColor=#ffffff>&uuml;</TD>
+    <TD onmouseover="View('yacute')" onclick="Set('&yacute;')" align=middle width=16 
+    bgColor=#ffffff>&yacute;</TD>
+    <TD onmouseover="View('thorn')" onclick="Set('&thorn;')" align=middle width=16 
+    bgColor=#ffffff>&thorn;</TD>
+    <TD onmouseover="View('yuml')" onclick="Set('&yuml;')" align=middle width=16 
+    bgColor=#ffffff>&yuml;</TD>
+    <TD onmouseover="View('OELIG')" onclick="Set('&#338;')" align=middle width=16 
+    bgColor=#ffffff>&#338;</TD>
+    <TD onmouseover="View('oelig')" onclick="Set('&#339;')" align=middle width=16 
+    bgColor=#ffffff>&#339;</TD>
+    <TD onmouseover="View('Scaron')" onclick="Set('&#352;')" align=middle width=16 
+    bgColor=#ffffff>&#352;</TD>
+    <TD onmouseover="View('scaron')" onclick="Set('&#353;')" align=middle width=16 
+    bgColor=#ffffff>&#353;</TD>
+    <TD onmouseover="View('Yuml')" onclick="Set('&#376;')" align=middle width=16 
+    bgColor=#ffffff>&#376;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=4 width="100%" border=0 name="distab">
+  <TBODY>
+  <TR name="t1">
+    <TD vAlign=center bgColor=buttonface name="c1">Charactercode:&nbsp;<INPUT 
+      size=8 name=Chars></TD>
+    <TD width="100%" bgColor=buttonface 
+name="c3"></TD></TR></TBODY></TABLE></FORM></BODY></HTML>

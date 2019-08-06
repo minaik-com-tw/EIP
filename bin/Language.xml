@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Caption>
+ 
+  <MSN  en-us="MSN"  zh-tw="MSN_T" zh-cn="MSN_C" ja-JP="MSN_J"/>
+  <Yahoo en-us="Yahoo"  zh-tw="即時通" zh-cn="即时通" ja-JP="Yahoo_J"/>
+  <Plurk  en-us="Plurk"  zh-tw="撲浪" zh-cn="QQ" ja-JP="QQ_J"/>
+  <Submit  en-us="Submit"  zh-tw="送出" zh-cn="傳送" ja-JP="Send_J"/>
+
+</Caption>

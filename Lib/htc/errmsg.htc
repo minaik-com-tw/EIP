@@ -1,0 +1,36 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onerror" ONEVENT="event_onerror()"></PUBLIC:ATTACH>
+<PUBLIC:METHOD name="senderrmsg" />
+
+<SCRIPT language="JScript">
+var errfile;
+function event_ondocumentready()
+{
+		window.onerror = event_onerror;
+}
+
+function event_onerror(errorMessage, url, line)
+{
+	var errmsg;
+	errmsg = "The DoubleGreen Client Script Debugger \n\n";
+//    errmsg += "There was an error on this page: "+ errfile + "\n";
+    errmsg += "Click OK to continue.\n\n";
+    errmsg += "Error message: " + errorMessage + "\n";
+    errmsg += "URL: " + url + "\n";
+    errmsg += "Line #: " + line;
+    alert(errmsg);
+    return true
+
+}
+
+ function senderrmsg(sourcefile)
+ {
+	errfile = sourcefile;
+	return errfile;
+ }
+   
+
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

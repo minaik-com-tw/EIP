@@ -1,0 +1,925 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY NAME="OnNodeClick" />
+<PUBLIC:PROPERTY name="SelectedNode" />
+<PUBLIC:PROPERTY name="PreviousNode" />
+
+<PUBLIC:PROPERTY name="width" />
+<PUBLIC:PROPERTY name="height" />
+
+<PUBLIC:PROPERTY name="imageroot" />
+<PUBLIC:PROPERTY name="imgline" />
+<PUBLIC:PROPERTY name="imgcorner" />
+<PUBLIC:PROPERTY name="imgcross" />
+
+<PUBLIC:PROPERTY name="imgcollapsecross" />
+<PUBLIC:PROPERTY name="imgexpandedcross" />
+
+<PUBLIC:PROPERTY name="imgcollapseroot" />
+<PUBLIC:PROPERTY name="imgexpandedroot" />
+<PUBLIC:PROPERTY name="imgcollapsecorner" />
+<PUBLIC:PROPERTY name="imgexpandedcorner" />
+
+<PUBLIC:PROPERTY name="imgclose" />
+<PUBLIC:PROPERTY name="imgopen" />
+<PUBLIC:PROPERTY name="imgdummy" />
+
+<PUBLIC:PROPERTY name="RootText" />
+
+<PUBLIC:METHOD name="SetLoadStatus" />
+<PUBLIC:METHOD name="GetLoadStatus" />
+<PUBLIC:METHOD name="GetNodeID" />
+<PUBLIC:METHOD name="ResetClass" />
+<PUBLIC:METHOD name="ResetOpenImage" />
+<PUBLIC:METHOD name="ResetCloseImage" />
+<PUBLIC:METHOD name="ResetCaption" />
+<PUBLIC:METHOD name="RebuildTree" />
+<PUBLIC:METHOD name="CallBackHandler" />
+<PUBLIC:METHOD name="AddChildNode" />
+<PUBLIC:METHOD name="ExpandOrCollapse" />
+
+<PUBLIC:METHOD name="fnLoadExpNodes" />
+<PUBLIC:METHOD name="fnSaveExpNodes" />
+<PUBLIC:METHOD name="fnLoadFocusNode" />
+
+<PUBLIC:METHOD name="ResetFocusNode" />
+<PUBLIC:METHOD name="captionOnMouseOver" />
+<PUBLIC:METHOD name="captionOnMouseOut" />
+
+
+<SCRIPT language="JScript">
+var treedocument=new Array();
+var nodecount=0;
+var containerid;
+var expNodeIdStr ="";
+var focusNodeId ="";
+var showRootNode=false;
+
+function event_oncontentready()
+{
+	this.addBehavior ("#default#userData")	
+	
+}
+
+function event_ondocumentready()
+{
+	this.style.visibility="hidden";
+	this.style.display="none";
+
+	//initialize
+	if ((this.id=="") || (this.id==null ))
+		this.id="tree_"+window.document.uniqueID;
+	
+	if (SelectedNode==null) SelectedNode=0;
+	if (PreviousNode==null) PreviousNode=0;
+	var imgroot;
+	imgroot = imageroot;
+	
+	if (imgroot==null) 
+		imgroot="/lib/img/"
+		
+	if (imgclose==null) 
+	{
+		imgclose= imgroot + "icon-folderclose.gif";
+	}
+	
+	if (imgopen==null) 
+	{
+		imgopen= imgroot + "icon-folderopen.gif";
+	}	
+	
+	if (imgline==null) 
+	{
+		imgline= imgroot + "vline.gif";
+	}
+	
+	if (imgcorner==null)
+	{
+		imgcorner= imgroot + "cornerline.gif";
+	}
+	
+	if (imgcross==null) 
+	{
+		imgcross= imgroot + "crossline.gif";
+	}
+	if (imgdummy==null) 
+	{
+		imgdummy= imgroot + "dummy.gif";
+	}
+	
+	
+		//要多兩種 減號
+	//-------
+	if (imgexpandedcross==null) 
+	{
+		imgexpandedcross= imgroot + "icon-expcrossnode.gif";
+	}
+	if (imgexpandedroot==null) 
+	{
+		imgexpandedroot= imgroot + "icon-expnode.gif";
+	}
+
+	if (imgexpandedcorner==null) 
+	{
+		imgexpandedcorner= imgroot + "icon-expcornernode.gif";
+	}
+	
+	
+		//要多兩種 加號
+	if (imgcollapsecross==null) 
+	{
+		imgcollapsecross= imgroot + "icon-colcrossnode.gif";
+	}
+
+	if (imgcollapseroot==null) 
+	{
+		imgcollapseroot= imgroot + "icon-colnode.gif";
+	}
+	if (imgcollapsecorner==null) 
+	{
+		imgcollapsecorner= imgroot + "icon-colcornernode.gif";
+	}	
+	
+	fnLoadExpNodes();  //load expanded nodes string from userdata
+	
+	fnLoadFocusNode(); //load onfocus node from userdata	
+//	window.status =focusNodeId+"@@@";
+	//-------- 強制 FocusNode 打開---------------
+	var o=window.document.getElementById(focusNodeId);
+	if (o) o= o.parentElement;
+	while(o && o.id!=this.id)
+	{
+		if (o.tagName=="LI")
+			if(o.expanded!=true) expNodeIdStr+=o.id+";";
+		o=o.parentElement;
+	}
+	//-----------------------------------------------------------
+	
+	if (expNodeIdStr!=null && expNodeIdStr!="" ) 
+	{
+		SetExpandedNodes(this.id);	
+	}
+//	window.status =expNodeIdStr+"@";
+//	this.style.visibility="hidden";
+//	this.style.display="none";
+	ReadDocument();
+	
+	var container=window.document.createElement("DIV")
+	container.id=this.id + "_container";
+	containerid=this.id + "_container";
+	this.insertAdjacentElement("beforebegin",container);
+	container.style.fontFamily= this.currentStyle.fontFamily;
+	container.style.fontSize = this.currentStyle.fontSize;
+	container.style.fontWeight = this.currentStyle.fontWeight;
+	container.style.color = this.currentStyle.color;
+//	container.style.backgroundColor="#d9d9d9";
+	container.style.paddingTop="2px";
+	container.style.paddingBottom="2px";
+	container.style.paddingLeft="2px";
+	if (width) 
+       container.style.width= width;
+	else
+	   container.style.width= "100%";
+       
+	container.style.overflow="auto";  
+	container.innerHTML= "<font color=red>Loading Tree....</font>" ; 
+	
+	var dctext="";
+	
+//	if (dctext=="")
+//		window.setTimeout("Draw(0,"+dctext+")",500);
+	dctext=Draw(0,dctext);
+	
+	//container.innerHTML=dctext + "<textarea>" + dctext + "</textarea>";
+	container.innerHTML= dctext ;
+	
+	
+	//-----------------
+//	fnLoadFocusNode(); //load onfocus node from userdata
+	//window.status =focusNodeId+"@";
+	if (focusNodeId!="")
+	{
+		var idx = this.FindIndexById(focusNodeId);
+		if (idx!=null) 
+		{
+			this.ResetFocusNode(idx,-1);
+			SelectedNode=idx;
+		}	
+	}
+	//-----------------------
+	
+	if (showRootNode) 
+	{
+		var obj = window.document.getElementById(this.id + "_treenode_0");
+		var objcolexp = window.document.getElementById(this.id + "_img_nodecolexp_0");
+		var objopenclose = window.document.getElementById(this.id + "_img_openclose_0");
+		obj.style.display="block";
+		objcolexp.src= imgexpandedroot ;
+		objopenclose.src= treedocument[0].imgopen ;
+	}
+	
+	//Reset the container DIV height
+	var c=container.parentElement;
+	if (c && (c.tagName=="TD"))
+		container.style.height=c.offsetHeight;
+	else
+	{
+//		container.style.height=container.offsetHeight+25;
+		if (height) 
+			container.style.height= height;
+		else
+			container.style.height= "400px";
+	}	
+	
+}
+
+
+function SetExpandedNodes(nodeid)
+{
+	var oTreeNode = window.document.getElementById(nodeid);
+	if(oTreeNode.nodeType !=1) return;
+	
+	
+	if(nodeid==this.id)
+	{
+		if(expNodeIdStr.match(this.id))
+		{
+			this.expanded=true;
+			showRootNode=true;
+		}
+	}
+	
+	for (var i=0;i<oTreeNode.children.length;i++)	
+	{		
+		if (oTreeNode.children.item(i).tagName=="LI")
+		{
+			if(oTreeNode.children.item(i).id!="")
+			{
+//				if(expNodeIdStr.match(oTreeNode.children.item(i).id)) 
+//					oTreeNode.children.item(i).expanded=true;
+				//---------------
+				if(expNodeIdStr.match(oTreeNode.children.item(i).id)) 
+				{
+					var expFlag=true
+					var o=oTreeNode.children.item(i).parentElement;
+					while(o && o.id!=this.id)
+					{
+						if (o.tagName=="LI")
+						{
+							if(o.expanded!=true) 
+							{	
+								expFlag=false;
+								expNodeIdStr.replace(o.id+";","");
+							}
+						}
+						o=o.parentElement;
+					}
+					if (expFlag)	oTreeNode.children.item(i).expanded=true;
+				}	
+				//---------------------------------
+			}
+				
+		 }
+		for (var j=0; j<oTreeNode.children.item(i).children.tags('ul').length; j++)
+		{
+			if (oTreeNode.children.item(i).children.tags('ul').item(j).id!="")
+				SetExpandedNodes(oTreeNode.children.item(i).children.tags('ul').item(j).id);
+		}	 
+	}			
+}
+
+
+function SetLoadStatus()
+{
+	var nodeindex=0;
+	if (arguments.length==0) 
+		nodeindex=SelectedNode;
+	else
+		nodeindex=arguments[0];
+	
+	treedocument[nodeindex].loaded=true;
+}
+
+function GetLoadStatus()
+{
+	var nodeindex=0;
+	if (arguments.length==0) 
+		nodeindex=SelectedNode;
+	else
+		nodeindex=arguments[0];
+	
+	return treedocument[nodeindex].loaded;
+}
+
+function GetNodeID()
+{
+	
+	if (arguments.length==0) 
+		return treedocument[SelectedNode].id
+	else
+		return treedocument[arguments[0]].id
+}
+
+function ExpandOrCollapse()
+{
+	var nodeindex=0;
+	if (arguments.length==0) 
+		nodeindex=SelectedNode;
+	else
+		nodeindex=arguments[0];
+		
+	if (treedocument[nodeindex].totalchild!=0)
+	{
+		obj = window.document.getElementById(this.id + "_treenode_" + nodeindex);
+		objcolexp = window.document.getElementById(this.id + "_img_nodecolexp_" + nodeindex);
+		objopenclose = window.document.getElementById(this.id + "_img_openclose_" + nodeindex);
+
+		if (obj!=null) 
+		{
+			if (obj.currentStyle.display=="block") 
+			{
+				obj.style.display="none";
+				treedocument[nodeindex].expanded=false;
+				var thenode=window.document.getElementById(treedocument[nodeindex].id);
+				if (thenode) thenode.expanded=false;
+				if(nodeindex==0) //root
+				{
+					objcolexp.src= imgcollapseroot ;
+				}	
+				else
+				{
+					 objparent=treedocument[nodeindex].parent;
+					 if (treedocument[nodeindex].seq ==(treedocument[objparent].totalchild-1))
+						objcolexp.src= imgcollapsecorner ;
+					else	
+						objcolexp.src= imgcollapsecross ;
+				}	
+				objopenclose.src= treedocument[nodeindex].imgclose ;
+			}
+			else
+			{
+				obj.style.display="block";
+				ResetExpanded(nodeindex);
+				if(nodeindex==0) //root
+					objcolexp.src= imgexpandedroot ;
+				else
+				{
+					 objparent=treedocument[nodeindex].parent;
+					 if (treedocument[nodeindex].seq ==(treedocument[objparent].totalchild-1))
+						objcolexp.src= imgexpandedcorner ;
+					else	
+						objcolexp.src= imgexpandedcross ;
+				}
+				objopenclose.src= treedocument[nodeindex].imgopen ;
+			}
+		}
+	}
+	expNodeIdStr="";
+	ReadTreeNodes(this.id);
+	this.fnSaveExpNodes();
+}
+
+function CallBackHandler()
+{
+	if (arguments[1]=="ontreenodeclick")
+	{
+			PreviousNode=SelectedNode;
+			SelectedNode=arguments[0];
+			
+			this.ResetFocusNode(SelectedNode,PreviousNode);
+			var nodeid=this.GetNodeID(SelectedNode);
+			if(nodeid!="")
+			{
+				var ClickNode=window.document.getElementById(nodeid);
+				if (ClickNode.onNodeClick) 
+					eval(ClickNode.onNodeClick+'("'+ClickNode.id+'")');
+				else
+				{
+					if (OnNodeClick!=null)
+						eval(OnNodeClick+'("'+ClickNode.id+'")');
+				}
+			}
+			else
+			{
+					if (OnNodeClick!=null)
+						eval(OnNodeClick+'("'+ClickNode.id+'")');
+			}
+	}
+}
+
+
+function ResetCaption()
+{
+	var nodeindex;
+	var caption="";
+	if (arguments.length==1) 
+		{
+			caption=arguments[0];
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			caption=arguments[1];
+		}
+	
+	window.document.getElementById(this.id + "_treecaption_" + nodeindex ).innerHTML=caption;
+	treedocument[nodeindex].caption=caption;
+}
+
+function ResetOpenImage( )
+{
+
+	if (arguments.length==0) return ;
+	var nodeindex;
+	var imgsrc="";
+	if (arguments.length==1) 
+		{
+			imgsrc=  arguments[0];	
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			imgsrc= arguments[1];
+			
+		}
+		
+	window.document.getElementById(this.id + "_img_openclose_" + nodeindex ).src=imgsrc;
+	treedocument[nodeindex].imgopen=imgsrc;
+	
+}
+
+function ResetCloseImage()
+{
+	if (arguments.length==0) return ;
+	var nodeindex;
+	var imgsrc="";
+	if (arguments.length==1) 
+		{
+			imgsrc= arguments[0];
+						
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			imgsrc= arguments[1];
+		}
+	window.document.getElementById(this.id + "_img_openclose_" + nodeindex ).src=imgsrc;
+	treedocument[nodeindex].imgclose=imgsrc;
+}
+
+function ResetClass()
+{
+	if (arguments.length==0) return ;
+	var nodeindex;
+	var  classname="";
+	if (arguments.length==1) 
+		{
+			 classname=arguments[0];
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			 classname=arguments[1];
+		}
+	
+	
+	window.document.getElementById(this.id + "_treecaption_" + nodeindex ).className=classname;
+	treedocument[nodeindex].classname=classname;
+}
+
+
+function ResetExpanded(nodeindex)
+{
+	if (treedocument[nodeindex].expanded==true) 
+		return; 
+	
+	if (nodeindex!=0)
+	{
+		ResetExpanded(treedocument[nodeindex].parent);
+	}
+		
+		treedocument[nodeindex].expanded=true;
+		if(treedocument[nodeindex].id!="")
+		{
+			var thenode=window.document.getElementById(treedocument[nodeindex].id);
+			if (thenode) thenode.expanded=true;
+		}
+		
+		return ;
+}
+
+function RebuildTree()
+{	
+	var nodeindex=0;
+	if (arguments.length==0) 
+		nodeindex=SelectedNode;
+	else
+		nodeindex=arguments[0];
+	var dctext="";
+	
+	dctext=Draw(nodeindex,dctext);
+	if (nodeindex==0)
+	{
+		window.document.getElementById(containerid).innerHTML=dctext;
+	}
+	else
+	{
+		window.document.getElementById(this.id + "_nodelevel_" + nodeindex).innerHTML=dctext;
+	}	
+}
+
+function SetOpenImage( )
+{
+
+	if (arguments.length==0) return ;
+	var nodeindex;
+	var imgsrc="";
+	if (arguments.length==1) 
+		{
+			
+			imgsrc=arguments[0];
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			imgsrc=arguments[1];
+		}
+		
+	treedocument[nodeindex].imgopen=imgsrc;
+	
+}
+
+function SetCloseImage()
+{
+	if (arguments.length==0) return ;
+	var nodeindex;
+	var imgsrc="";
+	if (arguments.length==1) 
+		{
+			imgsrc= arguments[0];				
+			nodeindex=SelectedNode;
+		}
+	else
+		{
+			nodeindex=arguments[0];
+			imgsrc= arguments[1];
+		}
+		
+	treedocument[nodeindex].imgclose=imgsrc;
+}
+
+function FindIndexById(idstr)
+{
+	for (var i=0 ; i< nodecount ; i++)
+	{
+		if (treedocument[i].id==idstr)
+			return i;
+	}
+	return 0;
+}
+
+function AddChildNode()
+{
+
+	if (arguments.length < 2) 
+	{  
+		alert("Can't insert a node without parent node and node content!");
+		return ;
+	}
+	
+	var nodeindex=0;
+	var parindex=0;
+	var caption="";
+	var nodeid="";
+	var loaded=true;
+	
+	if (arguments.length==2)
+	{
+		parindex=FindIndexById(arguments[1]);
+		caption=arguments[0];
+		nodeid=window.document.uniqueID;
+	}
+	
+	else
+	{ if (arguments.length == 3)
+		{
+			parindex=FindIndexById(arguments[1]);
+			caption=arguments[0];
+			loaded=arguments[2];
+		}
+	else
+		{
+			parindex=FindIndexById(arguments[1]);
+			caption=arguments[0];
+			nodeid=arguments[2];
+			loaded=arguments[3];
+		}
+	}
+	nodeindex=ConstructObject(parindex,treedocument[parindex].ident+1, caption , nodeid,loaded)
+	AddChild(parindex,nodeindex);
+	return nodeindex;
+}
+
+
+
+function ConstructObject(parent,ident, caption, id, loaded)
+{ 
+    treedocument[nodecount]=new Object;
+    treedocument[nodecount].parent=parent;
+    treedocument[nodecount].indent=ident;
+    treedocument[nodecount].expanded=false;
+    treedocument[nodecount].id=id;
+    treedocument[nodecount].imgopen=imgopen;
+    treedocument[nodecount].imgclose=imgclose;
+    treedocument[nodecount].onclick=OnNodeClick;
+    treedocument[nodecount].classname="";
+    treedocument[nodecount].loaded=loaded;
+    if (parent==nodecount)
+	{
+		treedocument[nodecount].seq=0;	
+	}
+    else
+	{
+		treedocument[nodecount].seq=treedocument[parent].totalchild;
+	}
+    treedocument[nodecount].totalchild=0;
+    //treedocument[nodecount].caption="";
+    treedocument[nodecount].caption=caption;	
+    treedocument[nodecount].childlist = new Array();
+    return nodecount++;
+} 
+
+function AddChild(nodeindex, childindex)
+{	
+	treedocument[nodeindex].childlist[ treedocument[nodeindex].totalchild]=childindex;
+	treedocument[nodeindex].totalchild++ ;
+}
+
+
+function DrawPrefix(nodeindex, dc)
+{	
+	var dctext=dc;
+	
+	if (nodeindex==0) return dctext;
+
+	dctext=DrawPrefix(treedocument[nodeindex].parent,dctext);
+
+	var parindex=treedocument[nodeindex].parent;
+	
+	if (parindex==0 )
+	//	dctext += "<img src='" + imgdummy + "' align=absmiddle border=0 hspace='2'>"
+		dctext += "<img src='" + imgdummy + "' align=absmiddle border=0 style='border-color:gray'  hspace='1'>"
+	else
+	{
+		if (treedocument[treedocument[parindex].parent].totalchild!=treedocument[parindex].seq +1)
+			dctext += "<img src='" + imgline + "' align='absmiddle' border='0' hspace='1'>";   //直線
+		else
+			dctext += "<img src='" + imgdummy + "' align=absmiddle  style='border-color:gray'  border=0 hspace='1'>";  //dummy
+	}
+	
+	return dctext;
+}
+
+
+function Draw(nodeindex, dc)
+{
+	var dctext=dc;
+	
+//	dctext= dctext +"<span id='" + this.id + "_nodelevel_" + nodeindex + "' style='border-width:1px; background-color:blue;' nowrap>";
+	dctext= dctext +"<div id='" + this.id + "_nodelevel_" + nodeindex + "' style='border-width:0px;' nowrap>";
+	dctext=DrawPrefix(nodeindex, dctext);
+	
+	if (treedocument[nodeindex].totalchild==0)
+	{
+		var parindex=treedocument[nodeindex].parent;
+		if ( treedocument[parindex].totalchild!= treedocument[nodeindex].seq +1)
+			dctext += "<img src='" + imgcross + "' align='absmiddle' border='0' hspace='1'>"   // T 型線
+		else
+		   dctext += "<img src='" + imgcorner + "' align='absmiddle' border='0' hspace='1'>"   // L 線
+	}
+	
+	if (treedocument[nodeindex].totalchild==0)  //無子節點的node
+		dctext += "<img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgclose + "' align=absmiddle border=0 style='border-color:red' hspace=2 >" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");'  id='" + this.id + "_treecaption_" + nodeindex + "' onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);' nowrap>" + treedocument[nodeindex].caption + "</span><br>\n" ;
+	else
+	{
+		if (treedocument[nodeindex].expanded)
+			if (nodeindex==0)   //root
+				dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgexpandedroot + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1  style='border-color:red;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgopen + "' align=absmiddle  border=0 style='border-color:#998800'  hspace=2>" + "<span  style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);' nowrap>" + treedocument[nodeindex].caption + "</span><br>\n";			
+			else
+			{
+				objparent=treedocument[nodeindex].parent;
+				if ( treedocument[objparent].totalchild!= treedocument[nodeindex].seq +1)  //不是結尾點
+					dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgexpandedcross + "'  onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1  style='border-color:blue;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgopen + "' align=absmiddle  border=0 style='border-color:#998800'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);'  nowrap>" + treedocument[nodeindex].caption + "</span><br>\n";				
+				else
+					dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgexpandedcorner + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1  style='border-color:blue;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgopen + "' align=absmiddle  border=0 style='border-color:#998800'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);' nowrap>" + treedocument[nodeindex].caption + "</span><br>\n";
+			}	
+		else
+		{
+			 objparent=treedocument[nodeindex].parent;
+			 if (treedocument[nodeindex].seq ==(treedocument[objparent].totalchild-1))
+			 {
+				if(nodeindex==0)
+				{
+					dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgexpandedroot + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1 style='border-color:orange;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgclose + "' align=absmiddle border=0  style='border-color:green'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);' nowrap>" + treedocument[nodeindex].caption + "</span><br>\n";
+				}	
+				else
+					dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgcollapsecorner + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1 style='border-color:orange;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgclose + "' align=absmiddle border=0  style='border-color:green'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);' >" + treedocument[nodeindex].caption + "</span><br>\n";
+			 }	
+			 else	
+			 {
+				if(nodeindex==0)
+				    dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgcollapseroot + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1 style='border-color:orange;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgclose + "' align=absmiddle border=0  style='border-color:green'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);'>" + treedocument[nodeindex].caption + "</span><br>\n";
+				else
+				    dctext += "<img  id='" + this.id + "_img_nodecolexp_" + nodeindex + "' src='" + imgcollapsecross + "' onclick='window.document.getElementById(\"" + this.id + "\").ExpandOrCollapse(\"" + nodeindex + "\");' align=absmiddle border=0 hspace=1 style='border-color:orange;cursor:hand;'><img id='" + this.id + "_img_openclose_" + nodeindex +"' src='" + treedocument[nodeindex].imgclose + "' align=absmiddle border=0  style='border-color:green'  hspace=2>" + "<span style='cursor:default;padding-left:2px;padding-right:2px;border-width:1px;border-color:#ffffff;border-style:solid;' onclick='window.document.getElementById(\"" + this.id + "\").CallBackHandler(\"" + nodeindex + "\", \"ontreenodeclick\");' id='" + this.id + "_treecaption_" + nodeindex + "'  onmouseover='window.document.getElementById(\"" + this.id + "\").captionOnMouseOver(this);' onmouseout='window.document.getElementById(\"" + this.id + "\").captionOnMouseOut(this);'>" + treedocument[nodeindex].caption + "</span><br>\n";
+			  }  
+		}	
+	}
+	
+	if (treedocument[nodeindex].expanded)
+		dctext=dctext +"<span style='display:block;border-width:1px;border-color:blue;'  id='" + this.id + "_treenode_" + nodeindex + "'>" ;
+	else
+		dctext=dctext +"<span  style='display:none;border-width:1px;border-color:blue;'' id='" + this.id + "_treenode_" + nodeindex + "'>" ;
+	
+	for (var j=0 ; j<treedocument[nodeindex].totalchild;j++)
+		dctext=Draw(treedocument[nodeindex].childlist[j],dctext);
+	
+//	dctext=dctext + "</span>" ;
+	dctext=dctext + "</div>" ;
+	dctext=dctext + "</span>" ;
+	
+	return dctext;
+	
+}
+
+function ReadNode(prt, treenode, lvl)
+{
+	var currentNodeIndex;
+	var caption;
+	for (var i=0;i<treenode.children.length;i++)	
+	{
+
+			var nodeid="";
+			var loaded=true;
+			if (treenode.children.item(i).id!=null 	)
+				nodeid=treenode.children.item(i).id;
+			if (treenode.children.item(i).getAttribute("unload")!=null 	)
+				{ 
+					loaded=false;
+				}
+			
+			if (treenode.children.item(i).children.length==0)
+				caption=treenode.children.item(i).innerHTML;
+			else
+			   {
+				if (treenode.children.item(i).children.item(0).tagName=='UL')
+					caption=treenode.children.item(i).getAdjacentText("afterbegin");
+				else
+					caption=treenode.children.item(i).children.item(0).outerHTML;
+			   }
+			
+			currentNodeIndex=ConstructObject(prt,lvl,caption,nodeid, loaded);			
+			if (treenode.children.item(i).getAttribute("expanded")!=null 	)
+				ResetExpanded(currentNodeIndex);
+				
+			if (treenode.children.item(i).getAttribute("imgclose")!=null 	)
+				SetCloseImage(currentNodeIndex, treenode.children.item(i).getAttribute("imgclose"));
+			
+			if (treenode.children.item(i).getAttribute("imgopen")!=null 	)
+				SetOpenImage(currentNodeIndex, treenode.children.item(i).getAttribute("imgopen"));
+
+		
+			AddChild(prt,currentNodeIndex);
+		for (var j=0; j<treenode.children.item(i).children.tags('ul').length; j++)		
+			ReadNode(currentNodeIndex, treenode.children.item(i).children.tags('ul').item(j) , lvl+1);
+	}
+	
+}
+
+function ReadDocument()
+{	
+	nodecount=0;
+
+	if (RootText==null) 
+		ConstructObject(0,0,"Root Node",this.id,true);
+	else
+		ConstructObject(0,0,RootText,this.id,true);
+			
+			
+	if (this.children.length != 0)
+	{
+		ReadNode(0,this,1);
+	}
+}
+
+
+function fnSaveExpNodes()
+{
+		this.setAttribute("expnodestr",expNodeIdStr);
+	//	this.save("node_expanded");
+		this.save(this.id+"node_expanded");
+}
+   
+function fnLoadExpNodes()
+{
+//	 this.load("node_expanded");
+	 this.load(this.id+"node_expanded");
+	 expNodeIdStr=this.getAttribute("expnodestr");
+}
+
+function fnSaveFocusNode()
+{
+		this.setAttribute("focusnode",focusNodeId);
+	//	this.save("node_onfocus");
+		this.save(this.id+"node_onfocus");
+	//	window.status =focusNodeId;
+}
+   
+function fnLoadFocusNode()
+{
+	// this.load("node_onfocus");
+	  this.load(this.id+"node_onfocus");
+	 focusNodeId=this.getAttribute("focusnode");
+	 return focusNodeId;
+}
+
+
+function ReadTreeNodes(nodeid)
+{
+//	if(!nodeid || nodeid=="") return;
+	var oTreeNode = window.document.getElementById(nodeid);
+	if(oTreeNode.nodeType !=1) return;
+	
+	if (nodeid==this.id) 
+	{
+		if (this.expanded == true) 
+		{
+			expNodeIdStr+=this.id+";";
+		}
+	}
+	
+	for (var i=0;i<oTreeNode.children.length;i++)	
+	{		
+		if (oTreeNode.children.item(i).tagName=="LI" )
+		{
+			if(oTreeNode.children.item(i).expanded == true)  
+			{
+				expNodeIdStr+=oTreeNode.children.item(i).id+";";
+			}	
+		 }
+		 
+		for (var j=0; j<oTreeNode.children.item(i).children.tags('ul').length; j++)
+		{
+			 if(oTreeNode.children.item(i).children.tags('ul').item(j).id!="") 
+				 ReadTreeNodes(oTreeNode.children.item(i).children.tags('ul').item(j).id);
+		}
+	}			
+//window.status =expNodeIdStr+"#";
+	return expNodeIdStr;
+}
+
+function ResetFocusNode(fnode,unfnode)
+{
+	if (fnode==unfnode ) return;
+	if (fnode!=null)
+	{
+		 var focusNode = window.document.getElementById(this.id + "_treecaption_" + fnode);
+		  focusNodeId = this.GetNodeID(fnode);
+		 if(focusNodeId!=null) fnSaveFocusNode();
+	} 
+	
+	if (unfnode!=null && unfnode!=-1) var unfocusNode = window.document.getElementById(this.id + "_treecaption_" + unfnode);
+	if (focusNode) 
+	{
+		focusNode.style.backgroundColor="#C0C5F8";
+		focusNode.style.borderColor="#606EF1"; 
+		focusNode.style.borderWidth ="1";
+		focusNode.style.borderStyle ="solid";
+	}
+	if (unfocusNode) 
+	{
+		unfocusNode.style.backgroundColor=""	;
+		unfocusNode.style.borderColor="#FFFFFF"; 
+	}
+}
+
+function captionOnMouseOver(o)
+{
+	if (!o) return;
+	o.style.textDecoration="underline";
+}
+
+function captionOnMouseOut(o)
+{
+	if (!o) return;
+	o.style.textDecoration="none";
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

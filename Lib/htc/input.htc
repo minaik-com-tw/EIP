@@ -1,0 +1,25 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:METHOD name="isChange" />
+
+<SCRIPT language="JScript">
+
+var s_SourceValue=""
+
+function event_ondocumentready()
+{	
+	alert(this.TagName);
+	s_SourceValue=this.value;
+}
+
+function isChange()
+{
+	if (s_SourceValue==this.value)
+	return true;
+	else 
+	return false;
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

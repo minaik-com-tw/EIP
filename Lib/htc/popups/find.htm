@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML id=dlgFind style="WIDTH: 400px; HEIGHT: 124px">
+<HEAD>
+<TITLE>Find</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=MSThemeCompatible content=Yes>
+<STYLE>HTML {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+BODY {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+BUTTON {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+DIV {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+INPUT {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+SELECT {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+FIELDSET {
+	FONT-SIZE: 8pt; FONT-FAMILY: MS Shell Dlg; POSITION: absolute
+}
+</STYLE>
+
+<SCRIPT>
+opener = window.dialogArguments;
+window.setInterval(checkInputString, 500);
+ var objname     = location.search.substring(1,location.search.length);
+  var editor_obj = opener.document.all["_" +objname+  "_editor"];
+//var editor_obj = opener.document.all["_" + opener.getGlobalVar('_editor_field') + "_editor"];
+
+ var o=eval("window.self.opener.document.all."+objname);
+// disable the button if no text is entered
+function checkInputString() {
+   // close when switched to textedit
+   
+   if (o.getGlobalVar('_editor_field') == "_editor_disabled") 
+   {
+      window.close();
+   }
+   // activate okbutton only when searchstring has values
+   if (srchStr.value == "") {
+      if (!btnOK.disabled){btnOK.disabled = true;}
+   } else { 
+      if (btnOK.disabled){btnOK.disabled = false;}
+   }
+}
+</SCRIPT>
+
+<SCRIPT defer>
+function _CloseOnEsc() {
+  if (event.keyCode == 27) { window.close(); return; }
+}
+
+window.onerror = HandleError
+function HandleError(message, url, line) {
+  var str = "An error has occurred in this dialog." + "\n\n"
+  + "Error: " + line + "\n" + message;
+  alert(str);
+  window.close();
+  return true;
+}
+
+function Init() {
+  // event handlers  
+  window.document.body.onkeypress = _CloseOnEsc;
+  btnOK.onclick = new Function("btnOKClick()");
+  srchStr.focus();
+}
+
+function radioValue(radioobject){
+   for (var i=0; i < radioobject.length; i++) {
+      if (direction[i].checked) {
+         return radioobject[i].value;
+      }
+   }
+} 
+
+function btnOKClick() {
+   // get the selection range and text range
+   var findRange = editor_obj.contentWindow.document.selection.createRange();
+   var textRange = editor_obj.contentWindow.document.body.createTextRange();
+   // make sure selection is in editor 
+   if (!textRange.inRange(findRange)) {
+      // if selection not in editor place it in editor en re-execute button
+      textRange.collapse();
+      textRange.select();          
+      findange = textRange;
+      btnOKClick();
+   } else {
+      var text_length = textRange.htmlText.length;
+      var updown = radioValue(direction);
+      // set the searchflags
+      var iFlags = 0;
+      if (whole.checked) { iFlags = iFlags + 2};
+      if (caps.checked)  { iFlags = iFlags + 4};
+      // set the searchscope
+      var iSearchScope  = text_length  * updown;
+      // search the string and position  
+      if ( updown == 1 ) {
+         // if (findRange.length == null) {
+         if (findRange.htmlText != '') {
+            // nondegenerate range : deplace start position
+            findRange.moveStart("character");
+         }
+         findRange.moveEnd("textedit");
+      } else {
+         iFlags = iFlags + 1;
+         findRange.moveStart("character",1);
+         findRange.moveEnd("character",-1);
+      }
+      if (findRange.findText(srchStr.value,iSearchScope,iFlags)){
+         // found: select the text
+         findRange.select();
+         findRange.scrollIntoView();
+      } else {
+         // not found : give a warning
+         alert('Finished searching the document.');
+      }
+   }
+}
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY id=bdy style="BACKGROUND: buttonface; COLOR: windowtext" scroll=no onload=Init()>
+
+<DIV id=divSrch style="LEFT: 0.78em; WIDTH: 6em; TOP: 1.21em; HEIGHT: 1.21em">Find what: </DIV>
+<INPUT id=srchStr style="LEFT: 7.54em; WIDTH: 19.5em; TOP: 1.06em; HEIGHT: 2.12em" onfocus=select() tabIndex=10> 
+<DIV id=divWhole style="LEFT: 0.38em; WIDTH: 10.76em; TOP: 3.52em; HEIGHT: 1.21em">
+<INPUT tabIndex=20 type=checkbox name=whole> </DIV>
+
+<DIV id=divWholeTxt style="LEFT: 2.38em; WIDTH: 10.76em; TOP: 3.92em; HEIGHT: 1.21em">Match whole word only </DIV>
+<DIV id=divCaps style="LEFT: 0.38em; WIDTH: 10.76em; TOP: 5.52em; HEIGHT: 1.21em">
+<INPUT tabIndex=30 type=checkbox name=caps> </DIV>
+<DIV id=divCapsTxt style="LEFT: 2.38em; WIDTH: 10.76em; TOP: 5.92em; HEIGHT: 1.21em">Match case </DIV>
+<FIELDSET id=direct style="LEFT: 12.9em; WIDTH: 14em; TOP: 3.29em; HEIGHT: 4.2em"><LEGEND id=lgdDirection>Direction </LEGEND></FIELDSET> 
+<DIV id=divUp style="LEFT: 14em; WIDTH: 2em; TOP: 4.82em; HEIGHT: 1.21em">
+<INPUT tabIndex=40 type=radio value=-1 name=direction> </DIV>
+<DIV id=divUptxt style="LEFT: 16em; WIDTH: 4em; TOP: 5.05em; HEIGHT: 1.21em">Up </DIV>
+<DIV id=divDown style="LEFT: 20em; WIDTH: 2em; TOP: 4.82em; HEIGHT: 1.21em">
+<INPUT tabIndex=50 type=radio CHECKED value=1 name=direction> </DIV>
+<DIV id=divDown style="LEFT: 22em; WIDTH: 4em; TOP: 5.05em; HEIGHT: 1.21em">Down </DIV>
+<BUTTON id=btnOK style="LEFT: 27.8em; WIDTH: 8.5em; TOP: 1.06em; HEIGHT: 2.2em" disabled tabIndex=15 type=submit>Find Next</BUTTON>
+<BUTTON id=btnCancel style="LEFT: 27.8em; WIDTH: 8.5em; TOP: 3.65em; HEIGHT: 2.2em" onclick=window.close(); tabIndex=60 type=reset>Cancel</BUTTON> 
+
+</BODY>
+</HTML>

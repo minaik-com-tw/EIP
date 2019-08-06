@@ -1,0 +1,128 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onmousedown" ONEVENT="mouseDown()"/>
+<PUBLIC:ATTACH EVENT="onmouseup" ONEVENT="mouseUp()"/>
+<PUBLIC:ATTACH EVENT="onmousemove" ONEVENT="mouseMove()"/>
+<SCRIPT LANGUAGE="JScript">
+var x, y;
+var elem;
+var bColSelected = false;
+var bResizing = false;
+var t = 3;   // selection tolerance
+function event_ondocumentready()
+{
+  /// 
+}
+
+function mouseDown()
+{
+   // Capture mouse if column border has been selected
+   if ( bColSelected )
+   {
+      element.setCapture();
+      bResizing = true; //可resize
+   }
+}
+
+function mouseUp()
+{
+   // Release mouse capture
+   element.releaseCapture();
+   bResizing = false;
+}
+
+function mouseMove()
+{
+   x = window.event.x;
+   y = window.event.y;
+   
+   if ( bResizing )   //可resize時
+   {
+      var row = elem.parentElement;
+      var iCell;
+      var nCells = row.cells.length;
+	
+      // Locate cell index
+      for (var i = 0; i < nCells; i++ )
+      {
+         if ( row.cells[i] == elem )
+         {
+            iCell = i;
+            break;
+         }
+      }
+      ////==============
+      var srctbl;
+	  srctbl = row.parentElement;
+	  while (srctbl.tagName != "TABLE") 
+	  {
+			srctbl = srctbl.parentElement;
+	  }      
+      ////=================
+      
+      var rows = srctbl.rows;
+      var nRows = rows.length;
+      var cell;
+      var width;
+      var height;
+
+      // Adjust width of each cell in the column
+      for ( var i = 0; i < nRows; i++ )
+      {
+         cell = rows[i].cells[iCell];
+         width = x - cell.offsetLeft;
+         if ( width > 0 )
+            cell.width = x - cell.offsetLeft;
+      }
+      
+      // Adjust height of each cell on the row
+     /*
+     for (var i = 0; i < nCells; i++ )
+     {
+		cell = row.cells[i];
+		height = y - (cell.offsetTop);
+         if ( height > 0 )
+            cell.height = height;
+     }
+     */
+      
+   }
+   else
+   {
+      elem = window.document.elementFromPoint( x, y );  //目前select 的 cell
+      if ( elem.tagName == "TD" )
+      {
+         var rect = elem.getClientRects()[0];
+         var left = rect.left;
+         var right = rect.right;
+         var top = rect.top;
+         var bottom = rect.bottom;
+
+         // Detect if cursor is on vertical cell border
+        // if ( ( x >= left - t && x <= left + t && y >= top + t && y <= bottom -t ) || ( x >= right - t && x <= right + t && y >= top + t && y <= bottom -t ) )
+         if (( x >= right - t && x <= right + t && y >= top + t && y <= bottom -t ) )
+         {
+            bColSelected = true;
+            //element.style.cursor = "col-resize";
+            element.style.cursor = "e-resize";
+         }
+         else if (x >= left + t && x<=right - t && y >= bottom - t && y <= bottom + t )
+         {
+            bColSelected = true;
+            element.style.cursor = "s-resize";
+         }
+         else
+         {
+            bColSelected = false;
+            element.style.cursor = "";
+         }
+      }
+      else
+      {
+         bColSelected = false;
+         element.style.cursor = "";
+      }
+   }
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

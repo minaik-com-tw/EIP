@@ -1,0 +1,1 @@
+<%@ page language="C#" masterpagefile="~/_site/layout/Template.master" autoeventwireup="true" inherits="SmoothEnterprise.Web.Application.Manager.PaintPerformance, App_Web_paintperformance.aspx.cdcab7d2" title="WebForm View Page" theme="Default" %>

@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Copyright">
+            <summary>
+            Summary description for Copyright.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Control.Base">
+            <summary>
+            Summary description for Component.
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Control.Base.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Control.Base.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Control.Base.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Utility.Type">
+            <summary>
+            Summary description for Type.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Type.InheritsClass(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="webpagename">The web page physical pathname</param>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Utility.Convert">
+            <summary>
+            Summary description for Convert.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Configuration.Constants.UStatus">
+            <summary>
+            User account status
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Utility.Registry">
+            <summary>
+            Registry Utility
+            Creator		：Axion 
+            CreateDate	：2004/07/26
+            Updater 	：Axion
+            UpdateDate	：2004/07/26
+            Version		：1.0
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Control.LicenseProvider">
+            <summary>
+            Summary description for License.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Utility.Xml">
+            <summary>
+            XML Utility
+            Creator		：Axion
+            CreateDate	：2004/05/26
+            Updater 	：Axion
+            UpdateDate	：2004/07/23
+            Version		：3.0
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.#ctor(System.String)">
+            <summary>
+            new(xmlfile)
+            </summary>
+            <param name="xmlfile">Use XML file path</param>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.#ctor(System.String,System.String)">
+            <summary>
+            new(savexmlfile,xmlstring)
+            </summary>
+            <param name="savexmlfile">Save XML file path</param>
+            <param name="xmlstring">XML document with string</param>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.getXml">
+            <summary>
+            Get XML Document
+            </summary>
+            <returns>XmlDocument</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.getXmlData">
+            <summary>
+            Get XML all nodes Data
+            </summary>
+            <returns>XML Data Table</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.nodeData(System.String,System.Xml.XmlNode)">
+            <summary>
+            Reget XML all Node's Data
+            </summary>
+            <param name="xpath">Node's XPath Script</param>
+            <param name="node">This Node</param>
+        </member>
+        <member name="M:SmoothEnterprise.Utility.Xml.childOrder(System.Collections.ArrayList,System.String)">
+            <summary>
+            Get the same name order
+            </summary>
+            <param name="names">ChildNodes name</param>
+            <param name="name">new name</param>
+            <returns>the same name order</returns>
+        </member>
+        <member name="P:SmoothEnterprise.Utility.Xml.Item(System.String)">
+            <summary>
+            GET to select xmldoc by xpath
+            SET to update node.innerXML or attribute.value
+            SET to del node or attribute ,use value = [null]
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SmoothEnterprise.Utility.Xml.Item(System.String,System.String,System.String)" -->
+        <member name="T:SmoothEnterprise.Personalize">
+            <summary>
+            Summary description for Customize.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Utility.Text">
+            <summary>
+            Summary description for String.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Log.Collector">
+            <summary>
+            Summary description for Collector.
+            </summary>
+        </member>
+    </members>
+</doc>

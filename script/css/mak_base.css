@@ -1,0 +1,212 @@
+﻿
+
+input[type="text"], optgroup, select, textarea {
+    height: 22px;
+    width: 120px;
+    font-size: 14px;
+    margin: 2px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+
+
+.css_btn {
+    -moz-border-radius: 0;
+    -moz-box-shadow: 2px 2px 2px #e5e5e5;
+    -webkit-border-radius: 0;
+    -webkit-box-shadow: 2px 2px 2px #e5e5e5;
+    background: #e5e5e5;
+    border-radius: 0px;
+    border: solid #707070 1px;
+    box-shadow: 2px 2px 2px #e5e5e5;
+    color: #030303;
+    cursor: default;
+    font-size: 12px;
+    font-family: Aharoni;
+    font-weight: bold;
+    height: auto;
+    padding: 4px 20px 4px 20px;
+    text-decoration: none;
+    width: auto;
+}
+
+    .css_btn:hover {
+        background: #a6f4ff;
+        text-decoration: none;
+        border: solid #26a0da 1px;
+    }
+
+.sys_btn, .sys_btn_on {
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bolder;
+    background: #e5e5e5;
+    border-radius: 0px;
+    border: solid #707070 1px;
+    box-shadow: 2px 2px 2px #e5e5e5;
+    color: #030303;
+    cursor: default;
+    font-size: 12px;
+    font-family: Aharoni;
+    font-weight: bold;
+    height: auto;
+    padding: 3px 20px 3px 20px;
+    text-decoration: none;
+}
+
+.sys_btn_on {
+    background: #a6f4ff;
+    text-decoration: none;
+    border: solid #26a0da 1px;
+}
+
+
+/*div format copy from table */
+.css_table {
+    display: table;
+    border-collapse: collapse;
+    *overflow: hidden;
+}
+
+.css_tr {
+    display: table-row;
+    *width: 100%;
+}
+
+.css_td, .css_td2, .css_th, .css_th2, .css_th3 {
+    border: solid 2px #FFFFEA;
+    display: table-cell;
+    font-family: arial;
+    font-weight: bolder;
+    font-size: 11px;
+    padding: 2px;
+    /*強制不換行  white-space:nowrap; */
+    /* 自動換行word-wrap: break-word; word-break: normal; */
+    word-wrap: break-word;
+    word-break: normal;
+    /*強制英文單詞斷行 word-break: break-all;*/
+    word-break: break-all;
+    vertical-align: middle;
+    /*---------------------
+        ie 7
+    ---------------------*/
+    *float: left;
+}
+
+
+.css_th {
+    background: #FF5E5B;
+    color: #FFFFEA;
+    font-weight: bolder;
+    text-align: right;
+    width: 30%;
+}
+
+.css_th2 {
+    background: #93b4cf;
+    color: #fffffa;
+    font-weight: bolder;
+    text-align: right;
+    width: 30%;
+}
+
+.css_th3 {
+    background: #592941;
+    color: #fffffa;
+    font-weight: bolder;
+    text-align: right;
+    width: 30%;
+}
+
+.css_td {
+    background: #ffffff;
+    color: #444B6E;
+    text-align: left;
+}
+
+
+.css_td2 {
+    background: #ffffff;
+    color: #B1B1B1;
+    text-align: left;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    *position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    *-moz-border-radius: 5px;
+    *-webkit-border-radius: 5px;
+    *border-radius: 5px;
+    *filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7F000000,endcolorstr=#7F000000);
+}
+
+.box-login {
+    display: none;
+    margin: 10px auto;
+    /* margin: auto; */
+    position: absolute;
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*width: 600px;
+    height: 5000px;*/
+    /* height: 1000px; */
+    background: #fff;
+    border: solid 2px #FF5E5B;
+    z-index: 10;
+}
+
+.div_table {
+    display: table;
+    border-collapse: collapse;
+    *overflow: hidden;
+}
+
+.div_tr {
+    display: table-row;
+    *width: 100%;
+}
+
+.div_td {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    *float: left;
+    padding: 5px;
+    width: 165px;
+    
+}
+
+    .div_td input[type="text"] {
+        width: 120px;
+        height: 20px;
+    }
+
+.smooth_btn {        
+    background-color: #c8c8c8;
+    border: #606060 1px solid; 
+    filter: progid:dximagetransform.microsoft.gradient(gradienttype=0,startcolorstr=#55ffffff, endcolorstr=#55888888);
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold; 
+    height: 22px;
+    padding: 1px 5px 3px 5px;
+    width: 90px;
+    margin:2px 2px;
+    text-align:center;
+
+}
+.all {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}

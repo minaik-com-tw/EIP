@@ -1,0 +1,622 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Web</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.UserExpire">
+            <summary>
+            Summary description for UserExpire.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Mail.SendMessage">
+            <summary>
+            Summary description for SendMessage.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Mail.SendMail">
+            <summary>
+            Summary description for SendMail.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.Thumbneil">
+            <summary>
+            Summary description for Imaging.Thumbneil.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.GradientType">
+            <summary>
+            Color gradient types
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GradientType.Top">
+            <summary>
+            Top to down
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GradientType.Bottom">
+            <summary>
+            Bottom to top
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GradientType.Left">
+            <summary>
+            Left to right
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GradientType.Right">
+            <summary>
+            Right to left
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GradientType.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.StyleAttribute">
+            <summary>
+            The appearance attributes class for web controls
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.ToAttributes">
+            <summary>
+            Generate HTML tag attributes from all properties
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.ToAttributes(System.String,System.String)">
+            <summary>
+            Generate HTML tag attributes from all properties
+            </summary>
+            <param name="beforestyles">Optional style sheet attributes to be add before all properties</param>
+            <param name="afterstyles">Optional style sheet attributes to be add after all properties</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.GetStyle">
+            <summary>
+            Generate HTML style attribute string from all properties for appearance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.GetStyle(System.Boolean,System.Boolean)">
+            <summary>
+            Generate HTML style attribute string from all properties for appearance
+            </summary>
+            <param name="fontattributes"></param>
+            <param name="appearanceattributes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.GetAttributes(System.Web.UI.WebControls.WebControl)">
+            <summary>
+            
+            </summary>
+            <param name="wc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttribute.Clone">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.Gradient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.GradientLevel">
+            <summary>
+            The gradient level from 0 ~ 255
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.GradientBegin">
+            <summary>
+            Gradient begin color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.GradientEnd">
+            <summary>
+            Gradient end color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.Font">
+            <summary>
+            Font attributes
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.ForeColor">
+            <summary>
+            Font color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.Filter">
+            <summary>
+            Optional browser filter attribute
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.BackColor">
+            <summary>
+            Background color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.PaddingSize">
+            <summary>
+            Inner spacing between content and border
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.BorderWidth">
+            <summary>
+            Border width
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.BorderStyle">
+            <summary>
+            Border style
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.BorderColor">
+            <summary>
+            Border color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleAttribute.CssClass">
+            <summary>
+            Optional external CSS name
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.StyleSheet">
+            <summary>
+            The HTML style sheet convertion support utilities
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.ToColor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.ToColor(System.String)">
+            <summary>
+            Generate .NET color object from HTML color string
+            </summary>
+            <param name="color">#000000,....#FFFFFF</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.ToFont(System.Web.UI.WebControls.FontInfo)">
+            <summary>
+            Generate HTML style sheet attribute for object FONT from .NET font object
+            </summary>
+            <param name="font">The font object to be converted</param>
+            <returns>font-size: xxx; font-weight: xxx; ......</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.Border(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.Border(System.Int32,System.String)">
+            <summary>
+            Generate HTML style sheet attribute for object BORDER from specified with and color
+            </summary>
+            <param name="width">Border width</param>
+            <param name="color">Border color</param>
+            <returns>border-left: px color line; border-right: .....</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleSheet.BorderStyle(System.Drawing.Color,System.Web.UI.WebControls.BorderStyle,System.Web.UI.WebControls.Unit)">
+            <summary>
+            Generate HTML style sheet attribute for object BORDER from .NET border objects
+            </summary>
+            <param name="bordercolor">Border color</param>
+            <param name="borderstyle">Border style</param>
+            <param name="borderwidth">Border width</param>
+            <returns>border-left: px color line; border-right: .....</returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleSheet.DefaultFont">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleSheet.SmallFont">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleSheet.NoBorder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.StyleSheet.Disable">
+            <summary>
+            Genterate HTML style sheet attribute for DISABLED object
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Page">
+            <summary>
+            This class is base class for all web forms that will inherited from this class.
+            It provides some functionality including page layout, database access, and page parameters pass.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.OnLoad(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.ScrollPositionAuto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.ScrollPositionReset">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.AutoScrollPosition">
+            <summary>
+            Save ScrollPosition
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.AddError(System.Object,System.String,System.String,System.String)">
+            <summary>
+            Add error message
+            </summary>
+            <param name="sender">Sender object</param>
+            <param name="method">Method</param>
+            <param name="parameter">Parameter</param>
+            <param name="error">Error Message</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.AddInformation(System.Object,System.String,System.String,System.String)">
+            <summary>
+            Add information message
+            </summary>
+            <param name="sender">Sender object</param>
+            <param name="method">Method</param>
+            <param name="parameter">Parameter</param>
+            <param name="error">Error Message</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.AddWarning(System.Object,System.String,System.String,System.String)">
+            <summary>
+            Add Warning message
+            </summary>
+            <param name="sender">Sender object</param>
+            <param name="method">Method</param>
+            <param name="parameter">Parameter</param>
+            <param name="error">Error Message</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.MsgCount">
+            <summary>
+            Count All message's items.
+            </summary>
+            <returns>Items number</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.MsgCount(SmoothEnterprise.Log.LogEventTypes)">
+            <summary>
+            Count All message's items for logevent type.
+            </summary>
+            <param name="logeventtype">Logevent type</param>
+            <returns>Items number</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.InheritsClass(System.String)">
+            <summary>
+            Get the page class by URL path
+            </summary>
+            <param name="pageurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.SetDataAuth(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="authtype"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.KeepURL">
+            <summary>
+            Keep this url for GoBack url.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.RetrieveURL">
+            <summary>
+            Get retrieve URL.
+            </summary>
+            <returns>retrieve URL</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.RetrieveURL(System.Boolean)">
+            <summary>
+            Get retrieve URL.
+            </summary>
+            <param name="isDelete">Get and delete history retrieve URL</param>
+            <returns>retrieve URL</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.ResetURL">
+            <summary>
+            Clear this session's history url.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.GoBack">
+            <summary>
+            Go back history url.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.GoBack(System.String)">
+            <summary>
+            Go back history url.
+            </summary>
+            <param name="defaultBackUrl">If retrieve URL is none to redirect this url</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.Page.GoBack(System.String,System.String[])">
+            <summary>
+            Go back history url.
+            </summary>
+            <param name="defaultBackUrl">If retrieve URL is none to redirect this url</param>
+            <param name="filterUrls">Filter url string,check for IndexOf().</param>
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.BaseTemplateFile">
+            <summary>
+            BaseTemplateFile:Property for define the template file
+            </summary>
+            <remarks> 
+            Developers can define a layout template file and put the file in the virtual directory "/_site/layout/" .
+            After that, developers can set the template file name by this property
+            </remarks>
+            
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.BaseControlPath">
+            <summary>
+            BaseControlPath:Property for define the Base Control path
+            </summary>
+            <remarks> 
+            In the template file, there are two kinds of control that developers can define. One is Base Control (control:basecontrolname) , the other is Custom Control (customized:customizedcontrolname).
+            When you assign the control name by the tag (control:basecontrolname), you should assign the path to find that control.
+            The default path is virtual directory "/lib/uc/".
+            </remarks>
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.CustomizedControlPath">
+            <summary>
+            CustomizedControlPath:Property for define the Customized Control path
+            </summary>
+            <remarks> 
+            In the template file, there are two kinds of control that developers can define. One is Base Control (control:basecontrolname) , the other is Custom Control (customized:customizedcontrolname).
+            When you assign the control name by the tag (customized:customizedcontrolname), you should assign the path to find that control.
+            The default path is virtual directory "/_site/layout/".
+            </remarks>
+            
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.CurrentUser">
+            <summary>
+            Property for define the Title of the page
+            </summary>
+            
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.Item(System.String)">
+            <summary>
+            Cache values
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.AfterMessageScript">
+            <summary>
+            Run JavaScript after show message.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.Page.BackPageUrl">
+            <summary>
+            Get caller page url of this , return value of parse null to ""
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Content.Database.FileSync">
+            <summary>
+            Summary description for FileSync.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.FileChecker">
+            <summary>
+            Summary description for FileChecker.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.Reminder">
+            <summary>
+            Summary description for NotifyReminder.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.StyleAttributeEditor">
+            <summary>
+            Summary description for StyleAttributeEditor.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttributeEditor.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttributeEditor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.StyleAttributeEditor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Init">
+            <summary>
+            Summary description for Init.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.MailLetter">
+            <summary>
+            Summary description for SendMail.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Values.ContentCategoryIds">
+            <summary>
+            Return : {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}...{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Content.Database.Queries">
+            <summary>
+            Summary description for Queries.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.ContentChecker">
+            <summary>
+            Summary description for ContentChecker.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.GridLineMode">
+            <summary>
+            Table grid line mode
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GridLineMode.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GridLineMode.Horizontal">
+            <summary>
+            Horizontal only
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GridLineMode.Vertical">
+            <summary>
+            Vertical only
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.GridLineMode.Both">
+            <summary>
+            Horizontal and vertical
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.GridLine">
+            <summary>
+            Summary description for GridLine.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.GridLine.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.GridLine.LineMode">
+            <summary>
+            Grid line mode
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.GridLine.LineWidth">
+            <summary>
+            Grid line width
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.GridLine.LineStyle">
+            <summary>
+            Grid line style
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.GridLine.LineColor">
+            <summary>
+            Grid line color
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Online">
+            <summary>
+            Summary description for Online.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Scheduler.Jobs.NotifyAlive">
+            <summary>
+            Summary description for NotifyAlive.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.FilterGradient">
+            <summary>
+            The appearance attributes class for web controls
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.FilterGradient.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.FilterGradient.SetStyle(System.Web.UI.CssStyleCollection)">
+            <summary>
+            
+            </summary>
+            <param name="style"></param>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.FilterGradient.GradientType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.FilterGradient.GradientLevel">
+            <summary>
+            The gradient level from 0 ~ 255
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.FilterGradient.GradientBegin">
+            <summary>
+            Gradient begin color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.FilterGradient.GradientEnd">
+            <summary>
+            Gradient end color
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.FilterGradient.Types">
+            <summary>
+            Color Gradient Types
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.FilterGradient.Types.Top">
+            <summary>
+            Top to down
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.FilterGradient.Types.Bottom">
+            <summary>
+            Bottom to top
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.FilterGradient.Types.Left">
+            <summary>
+            Left to right
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.FilterGradient.Types.Right">
+            <summary>
+            Right to left
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.FilterGradient.Types.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.Customize">
+            <summary>
+            Summary description for Customize.
+            </summary>
+        </member>
+    </members>
+</doc>

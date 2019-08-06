@@ -1,0 +1,73 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onclick" ONEVENT="event_onclick()" />
+
+<PUBLIC:PROPERTY NAME="tabgroup" />
+<PUBLIC:PROPERTY NAME="tabbody" />
+
+<PUBLIC:METHOD NAME="active" />
+<PUBLIC:METHOD NAME="deactive" />
+
+<SCRIPT language="JScript">
+
+var thisclass;
+
+function event_ondocumentready()
+{	
+	this.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77000000,endColorstr=#55DDDDDD)";	
+	if (this.id=="")
+		this.id = newid();
+	thisclass=this.className;
+	if (tabgroup)
+	{
+		var id=eval("window.document." + tabgroup);
+		if (!id) 
+		{
+			eval("window.document." + tabgroup + "='" +this.id+ "'");	
+			this.className = thisclass+'On';
+			this.style.filter="";	
+		
+		}
+	}
+}
+
+function event_onclick()
+{
+	active();
+}
+
+function active()
+{
+	if (tabgroup)
+	{
+		var id=eval("window.document." + tabgroup);
+		if (id)
+		{
+		eval(id + ".deactive()");
+		}
+		eval("window.document." + tabgroup + "='" +this.id+ "'");	
+	}
+	this.className = thisclass+'On';
+	this.style.filter="";	
+}
+
+function deactive()
+{
+	this.className = thisclass;
+	this.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77000000,endColorstr=#55DDDDDD)";	
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	//return window.document.uniqueID;
+	return id
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

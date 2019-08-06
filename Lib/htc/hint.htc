@@ -1,0 +1,129 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:METHOD NAME="hideHint" />
+<PUBLIC:METHOD NAME="showHint" />
+
+<PUBLIC:PROPERTY NAME="hintClass" />
+<PUBLIC:PROPERTY NAME="disableHint" />
+
+<SCRIPT language="JScript">
+
+var hintObj;
+var left,right,top,bottom;
+
+function event_oncontentready()
+{
+//	this.addBehavior("/lib/htc/errmsg.htc");
+	/*
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	*/
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{
+	if (this.getAttribute("disableHint")!=null)
+	{
+		this.detachEvent("onmouseover",event_onmouseover);
+		this.detachEvent("onmouseout",event_onmouseout);
+		return;		
+	}
+
+	if((this.value == null) || (this.value==""))
+	{
+		this.detachEvent("onmouseover",event_onmouseover);
+		this.detachEvent("onmouseout",event_onmouseout);
+		return;
+	}
+	else
+	{
+		this.attachEvent("onmouseover",event_onmouseover);
+		this.attachEvent("onmouseout",event_onmouseout);
+	}
+
+	hintObj = document.createElement("div");
+	hintObj.id= "hint"+this.id;
+	if (this.getAttribute("hintClass") != null)
+		hintObj.className = this.getAttribute("hintClass");
+	else
+		hintObj.className = "panelblue";
+	hintObj.style.position='absolute';
+	hintObj.style.paddingTop= "2px";
+	hintObj.style.paddingLeft= "2px";
+	hintObj.style.fontSize = "12px";
+	
+//	hintObj.innerText="Input Hint 測試測試測試測試試測試測試試測試測試!";
+	hintObj.innerText=this.value;
+	hintObj.style.filter = "alpha(opacity=85);"
+	hintObj.style.visibility="hidden";
+	window.document.body.appendChild(hintObj);	
+	hintObj.style.width=hintObj.offsetWidth;
+	if(parseInt(hintObj.offsetWidth)>300) hintObj.style.width='300px';
+	//window.status =hintObj.style.width;			
+}
+
+function event_onmouseover()
+{
+	if(hintObj.style.visibility=="visible") return;
+	
+	var x=window.event.x;
+	var y=window.event.y;
+//	hintObj.style.top = y-15;
+//	hintObj.style.left = x;
+	hintObj.style.top = window.document.body.scrollTop+ y -15+'px';
+	hintObj.style.left = window.document.body.scrollLeft + x +'px';			
+	
+	//window.setTimeout(this.id+'.showHint()',500); 
+//	window.setTimeout(this.id+'.showHint()',500); 
+	this.showHint();
+
+}
+
+function event_onmouseout()
+{
+	GetRectValue(this);
+	var x=window.event.x;
+	var y=window.event.y;
+	
+	if ((x>=left && x<=right) && (y>=top && y<=bottom)) 
+		 return;
+	else
+		this.hideHint();
+	
+}
+
+function showHint()
+{
+	if(hintObj.style.visibility!="visible") hintObj.style.visibility="visible";
+//	window.setTimeout(this.id+'.hideHint()',3000); 
+}
+
+function hideHint()
+{
+	if(hintObj.style.visibility!="hidden") hintObj.style.visibility="hidden";
+}
+
+function GetRectValue(obj)
+{
+	if(obj)
+	{
+		var rect = obj.getClientRects()[0];
+		left = rect.left;
+		right = rect.right;
+		top = rect.top;
+		bottom = rect.bottom;
+	 }
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

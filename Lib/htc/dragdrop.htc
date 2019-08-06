@@ -1,0 +1,171 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onmouseleave" ONEVENT="event_onmouseout()" />
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="event_onmouseover()" />
+
+<PUBLIC:ATTACH EVENT="onmousedown" ONEVENT="event_onmouseDown()"/>
+<PUBLIC:ATTACH EVENT="onmouseup" ONEVENT="event_onmouseUp()"/>
+<PUBLIC:ATTACH EVENT="onmousemove" ONEVENT="event_onmouseMove()"/>
+<SCRIPT language="JScript">
+
+
+var dx, dy;
+var bColSelected = false;
+var bDragging = false;
+var thiszindex;
+var thisfilter;
+
+function event_ondocumentready()
+{
+	if(this.id == "" | null) this.id = window.document.uniqueID;		
+	
+	this.style.position = "absolute";
+	this.style.zIndex = 9;
+	
+	this.style.borderRight = window.document.bgColor+" 1px solid";
+	this.style.borderLeft = window.document.bgColor+" 1px solid";
+	this.style.borderTop = window.document.bgColor+" 1px solid";
+	this.style.borderBottom = window.document.bgColor+" 1px solid";		
+
+	var src 	= this;
+	while (src.tagName != "BODY")
+	{
+		src = src.parentElement;
+		if(src.tagName == "BODY")
+		{
+			src.attachEvent("onmousemove",fnTrackMouse);		
+		}	
+	}	
+
+}
+
+
+function fnTrackMouse()
+{
+   x = window.event.x;
+   y = window.event.y;
+  // window.status="X="+	x+": Y="+y;  
+   
+   if(bDragging)
+   {
+        this.style.posLeft = x - dx;
+        this.style.posTop = y - dy;
+   }
+}
+
+function event_onmouseover()
+{
+	var src 	= event.srcElement;
+	if (src.tagName != "TD") 
+		return;
+
+	if(src.drag!=null)
+	{
+        bColSelected = true;
+		this.style.cursor = "move";
+		this.style.borderRight = "#303030 1px solid";
+		this.style.borderLeft = "#303030 1px solid";
+		this.style.borderTop = "#303030 1px solid";
+		this.style.borderBottom = "#303030 1px solid";		
+	}	
+	else
+	{
+		this.style.cursor = "auto";
+		bColSelected = false;
+	}
+}
+
+function event_onmouseout()
+{
+	if (this)
+	{
+		this.style.borderRight = window.document.bgColor+" 1px solid";
+		this.style.borderLeft = window.document.bgColor+" 1px solid";
+		this.style.borderTop = window.document.bgColor+" 1px solid";
+		this.style.borderBottom = window.document.bgColor+" 1px solid";
+	}
+}
+
+function event_startdrag()
+{
+/*
+	var src 	= event.srcElement;
+	if (src.tagName != "TD") 
+		return;
+		
+	if(src.drag!=null)
+	{
+		dx=event.x - this.style.posLeft;
+		dy=event.y - this.style.posTop;
+		this.attachEvent("onmousemove",event_drag);	
+		this.attachEvent("onmouseup",event_stopdrag);	
+	}
+	*/
+}
+
+function event_stopdrag()
+{
+//	this.detachEvent("onmousemove",event_drag);
+//	this.detachEvent("onmouseup",event_stopdrag);
+
+}
+
+function event_drag()
+{
+//    this.style.posLeft = event.clientX - dx;
+  //  this.style.posTop = event.clientY - dy;
+}
+
+function event_onmouseDown()
+{
+   // Capture mouse if column border has been selected
+   if ( bColSelected )
+   {
+      element.setCapture();
+	  dx=event.x - this.style.posLeft;
+	  dy=event.y - this.style.posTop;
+      bDragging = true; //¥iresize
+      thisfilter =  this.style.filter;
+      this.style.filter = "alpha(opacity=60);"
+	  thiszindex =this.style.zIndex;    
+	  this.style.zIndex =100; 
+   }
+   else
+   {
+	  thisfilter =  this.style.filter;
+	}  
+
+}
+
+function event_onmouseUp()
+{
+   // Release mouse capture
+   element.releaseCapture();
+   bDragging = false;
+   this.style.filter = "";
+
+   if ( bColSelected )  //Add By Steven Yeh 2009/12/14 Only bColSelected is true then thiszindex has define.
+   {
+    this.style.zIndex =thiszindex; 
+   }
+}
+
+function event_onmouseMove()
+{
+   x = window.event.x;
+   y = window.event.y;
+
+	var src 	= event.srcElement;
+	if (src.tagName != "TD" && (src.drag==null|"")) 
+		return;
+
+	if(bDragging)
+	{
+        this.style.posLeft = x - dx;
+        this.style.posTop = y - dy;
+	}
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

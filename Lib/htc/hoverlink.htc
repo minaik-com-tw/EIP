@@ -1,0 +1,63 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="event_onmouseover()" />
+<PUBLIC:ATTACH EVENT="onmouseout" ONEVENT="event_onmouseout()" />
+
+<PUBLIC:PROPERTY NAME="hoveron" />
+<PUBLIC:PROPERTY NAME="hoveroff" />
+<PUBLIC:PROPERTY NAME="hovertype" />
+
+<SCRIPT language="JScript">
+
+var imgobj;
+
+function event_ondocumentready()
+{
+	if ((hovertype) && (hovertype.toLowerCase()=="image"))
+	{
+		imgobj = window.document.createElement("img");
+		imgobj.border=0;
+		imgobj.attachEvent("onmouseover",onimgover);
+		imgobj.attachEvent("onmouseout",onimgout);
+		onimgout();
+		this.insertAdjacentElement("afterbegin",imgobj);
+	}
+	event_onmouseout();	
+}
+
+function event_onmouseover()
+{
+	if (hoveron)
+	{
+		if ((hovertype) && (hovertype.toLowerCase()=="image"))
+			;
+		else
+			this.innerHTML = hoveron;
+	}
+}
+
+function event_onmouseout()
+{
+	if (hoveroff)
+	{
+		if ((hovertype) && (hovertype.toLowerCase()=="image"))
+			;
+		else
+			this.innerHTML = hoveroff;
+	}
+}
+
+function onimgover()
+{
+	imgobj.src=hoveron;
+}
+
+function onimgout()
+{
+	imgobj.src=hoveroff;
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,488 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onkeypress" ONEVENT="event_onkeypress()" />
+<PUBLIC:METHOD NAME="hideHint" />
+<PUBLIC:METHOD NAME="showHint" />
+
+<PUBLIC:PROPERTY NAME="Mask" />
+<PUBLIC:PROPERTY NAME="FormatType" />
+<PUBLIC:PROPERTY NAME="ButtonIconUrl" />
+
+<PUBLIC:METHOD name="BuildCalendar" />
+<PUBLIC:METHOD name="setDateValue" />
+<PUBLIC:METHOD name="Next" />
+<PUBLIC:METHOD name="Prev" />
+<PUBLIC:METHOD name="Close" />
+<PUBLIC:METHOD name="ChangeYear" />
+<PUBLIC:METHOD name="ChangeMonth" />
+
+<SCRIPT language="JScript">
+/* ======Format Type====== *\
+
+YearMonth - yyyymm, yymm
+YearMonthDate - yyyymmdd,
+YearMonthDateTime - yyyymmdd hh:mm
+Date - mmdd
+Time - hh:mm
+
+
+
+\* ====================== */
+var thisWidth;
+var thisHeight;
+var inputobj, objbtn,inputDiv;
+var loadready=false;
+var calendarobj;
+
+var odx,ody;
+var idx=0;
+var idy=0;
+var BodyHeight;
+var BodyWidth;
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	if (!getAttribute("ButtonIconUrl") || getAttribute("ButtonIconUrl")=="" )
+		ButtonIconUrl="\\lib\\img\\icon-machine.gif";
+		//this.setAttribute("buttoniconurl","\\lib\\img\\icon-machine.gif");
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+
+}
+
+function event_ondocumentready()
+{
+	if(FormatType!="YearMonth" && FormatType!="YearMonthDate"  && FormatType!="YearMonthDateTime" && FormatType!="Date" && FormatType!="Time")	
+	{
+	
+	}
+	else
+	{
+			thisWidth=this.offsetWidth;
+			thisHeight=this.offsetHeight;
+			//this.style.display="none";
+			/*
+				var src 	= this;
+				while (src.tagName != "BODY")
+				{
+					src = src.parentElement;
+					if(src.tagName == "TABLE" )
+					{
+						src.attachEvent("onresize",event_onmove);		
+						src.attachEvent("onmove",event_onmove);		
+					}	
+				}
+			*/
+			//================Build Select Input DIV ======================//
+			inputDiv = document.createElement("div");
+			this.insertAdjacentElement("afterEnd",inputDiv);
+			inputDiv.style.width=thisWidth;
+			inputDiv.style.height=thisHeight-1;
+			inputDiv.style.border="2px inset ";
+			inputDiv.style.borderTop="2px inset #d8d8d8";
+			inputDiv.style.borderBottom="1px inset #d8d8d8";
+			inputDiv.style.borderRight="1px inset #d8d8d8";
+			inputDiv.style.filter = this.style.filter;
+			inputDiv.style.padding="0 0 0 0";
+			
+			//---------------------------Build Input ----------------------------------------------//
+			inputobj= document.createElement("input");
+			inputDiv.insertAdjacentElement("afterBegin",inputobj);
+			inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+			inputobj.id = "input_"+this.id;
+			
+			inputobj.setAttribute("Required",this.getAttribute("Required"));
+			//inputobj.setAttribute("Format",this.getAttribute("Format"));
+			inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+			inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+			if (this.disabled) inputobj.disabled=true;
+				
+		//	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+			if (this.currentStyle.fontFamily!="")
+				inputobj.style.fontFamily = this.currentStyle.fontFamily;
+			else
+				inputobj.style.fontFamily="Arial, Tahoma";
+		
+			inputobj.style.fontSize = this.currentStyle.fontSize;
+			inputobj.style.fontWeight = this.currentStyle.fontWeight;
+			inputobj.style.color = this.currentStyle.color;		
+			inputobj.style.filter = this.style.filter;
+			inputobj.style.border="none";
+			inputobj.style.borderWidth="0px";
+			inputobj.style.paddingLeft="3px";
+			inputobj.readOnly = this.readOnly;
+			//inputobj.style.display="none";
+			
+			inputobj.style.zIndex = 9;
+			inputobj.style.background = this.style.background;
+			inputobj.style.width=thisWidth-19;
+			inputobj.style.height=16;
+			//----------------------------------------------------------------------------------------------------------------------------------------//
+			//---------------------------Build Button ----------------------------------------------//
+			
+				objbtn = document.createElement("button");
+				objbtn.style.filter = this.style.filter;
+				if (this.disabled)	objbtn.disabled=true;
+				inputobj.insertAdjacentElement("afterEnd",objbtn);
+				objbtn.id = "btn_" + this.id;
+				objbtn.style.cursor = "defalut";
+				objbtn.style.zIndex = 10;
+				objbtn.style.width = 16; 
+				objbtn.style.height = thisHeight-4;
+				objbtn.attachEvent("onclick",btnClick);
+				
+				if (ButtonIconUrl!=null)
+				{
+					var btnimg = document.createElement("img");
+					btnimg.src = ButtonIconUrl;
+					btnimg.align = "absmiddle";
+					btnimg.border = 0;  
+					objbtn.insertAdjacentElement("afterBegin",btnimg);
+				}
+			//--------------------------------------------- Build Calendar ---------------------------------------------//
+				calendarobj = document.createElement("div");
+				window.document.body.appendChild(calendarobj);
+				calendarobj.id="calendar_"+this.id;
+				calendarobj.addBehavior("/lib/htc/floatpanel1.htc");
+				calendarobj.addBehavior("/lib/htc/dragdrop.htc");
+				ody =objbtn.offsetTop; 
+				odx = objbtn.offsetLeft;
+				calendarobj.style.posTop=ody;
+				calendarobj.style.posLeft=odx+20;
+			
+	}
+
+
+
+
+
+
+
+}
+
+
+function event_onkeypress()
+{
+
+}
+
+function btnClick()
+{
+	// 要先判斷 FormatType 
+	if (calendarobj.actived())
+	{
+		calendarobj.hide();
+	}	
+	else 
+	{
+		var els = window.document.all.tags("DIV")
+		for (var i=0; i < els.length; i++)
+		{
+			var el = els.item(i)	
+			if(el.id.indexOf("calendar")>=0)
+			{
+				if(el.id != calendarobj.id) 	el.hide();
+			}
+		}	
+		showcalendar();
+	}	
+
+}
+
+
+function showcalendar()
+{
+		var today;
+		
+		//if ((this.value=="") || (this.value==null) || !(isvdate(this.value)) )
+		if ((this.value=="") || (this.value==null) )
+		{
+		//	if ((this.value != "") && (this.value != Format)) 
+		//	{		
+		//	   this.value="";
+			//   this.style.color = thisfontcolor;
+		//	}  
+			today = new Date(); 
+		 }
+		else
+		{
+			today = new Date(this.value);
+		//	this.style.color = thisfontcolor;
+		}	
+		
+		today_yr = today.getFullYear();		
+		today_mo = today.getMonth();
+		BuildCalendar(today_yr,today_mo);
+}
+
+
+function BuildCalendar(y,m)
+{
+	
+	var thisday = new Date();
+	var thisdayD = thisday.getDate();
+
+	var curday = new Date(y,m,1);
+	
+	var curY = curday.getFullYear();
+	var curM = curday.getMonth();
+	
+	this.Year=y;
+	this.Month=m;
+	
+	var curD = curday.getDate();
+	var curW = curday.getDay();
+	var lDay = new Date(curY,curM,lastdayof(curY,curM+1));
+	var lDayD = lDay.getDate();
+	
+	var sameflag;
+	if (thisday.getYear()==curY && thisday.getMonth()==curM)
+		sameflag = true;
+	else
+		sameflag = false;
+
+	var i,k
+	
+	var mName = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	var yselstr = ""
+	for (i=curY-50;i<=curY+50;i++)
+	{
+		if (i==curY)
+			yselstr += "<option value=" + i + " selected>" + i + "</option>"
+		else
+			yselstr += "<option value=" + i + ">" + i + "</option>"
+	}
+	var mselstr = ""
+	for (i=0;i<12;i++)
+	{
+		if (i==curM)
+			mselstr += "<option value=" + i + " selected>" + (parseInt(i)+1) + "</option>"
+		else
+			mselstr += "<option value=" + i + ">" + (parseInt(i)+1) + "</option>"
+	}
+	var funcstr = "<select class=smallbold id=ysel onchange='window.document.getElementById(\"" + this.id + "\").ChangeYear(this.value);' >" + yselstr + "</select><select class=smallbold	 id=msel onchange='window.document.getElementById(\"" + this.id + "\").ChangeMonth(this.value);' >" + mselstr + "</select>"
+
+	var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" colspan=7 align=right  drag=true><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> <tr><td colspan=7 class=smallbold align=center><button onclick='window.document.getElementById(\"" + this.id + "\").Prev()' class=InputButton id=button1 name=button1>Prev</button>&nbsp&nbsp&nbsp" + funcstr + "&nbsp&nbsp&nbsp<button onclick='window.document.getElementById(\"" + this.id + "\").Next()'  class=InputButton id=button1 name=button1>Next</button></td></tr>";
+	//tablestr = tablestr + "<th class=smallbold style=\"color:red;width:24px\">Sun</th><th class=smallbold style=\"width:24px\">Mon</th><th class=smallbold style=\"width:24px\">Tue</th><th class=smallbold style=\"width:24px\">Wed</th><th class=smallbold style=\"width:24px\">Thu</th><th class=smallbold style=\"width:24px\">Fri</th><th class=smallbold style=\"color:red;width:24px\">Sat</th>"
+	tablestr = tablestr + "<tr align=center  class=small><td colspan=7> <table border=1 cellspacing=0 cellpadding=1>"
+	tablestr = tablestr + "<th class=smallbold style=\"color:red;width:24px\">Sun</th><th class=smallbold style=\"width:24px\">Mon</th><th class=smallbold style=\"width:24px\">Tue</th><th class=smallbold style=\"width:24px\">Wed</th><th class=smallbold style=\"width:24px\">Thu</th><th class=smallbold style=\"width:24px\">Fri</th><th class=smallbold style=\"color:red;width:24px\">Sat</th>"
+	tablestr = tablestr + "<tr align=center  class=small>"
+	//tablestr = tablestr + "<tr align=center  class=small><td colspan=7> <table border=1><tr>"
+	
+	for (i=0;i<curW;i++)
+	{
+		tablestr = tablestr + "<td style=\"width:24px;height:24px\">&nbsp;</td>"
+	}
+	i = 1
+	k = curW
+	while (i<=lDayD)
+	{
+		if (k==0)
+			tablestr = tablestr + "<tr align=center>"
+		if (sameflag && (i==thisdayD))
+			tablestr = tablestr + "<td class=small style=\"cursor:hand;color:blue;width:24px;height:24px\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," + curM + "," + i + ");' >" + i + "</td>"
+		else
+			tablestr = tablestr + "<td class=small style=\"cursor:hand; width:24px;height:24px\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," + curM + "," + i + ");' >" + i + "</td>"
+		if (k==6 && (i!=lDay))
+			tablestr = tablestr + "</tr>"
+		if (k==6)
+			k = 0
+		else
+			k++;
+		i = i + 1
+	}
+	if (k!=0)
+	{
+		for (i=k;i<=6;i++)
+		{
+			tablestr = tablestr + "<td style=\"width:24px;height:24px\">&nbsp;</td>"
+		}
+	}
+
+	//tablestr = tablestr + "</tr>"
+	tablestr = tablestr + "</tr></table></tr>"
+//	if (CalendarClass) 
+//		tablestr = "<table bgcolor=white border=0 cellspacing=0 cellpadding=2 class='"+CalendarClass+"'>" + tablestr + "</table>";
+//	else
+		tablestr = "<table bgcolor=white border=0 cellspacing=0 cellpadding=2 class='PanelSilver'>" + tablestr + "</table>";
+	calendarobj.innerHTML=tablestr;
+
+
+
+	if((objbtn.offsetTop!=ody) || (objbtn.offsetLeft!=odx))  //是否move過
+	{
+		//alert((btnobj.offsetTop);
+		alignCalendar();
+		calendarobj.show(idy,idx,10);
+	}
+	else
+	{
+		calendarobj.show(adjustY(calendarobj.offsetTop),adjustX(calendarobj.offsetLeft)-20,10);
+	}	
+	
+	
+}
+
+function lastdayof(y,m)
+{
+	if (m==2)
+	{
+		if ((y%4 == 0) && (!((y%100 == 0) && (y%400 != 0))))
+			return 29;
+		else
+			return 28;
+	}
+	else if ((m<=7 && m%2!=0) || (m>=8 && m%2==0))
+		return 31;
+	else 
+		return 30;
+}
+function adjustY(y)
+{
+	//sy = idy;
+	sy=y;
+	var h;
+	h=sy;
+
+	//window.status =window.document.body.clientHeight+","+window.document.body.scrollHeight+","+BodyHeight+",h:"+sy+","+calendarobj.offsetHeight;
+	BodyHeight=window.document.body.scrollTop+window.document.body.clientHeight;
+	if ((sy +  calendarobj.offsetHeight) > BodyHeight)
+	{
+		for (var y=0;y<=300;y+=10)
+		{
+			h -=y;
+			if (h + calendarobj.offsetHeight< BodyHeight)
+			{
+				sy=h;
+				break;
+			}	
+		}
+		return sy;
+	}		
+	else
+	{
+		return sy ;
+	}	
+}
+
+function adjustX(x)
+{
+	//sx = idx;
+	sx = x;
+	var w;
+	w=sx;
+	//alert("BodyWidth="+BodyWidth+",calendarobj.offsetWidth="+calendarobj.offsetWidth);
+	BodyWidth=window.document.body.scrollLeft+window.document.body.clientWidth;		
+	if ((sx+20 + calendarobj.offsetWidth) > BodyWidth)
+	{
+		for (var x=0;x<=200;x+=10)
+		{
+			w-=x;
+			if (w + calendarobj.offsetWidth< BodyWidth)
+			{
+				sx = w;
+				break;
+			}	
+		}
+		return sx;	
+	}		
+	else
+		return sx + 20;
+}
+
+
+//----------------------------
+/*
+var dFilterStep
+
+function dFilterStrip (dFilterTemp, dFilterMask)
+{
+    dFilterMask = replace(dFilterMask,'#','');
+    for (dFilterStep = 0; dFilterStep < dFilterMask.length++; dFilterStep++)
+		{
+		    dFilterTemp = replace(dFilterTemp,dFilterMask.substring(dFilterStep,dFilterStep+1),'');
+		}
+		return dFilterTemp;
+}
+
+function dFilterMax (dFilterMask)
+{
+ 		dFilterTemp = dFilterMask;
+    for (dFilterStep = 0; dFilterStep < (dFilterMask.length+1); dFilterStep++)
+		{
+		 		if (dFilterMask.charAt(dFilterStep)!='#')
+				{
+		        dFilterTemp = replace(dFilterTemp,dFilterMask.charAt(dFilterStep),'');
+				}
+		}
+		return dFilterTemp.length;
+}
+
+function dFilter (key, textbox, dFilterMask)
+{
+		dFilterNum = dFilterStrip(textbox.value, dFilterMask);
+		
+		if (key==9)
+		{
+		    return true;
+		}
+		else if (key==8&&dFilterNum.length!=0)
+		{
+		 	 	dFilterNum = dFilterNum.substring(0,dFilterNum.length-1);
+		}
+ 	  else if ( ((key>47&&key<58)||(key>95&&key<106)) && dFilterNum.length<dFilterMax(dFilterMask) )
+		{
+        dFilterNum=dFilterNum+String.fromCharCode(key);
+		}
+
+		var dFilterFinal='';
+    for (dFilterStep = 0; dFilterStep < dFilterMask.length; dFilterStep++)
+		{
+        if (dFilterMask.charAt(dFilterStep)=='#')
+				{
+					  if (dFilterNum.length!=0)
+					  {
+				        dFilterFinal = dFilterFinal + dFilterNum.charAt(0);
+					      dFilterNum = dFilterNum.substring(1,dFilterNum.length);
+					  }
+				    else
+				    {
+				        dFilterFinal = dFilterFinal + "";
+				    }
+				}
+		 		else if (dFilterMask.charAt(dFilterStep)!='#')
+				{
+				    dFilterFinal = dFilterFinal + dFilterMask.charAt(dFilterStep); 			
+				}
+//		    dFilterTemp = replace(dFilterTemp,dFilterMask.substring(dFilterStep,dFilterStep+1),'');
+		}
+
+
+		textbox.value = dFilterFinal;
+    return false;
+}
+
+function replace(fullString,text,by) {
+// Replaces text with by in string
+    var strLength = fullString.length, txtLength = text.length;
+    if ((strLength == 0) || (txtLength == 0)) return fullString;
+
+    var i = fullString.indexOf(text);
+    if ((!i) && (text != fullString.substring(0,txtLength))) return fullString;
+    if (i == -1) return fullString;
+
+    var newstr = fullString.substring(0,i) + by;
+
+    if (i+txtLength < strLength)
+        newstr += replace(fullString.substring(i+txtLength,strLength),text,by);
+
+    return newstr;
+}
+
+
+*/
+
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

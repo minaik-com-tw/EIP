@@ -1,0 +1,3624 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="A8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="A8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="A9Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="A9Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA10Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA10Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA9Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA9Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AC6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AC6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AC7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AC7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="attach1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource1.HeaderText" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="BoundFieldResource10.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource10.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource10.HeaderText" xml:space="preserve">
+    <value>idle</value>
+  </data>
+  <data name="BoundFieldResource100.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource100.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource100.HeaderText" xml:space="preserve">
+    <value>L1</value>
+  </data>
+  <data name="BoundFieldResource101.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource101.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource101.HeaderText" xml:space="preserve">
+    <value>L2</value>
+  </data>
+  <data name="BoundFieldResource102.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource102.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource102.HeaderText" xml:space="preserve">
+    <value>L3</value>
+  </data>
+  <data name="BoundFieldResource103.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource103.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource103.HeaderText" xml:space="preserve">
+    <value>L4</value>
+  </data>
+  <data name="BoundFieldResource104.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource104.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource104.HeaderText" xml:space="preserve">
+    <value>L5</value>
+  </data>
+  <data name="BoundFieldResource105.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource105.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource105.HeaderText" xml:space="preserve">
+    <value>L6</value>
+  </data>
+  <data name="BoundFieldResource106.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource106.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource106.HeaderText" xml:space="preserve">
+    <value>L7</value>
+  </data>
+  <data name="BoundFieldResource107.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource107.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource107.HeaderText" xml:space="preserve">
+    <value>M1</value>
+  </data>
+  <data name="BoundFieldResource108.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource108.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource108.HeaderText" xml:space="preserve">
+    <value>M2</value>
+  </data>
+  <data name="BoundFieldResource109.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource109.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource109.HeaderText" xml:space="preserve">
+    <value>M3</value>
+  </data>
+  <data name="BoundFieldResource11.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource11.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource11.HeaderText" xml:space="preserve">
+    <value>生產廠區</value>
+  </data>
+  <data name="BoundFieldResource110.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource110.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource110.HeaderText" xml:space="preserve">
+    <value>M4</value>
+  </data>
+  <data name="BoundFieldResource111.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource111.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource111.HeaderText" xml:space="preserve">
+    <value>M5</value>
+  </data>
+  <data name="BoundFieldResource112.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource112.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource112.HeaderText" xml:space="preserve">
+    <value>M6</value>
+  </data>
+  <data name="BoundFieldResource113.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource113.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource113.HeaderText" xml:space="preserve">
+    <value>M7</value>
+  </data>
+  <data name="BoundFieldResource114.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource114.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource114.HeaderText" xml:space="preserve">
+    <value>M8</value>
+  </data>
+  <data name="BoundFieldResource115.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource115.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource115.HeaderText" xml:space="preserve">
+    <value>N1</value>
+  </data>
+  <data name="BoundFieldResource116.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource116.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource116.HeaderText" xml:space="preserve">
+    <value>N2</value>
+  </data>
+  <data name="BoundFieldResource117.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource117.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource117.HeaderText" xml:space="preserve">
+    <value>N3</value>
+  </data>
+  <data name="BoundFieldResource118.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource118.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource118.HeaderText" xml:space="preserve">
+    <value>N4</value>
+  </data>
+  <data name="BoundFieldResource119.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource119.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource119.HeaderText" xml:space="preserve">
+    <value>N5</value>
+  </data>
+  <data name="BoundFieldResource12.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource12.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource12.HeaderText" xml:space="preserve">
+    <value>料號</value>
+  </data>
+  <data name="BoundFieldResource120.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource120.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource120.HeaderText" xml:space="preserve">
+    <value>N6</value>
+  </data>
+  <data name="BoundFieldResource121.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource121.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource121.HeaderText" xml:space="preserve">
+    <value>N7</value>
+  </data>
+  <data name="BoundFieldResource122.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource122.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource122.HeaderText" xml:space="preserve">
+    <value>N8</value>
+  </data>
+  <data name="BoundFieldResource123.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource123.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource123.HeaderText" xml:space="preserve">
+    <value>O1</value>
+  </data>
+  <data name="BoundFieldResource124.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource124.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource124.HeaderText" xml:space="preserve">
+    <value>O2</value>
+  </data>
+  <data name="BoundFieldResource125.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource125.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource125.HeaderText" xml:space="preserve">
+    <value>O3</value>
+  </data>
+  <data name="BoundFieldResource126.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource126.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource126.HeaderText" xml:space="preserve">
+    <value>O4</value>
+  </data>
+  <data name="BoundFieldResource127.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource127.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource127.HeaderText" xml:space="preserve">
+    <value>O5</value>
+  </data>
+  <data name="BoundFieldResource128.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource128.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource128.HeaderText" xml:space="preserve">
+    <value>O6</value>
+  </data>
+  <data name="BoundFieldResource129.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource129.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource129.HeaderText" xml:space="preserve">
+    <value>P1</value>
+  </data>
+  <data name="BoundFieldResource13.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource13.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource13.HeaderText" xml:space="preserve">
+    <value>品名</value>
+  </data>
+  <data name="BoundFieldResource130.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource130.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource130.HeaderText" xml:space="preserve">
+    <value>P2</value>
+  </data>
+  <data name="BoundFieldResource131.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource131.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource131.HeaderText" xml:space="preserve">
+    <value>P3</value>
+  </data>
+  <data name="BoundFieldResource132.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource132.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource132.HeaderText" xml:space="preserve">
+    <value>P4</value>
+  </data>
+  <data name="BoundFieldResource133.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource133.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource133.HeaderText" xml:space="preserve">
+    <value>P5</value>
+  </data>
+  <data name="BoundFieldResource134.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource134.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource134.HeaderText" xml:space="preserve">
+    <value>P6</value>
+  </data>
+  <data name="BoundFieldResource135.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource135.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource135.HeaderText" xml:space="preserve">
+    <value>P7</value>
+  </data>
+  <data name="BoundFieldResource136.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource136.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource136.HeaderText" xml:space="preserve">
+    <value>Q1</value>
+  </data>
+  <data name="BoundFieldResource137.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource137.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource137.HeaderText" xml:space="preserve">
+    <value>Q2</value>
+  </data>
+  <data name="BoundFieldResource138.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource138.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource138.HeaderText" xml:space="preserve">
+    <value>Q3</value>
+  </data>
+  <data name="BoundFieldResource139.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource139.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource139.HeaderText" xml:space="preserve">
+    <value>Q4</value>
+  </data>
+  <data name="BoundFieldResource14.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource14.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource14.HeaderText" xml:space="preserve">
+    <value>規格</value>
+  </data>
+  <data name="BoundFieldResource140.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource140.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource140.HeaderText" xml:space="preserve">
+    <value>Q5</value>
+  </data>
+  <data name="BoundFieldResource141.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource141.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource141.HeaderText" xml:space="preserve">
+    <value>Q6</value>
+  </data>
+  <data name="BoundFieldResource142.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource142.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource142.HeaderText" xml:space="preserve">
+    <value>Q7</value>
+  </data>
+  <data name="BoundFieldResource143.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource143.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource143.HeaderText" xml:space="preserve">
+    <value>Q8</value>
+  </data>
+  <data name="BoundFieldResource144.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource144.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource144.HeaderText" xml:space="preserve">
+    <value>R1</value>
+  </data>
+  <data name="BoundFieldResource145.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource145.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource145.HeaderText" xml:space="preserve">
+    <value>R2</value>
+  </data>
+  <data name="BoundFieldResource146.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource146.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource146.HeaderText" xml:space="preserve">
+    <value>R2_2</value>
+  </data>
+  <data name="BoundFieldResource147.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource147.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource147.HeaderText" xml:space="preserve">
+    <value>R3</value>
+  </data>
+  <data name="BoundFieldResource148.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource148.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource148.HeaderText" xml:space="preserve">
+    <value>R3_2</value>
+  </data>
+  <data name="BoundFieldResource149.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource149.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource149.HeaderText" xml:space="preserve">
+    <value>R4</value>
+  </data>
+  <data name="BoundFieldResource15.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource15.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource15.HeaderText" xml:space="preserve">
+    <value>f_partno</value>
+  </data>
+  <data name="BoundFieldResource150.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource150.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource150.HeaderText" xml:space="preserve">
+    <value>R5</value>
+  </data>
+  <data name="BoundFieldResource151.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource151.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource151.HeaderText" xml:space="preserve">
+    <value>S1</value>
+  </data>
+  <data name="BoundFieldResource152.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource152.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource152.HeaderText" xml:space="preserve">
+    <value>S2</value>
+  </data>
+  <data name="BoundFieldResource153.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource153.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource153.HeaderText" xml:space="preserve">
+    <value>S2_2</value>
+  </data>
+  <data name="BoundFieldResource154.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource154.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource154.HeaderText" xml:space="preserve">
+    <value>S3</value>
+  </data>
+  <data name="BoundFieldResource155.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource155.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource155.HeaderText" xml:space="preserve">
+    <value>S3_2</value>
+  </data>
+  <data name="BoundFieldResource156.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource156.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource156.HeaderText" xml:space="preserve">
+    <value>S4</value>
+  </data>
+  <data name="BoundFieldResource157.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource157.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource157.HeaderText" xml:space="preserve">
+    <value>S5</value>
+  </data>
+  <data name="BoundFieldResource158.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource158.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource158.HeaderText" xml:space="preserve">
+    <value>S6</value>
+  </data>
+  <data name="BoundFieldResource159.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource159.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource159.HeaderText" xml:space="preserve">
+    <value>T1</value>
+  </data>
+  <data name="BoundFieldResource16.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource16.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource16.HeaderText" xml:space="preserve">
+    <value>f_component</value>
+  </data>
+  <data name="BoundFieldResource160.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource160.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource160.HeaderText" xml:space="preserve">
+    <value>T2</value>
+  </data>
+  <data name="BoundFieldResource161.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource161.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource161.HeaderText" xml:space="preserve">
+    <value>T2_2</value>
+  </data>
+  <data name="BoundFieldResource162.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource162.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource162.HeaderText" xml:space="preserve">
+    <value>T3</value>
+  </data>
+  <data name="BoundFieldResource163.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource163.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource163.HeaderText" xml:space="preserve">
+    <value>T3_2</value>
+  </data>
+  <data name="BoundFieldResource164.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource164.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource164.HeaderText" xml:space="preserve">
+    <value>T4</value>
+  </data>
+  <data name="BoundFieldResource165.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource165.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource165.HeaderText" xml:space="preserve">
+    <value>T5</value>
+  </data>
+  <data name="BoundFieldResource166.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource166.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource166.HeaderText" xml:space="preserve">
+    <value>U1</value>
+  </data>
+  <data name="BoundFieldResource167.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource167.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource167.HeaderText" xml:space="preserve">
+    <value>U2</value>
+  </data>
+  <data name="BoundFieldResource168.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource168.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource168.HeaderText" xml:space="preserve">
+    <value>U2_2</value>
+  </data>
+  <data name="BoundFieldResource169.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource169.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource169.HeaderText" xml:space="preserve">
+    <value>U3</value>
+  </data>
+  <data name="BoundFieldResource17.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource17.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource17.HeaderText" xml:space="preserve">
+    <value>f_dwg</value>
+  </data>
+  <data name="BoundFieldResource170.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource170.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource170.HeaderText" xml:space="preserve">
+    <value>U4</value>
+  </data>
+  <data name="BoundFieldResource171.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource171.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource171.HeaderText" xml:space="preserve">
+    <value>U5</value>
+  </data>
+  <data name="BoundFieldResource172.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource172.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource172.HeaderText" xml:space="preserve">
+    <value>V1</value>
+  </data>
+  <data name="BoundFieldResource173.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource173.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource173.HeaderText" xml:space="preserve">
+    <value>V2</value>
+  </data>
+  <data name="BoundFieldResource174.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource174.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource174.HeaderText" xml:space="preserve">
+    <value>V3</value>
+  </data>
+  <data name="BoundFieldResource175.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource175.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource175.HeaderText" xml:space="preserve">
+    <value>V4</value>
+  </data>
+  <data name="BoundFieldResource176.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource176.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource176.HeaderText" xml:space="preserve">
+    <value>V5</value>
+  </data>
+  <data name="BoundFieldResource177.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource177.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource177.HeaderText" xml:space="preserve">
+    <value>W1</value>
+  </data>
+  <data name="BoundFieldResource178.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource178.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource178.HeaderText" xml:space="preserve">
+    <value>W2</value>
+  </data>
+  <data name="BoundFieldResource179.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource179.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource179.HeaderText" xml:space="preserve">
+    <value>X1</value>
+  </data>
+  <data name="BoundFieldResource18.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource18.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource18.HeaderText" xml:space="preserve">
+    <value>庫存單位</value>
+  </data>
+  <data name="BoundFieldResource180.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource180.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource180.HeaderText" xml:space="preserve">
+    <value>X2</value>
+  </data>
+  <data name="BoundFieldResource181.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource181.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource181.HeaderText" xml:space="preserve">
+    <value>X3</value>
+  </data>
+  <data name="BoundFieldResource182.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource182.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource182.HeaderText" xml:space="preserve">
+    <value>X4</value>
+  </data>
+  <data name="BoundFieldResource183.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource183.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource183.HeaderText" xml:space="preserve">
+    <value>X5</value>
+  </data>
+  <data name="BoundFieldResource184.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource184.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource184.HeaderText" xml:space="preserve">
+    <value>X6</value>
+  </data>
+  <data name="BoundFieldResource185.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource185.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource185.HeaderText" xml:space="preserve">
+    <value>X7</value>
+  </data>
+  <data name="BoundFieldResource186.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource186.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource186.HeaderText" xml:space="preserve">
+    <value>X8</value>
+  </data>
+  <data name="BoundFieldResource187.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource187.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource187.HeaderText" xml:space="preserve">
+    <value>Y1</value>
+  </data>
+  <data name="BoundFieldResource188.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource188.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource188.HeaderText" xml:space="preserve">
+    <value>Y2</value>
+  </data>
+  <data name="BoundFieldResource189.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource189.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource189.HeaderText" xml:space="preserve">
+    <value>Y3</value>
+  </data>
+  <data name="BoundFieldResource19.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource19.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource19.HeaderText" xml:space="preserve">
+    <value>HSF</value>
+  </data>
+  <data name="BoundFieldResource190.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource190.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource190.HeaderText" xml:space="preserve">
+    <value>Y4</value>
+  </data>
+  <data name="BoundFieldResource191.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource191.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource191.HeaderText" xml:space="preserve">
+    <value>Y5</value>
+  </data>
+  <data name="BoundFieldResource192.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource192.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource192.HeaderText" xml:space="preserve">
+    <value>Y6</value>
+  </data>
+  <data name="BoundFieldResource193.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource193.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource193.HeaderText" xml:space="preserve">
+    <value>Y7</value>
+  </data>
+  <data name="BoundFieldResource194.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource194.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource194.HeaderText" xml:space="preserve">
+    <value>Y8</value>
+  </data>
+  <data name="BoundFieldResource195.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource195.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource195.HeaderText" xml:space="preserve">
+    <value>Y9</value>
+  </data>
+  <data name="BoundFieldResource196.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource196.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource196.HeaderText" xml:space="preserve">
+    <value>Z1</value>
+  </data>
+  <data name="BoundFieldResource197.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource197.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource197.HeaderText" xml:space="preserve">
+    <value>Z2</value>
+  </data>
+  <data name="BoundFieldResource198.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource198.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource198.HeaderText" xml:space="preserve">
+    <value>Z3</value>
+  </data>
+  <data name="BoundFieldResource199.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource199.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource199.HeaderText" xml:space="preserve">
+    <value>Z4</value>
+  </data>
+  <data name="BoundFieldResource2.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource2.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource2.HeaderText" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="BoundFieldResource20.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource20.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource20.HeaderText" xml:space="preserve">
+    <value>來源碼</value>
+  </data>
+  <data name="BoundFieldResource200.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource200.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource200.HeaderText" xml:space="preserve">
+    <value>Z5</value>
+  </data>
+  <data name="BoundFieldResource201.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource201.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource201.HeaderText" xml:space="preserve">
+    <value>Z6</value>
+  </data>
+  <data name="BoundFieldResource202.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource202.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource202.HeaderText" xml:space="preserve">
+    <value>Z7</value>
+  </data>
+  <data name="BoundFieldResource203.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource203.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource203.HeaderText" xml:space="preserve">
+    <value>Z8</value>
+  </data>
+  <data name="BoundFieldResource204.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource204.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource204.HeaderText" xml:space="preserve">
+    <value>Z9</value>
+  </data>
+  <data name="BoundFieldResource205.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource205.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource205.HeaderText" xml:space="preserve">
+    <value>AA1</value>
+  </data>
+  <data name="BoundFieldResource206.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource206.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource206.HeaderText" xml:space="preserve">
+    <value>AA2</value>
+  </data>
+  <data name="BoundFieldResource207.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource207.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource207.HeaderText" xml:space="preserve">
+    <value>AA3</value>
+  </data>
+  <data name="BoundFieldResource208.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource208.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource208.HeaderText" xml:space="preserve">
+    <value>AA3_2</value>
+  </data>
+  <data name="BoundFieldResource209.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource209.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource209.HeaderText" xml:space="preserve">
+    <value>AA4</value>
+  </data>
+  <data name="BoundFieldResource21.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource21.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource21.HeaderText" xml:space="preserve">
+    <value>homemade_code</value>
+  </data>
+  <data name="BoundFieldResource210.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource210.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource210.HeaderText" xml:space="preserve">
+    <value>AA5</value>
+  </data>
+  <data name="BoundFieldResource211.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource211.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource211.HeaderText" xml:space="preserve">
+    <value>AA6</value>
+  </data>
+  <data name="BoundFieldResource212.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource212.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource212.HeaderText" xml:space="preserve">
+    <value>AA6_2</value>
+  </data>
+  <data name="BoundFieldResource213.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource213.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource213.HeaderText" xml:space="preserve">
+    <value>AA7</value>
+  </data>
+  <data name="BoundFieldResource214.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource214.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource214.HeaderText" xml:space="preserve">
+    <value>AA7_2</value>
+  </data>
+  <data name="BoundFieldResource215.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource215.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource215.HeaderText" xml:space="preserve">
+    <value>AA8</value>
+  </data>
+  <data name="BoundFieldResource216.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource216.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource216.HeaderText" xml:space="preserve">
+    <value>AA9</value>
+  </data>
+  <data name="BoundFieldResource217.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource217.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource217.HeaderText" xml:space="preserve">
+    <value>AA10</value>
+  </data>
+  <data name="BoundFieldResource218.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource218.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource218.HeaderText" xml:space="preserve">
+    <value>產品別</value>
+  </data>
+  <data name="BoundFieldResource219.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource219.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource219.HeaderText" xml:space="preserve">
+    <value>分群碼</value>
+  </data>
+  <data name="BoundFieldResource22.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource22.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource22.HeaderText" xml:space="preserve">
+    <value>homemade_code2</value>
+  </data>
+  <data name="BoundFieldResource220.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource220.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource220.HeaderText" xml:space="preserve">
+    <value>交易方式</value>
+  </data>
+  <data name="BoundFieldResource221.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource221.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource221.HeaderText" xml:space="preserve">
+    <value>副分群碼</value>
+  </data>
+  <data name="BoundFieldResource23.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource23.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource23.HeaderText" xml:space="preserve">
+    <value>technology_code</value>
+  </data>
+  <data name="BoundFieldResource24.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource24.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource24.HeaderText" xml:space="preserve">
+    <value>technology_code2</value>
+  </data>
+  <data name="BoundFieldResource25.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource25.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource25.HeaderText" xml:space="preserve">
+    <value>IQC</value>
+  </data>
+  <data name="BoundFieldResource26.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource26.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource26.HeaderText" xml:space="preserve">
+    <value>erp_identical</value>
+  </data>
+  <data name="BoundFieldResource27.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource27.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource27.HeaderText" xml:space="preserve">
+    <value>coding_class</value>
+  </data>
+  <data name="BoundFieldResource28.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource28.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource28.HeaderText" xml:space="preserve">
+    <value>Customers_class</value>
+  </data>
+  <data name="BoundFieldResource29.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource29.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource29.HeaderText" xml:space="preserve">
+    <value>Customers_class2</value>
+  </data>
+  <data name="BoundFieldResource3.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource3.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource3.HeaderText" xml:space="preserve">
+    <value>elapsedTicks</value>
+  </data>
+  <data name="BoundFieldResource30.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource30.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource30.HeaderText" xml:space="preserve">
+    <value>Model_class</value>
+  </data>
+  <data name="BoundFieldResource31.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource31.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource31.HeaderText" xml:space="preserve">
+    <value>Model_class2</value>
+  </data>
+  <data name="BoundFieldResource32.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource32.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource32.HeaderText" xml:space="preserve">
+    <value>group_code2</value>
+  </data>
+  <data name="BoundFieldResource33.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource33.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource33.HeaderText" xml:space="preserve">
+    <value>A1</value>
+  </data>
+  <data name="BoundFieldResource34.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource34.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource34.HeaderText" xml:space="preserve">
+    <value>A2</value>
+  </data>
+  <data name="BoundFieldResource35.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource35.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource35.HeaderText" xml:space="preserve">
+    <value>A3</value>
+  </data>
+  <data name="BoundFieldResource36.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource36.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource36.HeaderText" xml:space="preserve">
+    <value>A3_2</value>
+  </data>
+  <data name="BoundFieldResource37.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource37.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource37.HeaderText" xml:space="preserve">
+    <value>A4</value>
+  </data>
+  <data name="BoundFieldResource38.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource38.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource38.HeaderText" xml:space="preserve">
+    <value>A5</value>
+  </data>
+  <data name="BoundFieldResource39.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource39.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource39.HeaderText" xml:space="preserve">
+    <value>A6</value>
+  </data>
+  <data name="BoundFieldResource4.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource4.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource4.HeaderText" xml:space="preserve">
+    <value>group_code</value>
+  </data>
+  <data name="BoundFieldResource40.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource40.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource40.HeaderText" xml:space="preserve">
+    <value>A6_2</value>
+  </data>
+  <data name="BoundFieldResource41.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource41.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource41.HeaderText" xml:space="preserve">
+    <value>A7</value>
+  </data>
+  <data name="BoundFieldResource42.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource42.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource42.HeaderText" xml:space="preserve">
+    <value>A7_2</value>
+  </data>
+  <data name="BoundFieldResource43.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource43.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource43.HeaderText" xml:space="preserve">
+    <value>A8</value>
+  </data>
+  <data name="BoundFieldResource44.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource44.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource44.HeaderText" xml:space="preserve">
+    <value>A9</value>
+  </data>
+  <data name="BoundFieldResource45.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource45.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource45.HeaderText" xml:space="preserve">
+    <value>B1</value>
+  </data>
+  <data name="BoundFieldResource46.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource46.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource46.HeaderText" xml:space="preserve">
+    <value>B2</value>
+  </data>
+  <data name="BoundFieldResource47.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource47.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource47.HeaderText" xml:space="preserve">
+    <value>B3</value>
+  </data>
+  <data name="BoundFieldResource48.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource48.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource48.HeaderText" xml:space="preserve">
+    <value>B4</value>
+  </data>
+  <data name="BoundFieldResource49.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource49.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource49.HeaderText" xml:space="preserve">
+    <value>B5</value>
+  </data>
+  <data name="BoundFieldResource5.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource5.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource5.HeaderText" xml:space="preserve">
+    <value>product_class</value>
+  </data>
+  <data name="BoundFieldResource50.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource50.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource50.HeaderText" xml:space="preserve">
+    <value>C1</value>
+  </data>
+  <data name="BoundFieldResource51.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource51.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource51.HeaderText" xml:space="preserve">
+    <value>C2</value>
+  </data>
+  <data name="BoundFieldResource52.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource52.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource52.HeaderText" xml:space="preserve">
+    <value>C3</value>
+  </data>
+  <data name="BoundFieldResource53.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource53.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource53.HeaderText" xml:space="preserve">
+    <value>D1</value>
+  </data>
+  <data name="BoundFieldResource54.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource54.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource54.HeaderText" xml:space="preserve">
+    <value>D2</value>
+  </data>
+  <data name="BoundFieldResource55.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource55.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource55.HeaderText" xml:space="preserve">
+    <value>E1</value>
+  </data>
+  <data name="BoundFieldResource56.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource56.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource56.HeaderText" xml:space="preserve">
+    <value>E2</value>
+  </data>
+  <data name="BoundFieldResource57.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource57.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource57.HeaderText" xml:space="preserve">
+    <value>E2_2</value>
+  </data>
+  <data name="BoundFieldResource58.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource58.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource58.HeaderText" xml:space="preserve">
+    <value>E3</value>
+  </data>
+  <data name="BoundFieldResource59.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource59.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource59.HeaderText" xml:space="preserve">
+    <value>E3_2</value>
+  </data>
+  <data name="BoundFieldResource6.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource6.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource6.HeaderText" xml:space="preserve">
+    <value>cate1</value>
+  </data>
+  <data name="BoundFieldResource60.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource60.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource60.HeaderText" xml:space="preserve">
+    <value>E4</value>
+  </data>
+  <data name="BoundFieldResource61.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource61.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource61.HeaderText" xml:space="preserve">
+    <value>E5</value>
+  </data>
+  <data name="BoundFieldResource62.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource62.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource62.HeaderText" xml:space="preserve">
+    <value>F1</value>
+  </data>
+  <data name="BoundFieldResource63.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource63.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource63.HeaderText" xml:space="preserve">
+    <value>F2</value>
+  </data>
+  <data name="BoundFieldResource64.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource64.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource64.HeaderText" xml:space="preserve">
+    <value>F2_2</value>
+  </data>
+  <data name="BoundFieldResource65.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource65.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource65.HeaderText" xml:space="preserve">
+    <value>F3</value>
+  </data>
+  <data name="BoundFieldResource66.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource66.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource66.HeaderText" xml:space="preserve">
+    <value>F3_2</value>
+  </data>
+  <data name="BoundFieldResource67.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource67.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource67.HeaderText" xml:space="preserve">
+    <value>F4</value>
+  </data>
+  <data name="BoundFieldResource68.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource68.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource68.HeaderText" xml:space="preserve">
+    <value>F5</value>
+  </data>
+  <data name="BoundFieldResource69.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource69.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource69.HeaderText" xml:space="preserve">
+    <value>G1</value>
+  </data>
+  <data name="BoundFieldResource7.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource7.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource7.HeaderText" xml:space="preserve">
+    <value>cate2</value>
+  </data>
+  <data name="BoundFieldResource70.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource70.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource70.HeaderText" xml:space="preserve">
+    <value>G2</value>
+  </data>
+  <data name="BoundFieldResource71.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource71.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource71.HeaderText" xml:space="preserve">
+    <value>G2_2</value>
+  </data>
+  <data name="BoundFieldResource72.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource72.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource72.HeaderText" xml:space="preserve">
+    <value>G3</value>
+  </data>
+  <data name="BoundFieldResource73.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource73.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource73.HeaderText" xml:space="preserve">
+    <value>G3_2</value>
+  </data>
+  <data name="BoundFieldResource74.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource74.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource74.HeaderText" xml:space="preserve">
+    <value>G4</value>
+  </data>
+  <data name="BoundFieldResource75.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource75.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource75.HeaderText" xml:space="preserve">
+    <value>G5</value>
+  </data>
+  <data name="BoundFieldResource76.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource76.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource76.HeaderText" xml:space="preserve">
+    <value>G6</value>
+  </data>
+  <data name="BoundFieldResource77.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource77.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource77.HeaderText" xml:space="preserve">
+    <value>H1</value>
+  </data>
+  <data name="BoundFieldResource78.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource78.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource78.HeaderText" xml:space="preserve">
+    <value>H2</value>
+  </data>
+  <data name="BoundFieldResource79.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource79.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource79.HeaderText" xml:space="preserve">
+    <value>I1</value>
+  </data>
+  <data name="BoundFieldResource8.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource8.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource8.HeaderText" xml:space="preserve">
+    <value>cate3</value>
+  </data>
+  <data name="BoundFieldResource80.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource80.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource80.HeaderText" xml:space="preserve">
+    <value>I2</value>
+  </data>
+  <data name="BoundFieldResource81.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource81.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource81.HeaderText" xml:space="preserve">
+    <value>I3</value>
+  </data>
+  <data name="BoundFieldResource82.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource82.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource82.HeaderText" xml:space="preserve">
+    <value>I4</value>
+  </data>
+  <data name="BoundFieldResource83.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource83.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource83.HeaderText" xml:space="preserve">
+    <value>I5</value>
+  </data>
+  <data name="BoundFieldResource84.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource84.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource84.HeaderText" xml:space="preserve">
+    <value>I6</value>
+  </data>
+  <data name="BoundFieldResource85.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource85.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource85.HeaderText" xml:space="preserve">
+    <value>I7</value>
+  </data>
+  <data name="BoundFieldResource86.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource86.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource86.HeaderText" xml:space="preserve">
+    <value>I8</value>
+  </data>
+  <data name="BoundFieldResource87.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource87.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource87.HeaderText" xml:space="preserve">
+    <value>J1</value>
+  </data>
+  <data name="BoundFieldResource88.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource88.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource88.HeaderText" xml:space="preserve">
+    <value>J2</value>
+  </data>
+  <data name="BoundFieldResource89.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource89.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource89.HeaderText" xml:space="preserve">
+    <value>J3</value>
+  </data>
+  <data name="BoundFieldResource9.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource9.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource9.HeaderText" xml:space="preserve">
+    <value>cate3_2</value>
+  </data>
+  <data name="BoundFieldResource90.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource90.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource90.HeaderText" xml:space="preserve">
+    <value>J4</value>
+  </data>
+  <data name="BoundFieldResource91.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource91.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource91.HeaderText" xml:space="preserve">
+    <value>J5</value>
+  </data>
+  <data name="BoundFieldResource92.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource92.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource92.HeaderText" xml:space="preserve">
+    <value>J6</value>
+  </data>
+  <data name="BoundFieldResource93.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource93.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource93.HeaderText" xml:space="preserve">
+    <value>K1</value>
+  </data>
+  <data name="BoundFieldResource94.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource94.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource94.HeaderText" xml:space="preserve">
+    <value>K2</value>
+  </data>
+  <data name="BoundFieldResource95.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource95.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource95.HeaderText" xml:space="preserve">
+    <value>K3</value>
+  </data>
+  <data name="BoundFieldResource96.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource96.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource96.HeaderText" xml:space="preserve">
+    <value>K4</value>
+  </data>
+  <data name="BoundFieldResource97.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource97.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource97.HeaderText" xml:space="preserve">
+    <value>K5</value>
+  </data>
+  <data name="BoundFieldResource98.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource98.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource98.HeaderText" xml:space="preserve">
+    <value>K6</value>
+  </data>
+  <data name="BoundFieldResource99.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource99.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BoundFieldResource99.HeaderText" xml:space="preserve">
+    <value>K7</value>
+  </data>
+  <data name="Button_AddItemResource1.Text" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="Button_AddItemResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_backResource1.Text" xml:space="preserve">
+    <value>回上頁</value>
+  </data>
+  <data name="BUTTON_backResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUTTON_FlowFeedbackResource1.Text" xml:space="preserve">
+    <value>送出</value>
+  </data>
+  <data name="BUTTON_FlowFeedbackResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Button_UpdateItemResource1.Text" xml:space="preserve">
+    <value>Update Item</value>
+  </data>
+  <data name="Button_UpdateItemResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Button1Resource1.Text" xml:space="preserve">
+    <value>產生料號</value>
+  </data>
+  <data name="Button1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource1.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource1.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource1.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource2.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource2.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource2.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonFieldResource2.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="cate1.HeaderText" xml:space="preserve">
+    <value>產品大類</value>
+  </data>
+  <data name="cate2.HeaderText" xml:space="preserve">
+    <value>中類</value>
+  </data>
+  <data name="cate3.HeaderText" xml:space="preserve">
+    <value>小類</value>
+  </data>
+  <data name="CheckBoxFileResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="cname.HeaderText" xml:space="preserve">
+    <value>副分群碼</value>
+  </data>
+  <data name="CommandFieldResource1.AccessibleHeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CommandFieldResource1.CancelText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CommandFieldResource1.DeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CommandFieldResource1.EditText" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="CommandFieldResource1.FooterText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CommandFieldResource1.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CommandFieldResource1.InsertText" xml:space="preserve">
+    <value>Insert</value>
+  </data>
+  <data name="CommandFieldResource1.NewText" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="CommandFieldResource1.SelectText" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="CommandFieldResource1.UpdateText" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="component.HeaderText" xml:space="preserve">
+    <value>品名</value>
+  </data>
+  <data name="componenta.Text" xml:space="preserve">
+    <value>品名</value>
+  </data>
+  <data name="ContentDescriptorResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="D2Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="D2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="dname.HeaderText" xml:space="preserve">
+    <value>產品別</value>
+  </data>
+  <data name="dwg.HeaderText" xml:space="preserve">
+    <value>規格</value>
+  </data>
+  <data name="ename.HeaderText" xml:space="preserve">
+    <value>交易方式</value>
+  </data>
+  <data name="f_partno.HeaderText" xml:space="preserve">
+    <value>預測料號</value>
+  </data>
+  <data name="F4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="F4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="F5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="F5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_add_userResource1.Text" xml:space="preserve">
+    <value>ann</value>
+  </data>
+  <data name="FIELD_add_userResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_class_noResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_ERP_identicalResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_ERP_identicalResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_HSFResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_HSFResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_IQCResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_IQCResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_NOResource1.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="FIELD_NOResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_partnoResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_partnoResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FIELD_plantidResource1.Text" xml:space="preserve">
+    <value>mat</value>
+  </data>
+  <data name="FIELD_plantidResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlowFeedback1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlowFeedbackViewer1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowResult1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowResult2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FlowResultResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="G6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.Caption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.EmptyDataText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GridView1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="H2Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="H2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource1.AlternateText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image2Resource1.AlternateText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image31Resource1.AlternateText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Image31Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imz02.HeaderText" xml:space="preserve">
+    <value>分群碼</value>
+  </data>
+  <data name="Input_CommentResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_CommentResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InputText3Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InputText3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="J5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="J5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="J6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="J6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="K7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="K7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="L7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Labe102Resource1.Text" xml:space="preserve">
+    <value>附加檔案</value>
+  </data>
+  <data name="Labe102Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label100Resource1.Text" xml:space="preserve">
+    <value>回收</value>
+  </data>
+  <data name="Label100Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label101Resource1.Text" xml:space="preserve">
+    <value>機台小分類</value>
+  </data>
+  <data name="Label101Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label102Resource1.Text" xml:space="preserve">
+    <value>零件別</value>
+  </data>
+  <data name="Label102Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label103Resource1.Text" xml:space="preserve">
+    <value>塑膠種類</value>
+  </data>
+  <data name="Label103Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label104Resource1.Text" xml:space="preserve">
+    <value>版次</value>
+  </data>
+  <data name="Label104Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label105Resource1.Text" xml:space="preserve">
+    <value>包材分類</value>
+  </data>
+  <data name="Label105Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label106Resource1.Text" xml:space="preserve">
+    <value>是否為硬碟類</value>
+  </data>
+  <data name="Label106Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label107Resource1.Text" xml:space="preserve">
+    <value>料別</value>
+  </data>
+  <data name="Label107Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label10Resource1.Text" xml:space="preserve">
+    <value>規格</value>
+  </data>
+  <data name="Label10Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label11Resource1.Text" xml:space="preserve">
+    <value>交易方式</value>
+  </data>
+  <data name="Label11Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label12Resource1.Text" xml:space="preserve">
+    <value>機種別</value>
+  </data>
+  <data name="Label12Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label13Resource1.Text" xml:space="preserve">
+    <value>技術產品代碼</value>
+  </data>
+  <data name="Label13Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label14Resource1.Text" xml:space="preserve">
+    <value>客戶別</value>
+  </data>
+  <data name="Label14Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label155Resource1.Text" xml:space="preserve">
+    <value>料號</value>
+  </data>
+  <data name="Label155Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label15Resource1.Text" xml:space="preserve">
+    <value>來源碼</value>
+  </data>
+  <data name="Label15Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label161Resource1.Text" xml:space="preserve">
+    <value>編碼資料</value>
+  </data>
+  <data name="Label161Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label16Resource1.Text" xml:space="preserve">
+    <value>零件別</value>
+  </data>
+  <data name="Label16Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label17Resource1.Text" xml:space="preserve">
+    <value>生產廠別</value>
+  </data>
+  <data name="Label17Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label19Resource1.Text" xml:space="preserve">
+    <value>料別</value>
+  </data>
+  <data name="Label19Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1Resource1.Text" xml:space="preserve">
+    <value>產品別</value>
+  </data>
+  <data name="Label1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1Resource1a.Text" xml:space="preserve">
+    <value>銘異集團料件系統</value>
+  </data>
+  <data name="Label20Resource1.Text" xml:space="preserve">
+    <value>庫存單位</value>
+  </data>
+  <data name="Label20Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label21Resource1.Text" xml:space="preserve">
+    <value>HSF</value>
+  </data>
+  <data name="Label21Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label22Resource1.Text" xml:space="preserve">
+    <value>IQC</value>
+  </data>
+  <data name="Label22Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label23Resource1.Text" xml:space="preserve">
+    <value>包材分類</value>
+  </data>
+  <data name="Label23Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label24Resource1.Text" xml:space="preserve">
+    <value>是否為硬碟</value>
+  </data>
+  <data name="Label24Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label25Resource1.Text" xml:space="preserve">
+    <value>消耗分類</value>
+  </data>
+  <data name="Label25Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label26Resource1.Text" xml:space="preserve">
+    <value>客戶圖號</value>
+  </data>
+  <data name="Label26Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label27Resource1.Text" xml:space="preserve">
+    <value>閒置分群</value>
+  </data>
+  <data name="Label27Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label28Resource1.Text" xml:space="preserve">
+    <value>產品大類</value>
+  </data>
+  <data name="Label28Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label29Resource1.Text" xml:space="preserve">
+    <value>附  加  檔  案</value>
+  </data>
+  <data name="Label29Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label29Resource1a.Text" xml:space="preserve">
+    <value>申請內容</value>
+  </data>
+  <data name="Label2Resource1.Text" xml:space="preserve">
+    <value>料件申請單</value>
+  </data>
+  <data name="Label2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label30Resource1.Text" xml:space="preserve">
+    <value>部門碼</value>
+  </data>
+  <data name="Label30Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label31Resource1.Text" xml:space="preserve">
+    <value>附加資料</value>
+  </data>
+  <data name="Label31Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label32Resource1.Text" xml:space="preserve">
+    <value>流水碼(非必填)</value>
+  </data>
+  <data name="Label32Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label33Resource1.Text" xml:space="preserve">
+    <value>設變流水碼</value>
+  </data>
+  <data name="Label33Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label34Resource1.Text" xml:space="preserve">
+    <value>版次別</value>
+  </data>
+  <data name="Label34Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label34Resource2.Text" xml:space="preserve">
+    <value>單號</value>
+  </data>
+  <data name="Label34Resource3.Text" xml:space="preserve">
+    <value>廠區</value>
+  </data>
+  <data name="Label34Resource4.Text" xml:space="preserve">
+    <value>申請人</value>
+  </data>
+  <data name="Label35Resource1.Text" xml:space="preserve">
+    <value>料別</value>
+  </data>
+  <data name="Label35Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label36Resource1.Text" xml:space="preserve">
+    <value>套別</value>
+  </data>
+  <data name="Label36Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label37Resource1.Text" xml:space="preserve">
+    <value>客戶圖號</value>
+  </data>
+  <data name="Label37Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label38Resource1.Text" xml:space="preserve">
+    <value>原料產品別</value>
+  </data>
+  <data name="Label38Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label39Resource1.Text" xml:space="preserve">
+    <value>原料分類</value>
+  </data>
+  <data name="Label39Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label3Resource1.Text" xml:space="preserve">
+    <value>基本資料</value>
+  </data>
+  <data name="Label3Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label40Resource1.Text" xml:space="preserve">
+    <value>MATC產品別</value>
+  </data>
+  <data name="Label40Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label41Resource1.Text" xml:space="preserve">
+    <value>產品中類</value>
+  </data>
+  <data name="Label41Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label42Resource1.Text" xml:space="preserve">
+    <value>產品小類</value>
+  </data>
+  <data name="Label42Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label43Resource1.Text" xml:space="preserve">
+    <value>預測料號/品名/規格</value>
+  </data>
+  <data name="Label43Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label44Resource1.Text" xml:space="preserve">
+    <value>寬度</value>
+  </data>
+  <data name="Label44Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label45Resource1.Text" xml:space="preserve">
+    <value>厚度</value>
+  </data>
+  <data name="Label45Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label46Resource1.Text" xml:space="preserve">
+    <value>化學分類</value>
+  </data>
+  <data name="Label46Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label47Resource1.Text" xml:space="preserve">
+    <value>型號流水碼</value>
+  </data>
+  <data name="Label47Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label48Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label48Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label49Resource1.Text" xml:space="preserve">
+    <value>材質區分</value>
+  </data>
+  <data name="Label49Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label50Resource1.Text" xml:space="preserve">
+    <value>亮度/型態</value>
+  </data>
+  <data name="Label50Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label51Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label51Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label52Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label52Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label53Resource1.Text" xml:space="preserve">
+    <value>鐵材材質</value>
+  </data>
+  <data name="Label53Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label54Resource1.Text" xml:space="preserve">
+    <value>亮型/型態</value>
+  </data>
+  <data name="Label54Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label555Resource1.Text" xml:space="preserve">
+    <value>不抛ERP</value>
+  </data>
+  <data name="Label555Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label55Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label55Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label56Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label56Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label57Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label57Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label58Resource1.Text" xml:space="preserve">
+    <value>鐵材材質</value>
+  </data>
+  <data name="Label58Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label59Resource1.Text" xml:space="preserve">
+    <value>亮型/型態</value>
+  </data>
+  <data name="Label59Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label5sResource1.Text" xml:space="preserve">
+    <value>套別</value>
+  </data>
+  <data name="Label5sResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label5SSResource1.Text" xml:space="preserve">
+    <value>流水碼(非必填)</value>
+  </data>
+  <data name="Label5SSResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label5SXResource1.Text" xml:space="preserve">
+    <value>流水碼(非必填)</value>
+  </data>
+  <data name="Label5SXResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label60Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label60Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label61Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label61Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label62Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label62Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label63Resource1.Text" xml:space="preserve">
+    <value>膠種</value>
+  </data>
+  <data name="Label63Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label64Resource1.Text" xml:space="preserve">
+    <value>PET+膠種</value>
+  </data>
+  <data name="Label64Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label65Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label65Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label66Resource1.Text" xml:space="preserve">
+    <value>PET+膠種</value>
+  </data>
+  <data name="Label66Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label67Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label67Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label68Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label68Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label69Resource1.Text" xml:space="preserve">
+    <value>自動化大分類</value>
+  </data>
+  <data name="Label69Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label6Resource1.Text" xml:space="preserve">
+    <value>分群碼</value>
+  </data>
+  <data name="Label6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label70Resource1.Text" xml:space="preserve">
+    <value>產業別</value>
+  </data>
+  <data name="Label70Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label71Resource1.Text" xml:space="preserve">
+    <value>機台流水碼</value>
+  </data>
+  <data name="Label71Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label72Resource1.Text" xml:space="preserve">
+    <value>機台中分類</value>
+  </data>
+  <data name="Label72Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label73Resource1.Text" xml:space="preserve">
+    <value>設變流水碼</value>
+  </data>
+  <data name="Label73Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label74Resource1.Text" xml:space="preserve">
+    <value>零件別</value>
+  </data>
+  <data name="Label74Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label75Resource1.Text" xml:space="preserve">
+    <value>料別</value>
+  </data>
+  <data name="Label75Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label76Resource1.Text" xml:space="preserve">
+    <value>設變流水碼</value>
+  </data>
+  <data name="Label76Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label77Resource1.Text" xml:space="preserve">
+    <value>產品種類</value>
+  </data>
+  <data name="Label77Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label78Resource1.Text" xml:space="preserve">
+    <value>電子料種類</value>
+  </data>
+  <data name="Label78Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label79Resource1.Text" xml:space="preserve">
+    <value>電子類編碼</value>
+  </data>
+  <data name="Label79Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label7Resource1.Text" xml:space="preserve">
+    <value>副分群碼</value>
+  </data>
+  <data name="Label7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label80Resource1.Text" xml:space="preserve">
+    <value>客戶圖號</value>
+  </data>
+  <data name="Label80Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label81Resource1.Text" xml:space="preserve">
+    <value>材質區分</value>
+  </data>
+  <data name="Label81Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label82Resource1.Text" xml:space="preserve">
+    <value>亮型/型態</value>
+  </data>
+  <data name="Label82Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label83Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label83Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label84Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label84Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label85Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label85Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label86Resource1.Text" xml:space="preserve">
+    <value>材質區分</value>
+  </data>
+  <data name="Label86Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label87Resource1.Text" xml:space="preserve">
+    <value>亮型/型態</value>
+  </data>
+  <data name="Label87Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label88Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label88Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label89Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label89Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label8Resource1.Text" xml:space="preserve">
+    <value>自製產品代碼</value>
+  </data>
+  <data name="Label8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label90Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label90Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label91Resource1.Text" xml:space="preserve">
+    <value>鐵材材質</value>
+  </data>
+  <data name="Label91Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label92Resource1.Text" xml:space="preserve">
+    <value>膠種</value>
+  </data>
+  <data name="Label92Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label93Resource1.Text" xml:space="preserve">
+    <value>亮型/型態</value>
+  </data>
+  <data name="Label93Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label94Resource1.Text" xml:space="preserve">
+    <value>料厚</value>
+  </data>
+  <data name="Label94Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label95Resource1.Text" xml:space="preserve">
+    <value>料寬</value>
+  </data>
+  <data name="Label95Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label96Resource1.Text" xml:space="preserve">
+    <value>硬度</value>
+  </data>
+  <data name="Label96Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label97Resource1.Text" xml:space="preserve">
+    <value>零件別</value>
+  </data>
+  <data name="Label97Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label98Resource1.Text" xml:space="preserve">
+    <value>版次</value>
+  </data>
+  <data name="Label98Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label99Resource1.Text" xml:space="preserve">
+    <value>供應商</value>
+  </data>
+  <data name="Label99Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelA5Resource1.Text" xml:space="preserve">
+    <value>版次(非必填)</value>
+  </data>
+  <data name="LabelA5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource1.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource10.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource10.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource11.Text" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="ListItemResource11.Value" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ListItemResource12.Text" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="ListItemResource12.Value" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ListItemResource13.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource13.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource14.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource14.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource15.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource15.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource16.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource16.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource17.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource17.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource18.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource18.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource19.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource19.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource2.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource2.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource20.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource20.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource21.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource21.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource22.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource22.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource23.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource23.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource24.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource24.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource25.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource25.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource26.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource26.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource27.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource27.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource28.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource28.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource29.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource29.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource3.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource3.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource30.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource30.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource31.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource31.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource32.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource32.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource33.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource33.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource34.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource34.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource35.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource35.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource36.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource36.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource37.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource37.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource38.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource38.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource39.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource39.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource4.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource4.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource40.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource40.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource41.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource41.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource42.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource42.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource43.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource43.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource44.Text" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="ListItemResource44.Value" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ListItemResource45.Text" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="ListItemResource45.Value" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ListItemResource46.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource46.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource47.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource47.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource48.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource48.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource5.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource5.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource6.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource6.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource7.Text" xml:space="preserve">
+    <value>P:採購料件</value>
+  </data>
+  <data name="ListItemResource7.Value" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="ListItemResource8.Text" xml:space="preserve">
+    <value>M:自製料件</value>
+  </data>
+  <data name="ListItemResource8.Value" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="ListItemResource9.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListItemResource9.Value" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="M8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="N8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="O5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="O5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="p_plantid.HeaderText" xml:space="preserve">
+    <value>生產廠區</value>
+  </data>
+  <data name="p_plantidResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="P5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="P5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="P6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="P6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="partno.HeaderText" xml:space="preserve">
+    <value>料號</value>
+  </data>
+  <data name="Q4.HeaderText" xml:space="preserve">
+    <value>機台流水碼</value>
+  </data>
+  <data name="Q4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Q4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Q5.HeaderText" xml:space="preserve">
+    <value>自動中分類</value>
+  </data>
+  <data name="Q6.HeaderText" xml:space="preserve">
+    <value>自動小分類</value>
+  </data>
+  <data name="R4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="R4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="R5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="R5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="remark.Text" xml:space="preserve">
+    <value>備註</value>
+  </data>
+  <data name="remark.Text1" xml:space="preserve">
+    <value>備註</value>
+  </data>
+  <data name="remarka.HeaderText1" xml:space="preserve">
+    <value>備註</value>
+  </data>
+  <data name="S5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Show_CommentResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Show_CommentResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="source_code.HeaderText" xml:space="preserve">
+    <value>來源碼</value>
+  </data>
+  <data name="T4Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="T4Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="T5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="T5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="unit.HeaderText" xml:space="preserve">
+    <value>庫存單位</value>
+  </data>
+  <data name="V5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="V5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="W2Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="W2Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X5Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X5Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="X7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Y8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z6Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z6Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z7Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z7Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z8Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Z8Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+</root>

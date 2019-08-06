@@ -1,0 +1,456 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY name="SelectedNode" />
+<PUBLIC:PROPERTY name="PreviousNode" />
+<PUBLIC:PROPERTY name="roottext" />
+<PUBLIC:PROPERTY name="RootClass" />
+<PUBLIC:PROPERTY name="nodeclass" />
+<PUBLIC:PROPERTY name="hlineheight" />
+<PUBLIC:PROPERTY name="vlineheight" />
+<PUBLIC:PROPERTY name="vlinewidth" />
+
+<PUBLIC:METHOD name="AddChildNode" />
+<PUBLIC:METHOD name="CallBackHandler" />
+<PUBLIC:METHOD name="GetNodeID" />
+<PUBLIC:METHOD name="RebuildTree" />
+<SCRIPT language="JScript">
+var treedocument=new Array();
+var nodecount=0;
+var containerid;
+
+function event_ondocumentready()
+{
+	//initialize
+	if (SelectedNode==null) SelectedNode=0;
+	if (PreviousNode==null) PreviousNode=0;	
+	if (hlineheight==null) hlineheight=2
+	if (vlineheight==null)  vlineheight=3
+	if (vlinewidth==null)  vlinewidth=2
+	if (roottext==null)  roottext="Root Node"
+	
+	this.style.visibility="hidden";
+	this.style.display="none";
+	if ((this.id=="") || (this.id==null 	))
+		this.id=window.document.uniqueID;
+	ReadDocument();
+	
+	var container=window.document.createElement("DIV")
+	container.id=this.id + "_container";
+	containerid=this.id + "_container";
+	this.insertAdjacentElement("beforebegin",container);
+	container.style.fontFamily= this.currentStyle.fontFamily;
+	container.style.fontSize = this.currentStyle.fontSize;
+	container.style.fontWeight = this.currentStyle.fontWeight;
+	container.style.color = this.currentStyle.color;
+	var dctext="";
+	dctext=Draw(0,dctext);
+	container.innerHTML=dctext;
+		
+}
+
+
+function GetNodeID(nodeindex)
+{
+	return treedocument[nodeindex].id
+}
+
+function CallBackHandler()
+{
+	
+	if (arguments[1]=="ontreenodeclick")
+		{
+			PreviousNode=SelectedNode;
+			SelectedNode=arguments[0];
+			if (OnNodeClick!=null)
+				eval(OnNodeClick);
+		}
+}
+
+function RebuildTree()
+{	
+	var nodeindex=0;
+	if (arguments.length==0) 
+		nodeindex=SelectedNode;
+	else
+		nodeindex=arguments[0];
+	var dctext="";
+	
+	dctext=Draw(0,dctext);
+	window.document.getElementById(containerid).innerHTML=dctext;	
+}
+
+function FindIndexById(idstr)
+{
+	for (var i=0 ; i< nodecount ; i++)
+	{
+		if (treedocument[i].id==idstr)
+			return i;
+	}
+	return 0;
+}
+
+function AddChildNode()
+{
+	if (arguments.length < 2) 
+	{  
+		alert("Can't insert a node without parent node and node content!");
+		return ;
+	}
+	var nodeindex=0;
+	var parindex=0;
+	var caption="";
+	var nodeid="";
+	var headertext="";
+	var footertext="";
+	var type="";
+	
+	
+	
+	if (arguments.length==2)
+	{
+		caption=arguments[0];
+		parindex=FindIndexById(arguments[1]);
+		nodeid=window.document.uniqueID;
+	}
+	
+	else
+	{ 
+	if (arguments.length == 3)
+		{
+			caption=arguments[0];
+			parindex=FindIndexById(arguments[1]);
+			nodeid=arguments[2];
+		}
+	else
+		{
+			caption=arguments[0];
+			parindex=FindIndexById(arguments[1]);
+			nodeid=arguments[2];
+			type=arguments[3];
+		}
+	}
+	
+	//nodeindex=ConstructObject(parindex,treedocument[parindex].ident+1, caption , nodeid,headertext, footertext)
+	nodeindex=ConstructObject(parindex,treedocument[parindex].ident+1, caption , nodeid,headertext, footertext,type)
+	
+	AddChild(parindex,nodeindex);
+	return nodeindex;
+}
+
+
+
+
+function DrawSelf(selfnode, dc)
+{
+	//draw the Outter Table
+	
+	var tempstr;
+	
+	if (selfnode.indent==0)
+		tempstr = "<table cellSpacing=\"0\" border=0 cellPadding=\"0\">"
+	else
+		tempstr = "<table align=center border=0 cellSpacing=\"0\" cellPadding=\"0\">"
+	
+	//alert("current : " + treedocument[selfnode.parent].totalchild );
+	//draw header;
+		if (selfnode.indent==0)
+			{
+				tempstr = tempstr + "<tr><td></td></tr>"	
+			}
+		else
+		{
+			if (treedocument[selfnode.parent].totalchild ==1  )
+				tempstr=tempstr +  DrawSingleHeader();
+			else
+			{
+				if (treedocument[treedocument[selfnode.parent].childlist[0]] == selfnode)
+				{
+					tempstr=tempstr +  DrawLeftHeader();
+				}
+				else if (treedocument[treedocument[selfnode.parent].childlist[treedocument[selfnode.parent].totalchild -1 ]] ==selfnode)
+				{
+					tempstr=tempstr +  DrawRightHeader();
+				}
+				else 
+				{
+					tempstr=tempstr +  DrawCrossHeader();
+				}
+			}
+			
+		}
+		
+	if (selfnode.headertext!="" ) 
+	{	
+		tempstr = tempstr + "<tr><td  colSpan=\"3\"><table cellSpacing=\"0\" cellPadding=\"0\" width=\"50%\" align=\"center\" border=\"0\" ><tr><td align=center >" + selfnode.headertext + "</td></tr></table>";
+		tempstr=tempstr + DrawFooter();
+	}
+
+  
+		
+	//draw body;
+	//	tempstr=tempstr + "<tr><td align=center >"  +  selfnode.caption + "</td></tr>";
+	tempstr=tempstr + "<tr><td align=center ><table cellpadding =2 cellspacing=0 border=0  class="+selfnode.type+"><tr><td nowrap class=normal>"  +  selfnode.caption + "</td></tr></table> </td></tr>";		
+		
+	//draw footer;
+		if (selfnode.totalchild != 0)
+			{
+				tempstr=tempstr + DrawFooter();
+				if (selfnode.footertext!="" ) 
+				{	
+					tempstr = tempstr + "<tr><td  colSpan=\"3\"><table cellSpacing=\"0\" cellPadding=\"0\" width=\"50%\" align=\"center\" border=\"0\" ><tr><td align=center >" + selfnode.footertext + "</td></tr></table>";
+				}
+				if (selfnode.totalchild>1)  tempstr=tempstr + DrawFooter();
+			}
+		else
+			tempstr=tempstr + "<tr><td></td></tr>"
+			
+	
+	//draw children;	
+		
+	tempstr = tempstr + "<tr><td colSpan=\"3\"><table cellSpacing=\"0\" cellPadding=\"0\" width=\"50%\" align=\"center\" border=\"0\" ><tr> ";
+		if (selfnode.totalchild!=0)
+		{
+			for (var j=0 ; j < selfnode.totalchild; j++)
+				{					
+					tempstr=tempstr + "<td valign=top >" + treedocument[selfnode.childlist[j]].Draw(treedocument[selfnode.childlist[j]], dc) + "</td>";
+				}
+		}
+	
+	
+	tempstr = tempstr + "</tr></table></td></tr></table>"
+	
+
+	//	alert(selfnode.totalchild);
+	return tempstr;
+	
+}
+
+
+//function ConstructObject(parent,ident, caption, id, headertext, footertext)
+function ConstructObject(parent,ident, caption, id, headertext, footertext, type)
+{ 
+
+    treedocument[nodecount]=new Object;
+    treedocument[nodecount].parent=parent;
+    treedocument[nodecount].indent=ident;
+    treedocument[nodecount].expanded=false;
+    treedocument[nodecount].id=id;
+    treedocument[nodecount].classname="";
+    treedocument[nodecount].headertext=headertext;
+    treedocument[nodecount].footertext=footertext;
+    treedocument[nodecount].type=type;
+    
+    if (parent==nodecount)
+	{
+		treedocument[nodecount].seq=0;	
+	}
+    else
+	{
+		treedocument[nodecount].seq=treedocument[parent].totalchild;
+	}
+	
+    treedocument[nodecount].totalchild=0;
+    treedocument[nodecount].caption="";
+    treedocument[nodecount].caption=caption;	
+    treedocument[nodecount].type=type;	    
+    treedocument[nodecount].childlist = new Array();
+    treedocument[nodecount].Draw= function( selfnode, dc )   {	return DrawSelf(selfnode,dc);   };
+    return nodecount++;
+} 
+
+
+
+
+function DrawLeftHeader()
+{
+	var tempstr;
+	tempstr = "";
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD colSpan=\"3\">\n"
+	tempstr=tempstr+"<TABLE cellSpacing=\"0\" cellPadding=\"0\" width=\"50%\" align=\"right\" border=\"0\" ID=\"Table4\">\n"
+	tempstr=tempstr+"<TBODY>\n"
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD noWrap width=\"" + vlinewidth +  "\" bgColor=\"black\" rowSpan=\"2\"></TD>\n"
+	tempstr=tempstr+"<TD width=\"100%\" bgColor=\"black\" height=\"" + hlineheight +  "\"><FONT face=\"新細明體\"></FONT></TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD height=\"" + vlineheight + "\"><FONT face=\"新細明體\"></FONT></TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	tempstr=tempstr+"</TBODY></TABLE>\n"
+	tempstr=tempstr+"</TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	return tempstr;
+
+}
+
+function DrawRightHeader()
+{
+	var tempstr;
+	tempstr = "";
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD colSpan=\"3\">\n"
+	tempstr=tempstr+"<TABLE cellSpacing=\"0\" cellPadding=\"0\" width=\"50%\" border=\"0\" ID=\"Table5\">\n"
+	tempstr=tempstr+"<TBODY>\n"
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD width=\"100%\" bgColor=\"black\" height=\"" + hlineheight +  "\"><FONT face=\"新細明體\"></FONT></TD>\n"
+	tempstr=tempstr+"<TD noWrap width=\"" + vlinewidth +  "\" bgColor=\"black\" rowSpan=\"2\"></TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	tempstr=tempstr+"<TR>\n"
+	tempstr=tempstr+"<TD height=\"" + vlineheight +  "\"><FONT face=\"新細明體\"></FONT></TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	tempstr=tempstr+"</TBODY></TABLE>\n"
+	tempstr=tempstr+"</TD>\n"
+	tempstr=tempstr+"</TR>\n"
+	return tempstr;
+}
+
+function DrawCrossHeader()
+{
+	var tempstr;
+	tempstr = "";
+	tempstr = "<TR>\n" 
+	tempstr = tempstr +"<TD colSpan=\"3\">\n"
+	tempstr = tempstr +"<TABLE cellSpacing=\"0\" cellPadding=\"0\" width=\"100%\" border=\"0\" ID=\"Table6\">\n"
+	tempstr = tempstr + "<TBODY>\n"
+	tempstr = tempstr + "<TR height=\"2\">\n"
+	tempstr = tempstr + "<TD bgColor=\"black\" colSpan=\"3\" height=\"" + hlineheight +  "\"><FONT face=\"新細明體\"></FONT></TD>\n"
+	tempstr = tempstr + "</TR>\n"
+	tempstr = tempstr + "<TR>\n"
+	tempstr = tempstr + "<TD width=\"50%\"></TD>\n"
+	tempstr = tempstr + "<TD noWrap width=\"" + vlinewidth +  "\" bgColor=\"black\" height=\"" + vlineheight +  "\"></TD>\n"
+	tempstr = tempstr + "<TD width=\"50%\"></TD>\n"
+	tempstr = tempstr + "</TR>\n"
+	tempstr = tempstr + "</TBODY></TABLE>\n"
+	tempstr = tempstr + "</TD>\n"
+	tempstr = tempstr + "</TR>\n"
+	return tempstr;
+}
+
+function DrawSingleHeader()
+{
+	
+	var tempstr;
+	tempstr = "";
+	tempstr=tempstr + "<TR>\n"
+	tempstr=tempstr + "	<TD  colSpan=\"3\">\n"
+	tempstr=tempstr + "	<TABLE cellSpacing=\"0\" cellPadding=\"0\" align=\"center\" bgColor=\"black\" border=\"0\" ID=\"Table3\">\n"
+	tempstr=tempstr + "	<TBODY>\n"
+	tempstr=tempstr + "	<TR>\n"
+	tempstr=tempstr + "	<TD width=\"" + vlinewidth +  "\" height=\"" + vlineheight +  "\"></TD>\n"
+	tempstr=tempstr + "	</TR>\n"
+	tempstr=tempstr + "	</TBODY></TABLE>\n"
+	tempstr=tempstr + "	</TD>\n"
+	tempstr=tempstr + "</TR>\n"
+	return tempstr;
+
+}
+
+
+function DrawFooter()
+{
+	var tempstr;
+	tempstr = "";
+	tempstr=tempstr + "<TR>\n"
+	tempstr=tempstr + "	<TD colSpan=\"3\">\n"
+	tempstr=tempstr + "	<TABLE cellSpacing=\"0\" cellPadding=\"0\" align=\"center\" bgColor=\"black\" border=\"0\" ID=\"Table3\">\n"
+	tempstr=tempstr + "	<TBODY>\n"
+	tempstr=tempstr + "	<TR>\n"
+	tempstr=tempstr + "	<TD width=\"" + vlinewidth +  "\" height=\"" + vlineheight +  "\"></TD>\n"
+	tempstr=tempstr + "	</TR>\n"
+	tempstr=tempstr + "	</TBODY></TABLE>\n"
+	tempstr=tempstr + "	</TD>\n"
+	tempstr=tempstr + "</TR>\n"
+	return tempstr;
+}
+
+
+
+function AddChild(nodeindex, childindex)
+{	
+	treedocument[nodeindex].childlist[treedocument[nodeindex].totalchild]=childindex;
+	treedocument[nodeindex].totalchild++ ;
+}
+
+
+
+
+function Draw(nodeindex, dc)
+{
+	var dctext=dc;
+	dctext="aaaa"
+	dctext=treedocument[0].Draw(treedocument[0],dctext );
+	//dctext=treedocument[0].Draw();
+		
+	return dctext;	
+}
+
+function ReadNode(prt, treenode, lvl)
+{
+	var currentNodeIndex;
+	var headertext,footertext;
+	var caption;
+	var tmptype;
+	for (var i=0;i<treenode.children.length;i++)	
+	{
+			var nodeid="";
+			var loaded=true;
+			if (treenode.children.item(i).id!=null 	)
+				nodeid=treenode.children.item(i).id;
+				
+			if (treenode.children.item(i).getAttribute("headertext")!=null 	)
+			{
+				headertext=treenode.children.item(i).getAttribute("headertext");
+				}
+			else
+				headertext=""
+				
+			if (treenode.children.item(i).getAttribute("footertext")!=null 	)
+				footertext=treenode.children.item(i).getAttribute("footertext");
+			else
+				footertext=""
+			
+			if (treenode.children.item(i).children.length==0)
+				caption=treenode.children.item(i).innerHTML;
+			else
+			   {
+				if (treenode.children.item(i).children.item(0).tagName=='UL')
+					caption=treenode.children.item(i).getAdjacentText("afterbegin");
+				else
+					caption=treenode.children.item(i).children.item(0).outerHTML;
+			   }
+			   
+			if (treenode.children.item(i).getAttribute("nodeclass")!=null )
+				nodeclass=treenode.children.item(i).getAttribute("nodeclass");
+			else
+				nodeclass=""
+			   
+			//currentNodeIndex=ConstructObject(prt,lvl,caption,nodeid, headertext,footertext);			
+			currentNodeIndex=ConstructObject(prt,lvl,caption,nodeid, headertext,footertext,nodeclass);			
+			
+			AddChild(prt,currentNodeIndex);
+			
+		for (var j=0; j<treenode.children.item(i).children.tags('ul').length; j++)		
+			ReadNode(currentNodeIndex, treenode.children.item(i).children.tags('ul').item(j) , lvl+1);
+	}
+	
+}
+
+function ReadDocument()
+{	
+	nodecount=0;
+//	ConstructObject(0,0,roottext,this.id,"","");
+   if (RootClass)
+   	ConstructObject(0,0,roottext,this.id,"","",RootClass);
+   else
+	ConstructObject(0,0,roottext,this.id,"","","");
+		
+	
+	if (this.children.length != 0)
+	{
+		ReadNode(0,this,1);
+	}
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

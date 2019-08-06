@@ -1,0 +1,965 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmousedown" ONEVENT="mouseDown()"/>
+<PUBLIC:ATTACH EVENT="onmouseup" ONEVENT="mouseUp()"/>
+<PUBLIC:ATTACH EVENT="onmousemove" ONEVENT="mouseMove()"/>
+
+<PUBLIC:EVENT	name="onrowselect" ID=rowSelect />
+<PUBLIC:PROPERTY name="hlColor" />
+<PUBLIC:PROPERTY name="slColor" />
+<PUBLIC:PROPERTY name="dragColor" />
+<PUBLIC:PROPERTY NAME="titleColor" />
+<PUBLIC:PROPERTY NAME="rowHeight" />
+
+
+<PUBLIC:PROPERTY NAME="sortmode" />
+<PUBLIC:PROPERTY NAME="dragmode" />
+<PUBLIC:PROPERTY NAME="resizemode" />
+
+<PUBLIC:ATTACH EVENT="ondetach" ONEVENT="cleanup()" />
+
+<SCRIPT language="JScript">
+
+// global variables
+//
+var tbody=null;					
+var theadrow=null;
+var colCount = null;
+var cColArray = new Array();
+var oColArray = new Array()
+
+var imgroot="/lib/img/";
+var defaultdragcolor="silver";
+var defaultslcolor="#ffffcc";
+var defaulthlcolor="#BEC5DE";
+var defaulttitlecolor="#d8d8d8";
+
+
+function event_oncontentready()
+{
+	//this.addBehavior("/lib/htc/errmsg.htc");
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+}
+
+function event_ondocumentready() {
+	// get TBODY - take the first TBODY for the table to sort
+	
+	tbody = element.tBodies(0);
+	if (!tbody) return;
+
+	//Get THEAD  
+	var thead = element.tHead;
+	if (!thead)  return;
+	
+	if (hlColor==null)
+	   hlColor=defaulthlcolor;
+	if (slColor==null)
+	   slColor=defaultslcolor;
+	if (dragColor==null)
+	   dragColor=defaultdragcolor;
+	if (titleColor==null)
+	   titleColor=defaulttitlecolor;
+	if (!rowHeight) rowHeight="30";
+
+	theadrow = thead.children[0]; //Assume just one Head row
+	if (theadrow.tagName != "TR") return;
+
+    if((sortmode!=null) || (dragmode!=null))
+		theadrow.runtimeStyle.cursor = "hand";
+
+	colCount = theadrow.children.length;
+	
+	var l, clickCell;
+    var cx=0;
+    var cy=0;
+    var c;
+		
+	for (var i=0; i<colCount; i++) 
+	{
+		// Create our blank gif
+		l=document.createElement("IMG");
+		l.src=imgroot+"icon-blank.gif";
+		l.id="srtImg";
+		l.width=9;
+		l.height=6;
+		l.align="absmiddle";
+		l.hspace=2;
+		l.vspace=3;
+		l.align="bottom"
+
+		clickCell = theadrow.children[i];
+		clickCell.selectIndex = i;
+		clickCell.insertAdjacentElement("beforeEnd", l)
+		clickCell.attachEvent("onclick", doClick);
+
+        arrHitTest[i] = new Array();
+
+    	c = clickCell.offsetParent;
+
+	   if(cx == 0 && cy == 0 )
+	   {
+	    	while (c.offsetParent != null) {
+                  cy += c.offsetTop;
+                  cx += c.offsetLeft;
+                  c = c.offsetParent;
+			}
+		}
+
+    var cellwidth=clickCell.width;
+
+    if((cellwidth.toString().match("%")!=null) || (cellwidth.toString().match("auto")!=null) || (cellwidth.toString()==""))
+       cellwidth=100;
+
+	arrHitTest[i][0] = cx + clickCell.offsetLeft;
+	arrHitTest[i][1] = cy + clickCell.offsetTop;
+	arrHitTest[i][2] = clickCell;
+	//arrHitTest[i][3] = cx + clickCell.offsetLeft + eval(clickCell.width);
+	arrHitTest[i][3] = cx + clickCell.offsetLeft + eval(cellwidth);
+	clickCell.attachEvent("onmousedown",onMouseDown);
+	}
+
+  defaultTitleColor = theadrow.children[0].currentStyle.backgroundColor;	 
+
+   if (titleColor) {
+	  //theadrow.children[0].currentStyle.backgroundColor=titleColor;
+	  this.rows(0).runtimeStyle.backgroundColor=titleColor;
+	  }
+
+  element.document.attachEvent("onmousemove",onMouseMove);
+  element.document.attachEvent("onmouseup",onMouseUp);
+  element.document.attachEvent("onselectstart",onSelect);
+  
+  
+  
+  
+	 //save colum co to cookie
+	//document.cookie = "smoothColCount=" + escape(colCount) ; 
+//	window.status = GetCookie("smoothColCount");
+
+/*	for (var i=0;i<=5;i++)
+	{
+		var cookie="smoothCol"+i;	
+		document.cookie = cookie + "=" + escape(i) ; 
+	}
+*/
+	
+	//*******紀錄原始欄位排序*********
+	//var oColArray = new Array()
+	for (var i=0;i<=theadrow.children.length-1;i++)
+	{
+		oColArray[i]=theadrow.children[i].id;
+	}
+
+/*		//讀取cookies資料
+	var cookieList = document.cookie.split(";");
+	var cookieArray = new Array();
+	for (var i=0;i<cookieList.length;i++)
+	{
+		var name = cookieList[i].split("=");
+		//cookieArray[unescape(name[0])] = unescape(name[1]);
+		var cname=unescape(name[0]).replace(/(^\s*)|(\s*$)/g, "");
+		cookieArray[cname] = unescape(name[1]);
+	}
+
+
+	//讀取cookies裡的欄位排序資料
+	var cookie="";
+	for (var i=0;i<=theadrow.children.length-1;i++)
+	{
+		for(cookie in cookieArray)
+		{
+			//if(cookie.)
+		
+			if(cookie.toString()=="smoothCol"+i)
+			{
+			  cColArray[i]=cookieArray[cookie];
+			}
+			
+		}
+	}
+*/
+	//seq 為一cookie - smoothColSeq
+	var cookieSeq=GetCookie("smoothColSeq");
+	//alert(cookieSeq);
+	//if (cookieSeq != null || cookieSeq!="")
+	//	cColArray =cookieSeq.split(",");
+
+
+	//比對欄位順序,
+	for (var i=0;i<=theadrow.children.length-1;i++)
+	{
+	//	alert("oColArray["+i+"]="+oColArray[i] + ";  cColArray["+i+"]="+cColArray[i]);
+		if(typeof(cColArray[i])!="undefined")
+		{
+			if (oColArray[i] != cColArray[i])
+			{
+				var iSelected = i;
+				for (var j=0;cColArray.length-1;j++ )
+				{
+					if( oColArray[i]==cColArray[j])
+					{
+						var iChange =j;
+						CopyRow(iSelected, iChange );
+						j=0;
+						i=0;
+						break;
+					}
+				}	
+			}
+		}
+	
+	}
+
+	/*
+	//將欄位排序save to cookie
+	for (var i=0;i<=theadrow.children.length-1;i++)
+	{
+		 //SetCookie("smoothCol"+i,unescape(theadrow.children[i].id));
+	}	
+	*/
+   for(var i=0;i<=theadrow.children.length-1;i++)
+   {
+		for (j=1;j<this.rows.length;j++)
+		{
+			var theRow=this.rows(j);
+			var oDiv=document.createElement("DIV");
+			//oDiv.style.backgroundColor="#00FF00";
+			oDiv.style.width=theRow.children.item(i).width;
+			//oDiv.style.height=theRow.children.item(i).style.offsetHeight;
+			oDiv.style.height=rowHeight;
+			oDiv.style.overflow="hidden";
+			//oDiv.innerText=theadrow.children.item(i).innerText;
+			oDiv.innerHTML=theRow.children.item(i).innerHTML;
+			theRow.children.item(i).innerHTML="";
+			theRow.children.item(i).insertAdjacentElement("beforeEnd", oDiv)
+		}
+   }
+  
+}
+
+
+
+var currRow = -1;
+var selRow = -1;
+
+if (element.tagName == 'TABLE')
+{
+	element.attachEvent('onmouseover', onMouseOver);
+	element.attachEvent('onmouseout', onMouseOut);
+	element.attachEvent('onclick', onClick);
+}
+else
+{
+	alert("Error: tableAct not attached to a table element");
+}
+
+function cleanup()
+{
+	hilite(-1);
+
+	element.detachEvent('onmouseover', onMouseOver);
+	element.detachEvent('onmouseout', onMouseOut);
+	element.detachEvent('onclick', onClick);
+}
+
+function onClick()
+{
+	srcElem = window.event.srcElement;
+
+	//crawl up the tree to find the table row
+	while (srcElem.tagName != "TR" && srcElem.tagName != "TABLE")
+		srcElem = srcElem.parentElement;
+
+	if(srcElem.tagName != "TR") return;
+
+	if(srcElem.rowIndex == 0 ) return;
+
+	if (selRow != -1) selRow.runtimeStyle.backgroundColor = '';
+
+	srcElem.runtimeStyle.backgroundColor = slColor;
+	selRow = srcElem;
+	
+	var oEvent 	= createEventObject();
+	oEvent.selected = selRow;
+	rowSelect.fire(oEvent);
+}
+
+function onMouseOver()
+{
+	if(bResizing) return;
+	
+	var srcElem = window.event.srcElement;
+	//crawl up to find the row
+	while (srcElem.tagName != "TR" && srcElem.tagName != "TABLE")
+		srcElem = srcElem.parentElement;
+
+	if(srcElem.tagName != "TR") return;
+
+	if (srcElem.rowIndex > 0)
+		hilite(srcElem);
+	else
+		hilite(-1);
+
+}
+
+function onMouseOut()
+{
+	// Make sure we catch exit from the table
+	hilite(-1, -1);
+}
+
+function hilite(newRow)
+{
+//	if (hlColor != null )
+//	{
+		if (currRow != -1 && currRow!=selRow)
+		{
+			currRow.runtimeStyle.backgroundColor = '';
+		}
+
+		if (newRow != -1 && newRow!=selRow)
+		{
+			newRow.runtimeStyle.backgroundColor = hlColor;
+		}
+//	}
+	currRow = newRow;
+} 
+
+/// **** sortmode
+//
+
+
+var reverse = false;
+var lastclick = -1;					// stores the object of our last used object
+
+var arrHitTest = new Array();
+var bDragMode = null;
+
+var objDragItem;
+//var arrHitTest = new Array();
+var iArrayHit = false;
+
+
+//
+// doClick handler
+// 
+//
+function doClick(e) 
+{
+    if (sortmode==null) 
+		return;
+    
+	var clickObject = e.srcElement;
+
+	while (clickObject.tagName != "TD") 
+	{
+		clickObject = clickObject.parentElement;
+	}
+	
+	// clear the sort images in the head
+	var imgcol= theadrow.all('srtimg');
+	for(var x = 0; x < imgcol.length; x++) 
+		imgcol[x].src = imgroot+"icon-blank.gif";
+
+	if(lastclick == clickObject.selectIndex)
+	{
+		if(reverse == false)
+		{
+			clickObject.children[0].src = imgroot+"icon-down.gif";
+		      reverse = true;
+		}
+		else 
+		{
+			clickObject.children[0].src =imgroot+"icon-up.gif";
+			reverse = false;
+		}
+	}
+	else
+	{
+		reverse = false;
+		lastclick = clickObject.selectIndex;
+		clickObject.children[0].src =imgroot+"icon-up.gif";
+	}
+
+	insertionSort(tbody, tbody.rows.length-1,  reverse, clickObject.selectIndex);
+}
+
+function insertionSort(t, iRowEnd, fReverse, iColumn)
+{
+	var iRowInsertRow, iRowWalkRow, current, insert;
+    for ( iRowInsert = 0 + 1 ; iRowInsert <= iRowEnd ; iRowInsert++ )
+    {
+        if (iColumn) {	
+		if( typeof(t.children[iRowInsert].children[iColumn]) != "undefined")
+     		      textRowInsert = t.children[iRowInsert].children[iColumn].innerText;
+		else
+			textRowInsert = "";
+        } else {
+           textRowInsert = t.children[iRowInsert].innerText;
+        }
+		
+        for ( iRowWalk = 0; iRowWalk <= iRowInsert ; iRowWalk++ )
+        {
+            if (iColumn) {
+			if(typeof(t.children[iRowWalk].children[iColumn]) != "undefined")
+				textRowCurrent = t.children[iRowWalk].children[iColumn].innerText;
+			else
+				textRowCurrent = "";
+            } else {
+			textRowCurrent = t.children[iRowWalk].innerText;
+            }
+
+		//
+		// We save our values so we can manipulate the numbers for
+		// comparison
+		//
+		current = textRowCurrent;
+		insert  = textRowInsert;
+
+
+		//  If the value is not a number, we sort normally, else we evaluate	
+		//  the value to get a numeric representation
+		//
+		if ( !isNaN(current) ||  !isNaN(insert)) 
+		{
+			current= eval(current);
+			insert= eval(insert);
+		}
+		else
+		{
+			current	= current.toLowerCase();
+			insert	= insert.toLowerCase();
+		}
+
+
+            if ( (   (!fReverse && insert < current)
+                 || ( fReverse && insert > current) )
+                 && (iRowInsert != iRowWalk) )
+            {
+				eRowInsert = t.children[iRowInsert];
+                eRowWalk = t.children[iRowWalk];
+                t.insertBefore(eRowInsert, eRowWalk);
+                iRowWalk = iRowInsert; // done
+            }
+        }
+    }
+}
+
+
+///*** Dragmode
+
+function InitHeader()
+{
+  var cx=0;
+  var cy=0;
+  var c;
+	 
+  for (i=0; i<colCount ; i++) {
+
+	var clickCell = theadrow.children[i];
+	clickCell.selectIndex = i;
+	c = clickCell.offsetParent;
+
+	if(cx == 0 && cy == 0 )
+	{
+		while (c.offsetParent != null) {
+                  cy += c.offsetTop;
+                  cx += c.offsetLeft;
+                  c = c.offsetParent;
+		}
+	}
+    var cellwidth=clickCell.width;
+    if((cellwidth.toString().match("%")!=null) || (cellwidth.toString().match("auto")!=null)|| (cellwidth.toString()==""))
+       cellwidth=100;
+  
+
+	arrHitTest[i][0] = cx + clickCell.offsetLeft;
+	arrHitTest[i][1] = cy + clickCell.offsetTop;
+	arrHitTest[i][2] = clickCell;
+	//arrHitTest[i][3] = cx + clickCell.offsetLeft + eval(clickCell.width);
+	arrHitTest[i][3] = cx + clickCell.offsetLeft + eval(cellwidth);
+	
+  } 
+}
+
+function onSelect()
+{
+	//disable selection
+	return false;
+}
+
+function ChangeHeader(iChange)
+{
+
+	for(var y = 0; y < arrHitTest.length; y++)
+	{
+	if (arrHitTest[y][2].currentStyle.backgroundColor == dragColor)
+		//arrHitTest[y][2].style.backgroundColor = defaultTitleColor;
+		arrHitTest[y][2].style.backgroundColor = titleColor;
+	}
+
+	if(iChange == "-1") return; 
+
+	arrHitTest[iChange][2].style.backgroundColor = dragColor;
+}
+
+function onMouseUp(e)
+{
+    
+	if(!bDragMode)	return;
+	bDragMode = false;
+
+	var iSelected = objDragItem.selectIndex;
+	
+	objDragItem.removeNode(true);
+	objDragItem = null;
+
+	ChangeHeader(-1);
+
+	if( (iArrayHit - 1) < 0 || iSelected < 0) return;	// default faliure
+//	alert(iSelected+";"+ (iArrayHit - 1));
+	CopyRow(iSelected, (iArrayHit - 1) );
+
+	// Reset our variables
+	iSelected = 0;
+	iArrayHit = -1;
+	
+	//-----------------//
+	
+}
+
+function onMouseDown(e)
+{
+	bDragMode 	= true;
+	var src 	= e.srcElement;
+	var c 	= e.srcElement;
+
+	while (src.tagName != "TD") 
+		src = src.parentElement;
+
+	// Create our header on the fly
+	objDragItem = document.createElement("DIV");
+	objDragItem.innerHTML		= src.innerHTML;
+	objDragItem.style.height	= src.currentStyle.height;
+	
+    var cellWidth = src.currentStyle.width;
+
+	if ((cellWidth.toString().match("auto")==null) && (cellWidth.toString().match("%")==null)&& (cellWidth.toString()!=""))
+		objDragItem.style.width 	= src.currentStyle.width;
+	else	
+		objDragItem.style.width 	= 100;
+	
+	objDragItem.style.background 	= src.currentStyle.backgroundColor;
+	objDragItem.style.fontColor	= src.currentStyle.fontColor;
+	objDragItem.style.position 	= "absolute";
+	objDragItem.selectIndex		= src.selectIndex;
+	while (c.offsetParent != null) 
+    {
+		objDragItem.style.y += c.offsetTop;
+		objDragItem.style.x += c.offsetLeft;
+		c = c.offsetParent;
+	}
+ 	objDragItem.style.borderStyle	= "outset";
+	objDragItem.style.display	= "none";
+
+	src.insertBefore(objDragItem);
+}
+
+function onMouseMove(e)
+{
+    if (dragmode==null) return;
+	if(!bDragMode || !objDragItem) return;	// If we aren't dragging or our object
+								// is null, we return
+	// Hardcoded value for height difference
+	
+	var midWObj = objDragItem.style.posWidth / 2;
+	var midHObj = 12;
+	
+	if (midWObj=="NaN" )
+	   midWObj=50;
+	// Save mouse's position in the document
+     var intTop = e.clientY + element.document.body.scrollTop;
+     var intLeft = e.clientX + element.document.body.scrollLeft;
+	//window.status = "x:"+intLeft+",Y:"+intLeft;
+	var cx=0,cy=0;
+	var elCurrent = objDragItem.offsetParent;
+               while (elCurrent.offsetParent != null) {
+                  cx += elCurrent.offsetTop;
+                  cy += elCurrent.offsetLeft;
+                  elCurrent = elCurrent.offsetParent;
+               }
+
+      objDragItem.style.pixelTop  = intTop  - cx - midHObj;
+      objDragItem.style.pixelLeft = intLeft - cy - midWObj;
+
+
+	if(objDragItem.style.display == "none") objDragItem.style.display = "";
+
+	iArrayHit = CheckHit(intTop , intLeft , e);
+
+	e.cancelBubble = false;
+	e.returnValue = false;
+}
+
+function CheckHit(x,y,e)
+{
+	midWObj = objDragItem.style.posWidth / 2;
+	midHObj = 12;
+	if (midWObj=="NaN" )
+	   midWObj=50;
+
+	if( ((x) > (arrHitTest[0][1] + 20) ) || ( (x) < (arrHitTest[0][1]) ) )
+	{
+		ChangeHeader(-1);
+		return -1;
+	}
+
+	for(var i=0; i < colCount; i++)
+	{
+		if( (y) > (arrHitTest[i][0]) && (y) < (arrHitTest[i][3] )) //+ 100))
+		{
+			ChangeHeader(i);
+			return i + 1;
+		}
+	}
+	return -1;
+}
+
+//
+// Copy from row to row.. Does the Header also.
+//
+function CopyRow(from, to)
+{	
+
+	if(from == to) return;
+
+	var origfrom = from;
+	var origto = to;
+	var iDiff = 0;
+
+	if( from > to )
+	{
+		iDiff = from - to;
+		var saveObj 	= theadrow.children[from].innerHTML;
+		var saveWidth 	= theadrow.children[from].width;
+		var saveAlign  = theadrow.children[from].align;
+		var saveNowrap  = theadrow.children[from].noWrap;
+		var saveId = theadrow.children[from].id;
+		
+   		if((saveWidth.toString().match("%")!=null) || (saveWidth.toString().match("auto")!=null) || (saveWidth.toString()==""))
+		   saveWidth=eval(100);
+
+		for(var i = 0 ; i < iDiff; i++)
+		{
+		    var fromWidth=theadrow.children[from - 1].width;
+		    var fromAlign  = theadrow.children[from - 1].align;
+		    var fromNowrap  = theadrow.children[from - 1].noWrap;
+		    var fromId  = theadrow.children[from - 1].id;
+   			if(fromWidth.toString().match("%")!=null || fromWidth.toString().match("auto")!=null || (fromWidth.toString()==""))
+				fromWidth=eval(100);
+				
+			theadrow.children[from].innerHTML = theadrow.children[from - 1].innerHTML;
+			//theadrow.children[from].width = theadrow.children[from - 1].width;
+			theadrow.children[from].width = fromWidth;
+			theadrow.children[from].align = fromAlign;
+			theadrow.children[from].noWrap = fromNowrap;
+			theadrow.children[from].id = fromId;
+			from--;
+		}
+		theadrow.children[to].innerHTML 	= saveObj;
+		theadrow.children[to].width = saveWidth;
+		theadrow.children[to].align = saveAlign;
+		theadrow.children[to].noWrap = saveNowrap;
+		theadrow.children[to].id = saveId;
+	}
+	else
+	{
+
+		iDiff = to - from;
+
+		var saveObj = theadrow.children[from].innerHTML;
+		var saveWidth 	= theadrow.children[from].width;
+		var saveAlign  = theadrow.children[from].align;
+		var saveNowrap  = theadrow.children[from].noWrap;
+		var saveId  = theadrow.children[from].id;
+		
+		if((saveWidth.toString().match("%")!=null) || (saveWidth.toString().match("auto")!=null) || (saveWidth.toString()==""))
+		   saveWidth=eval(100);
+
+		for(var i = 0 ; i < iDiff; i++)
+		{
+		    var fromWidth=theadrow.children[from + 1].width;
+		    var fromAlign  = theadrow.children[from + 1].align;
+		    var fromNowrap  = theadrow.children[from + 1].noWrap;
+		    var fromId  = theadrow.children[from + 1].id;
+   			if((fromWidth.match("%")!=null) || (fromWidth.match("auto")!=null) || (fromWidth.toString()==""))
+				fromWidth=eval(100);
+
+			theadrow.children[from].innerHTML = theadrow.children[from + 1].innerHTML;
+	//		theadrow.children[from].width = theadrow.children[from + 1].width;
+			theadrow.children[from].width = fromWidth;
+			theadrow.children[from].align = fromAlign;
+			theadrow.children[from].noWrap = fromNowrap;
+			theadrow.children[from].id = fromId;
+			from++;
+		}
+
+		theadrow.children[to].innerHTML 	= saveObj;
+		theadrow.children[to].width = saveWidth;
+		theadrow.children[to].align = saveAlign;
+		theadrow.children[to].noWrap = saveNowrap;
+		theadrow.children[to].id = saveId;
+	}
+
+	for(var i = 0 ; i < theadrow.children.length; i++)
+			theadrow.children[i].selectIndex = i;
+
+	InitHeader();
+	for ( var iRowInsert = 0 ; iRowInsert < tbody.rows.length; iRowInsert++ )
+	{
+		from = origfrom;
+		to = origto;
+		if( from > to )
+		{
+			iDiff = from - to;
+			var saveObj = tbody.children[iRowInsert].children[from].innerHTML;
+			var saveObjAlign=tbody.children[iRowInsert].children[from].align;
+			var saveObjBgcolor=tbody.children[iRowInsert].children[from].bgColor ;
+			var saveObjnoWrap=tbody.children[iRowInsert].children[from].noWrap ;
+			var saveObjId=tbody.children[iRowInsert].children[from].id ;
+			
+			for(var i = 0 ; i < iDiff; i++)
+			{
+				tbody.children[iRowInsert].children[from].innerHTML = tbody.children[iRowInsert].children[from - 1].innerHTML;
+				tbody.children[iRowInsert].children[from].align = tbody.children[iRowInsert].children[from - 1].align;
+				tbody.children[iRowInsert].children[from].bgColor = tbody.children[iRowInsert].children[from - 1].bgColor;
+				tbody.children[iRowInsert].children[from].noWrap = tbody.children[iRowInsert].children[from - 1].noWrap;
+				tbody.children[iRowInsert].children[from].id = tbody.children[iRowInsert].children[from - 1].id;
+				from--;
+			}
+			tbody.children[iRowInsert].children[to].innerHTML = saveObj;
+			tbody.children[iRowInsert].children[to].align = saveObjAlign;
+			tbody.children[iRowInsert].children[to].bgColor = saveObjBgcolor;
+			tbody.children[iRowInsert].children[to].noWrap = saveObjnoWrap;
+			tbody.children[iRowInsert].children[to].id = saveObjId;
+
+		}
+		else
+		{
+			iDiff = to - from;
+			var saveObj = tbody.children[iRowInsert].children[from].innerHTML
+			var saveObjAlign=tbody.children[iRowInsert].children[from].align;
+			var saveObjBgcolor=tbody.children[iRowInsert].children[from].bgColor ;
+			var saveObjnoWrap=tbody.children[iRowInsert].children[from].noWrap ;
+			var saveObjId=tbody.children[iRowInsert].children[from].id ;
+		
+			for(var i = 0 ; i < iDiff; i++)
+			{
+				tbody.children[iRowInsert].children[from].innerHTML = tbody.children[iRowInsert].children[from + 1].innerHTML;
+				tbody.children[iRowInsert].children[from].align = tbody.children[iRowInsert].children[from + 1].align;
+				tbody.children[iRowInsert].children[from].bgColor = tbody.children[iRowInsert].children[from + 1].bgColor;
+				tbody.children[iRowInsert].children[from].noWrap = tbody.children[iRowInsert].children[from + 1].noWrap;
+				tbody.children[iRowInsert].children[from].id = tbody.children[iRowInsert].children[from + 1].id;
+				from++;
+			}
+			tbody.children[iRowInsert].children[to].innerHTML = saveObj;
+			tbody.children[iRowInsert].children[to].align = saveObjAlign;
+			tbody.children[iRowInsert].children[to].bgColor = saveObjBgcolor;
+			tbody.children[iRowInsert].children[to].noWrap = saveObjnoWrap;
+			tbody.children[iRowInsert].children[to].id = saveObjId;
+		}
+	}
+	
+	setColtoCookie();  //save to cookie
+}
+
+//********** resizemode
+
+var x, y;
+var elem;
+var bColSelected = false;
+var bResizing = false;
+var t = 3;   // selection tolerance
+
+function mouseDown()
+{
+   if (resizemode==null) 
+		return;
+	// Capture mouse if column border has been selected
+	if ( bColSelected )
+	{
+		element.setCapture();
+		bResizing = true; //可resize
+	}
+}
+
+function mouseUp()
+{
+   if (resizemode==null) 
+		return;
+	// Release mouse capture
+	element.releaseCapture();
+	bResizing = false;
+
+}
+
+function mouseMove()
+{
+   if (resizemode==null) 
+		return;
+
+   x = window.event.x;
+   y = window.event.y;
+   
+   if ( bResizing )   //可resize時
+   {
+      var row = elem.parentElement;
+      var iCell;
+      var nCells = row.cells.length;
+	
+      // Locate cell index
+      for (var i = 0; i < nCells; i++ )
+      {
+         if ( row.cells[i] == elem )
+         {
+            iCell = i;
+            /////--------------
+			var rect = elem.getClientRects()[0];
+			var left = rect.left;
+			var top = rect.top;
+		//	var right = rect.right;
+		//	var bottom = rect.bottom;
+		//	window.status =left;
+            ////--------------
+            break;
+         }
+      }
+      ////==============
+      var srctbl;
+	  srctbl = row.parentElement;
+	  while (srctbl.tagName != "TABLE") 
+	  {
+			srctbl = srctbl.parentElement;
+	  }      
+      ////=================
+      
+      var rows = srctbl.rows;
+      var nRows = rows.length;
+      var cell;
+      var width;
+      var height;
+
+      // Adjust width of each cell in the column
+      if( element.style.cursor == "e-resize")
+      {
+			for ( var i = 0; i < nRows; i++ )
+			{
+				cell = rows[i].cells[iCell];
+				width = x - left-document.body.scrollLeft;
+				if ( width > 0 )
+				{
+					cell.width = width;
+					for (k=0;k<cell.children.tags("div").length;k++)
+					{
+						cell.children.tags("div").item(k).style.width=width;
+					//	cell.children.tags("div").item(k).style.height=cell.height;
+					}	
+				}	
+			}
+      }
+      
+      // Adjust height of each cell on the row
+      if( element.style.cursor == "s-resize")
+      {
+			for (var i = 0; i < nCells; i++ )
+			{
+				cell = row.cells[i];
+				//height = y - (cell.offsetTop);
+				height = y - top-document.body.scrollTop;
+				if ( height > 0 )
+					cell.height = height;
+			}
+	  }	
+     
+      
+   }
+   else
+   {
+      elem = window.document.elementFromPoint( x, y );  //目前select 的 cell
+      if ( elem.tagName == "TD" )
+      {
+         var rect = elem.getClientRects()[0];
+         var left = rect.left;
+         var right = rect.right;
+         var top = rect.top;
+         var bottom = rect.bottom;
+
+         // Detect if cursor is on vertical cell border
+        // if ( ( x >= left - t && x <= left + t && y >= top + t && y <= bottom -t ) || ( x >= right - t && x <= right + t && y >= top + t && y <= bottom -t ) )
+         if (( x >= right - t && x <= right + t && y >= top + t && y <= bottom -t ) )
+         {
+            bColSelected = true;
+            element.style.cursor = "e-resize";
+         }
+         else if (x >= left + t && x<=right - t && y >= bottom - t && y <= bottom + t )
+         {
+            bColSelected = true;
+            element.style.cursor = "s-resize";
+         }
+         else
+         {
+            bColSelected = false;
+            element.style.cursor = "";
+         }
+      }
+      else
+      {
+         bColSelected = false;
+         element.style.cursor = "";
+      }
+   }
+}
+
+//將欄位排序save to cookie
+function setColtoCookie()
+{
+	var cookieSeq=""
+	for (var i=0;i<=theadrow.children.length-1;i++)
+	{
+		cookieSeq = cookieSeq + theadrow.children[i].id;
+		if(i!=theadrow.children.length-1) cookieSeq = cookieSeq+",";
+		//SetCookie("smoothCol"+i,theadrow.children[i].id);
+		
+		//alert(("smoothCol"+i)+"="+theadrow.children[i].id);
+		oColArray[i]=theadrow.children[i].id;
+	}	
+	
+	SetCookie("smoothColSeq",cookieSeq);
+	//window.status =cookieSeq;
+}
+
+function	 SetCookie(sName,sValue)
+{
+	document.cookie = sName + "=" + escape(sValue) ; 
+}
+
+
+function GetCookie(sName)
+{
+  var aCookie = document.cookie.split("; ");
+  for (var i=0; i < aCookie.length; i++)
+  {
+    var aCrumb = aCookie[i].split("=");
+    if (sName == aCrumb[0]) 
+    {
+		//window.status =unescape(aCrumb[1])
+		
+		return unescape(aCrumb[1]);
+     } 
+  }
+  return null;
+}
+
+</script>
+</PUBLIC:COMPONENT>

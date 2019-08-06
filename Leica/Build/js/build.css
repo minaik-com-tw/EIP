@@ -1,0 +1,23 @@
+﻿.wrong {
+    background-color: red;
+}
+
+#seach {
+    width: 100%;
+    border-bottom: 2px solid #8A6BBE;
+}
+.td {
+    height: 30px;
+}
+
+.th {
+    background-color: #ccccd6;
+    color: #525288;
+    width: 25%;
+    font-weight: bolder;
+}
+
+.col {
+    width: 120px;
+}
+ 

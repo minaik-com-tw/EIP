@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Web.Control.Flowwork</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowRequest">
+            <summary>
+            Summary description for FlowRequest.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowResult">
+            <summary>
+            Summary description for FlowResult.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowButtons_RemindReviewerButton_Text">
+            <summary>
+              Looks up a localized string similar to Remind.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowButtons_SendRequestButton_Text">
+            <summary>
+              Looks up a localized string similar to Send.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowButtons_StopRequestButton_Text">
+            <summary>
+              Looks up a localized string similar to Stop.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedback_MessageLabel">
+            <summary>
+              Looks up a localized string similar to The message from requester : .
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedback_NextNodeLabel">
+            <summary>
+              Looks up a localized string similar to The next stage to process this request :.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedback_PriorityLabel">
+            <summary>
+              Looks up a localized string similar to Request Priority : .
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedback_ResultLabel">
+            <summary>
+              Looks up a localized string similar to Please select your feedback opinion :.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Initdate_Label">
+            <summary>
+              Looks up a localized string similar to Init Date.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_No_Label">
+            <summary>
+              Looks up a localized string similar to No..
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Node_Label">
+            <summary>
+              Looks up a localized string similar to Node.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_None_Label">
+            <summary>
+              Looks up a localized string similar to .
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Receivedate_Label">
+            <summary>
+              Looks up a localized string similar to Receive Date.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Result_Label">
+            <summary>
+              Looks up a localized string similar to Result.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_ResultIcon_Label">
+            <summary>
+              Looks up a localized string similar to .
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Reviewdate_Label">
+            <summary>
+              Looks up a localized string similar to Review Date.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_Reviewer_Label">
+            <summary>
+              Looks up a localized string similar to Reviewer.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_Columns_ReviewerPhoto_Label">
+            <summary>
+              Looks up a localized string similar to .
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.Resources.FlowFeedbackViewer_ongoing">
+            <summary>
+              Looks up a localized string similar to Ongoing Approlal.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowButton">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.SendRequestButton">
+            <summary>
+            Summary description for FlowButtons.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Flowwork.UI.WebControl.SendRequestButton.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Flowwork.UI.WebControl.StopRequestButton.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Flowwork.UI.WebControl.RemindReviewerButton.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowTracer">
+            <summary>
+            Summary description for FlowTracer.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowResults">
+            <summary>
+            Summary description for FlowResults.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackViewerDesigner">
+            <summary>
+            Summary description for FlowFeedbackDesigner.
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Flowwork.UI.WebControl.FeedbackCompleteEventArgs._results">
+            <summary>
+            2007.07.27 added
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Flowwork.UI.WebControl.FeedbackCompleteEventArgs.Results">
+            <summary>
+            2007.07.27 added
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedback">
+            <summary>
+            Summary description for FlowReviewer.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.Design.FlowResultsEditor">
+            <summary>
+            Summary description for FlowResultsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackColumns">
+            <summary>
+            Summary description for FlowFeedbackColumns.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackSummary">
+            <summary>
+            Summary description for FlowFeedbackSummary.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowViewer">
+            <summary>
+            Summary description for FlowViewer.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackDesigner">
+            <summary>
+            Summary description for FlowFeedbackDesigner.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackViewer">
+            <summary>
+            Summary description for FlowFeedbackViewer.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackViewer.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+    </members>
+</doc>

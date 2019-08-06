@@ -1,0 +1,250 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+
+<PUBLIC:PROPERTY NAME="tabclass" />
+<PUBLIC:PROPERTY NAME="tabalign" />
+<PUBLIC:PROPERTY NAME="tabcapalign" />
+<PUBLIC:PROPERTY NAME="tabwidth" />
+<PUBLIC:PROPERTY NAME="tabfontcolor" />
+<PUBLIC:PROPERTY NAME="sheetclass" />
+<PUBLIC:PROPERTY NAME="width" />
+<PUBLIC:PROPERTY NAME="height" />
+
+<PUBLIC:PROPERTY NAME="active" />
+
+<SCRIPT language="JScript">
+
+var sheetid, mytabclass, mysheetclass;
+var tabletag;
+var activetag=false;
+var activetagidx = -1;
+var loadready=false;
+
+function event_oncontentready()
+{
+	//this.addBehavior("/lib/htc/errmsg.htc");
+//	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{	
+	var layer=10;
+	mytabclass="tabsilver";
+	//if (this.getAttribute("tabclass")!=null)
+	if (tabclass)
+	{
+		mytabclass=this.getAttribute("tabclass");
+	}
+	mysheetclass="tabsilverbody";
+	if (this.getAttribute("sheetclass")!=null)
+	{
+		mysheetclass=this.getAttribute("sheetclass");
+	}
+	
+	//var tabletag = window.document.createElement("table");
+	tabletag1 = window.document.createElement("table");
+	tabletag1.border=0;
+	tabletag1.cellPadding=0;
+	tabletag1.cellSpacing=0;
+	if (this.getAttribute("width")!=null)
+		tabletag1.width=this.getAttribute("width");
+	else
+		tabletag1.width=500;
+	var tabtr1 = tabletag1.insertRow();
+	var tabtd1 = tabtr1.insertCell();
+	if (this.getAttribute("tabalign")!=null)
+	   tabtd1.align=tabalign;
+	
+
+	tabletag = window.document.createElement("table");
+	tabletag.border=0;
+	tabletag.cellPadding=0;
+	tabletag.cellSpacing=0;
+	
+	var tabtr = tabletag.insertRow();
+	
+	for (var i=0;i<this.children.length;i++)	
+	{
+		layer = layer+10;
+		var tabtd = tabtr.insertCell();
+		
+		tabtd.id=newid();
+		tabtd.className=mytabclass;
+		tabtd.attachEvent("onclick",ontabclick);
+		tabtd.height=10;
+
+		if (tabwidth)
+			tabtd.width=tabwidth;
+		else	
+			tabtd.width=100;
+				
+		if (tabcapalign)
+	   		tabtd.align=tabcapalign;
+		tabtd.noWrap=true;   	
+		
+		tabtd.sheetidx=i+1;
+		//tabtd.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77999999,endColorstr=#77DDDDDD)";			
+		tabtd.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77DDDDDD,endColorstr=#77999999)";			
+		tabtd.innerText=this.children.item(i).tabtitle;
+		this.children.item(i).className = mysheetclass;
+		this.children.item(i).style.zIndex = layer; 
+		//alert(this.children.item(i).style.zIndex);
+		
+		if (this.getAttribute("width")!=null)
+		{
+			this.children.item(i).style.width=this.getAttribute("width");
+		}
+		else
+		{
+			this.children.item(i).style.width=500;
+		}
+		    
+		if (this.getAttribute("height")!=null)
+		{
+			this.children.item(i).style.height=this.getAttribute("height");
+		}
+		else
+		{
+			this.children.item(i).style.height=150;
+		}
+		
+		//-------------­n¥[¤Jselected----------------//
+		if (typeof(this.children.item(i).active)!="undefined")
+		{
+			activetag=true;
+			activetagidx=tabtd.sheetidx;
+		}	
+		
+			if (i>0) 
+			{
+				this.children.item(i).style.display="none";	
+			}
+			else
+			{
+				sheetid=tabtd.id;
+				tabtd.className=mytabclass+"on";
+			//	tabtd.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77999999,endColorstr=#77DDDDDD)";			
+				tabtd.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77555555,endColorstr=#77DDDDDD)";			
+				tabtd.innerHTML="<font color='"+tabfontcolor+"'>"+tabtd.innerHTML+"</font>";
+			}	
+		//-----------------------------------------------------//
+	}
+	
+	this.insertAdjacentElement("afterBegin",tabletag1);	
+	this.style.display="block";
+
+	tabtd1.insertAdjacentElement("afterBegin",tabletag);	
+	tabtd1.style.display="block";
+	
+
+	if(activetag)
+	{
+		for (var i=1;i<this.children.length;i++)	
+		{	
+			if(i==activetagidx){
+				sheetid=tabtd.id;
+			    tabletag.rows(0).cells(i-1).className=mytabclass+"on";
+				this.children.item(i).style.display="block";	
+				if (tabfontcolor)
+					tabletag.rows(0).cells(i-1).innerHTML="<font color='"+tabfontcolor+"'>"+tabletag.rows(0).cells(i-1).innerHTML+"</font>";
+				else
+					tabletag.rows(0).cells(i-1).innerHTML=this.children.item(i).tabtitle;			
+				if (this.children.item(i).tabclick){
+					window.execScript(this.children.item(i).tabclick+'();');	
+					}
+			}
+			else{
+				tabletag.rows(0).cells(i-1).className=mytabclass;
+				this.children.item(i).style.display="none";	
+				tabletag.rows(0).cells(i-1).innerHTML=this.children.item(i).tabtitle;	
+				tabletag.rows(0).cells(i-1).style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77DDDDDD,endColorstr=#77999999)";			
+			}
+		}
+	}
+	
+	var src 	= this;
+	while (src.tagName != "BODY")
+	{
+		src = src.parentElement;
+		if(src.tagName == "TABLE" )
+		{
+			src.attachEvent("onresize",event_onmove);		
+			src.attachEvent("onmove",event_onmove);		
+		}	
+	}			 
+	
+	loadready=true;
+}
+
+
+function ontabclick()
+{
+//	var obj = window.document.getElementById(sheetid); //now active tab id
+//	if (obj)
+//		obj.className=mytabclass;
+		
+	var obj1= event.srcElement;
+	if((obj1.id==null)||(obj1.id==""))
+		return;
+	
+	obj1.className=mytabclass+"on";
+	obj1.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77555555,endColorstr=#77DDDDDD)";			
+	sheetid=obj1.id; //new active tab id
+	
+	for (var i=1;i<this.children.length;i++)	
+	{
+		if (i==obj1.sheetidx)
+		{
+			this.children.item(i).style.display="block";		
+			activetagidx = i;	
+			if (tabfontcolor)
+				tabletag.rows(0).cells(i-1).innerHTML="<font color='"+tabfontcolor+"'>"+tabletag.rows(0).cells(i-1).innerHTML+"</font>";
+			else
+				tabletag.rows(0).cells(i-1).innerHTML=this.children.item(i).tabtitle;			
+				
+			if (this.children.item(i).tabclick){
+			    window.execScript(this.children.item(i).tabclick+'();');	
+			    }
+		}
+		else
+		{
+			tabletag.rows(0).cells(i-1).className=mytabclass;
+			this.children.item(i).style.display="none";				
+			tabletag.rows(0).cells(i-1).innerHTML=this.children.item(i).tabtitle;	
+			tabletag.rows(0).cells(i-1).style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77DDDDDD,endColorstr=#77999999)";			
+		}
+	}
+}
+
+function event_onmove()
+{
+  if(!loadready) return;
+  var inputobj=event.srcElement;
+//  alert("dl move");
+  if (inputobj.id.indexOf("input-") >=0 )
+  {
+	  var thisobjid = inputobj.id.substring(6,inputobj.id.length);
+	  var thisobj =  window.document.getElementById(thisobjid);
+	  var btnobj = 	window.document.getElementById("btn-"+thisobjid);
+	  if(btnobj && thisobj)
+	  {
+	  	thisobj.alignInput(thisobj,inputobj);
+		thisobj.alignBtn(thisobj,btnobj);
+	  }
+  }
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Web.Control.Design</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.CheckBoxListItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.Design.PieItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.Design.ItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.MultiSelectItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.Design.BarItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.Design.LineItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.DataColumnsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataColumnsEditor.#ctor(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataColumnsEditor.CreateNewItemTypes">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.AutoFormatForm">
+            <summary>
+            Summary description for AutoFormatForm.
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.AutoFormatForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.AutoFormatForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.AutoFormatForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.Design.SelectItemsEditor">
+            <summary>
+            Summary description for DataColumnsEditor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner">
+            <summary>
+            Summary description for DataListDesigner.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.PostFilterProperties(System.Collections.IDictionary)">
+            <summary>
+            
+            </summary>
+            <param name="properties"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.Initialize(System.ComponentModel.IComponent)">
+            <summary>
+            
+            </summary>
+            <param name="component"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.OnDesignerEvent(System.Object,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.OnComponentChanged(System.Object,System.ComponentModel.Design.ComponentChangedEventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="sender"></param>
+            <param name="ce"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.GetCachedTemplateEditingVerbs">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.SetTemplateContent(System.Web.UI.Design.ITemplateEditingFrame,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="editingFrame"></param>
+            <param name="templateName"></param>
+            <param name="templateContent"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.GetTemplateContent(System.Web.UI.Design.ITemplateEditingFrame,System.String,System.Boolean@)">
+            <summary>
+            
+            </summary>
+            <param name="editingFrame"></param>
+            <param name="templateName"></param>
+            <param name="allowEditing"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.CreateTemplateEditingFrame(System.Web.UI.Design.TemplateEditingVerb)">
+            <summary>
+            
+            </summary>
+            <param name="verb"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.DataSet">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.DesignTimeHtmlRequiresLoadComplete">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.Design.DataListDesigner.Verbs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.TabCollectionEditor">
+            <summary>
+            Summary description for TabCollectionEditor.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.TabCollectionEditor.#ctor(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.Design.TabCollectionEditor.CreateNewItemTypes">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Design.MultiSelectDesigner">
+            <summary>
+            Summary description for DataListDesigner.
+            </summary>
+        </member>
+    </members>
+</doc>

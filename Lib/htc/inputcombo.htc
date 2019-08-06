@@ -1,0 +1,93 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY name="imgSrc" />
+
+<PUBLIC:PROPERTY name="onclickmore" />
+<SCRIPT language="JScript">
+var inputobj;
+var btnobj;
+var loadready=false;
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputimgbtn.htc");
+	if (this.getAttribute("imgSrc") == null)
+	   this.setAttribute("imgSrc","\\lib\\img\\icon-downarrow.gif");
+	this.addBehavior("/lib/htc/inputbehaviors.htc");
+//	this.style.fontSize = "12px";
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	
+	
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{
+	var inputid = this.buildinput();
+	inputobj = window.document.getElementById(inputid);
+	if(inputobj)
+	{
+		inputobj.attachEvent("onfocus",event_inputonfocus);
+		inputobj.attachEvent("onblur",event_inputonblur);
+	//	inputobj.attachEvent("onfocusin",event_onfocusin);
+	//	inputobj.attachEvent("onfocusout",event_onfocusout);
+	}
+	else
+		alert("inputobj not found!");		
+
+	var btnid =	this.buildimgbtn();
+	btnobj = window.document.getElementById(btnid);
+	
+	if(btnobj && (this.getAttribute("onclickmore") != null))
+		 btnobj.attachEvent("onclick",button_show_onclick);
+		 
+	var src 	= this;
+	while (src.tagName != "BODY")
+	{
+		src = src.parentElement;
+		if(src.tagName == "TABLE")
+		{
+			src.attachEvent("onresize",event_onmove);		
+			src.attachEvent("onmove",event_onmove);		
+		}	
+	}			 
+		 
+	this.alignBtn(this,btnobj);		 
+	loadready=true;
+}
+
+function event_onmove()
+{
+	if(!loadready) return;
+	this.alignInput(this,inputobj);
+	this.alignBtn(this,btnobj);	
+}
+
+function button_show_onclick()
+{
+	window.execScript(onclickmore);
+}
+
+function event_inputonfocus()
+{
+	//inputobj.value = this.value;
+	//this.value = "";
+}
+function event_inputonblur()
+{
+	this.value = inputobj.value;
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

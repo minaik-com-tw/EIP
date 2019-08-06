@@ -1,0 +1,348 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+
+<PUBLIC:PROPERTY NAME="Required" />
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+<PUBLIC:ATTACH EVENT="onfocusin" ONEVENT="event_onfocusin()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onfocusout" ONEVENT="event_onfocusout()"></PUBLIC:ATTACH>
+
+
+<SCRIPT language="JScript">
+var dx, dy;
+var bSelected = false;
+var bResizing = false;
+var t = 8;   // selection tolerance
+var thisfilter;
+var imgsrc="/lib/img/";
+var rv1;
+var loadready=false;
+var thisbackgroundcolor;
+
+function event_oncontentready()
+{
+//	this.addBehavior("/lib/htc/errmsg.htc");
+//	this.addBehavior("/lib/htc/inputbehaviors.htc");
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	if((this.className =="") || (this.className == null))
+	{
+		with(this.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (inputobj.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	if (this.getAttribute("Required")!=null)
+	{
+		this.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+		this.style.backgroundPosition = 'right top';
+		this.style.backgroundAttachment = "fixed";
+		this.style.backgroundRepeat = "no-repeat";
+	}
+			
+//	if (this.getAttribute("readonly")!=null && this.readOnly!="")
+//	{
+//		this.className = "panelwhite";
+//	}
+
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{	
+	if((this.tagName=="TEXTAREA") || (this.tagName=="INPUT" && this.type=="text"))
+	{
+	
+	/*	if(this.tagName=="TEXTAREA")
+		{
+			rv1 = document.createElement("div");
+		
+			rv1.id="rv1-"+this.id;
+			rv1.style.position = "absolute";
+			rv1.style.zIndex = 9;		
+			rv1.innerHTML="<img src=\""+imgsrc+"icon-zoomin.gif \">"
+			rv1.style.filter = "alpha(opacity=70);"
+			rv1.style.cursor = "hand";
+			rv1.style.visibility="hidden"
+			rv1.attachEvent("onclick",event_chgsize);					
+			window.document.body.appendChild(rv1);				
+		}
+	*/	
+	
+		this.attachEvent("onmousedown",event_onmouseDown);		
+		this.attachEvent("onmouseup",event_onmouseUp);		
+		this.attachEvent("onmousemove",event_onmouseMove);	
+			
+		var src 	= this;
+		while (src.tagName != "BODY")
+		{
+			src = src.parentElement;
+			if(src.tagName == "BODY")
+			{
+				src.attachEvent("onmousemove",fnTrackMouse);		
+			}	
+		}	
+	}
+	loadready=true;
+}
+
+function fnResizing(ix,iy)
+{
+
+	if(this.tagName=="TEXTAREA")
+	{
+		//rv1.style.visibility="hidden";
+		//window.status = ix+" : "+iy +"--"+dx+":"+dy;
+		
+		if(this.offsetWidth +(ix-dx)>=20)
+		{
+			this.style.width= this.offsetWidth +(ix-dx)+"px";
+			dx=ix;
+		}
+		if(this.offsetHeight +(iy-dy)>=10)
+		{
+			this.style.height= this.offsetHeight +(iy-dy)+"px";
+			dy=iy;
+		}
+		
+		/*		
+		
+		if (ix-dx >=5)
+		{
+			this.cols =this.cols+1;
+			dx=ix;
+		}
+		else if (ix-dx <=-5)
+		{
+			if(this.cols-1>=1)
+			{
+				this.cols =this.cols-1;
+				dx=ix;
+			}
+		}
+		
+		if (iy-dy >=15)
+		{
+			this.rows =this.rows+1;
+			dy = iy;
+		}
+		else if (iy-dy <=-15)
+		{
+			if(this.rows-1>1)
+			{
+				this.rows =this.rows-1;
+				dy=iy;
+			}
+		}
+		*/
+	}
+	else
+	{
+		if(this.offsetWidth +(ix-dx)>=20)
+		{
+			this.style.width= this.offsetWidth +(ix-dx)+"px";
+			dx=ix;
+		}
+	}
+}
+
+function fnTrackMouse()
+{
+   x = window.event.x;
+   y = window.event.y;
+   
+   if ( bResizing )   //可resize時
+   {
+       fnResizing(x,y);
+   }
+}
+
+function event_onmouseDown()
+{
+   if ( bSelected )
+   {
+      element.setCapture();
+	  dx=event.x - this.style.posLeft;
+	  dy=event.y - this.style.posTop;
+      bResizing = true; //可resize
+      thisfilter = this.style.filter ;
+      this.style.filter = "alpha(opacity=70);"
+   }
+   else
+   {
+       thisfilter = this.style.filter ;
+   }
+
+}
+
+function event_onmouseUp()
+{
+   // Release mouse capture
+   element.releaseCapture();
+   bResizing = false;
+   this.style.filter = thisfilter;
+}
+
+function event_onmouseMove()
+{
+   x = window.event.x;
+   y = window.event.y;
+
+	var src = window.document.elementFromPoint( x, y );  
+	if ((src.tagName != "TEXTAREA" ) && ((src.tagName!="INPUT")&&(src.type!="text")))
+	{
+		return;
+	}	
+
+   if ( bResizing )   //可resize時
+   {
+		 fnResizing(x,y);
+   }
+   else
+   {
+      if (src)
+      {
+         var rect = src.getClientRects()[0];
+         var left = rect.left;
+         var right = rect.right;
+         var top = rect.top;
+         var bottom = rect.bottom;
+         
+         //getBoundingClientRect
+         var rect1 = src.getBoundingClientRect();
+         var right1 = rect1.right;
+         var top1 = rect1.top;
+         var bottom1 = rect1.bottom;
+         
+		if(this.tagName=="TEXTAREA")
+		{
+			if (( x >= right - t && x <= right + t) && (y <= bottom + t && y >= bottom -t ) )
+			{
+				bSelected = true;
+				element.style.cursor = "se-resize";
+			}
+			else if ( x >= right - t && x <= right + t )
+			{
+				bSelected = true;
+				element.style.cursor = "e-resize";
+			//	rv1.style.visibility="visible";
+			//	rv1.style.top = window.document.body.scrollTop+top+'px';
+			//	rv1.style.left = right+"px";
+			}
+			else if ( y >= bottom - t && y <= bottom + t )
+			{
+				bSelected = true;
+				element.style.cursor = "s-resize";
+			}
+			else
+			{
+				bSelected = false;
+				element.style.cursor = "";
+			//	rv1.style.visibility="hidden";
+			}
+		}	
+		else
+		{
+			if ( x >= right - t && x <= right + t )
+			{
+				bSelected = true;
+				element.style.cursor = "e-resize";
+			}
+			else
+			{
+				bSelected = false;
+				element.style.cursor = "";
+			}
+		}
+      }
+      else
+      {
+         bSelected = false;
+         element.style.cursor = "";
+      }
+		
+   }
+}
+
+function event_reduce()
+{
+	if(this.rows-2>0)	this.rows =this.rows-2;
+}
+
+function event_expand()
+{
+	this.rows =this.rows+2;
+}
+
+function event_reduce1()
+{
+	if(this.cols-2>0)	this.cols =this.cols-2;
+}
+
+function event_expand1()
+{
+	this.cols =this.cols+2;
+}
+
+function event_chgsize()
+{
+
+	var obj = window.event.srcElement;
+	if(obj)
+	{
+		if(this.style.width!="") this.style.width="";
+		if(this.style.height!="") this.style.height="";
+	
+		if (obj.src.indexOf("zoomin") > 0 )
+		{
+			this.cols =this.cols+40;
+			obj.src= imgsrc+"\icon-zoomout.gif"
+			this.rows =this.rows+6;
+			obj.src= imgsrc+"\icon-zoomout.gif"
+		}
+		else
+		{
+			if(this.cols - 40>0) 	this.cols =this.cols-40;
+			obj.src= imgsrc+"\icon-zoomin.gif"
+			if(this.rows - 6>0) 	this.rows =this.rows-6;
+			obj.src= imgsrc+"\icon-zoomin.gif"
+		}
+		//rv1.style.visibility="hidden";
+	}
+}
+
+function event_onfocusin()
+{
+   thisbackgroundcolor = this.style.backgroundColor ;
+   if(FocusinColor!="" && FocusinColor!=null)
+   {
+	  this.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  this.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+   if(FocusoutColor!="" && FocusoutColor!=null)
+	  this.style.backgroundColor = FocusoutColor;
+   else
+	  this.style.backgroundColor = thisbackgroundcolor;
+}
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

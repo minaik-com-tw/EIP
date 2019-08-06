@@ -1,0 +1,230 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY NAME="POSTEXEC" />
+<PUBLIC:PROPERTY NAME="interval" />
+<PUBLIC:METHOD name="Reset" />
+<SCRIPT language="JScript">
+
+
+
+function Reset()
+{
+	if ((window.document.getElementById(this.id).value=="") || (window.document.getElementById(this.id).value==null)  )
+		window.document.getElementById(this.id).value=""
+	else
+	{
+		this.value= window.document.getElementById(ProxyHrId).value + ":" + window.document.getElementById(ProxyMinId).value;
+		if (POSTEXEC!=null && POSTEXEC!='')
+			{
+				window.execScript(POSTEXEC);
+			}
+	}
+}
+
+var sourceid=''
+
+var ProxyHrId;
+var ProxyMinId;
+
+function event_ondocumentready()
+{	
+	if (this.id=='')
+		this.id=window.document.uniqueID;
+	sourceid=this.id;
+	
+	this.style.visibility="hidden";
+	this.style.display="none";
+	
+	//create a proxy date input text 
+	var strarray=this.value.split(":")
+	var inithr, initminute;
+	inithr="00";
+	initminute="00";
+	
+	
+	if (this.value.indexOf(":") > 0) 
+	{
+		inithr=this.value.substring(0,this.value.indexOf(":"));
+		if(inithr.length<2)
+		   inithr="0"+inithr;
+		initminute=this.value.substring(this.value.indexOf(":") +1, this.value.length);
+	}
+					
+	
+	//create a proxy hour input text 
+	var hrinput = document.createElement("select");
+	hrinput.id=window.document.uniqueID;
+	ProxyHrId=hrinput.id;
+	var oOption,tmp ;
+	for (var i=0; i<24;i++)
+	{
+		oOption = document.createElement("Option");
+		tmp=100 + i;
+		oOption.text = tmp.toString().substring(1,3);
+		oOption.value = tmp.toString().substring(1,3);
+		hrinput.add(oOption);
+		if (tmp.toString().substring(1,3)==inithr)
+			oOption.selected=true;
+	}
+	
+	hrinput.style.fontFamily= this.currentStyle.fontFamily;
+	hrinput.style.fontSize = this.currentStyle.fontSize;
+	hrinput.style.fontWeight = this.currentStyle.fontWeight;
+	hrinput.style.color = this.currentStyle.color;
+	hrinput.className = "inputtext";
+	hrinput.attachEvent("onchange", Reset)	;
+	this.insertAdjacentElement("afterend",hrinput);
+	hrinput.addBehavior("/lib/htc/inputselect.htc");
+	hrinput.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#55888888, endColorstr=#55ffffff)";
+
+	var separator = document.createElement("span");
+	separator.id=window.document.uniqueID;
+	separator.style.fontFamily= this.currentStyle.fontFamily;
+	separator.style.fontSize = this.currentStyle.fontSize;
+	separator.style.fontWeight = this.currentStyle.fontWeight;
+	separator.style.color = this.currentStyle.color;
+	//separator.innerHTML="&nbsp;<b class=normalbold>:</b>&nbsp;"
+	hrinput.insertAdjacentElement("afterend",separator);
+	
+	//create a proxy minute input text 
+	var mininput = document.createElement("select");
+	mininput.id=window.document.uniqueID;
+	ProxyMinId=mininput.id;
+	var minterval=this.interval;
+	if (interval==0 || interval==null)
+		{
+			this.interval=1;
+			minterval=this.interval;
+		}
+	for (var i = 0; i< 60 ; )
+	{
+		oOption = document.createElement("Option");
+		tmp=100 + i;
+		oOption.text = tmp.toString().substring(1,3);
+		oOption.value = tmp.toString().substring(1,3);
+		
+		i=eval( i + "+" + minterval);
+		mininput.add(oOption);
+		if (tmp.toString().substring(1,3)==initminute)
+			oOption.selected=true;
+	}
+	mininput.addBehavior("/lib/htc/inputselect.htc");
+	mininput.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#55888888, endColorstr=#55ffffff)";
+
+	separator.insertAdjacentElement("afterend",mininput);
+	mininput.style.fontFamily= this.currentStyle.fontFamily;
+	mininput.style.fontSize = this.currentStyle.fontSize;
+	mininput.style.fontWeight = this.currentStyle.fontWeight;
+	mininput.style.color = this.currentStyle.color;
+	mininput.className = "inputtext";
+	mininput.attachEvent("onchange", Reset)	;
+
+	if (this.getAttribute("required")!=null)
+	{
+		hrinput.required = true;
+		mininput.required = true;
+	}
+	
+}
+
+
+
+function event_ondocumentready1()
+{	
+	if (this.id=='')
+		this.id=window.document.uniqueID;
+	sourceid=this.id;
+	
+	this.style.visibility="hidden";
+	this.style.display="none";
+	
+	//create a proxy date input text 
+	var strarray=this.value.split(":")
+	var inithr, initminute;
+	inithr="00";
+	initminute="00";
+	
+	
+	if (this.value.indexOf(":") > 0) 
+	{
+		inithr=this.value.substring(0,this.value.indexOf(":"));
+		if(inithr.length<2)
+		   inithr="0"+inithr;
+		initminute=this.value.substring(this.value.indexOf(":") +1, this.value.length);
+	}
+					
+	
+	//create a proxy hour input text 
+	var hrinput = document.createElement("select");
+	hrinput.id=window.document.uniqueID;
+	ProxyHrId=hrinput.id;
+	var oOption,tmp ;
+	for (var i=0; i<24;i++)
+	{
+		oOption = document.createElement("Option");
+		tmp=100 + i;
+		oOption.text = tmp.toString().substring(1,3);
+		oOption.value = tmp.toString().substring(1,3);
+		hrinput.add(oOption);
+		if (tmp.toString().substring(1,3)==inithr)
+			oOption.selected=true;
+	}
+	
+	hrinput.style.fontFamily= this.currentStyle.fontFamily;
+	hrinput.style.fontSize = this.currentStyle.fontSize;
+	hrinput.style.fontWeight = this.currentStyle.fontWeight;
+	hrinput.style.color = this.currentStyle.color;
+	hrinput.className = "inputtext";
+	hrinput.attachEvent("onchange", Reset)	;
+	this.insertAdjacentElement("afterend",hrinput);
+	
+	var separator = document.createElement("span");
+	separator.id=window.document.uniqueID;
+	separator.style.fontFamily= this.currentStyle.fontFamily;
+	separator.style.fontSize = this.currentStyle.fontSize;
+	separator.style.fontWeight = this.currentStyle.fontWeight;
+	separator.style.color = this.currentStyle.color;
+	//separator.innerHTML="&nbsp;<b class=normalbold>:</b>&nbsp;"
+	hrinput.insertAdjacentElement("afterend",separator);
+	
+	//create a proxy minute input text 
+	var mininput = document.createElement("select");
+	mininput.id=window.document.uniqueID;
+	ProxyMinId=mininput.id;
+	var minterval=this.interval;
+	if (interval==0 || interval==null)
+		{
+			this.interval=1;
+			minterval=this.interval;
+		}
+	for (var i = 0; i< 60 ; )
+	{
+		oOption = document.createElement("Option");
+		tmp=100 + i;
+		oOption.text = tmp.toString().substring(1,3);
+		oOption.value = tmp.toString().substring(1,3);
+		
+		i=eval( i + "+" + minterval);
+		mininput.add(oOption);
+		if (tmp.toString().substring(1,3)==initminute)
+			oOption.selected=true;
+	}
+	separator.insertAdjacentElement("afterend",mininput);
+	mininput.style.fontFamily= this.currentStyle.fontFamily;
+	mininput.style.fontSize = this.currentStyle.fontSize;
+	mininput.style.fontWeight = this.currentStyle.fontWeight;
+	mininput.style.color = this.currentStyle.color;
+	mininput.className = "inputtext";
+	mininput.attachEvent("onchange", Reset)	;
+
+	if (this.getAttribute("required")!=null)
+	{
+		hrinput.required = true;
+		mininput.required = true;
+	}
+	
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

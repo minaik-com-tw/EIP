@@ -1,0 +1,12 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Program.master.cs" Inherits="SmoothEnterprise.Web.Application.Layout.Program" %>
+<html>
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

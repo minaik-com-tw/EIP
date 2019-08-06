@@ -1,0 +1,477 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="event_onmouseover()" />
+<PUBLIC:ATTACH EVENT="onmouseout" ONEVENT="event_onmouseout()" />
+
+<PUBLIC:METHOD NAME="show" />
+<PUBLIC:METHOD NAME="hide" />
+<PUBLIC:METHOD NAME="active" />
+<PUBLIC:METHOD NAME="deactive" />
+<PUBLIC:METHOD NAME="remove" />
+<PUBLIC:METHOD NAME="scrollmove" />
+<PUBLIC:METHOD NAME="scrollstop" />
+<PUBLIC:METHOD NAME="move" />
+<PUBLIC:METHOD NAME="resetscrollheight" />
+
+<PUBLIC:PROPERTY NAME="scrollheight" />
+<PUBLIC:PROPERTY NAME="auto" />
+<PUBLIC:PROPERTY NAME="actived" />
+<PUBLIC:PROPERTY NAME="arrowup" />
+<PUBLIC:PROPERTY NAME="arrowdown" />
+<PUBLIC:PROPERTY NAME="arrowstyle" />
+<PUBLIC:PROPERTY NAME="timer" />
+<PUBLIC:PROPERTY NAME="scrollspeed" />
+<PUBLIC:PROPERTY NAME="shadowed" />
+
+<PUBLIC:PROPERTY NAME="eventmouseover" />
+<PUBLIC:PROPERTY NAME="eventmouseout" />
+<PUBLIC:PROPERTY NAME="eventbeforehide" />
+<PUBLIC:PROPERTY NAME="eventafterhide" />
+
+<SCRIPT language="JScript">
+
+var thistop,thisleft,thisright,thisbottom;
+var ppanel;
+var isactive;
+var showed;
+var scrollable;
+var scorllareaID;
+var SCROLL_DELAY = 50;
+var SCROLL_PXPERSEC = 200;
+var scrollDelta = 0
+var scrollStart = 0
+var scrollTime = 0
+
+var thisshadows = new Array;
+var killtimer = null;
+var scrollArea;
+
+var loadready = false;
+var thisvisibility;
+var firstflag = 0;
+
+function event_oncontentready()
+{
+
+	//this.addBehavior("/lib/htc/errmsg.htc");
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{	
+	if (this.tagName=="DIV" || this.tagName=="SPAN")
+		scrollable=true;
+	else
+		scrollable=false;
+	
+	if (scrollspeed==null)
+		scrollspeed=1;
+	
+	if (arrowup==null)
+		arrowup="up";
+	if (arrowdown==null)
+		arrowdown="down";
+
+	if (arrowstyle==null)		
+		arrowstyle="";
+	if (scrollable==true) 
+	{
+		if ((scrollheight != null) || (scrollheight != 0))
+			{
+				if (this.offsetHeight > scrollheight )
+				{
+					scorllareaID=window.document.uniqueID;
+					var tmpstring;
+					tmpstring=this.innerHTML;
+					this.innerHTML="<table cellspacing=0 cellspadding=0 ><tr><td " + arrowstyle + "  onmouseover='window.document.getElementById(\"" + this.id + "\").scrollmove();'  onmouseout='window.document.getElementById(\"" + this.id + "\").scrollstop();' id='"+ this.id +"_up' align=center  >" + arrowup + "</td></tr>" + "<tr><td><div style='overflow:hidden; height:" + scrollheight + "px' id='" + scorllareaID  + "' >" + tmpstring + "</div></td></tr>" + "<tr><td  onmouseover='window.document.getElementById(\"" + this.id + "\").scrollmove();' onmouseout='window.document.getElementById(\"" + this.id + "\").scrollstop();' " + arrowstyle + " id='"+ this.id +"_down' align=center > " + arrowdown + " </td></tr></table>"
+					scrollArea=window.document.getElementById(scorllareaID);
+				}				
+			}
+		else
+			{
+			scrollable=false;
+			}
+	}
+	
+	this.style.visibility = 'hidden';
+	this.style.display='block';
+	this.style.position='absolute';
+	//this.style.filter="blendTrans(duration=0.2)";	  //·|¦³©Ç²§ª¬ºA
+	isactive=false;
+	showed=false;
+	loadready=true;	
+
+}
+
+function resetscrollheight(height)
+{
+	
+	if (this.tagName=="DIV" || this.tagName=="SPAN")
+		scrollable=true;
+	else
+		scrollable=false;
+	
+	scrollheight=height;
+	if (scrollable==true) 
+	{
+		if ((scrollheight != null) || (scrollheight != 0))
+			{
+				if (this.offsetHeight > scrollheight )
+				{
+					scorllareaID=window.document.uniqueID;
+					var tmpstring;
+					tmpstring=this.innerHTML;
+					this.innerHTML="<table cellspacing=0 cellspadding=0 ><tr><td " + arrowstyle + "  onmouseover='window.document.getElementById(\"" + this.id + "\").scrollmove();'  onmouseout='window.document.getElementById(\"" + this.id + "\").scrollstop();' id='"+ this.id +"_up' align=center  >" + arrowup + "</td></tr>" + "<tr><td><div style='overflow:hidden; height:" + scrollheight + "px' id='" + scorllareaID  + "' >" + tmpstring + "</div></td></tr>" + "<tr><td  onmouseover='window.document.getElementById(\"" + this.id + "\").scrollmove();' onmouseout='window.document.getElementById(\"" + this.id + "\").scrollstop();' " + arrowstyle + " id='"+ this.id +"_down' align=center > " + arrowdown + " </td></tr></table>"
+					scrollArea=window.document.getElementById(scorllareaID);
+				}
+				
+			}
+		else
+			{
+			scrollable=false;
+			}
+	}
+	
+	
+}
+
+function event_onmouseover()
+{
+	if (!loadready)
+		return;
+
+	if (auto)
+		show(thistop,thisleft,this.style.zIndex,ppanel);
+	if (eventmouseover)
+		window.execScript(eventmouseover+'()');	
+}
+
+function event_onmouseout()
+{
+	if (!loadready)
+		return;
+
+	if (auto)
+	{
+		if (ppanel!=null)
+		{
+		if (!isactive) 	
+			ppanel.deactive();
+		}
+		deactive();
+	}
+}
+
+function show(top,left,zindex,pp)
+{
+	if (kt = killtimer)
+	{
+		window.clearTimeout(kt);
+		killtimer = null;
+	}
+	this.style.zIndex=zindex;
+	this.style.display='block';
+	if(top>0) this.style.top = top + 'px';
+	if(left>0) this.style.left = left + 'px';
+	this.style.visibility = '';	
+	thistop=this.offsetTop;
+	thisleft=this.offsetLeft;
+	thisbottom=thistop+this.offsetHeight;
+	thisright=thisleft+this.offsetWidth;
+	if (this.getAttribute("shadowed")!=null)
+		makeRectangularDropShadow('#666666',3);
+	hide_elements("SELECT");
+	//hide_elements("OBJECT");
+	showed=true;
+	if (pp!=null)
+	{
+		//writedebug(this.id+'-show');
+		pp.active();
+		ppanel=pp;
+	}
+}
+
+function hide()
+{
+	//writedebug('floatpanel-hide():'+this.id);
+	deactive();
+}
+
+function remove()
+{
+	var i,obj;
+	
+	if (!isactive)
+	{
+		if (eventbeforehide) 
+		{
+			window.execScript(eventbeforehide+'()');
+		}
+		if (this.getAttribute("shadowed")!=null)
+		{
+		for (i=0; i<thisshadows.length; i++)
+			thisshadows[i].removeNode(true);
+		thisshadows = new Array();
+		}
+		this.style.display='none';
+		/*
+		if (this.filters.blendTrans.status != 2) 
+		{
+        this.filters.blendTrans.apply();
+		this.style.visibility = 'hidden';
+        this.filters.blendTrans.play();
+		}*/
+		show_elements("SELECT");
+		//show_elements("OBJECT");
+		showed=false;
+		
+		if (eventafterhide) 
+		{
+			window.execScript(eventafterhide+'()');
+		}
+	}
+	if (ppanel!=null)
+		ppanel.deactive();
+}
+
+function active()
+{
+	//writedebug('floatpanel-active():'+this.id);
+	isactive = true;
+	show(thistop,thisleft,this.style.zIndex,ppanel);
+	if (ppanel!=null)
+		ppanel.active();
+}
+
+function deactive()
+{
+	//writedebug('floatpanel-deactive():'+this.id+'('+isactive+')');
+	
+	var te;
+	if (window.event)
+	{
+		te = window.event.toElement;
+		isactive=false;
+		if (this.contains(te))
+			isactive = true;
+	}
+	//writedebug('floatpanel-deactive():'+this.id+'('+isactive+')');
+	if (!isactive)
+	{
+		if ((te==null) || (!this.contains(te))) 
+		{
+			if (ppanel!=null)
+			{	
+				ppanel.deactive();
+			}
+			killtimer = window.setTimeout(this.id + ".remove()", 50, "JScript");
+			//remove();
+		}
+	}
+	
+}
+
+function hide_elements(tagName)
+{
+	windowed_element_visibility(tagName, -1)
+}
+
+function show_elements(tagName)
+{
+	windowed_element_visibility(tagName, +1)
+}
+
+function windowed_element_visibility(tagName, change)
+{
+	firstflag = firstflag+1;
+	var els = window.document.all.tags(tagName)
+	var i;
+	for (i=0; i < els.length; i++)
+	{
+		var el = els.item(i)
+		if (elements_overlap(el))
+		{
+		  	if (firstflag==1) thisvisibility = el.style.visibility;
+		
+			if(change==1)
+			{
+				if (thisvisibility!="hidden")
+					el.style.visibility = "visible";
+			}	
+			else if(change==-1)
+				el.style.visibility = "hidden";
+	
+	   /*	
+			if (el.visLevel)
+			{
+				if (((!showed) && (change==-1)) || ((showed) && (change==1)))
+				{
+					if ((change==-1) && (el.visLevel>0))
+						el.visLevel = 0;
+					el.visLevel += change
+				}
+			}
+			else
+				el.visLevel = change
+
+			if (el.visLevel == -1)
+			{
+				if (firstflag==1) thisvisibility = el.style.visibility;
+				el.style.visibility = "hidden"
+			}	
+			else if (el.visLevel == 0)
+			{
+				if(thisvisibility!="hidden")
+					el.style.visibility = '';
+			}	
+			else if (el.visLevel == -2)	
+				el.style.visibility = 'hidden';
+			else
+			{
+				if(thisvisibility=="hidden")
+					el.style.visibility = 'hidden';
+			  }
+			  */
+			  
+		}
+	}
+}
+
+function elements_overlap(el)
+{
+	var contained = false;
+	var left = 0
+	var top = 0
+	var width = el.offsetWidth
+	var height = el.offsetHeight
+	while ((el) && (!contained))
+	{
+		left += el.offsetLeft
+		top += el.offsetTop
+		if ((el.id) && (el.id==this.id))
+			contained = true
+		else
+			el = el.offsetParent
+	}
+	if (!contained)
+		return ((left < thisright) && (left + width > thisleft) && (top < thisbottom) && (top + height > thistop))
+	else
+		return false;
+}
+
+function makeRectangularDropShadow(color, size)
+{
+	var i;
+	for (i=0; i<thisshadows.length; i++)
+		thisshadows[i].removeNode(true);
+	thisshadows = new Array();
+	for (i=size; i>0; i--)
+	{
+		var rect = document.createElement('div');
+		var rs = rect.style
+		rs.position = 'absolute';
+		rs.left = (this.offsetLeft + i) + 'px';
+		rs.top = (this.offsetTop + i) + 'px';
+		rs.width = this.offsetWidth + 'px';
+		rs.height = this.offsetHeight + 'px';
+		rs.zIndex = this.style.zIndex - i;
+		rs.backgroundColor = color;
+		var opacity = 1 - i / (i + 1);
+		rs.filter = 'alpha(opacity=' + (100 * opacity) + ')';
+		this.insertAdjacentElement('afterEnd', rect);
+		thisshadows[thisshadows.length] = rect;
+	}
+}
+
+function actived()
+{
+	return showed;
+}
+
+function posTop(el)
+{
+	var top = 0;
+	while (el)
+	{
+		top += el.offsetTop
+		el = el.offsetParent
+	}
+	return top;
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+function move()
+{
+	
+	if (scrollArea.scrollTop == 0 && scrollDelta==-1)
+	{
+		window.clearInterval(scrollTimer)
+		scrollTimer = null
+		return;
+	}
+	
+	if (scrollArea.scrollTop == scrollArea.scrollHeight && scrollDelta==1)
+	{
+		window.clearInterval(scrollTimer)
+		scrollTimer = null
+		return;
+	}
+	
+	var temp = scrollStart + 1 * scrollDelta * scrollspeed;
+	scrollArea.scrollTop = temp;
+	scrollStart=scrollArea.scrollTop;
+	if (scrollArea.scrollTop != temp)
+	{
+		window.clearInterval(scrollTimer)
+		scrollTimer = null
+	}
+
+}
+
+function current_time()
+{
+	var temp = new Date()
+	return temp.valueOf()
+}
+
+function scrollmove()
+{
+	var e = event.srcElement;
+	scrollStart = scrollArea.scrollTop;
+	if ((e.id==this.id + "_up") || (window.document.getElementById(this.id + "_up").contains(e) ))
+		scrollDelta=1;
+	else
+		scrollDelta=-1;
+	
+	scrollTimer = window.setInterval( this.id + ".move()", SCROLL_DELAY, "JScript")
+}
+
+function scrollstop()
+{
+	
+	var e = event.srcElement
+	window.clearInterval(scrollTimer)
+	scrollTimer = null
+	scrollTime=current_time()
+}
+
+function writedebug(str)
+{
+	
+	debug.innerHTML= str + '<br>' + debug.innerHTML
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

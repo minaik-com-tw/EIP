@@ -1,0 +1,14 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+
+<SCRIPT language="JScript">
+
+function event_ondocumentready()
+{	
+	this.readOnly=true;
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,1 @@
+installutil.exe SmoothEnterpriseScheduler.exe /LogFile=

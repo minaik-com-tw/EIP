@@ -1,0 +1,276 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+
+<PUBLIC:PROPERTY NAME="Required" />
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+<PUBLIC:METHOD name="Trim" />
+<SCRIPT language="JScript">
+var thisWidth;
+var thisHeight;
+var inputobj, btnobj,inputDiv;
+var loadready=false;
+
+var imgwin;
+var thisbackgroundcolor = "";
+
+
+//====================================================================//
+function event_onerror(errorMessage, url, line)
+{
+	var errmsg;
+	errmsg = "The DoubleGreen Client Script Debugger \n\n";
+    errmsg += "Click OK to continue.\n\n";
+    errmsg += "Error message: " + errorMessage + "\n";
+    errmsg += "URL: " + url + "\n";
+    errmsg += "Line #: " + line;
+    alert(errmsg);
+    return true
+}
+
+function InputBehavior(o)
+{	
+	if (!o) return;
+	o.attachEvent("onfocusin",event_onfocusin); 
+	o.attachEvent("onfocusout",event_onfocusout); 
+	if((o.className =="") || (o.className == null))
+	{
+		with(o.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (o.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	
+	if (o.getAttribute("Required")!=null)
+	{
+		o.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+		o.style.backgroundPosition = 'right top';
+		o.style.backgroundAttachment = "fixed";
+		o.style.backgroundRepeat = "no-repeat";
+	}
+	
+	if (!FocusoutColor) FocusoutColor = o.style.backgroundColor;
+
+}
+
+function event_onfocusin()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+   thisbackgroundcolor = o.style.backgroundColor ;
+  // alert(FocusinColor);
+   if(FocusinColor)
+   {
+	  o.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  o.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+
+   if(FocusoutColor)
+	  o.style.backgroundColor = FocusoutColor;
+   else
+	  o.style.backgroundColor = thisbackgroundcolor;
+}
+
+//-------- input comon function -----------
+function Trim(str)
+{
+  str = str.replace(/^\s*(.*)/, "$1");
+  str = str.replace(/(.*?)\s*$/, "$1");
+  return str;
+}
+//===================================================================================//
+
+
+
+function event_oncontentready()
+{
+	//this.addBehavior("/lib/htc/errmsg.htc");
+	window.onerror = event_onerror;
+	InputBehavior(this);
+	//this.addBehavior("/lib/htc/inputbehaviors.htc");
+	if (!getAttribute("ButtonIconUrl") || getAttribute("ButtonIconUrl")=="" )
+		ButtonIconUrl="/lib/img/icon-image.gif";	
+	
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+	
+	window.attachEvent("onunload",window_unload);
+	
+	
+}
+
+function window_unload()
+{
+	if(!imgwin) return;
+	if(!imgwin.closed) imgwin.close();
+	
+//	for (w in windows)
+//		if(!windows[w].closed) windows[w].close();
+}
+
+function event_ondocumentready()
+{
+	if(this.style.width!="" && this.style.width)
+		thisWidth = parseInt(this.style.width);
+	else	
+		thisWidth=this.offsetWidth;
+		
+	if(thisWidth==0) thisWidth=200;				
+	
+	if(this.style.height!="" && this.style.height)
+		thisHeight = parseInt(this.style.height);
+	else	
+		thisHeight=this.offsetHeight;
+
+			this.style.display="none";
+			
+			//================Build Input DIV ======================//
+		
+			inputDiv = document.createElement("span");
+			inputDiv.id = "inputDiv_"+this.id;
+		//	this.insertAdjacentElement("beforeBegin",inputDiv);
+			//this.insertAdjacentElement("beforeBegin",inputDiv);
+			this.insertAdjacentElement("afterEnd",inputDiv);
+		//	inputDiv.insertAdjacentElement("afterBegin",this);
+		//	 this.insertBefore(inputDiv, oLIYellow);
+
+			//inputDiv.style.width=thisWidth;
+			if (parseInt(thisHeight)!=0)
+				inputDiv.style.height=thisHeight-2;
+			
+			//inputDiv.style.height="20px";
+			inputDiv.style.border="2px inset ";
+			inputDiv.style.filter = this.style.filter;
+			//inputDiv.style.padding="0 0 0 0";
+		//	inputDiv.style.marginBottom="-4px";		
+		//	inputDiv.insertAdjacentElement("beforeEnd",this);
+			//---------------------------Build Input ----------------------------------------------//
+	
+			inputobj= document.createElement("input");
+			inputDiv.insertAdjacentElement("afterBegin",inputobj);
+			//inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+			InputBehavior(inputobj);
+			inputobj.id = "input_"+this.id;
+			
+			inputobj.setAttribute("Required",this.getAttribute("Required"));
+			inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+			inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+		    inputobj.value = this.value;
+			
+			if (this.disabled) inputobj.disabled=true;
+		
+			if (this.currentStyle.fontFamily!="")
+				inputobj.style.fontFamily = this.currentStyle.fontFamily;
+			else
+				inputobj.style.fontFamily="Arial, Tahoma";
+		
+			inputobj.style.fontSize = this.currentStyle.fontSize;
+			inputobj.style.fontWeight = this.currentStyle.fontWeight;
+			inputobj.style.color = this.currentStyle.color;		
+			inputobj.style.filter = this.style.filter;
+			inputobj.style.border="none";
+			inputobj.style.borderWidth="0px";
+			inputobj.style.paddingLeft="3px";
+			inputobj.readOnly = this.readOnly;
+			inputobj.style.marginTop="-1px";
+			inputobj.style.marginBottom="-1px";
+			inputobj.style.zIndex = 9;
+			inputobj.style.background = this.style.background;
+			if (this.className!="" && !this.className)
+				inputobj.className = this.className;
+			else
+				inputobj.className = "normal";
+			inputobj.tabIndex =this.tabIndex;
+			
+			
+			if (parseInt(thisWidth)!=0) 
+			{
+				inputobj.style.width=thisWidth-19;
+				inputDiv.style.width=thisWidth+2;
+			}
+			else
+				inputDiv.style.width = inputobj.offsetWidth+17+3;		
+			
+			inputobj.attachEvent("onpropertychange",event_onpropertychange);
+		
+					btnobj = document.createElement("button");
+					btnobj.style.filter = this.style.filter;
+					if (this.disabled)	btnobj.disabled=true;
+					inputobj.insertAdjacentElement("afterEnd",btnobj);
+					btnobj.id = "btn_" + this.id;
+					btnobj.style.cursor = "default";
+					btnobj.style.zIndex = 10;
+					btnobj.style.width = 17; 
+					if (parseInt(thisHeight)!=0)
+						btnobj.style.height = thisHeight-4;
+					btnobj.style.marginTop="-1px";
+					btnobj.style.marginBottom="-1px";
+					btnobj.tabIndex = -1;
+					btnobj.attachEvent("onclick",button_onclick);
+					
+					if (ButtonIconUrl!=null)
+					{
+						var btnimg = document.createElement("img");
+						btnimg.src = ButtonIconUrl;
+						if(btnimg.width>=15)
+						{
+							btnimg.width = 11;
+							btnimg.height=11;			
+						}
+						
+						btnimg.align = "absmiddle";
+						btnimg.border = 0;  
+						btnobj.insertAdjacentElement("afterBegin",btnimg);
+					}
+			
+			
+			
+	
+}
+
+function button_onclick()
+{
+
+	imgwin = window.open("/lib/htc/popups/image.aspx?inputid="+inputobj.id,null,"width=620,height=500");
+	// window.open("/lib/htc/popups/image.aspx","333","width=620,height=500");
+		imgwin.moveTo(screen.width/2 - 310,screen.height/2-300);
+	imgwin.focus();	
+}
+
+function event_onpropertychange()
+{
+	// can't fire the disabled=true event .....
+	//	alert(event.propertyName);
+	if(event.propertyName=="value")
+	{
+		this.value = inputobj.value;
+	}
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Caption>
+  
+  <Back en-us="Back" zh-tw="回上頁" zh-cn="回上页" ja-JP="Back"/> 
+  <DOE en-us="DOE" zh-tw="DOE" zh-cn="DOE" ja-JP="DOE"/>
+  <End of="" time="" en-us="End of time" zh-tw="時間迄" zh-cn="时间迄" ja-JP="End of time"/>
+  <FA en-us="FA" zh-tw="FA" zh-cn="FA" ja-JP="FA"/>
+  <inspect_person en-us="Full inspection personnel" zh-tw="全檢人員" zh-cn="全检人员" ja-JP="Full inspection personnel"/>
+  <Inspection_Matters en-us="Inspection Matters" zh-tw="檢驗事項" zh-cn="检验事项" ja-JP="Inspection Matters"/>
+  <Item en-us="Item" zh-tw="項次" zh-cn="项次" ja-JP="Item"/>
+  <matter en-us="matter" zh-tw="事項" zh-cn="事项" ja-JP="matter"/>
+  <Models en-us="Models" zh-tw="機種" zh-cn="机种" ja-JP="Models"/>
+  <Not_Increasing en-us="Not increasing the line item" zh-tw="尚未增加項次" zh-cn="尚未增加项次" ja-JP="Not increasing the line item"/>
+  <samples en-us="Number of samples" zh-tw="抽樣數" zh-cn="抽样数" ja-JP="Number of samples"/>
+  <Number_Quarantine en-us="Number Quarantine" zh-tw="待驗數" zh-cn="待验数" ja-JP="Number Quarantine"/>
+  <OQC_Abnormality  en-us="OQC Abnormality"  zh-tw="檢驗異常" zh-cn="检验异常" ja-JP="OQC Abnormality" />
+  <ORM en-us="ORM" zh-tw="ORM" zh-cn="ORM" ja-JP="ORM"/>
+  <Other en-us="Other" zh-tw="其他" zh-cn="其他" ja-JP="Other"/>
+  <Prcess en-us="Prcess" zh-tw="處理方式" zh-cn="处理方式" ja-JP="Prcess"/>
+  <product en-us="product name" zh-tw="產品名" zh-cn="产品名" ja-JP="product name"/>
+  <Production_Date en-us="Production Date" zh-tw="生產日期" zh-cn="生产日期" ja-JP="Production Date"/>
+  <Remark en-us="Remark" zh-tw="備註" zh-cn="备注" ja-JP="Remark"/>
+  <Save en-us="Save" zh-tw="儲存" zh-cn="储存" ja-JP="Save"/>
+  <Start_of_time en-us="Start of time" zh-tw="時間起" zh-cn="时间起" ja-JP="Start of time"/>
+  <Test_items en-us="Test items" zh-tw="檢驗項目" zh-cn="检验项目" ja-JP="Test items"/>
+  <tooling en-us="tooling" zh-tw="套數" zh-cn="套数" ja-JP="tooling"/>
+  <Types_of en-us="Types of" zh-tw="類型" zh-cn="类型" ja-JP="Types of"/>
+  <Upload en-us="Upload" zh-tw="附件上傳" zh-cn="附件上传" ja-JP="Upload"/>
+  <Work_Item_view en-us="Work Item views" zh-tw="工作事項" zh-cn="工作事项" ja-JP="Work Item views"/>
+  <Number en-us="Number" zh-tw="單號" zh-cn="单号" ja-JP="Number"/>
+  <Important en-us="Important" zh-tw="重缺" zh-cn="重缺" ja-JP="Important"/>
+  <Major en-us="Major" zh-tw="主缺" zh-cn="主缺" ja-JP="Major"/>
+  <Minor en-us="Minor" zh-tw="次缺" zh-cn="次缺" ja-JP="Minor"/>
+  <Molding  en-us="Molding"  zh-tw="成型" zh-cn="成型" ja-JP="Molding"/>
+  <Medical  en-us="Medical"  zh-tw="醫療" zh-cn="醫療" ja-JP="Molding"/>
+  <Issue_Item  en-us="Issue Item"  zh-tw="問題點" zh-cn="问题点" ja-JP="Issue Item" />
+  <Judgment en-us="Judgment"  zh-tw="判定" zh-cn="判定" ja-JP="OQC Abnormality"/>
+  <TOP5 en-us="TOP5 (NG Item Qty)"  zh-tw="TOP5(不良項目、數量)" zh-cn="TOP5(不良项目、数量)" ja-JP="TOP5 (NG Item Qty)"/>
+  <Storage en-us="Storage"  zh-tw="入庫" zh-cn="入库" ja-JP="Storage"/>
+  <Rework en-us="Rework"  zh-tw="重工" zh-cn="重工" ja-JP="Rework"/>
+  <Rework_ok en-us="Rework ok"  zh-tw="複判ok" zh-cn="复判" ja-JP="Rework ok"/>
+  <Scrapped en-us="Scrapped"  zh-tw="報廢" zh-cn="報廢" ja-JP="Scrapped"/>
+  <defect_leve en-us="Defect Leve" zh-tw="缺點等級" zh-cn="缺點等級" ja-JP="Defect leve"/>
+  <defect_item en-us="Defect Item" zh-tw="缺點項目" zh-cn="缺點項目" ja-JP="Defect Item"/>
+  <defect_qty en-us="Defect Qty" zh-tw="缺點數量" zh-cn="缺點數量" ja-JP="Defect Qty"/>
+  <not_input en-us="Not input any data"  zh-tw="沒有輸入任何資料" zh-cn="没有输入任何资料" ja-JP="Not input any data"/>
+  <Error  en-us="Error "  zh-tw="錯誤" zh-cn="錯誤" ja-JP="Error "/>
+  <ejected en-us="ejected"  zh-tw="判退" zh-cn="判退" ja-JP="ejected"/>
+  <mp en-us="HVM"  zh-tw="量產" zh-cn="HVM" ja-JP="HVM"/>
+  <rtv en-us="RTV"  zh-tw="客退品" zh-cn="RTV" ja-JP="RTV"/>
+  <sorting en-us="Sorting"  zh-tw="篩選" zh-cn="Sorting" ja-JP="Sorting"/>
+  <re-work en-us="Re-Work method"  zh-tw="重工" zh-cn="Re-Work method" ja-JP="Re-Work method"/>
+  	
+  
+
+</Caption>

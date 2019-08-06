@@ -1,0 +1,121 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+
+<PUBLIC:PROPERTY NAME="size" />
+<PUBLIC:PROPERTY NAME="bgcolor" />
+<PUBLIC:PROPERTY NAME="align" />
+<PUBLIC:PROPERTY NAME="valign" />
+<PUBLIC:PROPERTY NAME="height" />
+<PUBLIC:PROPERTY NAME="width" />
+
+<SCRIPT language="JScript">
+
+function event_ondocumentready()
+{	
+	var tabletag = document.createElement("table");
+	tabletag.border=0;
+	tabletag.cellPadding=0;
+	tabletag.cellSpacing=0;
+	if (this.getAttribute("bgcolor")!=null)
+	{
+		tabletag.style.background = this.getAttribute("bgcolor");
+	}
+	else
+	{
+		tabletag.style.background = "#cccccc";
+	}
+
+	// row of border top
+	var trobj = tabletag.insertRow();
+	
+	var tdobj = trobj.insertCell();
+
+	var imgobj = document.createElement("img");
+	imgobj.src="/lib/img/img-rc1.gif"
+	if (this.getAttribute("size")!=null)
+	{
+		imgobj.width = this.getAttribute("size");
+		imgobj.height = this.getAttribute("size");
+	}
+	tdobj.insertAdjacentElement("afterBegin",imgobj);
+	
+	tdobj = trobj.insertCell();
+	
+	tdobj = trobj.insertCell();
+	imgobj = document.createElement("img");
+	imgobj.src="/lib/img/img-rc2.gif"
+	if (this.getAttribute("size")!=null)
+	{
+		imgobj.width = this.getAttribute("size");
+		imgobj.height = this.getAttribute("size");
+	}
+	tdobj.insertAdjacentElement("afterBegin",imgobj);
+	
+	// row of content
+	trobj = tabletag.insertRow();
+	
+	tdobj = trobj.insertCell();
+
+	tdobj = trobj.insertCell();
+	if (this.getAttribute("height")!=null)
+	{
+		tdobj.height = this.getAttribute("height");
+	}
+	if (this.getAttribute("width")!=null)
+	{
+		tdobj.width = this.getAttribute("width");
+	}
+	if (this.getAttribute("align")!=null)
+	{
+		tdobj.align = this.getAttribute("align");
+	}
+	if (this.getAttribute("valign")!=null)
+	{
+		tdobj.valign = this.getAttribute("valign");
+	}
+	tdobj.innerHTML=this.innerHTML;
+	this.innerHTML="";
+
+	tdobj = trobj.insertCell();
+
+	// row of border bottom
+	trobj = tabletag.insertRow();
+
+	tdobj = trobj.insertCell();
+	imgobj = document.createElement("img");
+	imgobj.src="/lib/img/img-rc3.gif"
+	if (this.getAttribute("size")!=null)
+	{
+		imgobj.width = this.getAttribute("size");
+		imgobj.height = this.getAttribute("size");
+	}
+	tdobj.insertAdjacentElement("afterBegin",imgobj);
+	
+	tdobj = trobj.insertCell();
+
+	tdobj = trobj.insertCell();
+	imgobj = document.createElement("img");
+	imgobj.src="/lib/img/img-rc4.gif"
+	if (this.getAttribute("size")!=null)
+	{
+		imgobj.width = this.getAttribute("size");
+		imgobj.height = this.getAttribute("size");
+	}
+	tdobj.insertAdjacentElement("afterBegin",imgobj);
+
+	this.insertAdjacentElement("afterBegin",tabletag);
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

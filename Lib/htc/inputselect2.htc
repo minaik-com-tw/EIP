@@ -1,0 +1,267 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onpropertychange" ONEVENT="event_onpropertychange()"></PUBLIC:ATTACH>
+
+
+<SCRIPT language="JScript">
+//<PUBLIC:ATTACH EVENT="onfocusin" ONEVENT="event_onfocusin()" />
+//<PUBLIC:ATTACH EVENT="onfocusout" ONEVENT="event_onfocusout()" />
+//<PUBLIC:ATTACH EVENT="onreadystatechange" ONEVENT="event_onreadystatechange()"></PUBLIC:ATTACH>
+var inputobj, btnobj;
+var bgcolor;
+var loadready=false;
+var showflag=true;	
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputimgbtn.htc");
+    this.setAttribute("imgSrc","\\lib\\img\\icon-downarrow.gif");
+	//if (this.disabled)	 this.style.visibility = "hidden";
+	if (	this.disabled) 
+	{
+		this.disabled=false;   //¼È®É¥´¶}
+		showflag=false;
+	}
+
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+	/*
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	*/
+}
+
+
+function event_ondocumentready()
+{	
+	//	this.onreadystatechange=function(){
+	//		if(this.readyState=="complete")
+	//		{
+
+
+					var inputid = this.buildinput();
+					inputobj = window.document.getElementById(inputid);
+					if (inputobj)
+					{
+						inputobj.attachEvent("onfocusin",onselect);
+						inputobj.style.paddingLeft = 3 +"px";
+						inputobj.style.top = posTop(this) - 2;
+						inputobj.style.left = posLeft(this) - 2;	
+					}	
+					else
+						alert("inputobj not found!");		
+
+					var btnid =	this.buildimgbtn();
+					btnobj = window.document.getElementById(btnid);
+					if(btnobj)
+					{
+						btnobj.style.backgroundColor = this.style.backgroundColor;
+						btnobj.attachEvent("onmouseenter",onselect);
+						btnobj.attachEvent("onfocusin",onselect);
+					}
+					if(btnobj && (this.getAttribute("onclickmore") != null))
+						btnobj.attachEvent("onclick",button_show_onclick);
+						 
+					var src 	= this;
+					while (src.tagName != "BODY")
+					{
+						src = src.parentElement;
+						if(src.tagName == "TABLE" )
+						{
+							src.attachEvent("onresize",event_onmove);		
+							src.attachEvent("onmove",event_onmove);		
+						}	
+					}			 
+
+					if (this.selectedIndex>-1)
+						inputobj.value = this.options[this.selectedIndex].text;
+
+					bgcolor = this.style.backgroundColor;
+					inputobj.style.backgroundColor = this.style.backgroundColor;
+					this.style.visibility = 'hidden';
+					
+					this.attachEvent("onchange",onchange);
+					this.attachEvent("onfocusout",unselect);
+					
+					if (this.disabled) inputobj.disabled=true;
+					if (this.disabled) btnobj.disabled=true;
+	//			}
+	//	}
+	
+	//alert("2");
+//	alert(loadready);
+	//this.style.visibility = 'hidden';
+	if(showflag==false)  this.disabled=true; // disabled
+
+}
+
+function event_onreadystatechange()
+{
+	//alert("1");
+	if(this.readyState=="complete")
+	{
+					var inputid = this.buildinput();
+					inputobj = window.document.getElementById(inputid);
+					if (inputobj)
+					{
+						if(showflag==false)  // disabled
+						    inputobj.setAttribute("disabled",true);
+						inputobj.attachEvent("onfocusin",onselect);
+						inputobj.style.paddingLeft = 3 +"px";
+						inputobj.style.top = posTop(this) - 2;
+						inputobj.style.left = posLeft(this) - 2;	
+					}	
+					else
+						alert("inputobj not found!");		
+						
+					//alert("dddd");		
+
+					var btnid =	this.buildimgbtn();
+					btnobj = window.document.getElementById(btnid);
+					if(btnobj)
+					{
+						if(showflag==false)  // disabled
+						    btnobj.setAttribute("disabled",true);
+						 var c=  btnobj.children.item(0);
+						 if (c) c.style.cursor="default";
+						btnobj.style.backgroundColor = this.style.backgroundColor;
+						btnobj.attachEvent("onmouseenter",onselect);
+						btnobj.attachEvent("onfocusin",onselect);
+					}
+					if(btnobj && (this.getAttribute("onclickmore") != null))
+						btnobj.attachEvent("onclick",button_show_onclick);
+						 
+					var src 	= this;
+					while (src.tagName != "BODY")
+					{
+						src = src.parentElement;
+						if(src.tagName == "TABLE" )
+						{
+							src.attachEvent("onresize",event_onmove);		
+							src.attachEvent("onmove",event_onmove);		
+						}	
+					}			 
+
+					if (this.selectedIndex>-1)
+						inputobj.value = this.options[this.selectedIndex].text;
+
+					bgcolor = this.style.backgroundColor;
+					inputobj.style.backgroundColor = this.style.backgroundColor;
+					this.style.visibility = 'hidden';
+					
+					this.attachEvent("onchange",onchange);
+					this.attachEvent("onfocusout",unselect);
+				//	if (this.disabled) inputobj.disabled=true;
+				//	if (this.disabled) btnobj.disabled=true;
+		loadready=true;
+	}
+}
+
+
+
+function onselect()
+{
+	inputobj.style.top = posTop(this) - 2;
+	inputobj.style.left = posLeft(this) - 2;	
+	
+	btnobj.style.left = posLeft(inputobj) + inputobj.offsetWidth - 20;
+	btnobj.style.top = posTop(inputobj); 
+	this.style.visibility = 'visible';
+//	inputobj.style.visibility = 'hidden';
+//	btnobj.style.visibility = 'hidden';
+	if (this.disabled==false) this.focus();
+}
+
+function unselect()
+{
+	this.style.visibility = 'hidden';
+	inputobj.style.visibility = 'visible';
+	btnobj.style.visibility = 'visible';
+//	this.style.display = "none";
+//	inputobj.style.display = "block";
+//	btnobj.style.display = "block";	
+}
+
+
+function onchange()
+{
+	if (this.selectedIndex>-1)
+		inputobj.value = this.options[this.selectedIndex].text;
+}
+/*
+function event_onfocusin()
+{
+   if (FocusinColor)
+	  this.style.backgroundColor = FocusinColor;
+   else
+   {
+	  this.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+	this.style.backgroundColor = bgcolor; 
+}
+*/
+function event_onmouseover()
+{	
+}
+
+function event_onmouseout()
+{	
+}
+
+
+function posTop(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var top = window.document.body.scrollTop+rect.top;
+	return top;
+}
+
+function posLeft(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var left = window.document.body.scrollLeft+rect.left;
+	return left;
+}
+
+function event_onmove()
+{
+	if(!loadready) return;
+	this.alignInput(this,inputobj);
+	this.alignBtn(this,btnobj);	
+}
+
+function event_onpropertychange()
+{
+	// can't fire the disabled=true event .....
+	//	alert(event.propertyName);
+	if(event.propertyName=="disabled")
+	{
+		if (this.disabled==false)
+		{
+			if (inputobj && btnobj)
+			{
+				inputobj.disabled=false;
+				btnobj.disabled=false;
+			 }
+		}
+	}
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

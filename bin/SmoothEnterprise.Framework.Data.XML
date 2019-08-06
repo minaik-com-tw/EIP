@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Framework.Data</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Security.Database.Values">
+            <summary>
+            Summary description for Database.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Configuration.Parameter">
+            <summary>
+            Summary description for Parameter.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Log.DBLog">
+            <summary>
+            Log to database in dglog
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Security.Utility">
+            <summary>
+            SmoothEnterprise.Security Module's Utility
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Content.Database.Search">
+            <summary>
+            Summary description for Search.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Database.Connection">
+            <summary>
+            Summary description for Connection.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Content.Database.Builder">
+            <summary>
+            Summary description for Builder.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Builder.AddContent(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="pathname"></param>
+            <param name="filename"></param>
+            <param name="linkurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Builder.AddContent(System.Guid,System.String,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="pathname"></param>
+            <param name="filename"></param>
+            <param name="linkurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Builder.AddContent(System.Guid,System.String,System.String,System.String,System.Guid,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="pathname"></param>
+            <param name="filename"></param>
+            <param name="linkurl"></param>
+            <param name="functioncid"></param>
+            <param name="authtypeid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Builder.AddContent(System.Guid,System.String,System.String,System.Guid,System.String,System.Object,System.Object,System.String,System.String,System.String,System.Guid,System.Object,System.Object,System.String,System.Object,System.Object,System.String,System.String,System.Object,System.Object,System.Object,System.String,System.Object,System.Object,System.Object,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="pathname"></param>
+            <param name="filename"></param>
+            <param name="filetype"></param>
+            <param name="description"></param>
+            <param name="ctypeid"></param>
+            <param name="catid"></param>
+            <param name="linkurl"></param>
+            <param name="iconurl"></param>
+            <param name="imgurl"></param>
+            <param name="viewmode"></param>
+            <param name="effectdate"></param>
+            <param name="expiredate"></param>
+            <param name="remark"></param>
+            <param name="functioncid"></param>
+            <param name="authtypeid"></param>
+            <param name="everyone"></param>
+            <param name="browsable"></param>
+            <param name="cstatus"></param>
+            <param name="seq"></param>
+            <param name="filesize"></param>
+            <param name="deniedurl"></param>
+            <param name="inituid"></param>
+            <param name="initdate"></param>
+            <param name="modifyuid"></param>
+            <param name="modifydate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Content.Database.Builder.AddContentLog(System.Char,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="logtype"></param>
+            <param name="cid"></param>
+            <param name="pathname"></param>
+            <param name="filename"></param>
+            <param name="linkurl"></param>
+            <param name="description"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Content.Database.Log">
+            <summary>
+            Summary description for Log.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Security.Authorization.ContentAuth">
+            <summary>
+            Summary description for ContentAuth.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Security.Authorization.DataAuth">
+            <summary>
+            Summary description for DataAuth.
+            </summary>
+        </member>
+    </members>
+</doc>

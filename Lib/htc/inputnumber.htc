@@ -1,0 +1,194 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:ATTACH EVENT="onkeypress" ONEVENT="event_onkeypress()" />
+<PUBLIC:ATTACH EVENT="onchange" ONEVENT="event_onblur()" />
+
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+
+<PUBLIC:PROPERTY name="MaxValue" />
+<PUBLIC:PROPERTY name="MinValue" />
+
+
+<SCRIPT language="JScript">
+//<PUBLIC:ATTACH EVENT="onfocusout" ONEVENT="event_onfocusout()" />
+var thisbackgroundcolor = "";
+
+
+//====================================================================//
+function event_onerror(errorMessage, url, line)
+{
+	var errmsg;
+	errmsg = "The DoubleGreen Client Script Debugger \n\n";
+    errmsg += "Click OK to continue.\n\n";
+    errmsg += "Error message: " + errorMessage + "\n";
+    errmsg += "URL: " + url + "\n";
+    errmsg += "Line #: " + line;
+    alert(errmsg);
+    return true
+}
+
+function InputBehavior(o)
+{	
+	if (!o) return;
+	o.attachEvent("onfocusin",event_onfocusin); 
+	o.attachEvent("onfocusout",event_onfocusout); 
+	if((o.className =="") || (o.className == null))
+	{
+		with(o.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (o.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	
+	if (o.getAttribute("Required")!=null)
+	{
+		o.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+		o.style.backgroundPosition = 'right top';
+		o.style.backgroundAttachment = "fixed";
+		o.style.backgroundRepeat = "no-repeat";
+	}
+	
+	if (!FocusoutColor) FocusoutColor = o.style.backgroundColor;
+
+}
+
+function event_onfocusin()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+   thisbackgroundcolor = o.style.backgroundColor ;
+  // alert(FocusinColor);
+   if(FocusinColor)
+   {
+	  o.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  o.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+
+   if(FocusoutColor)
+	  o.style.backgroundColor = FocusoutColor;
+   else
+	  o.style.backgroundColor = thisbackgroundcolor;
+}
+
+//-------- input comon function -----------
+function Trim(str)
+{
+  str = str.replace(/^\s*(.*)/, "$1");
+  str = str.replace(/(.*?)\s*$/, "$1");
+  return str;
+}
+//===================================================================================//
+
+function event_oncontentready()
+{
+	window.onerror = event_onerror;
+	InputBehavior(this);
+	//this.addBehavior("/lib/htc/errmsg.htc");
+	//this.addBehavior("/lib/htc/inputbehaviors.htc");
+	//this.addBehavior("/lib/htc/inputtext.htc");
+	this.style.textAlign = "right";
+	
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+}
+
+function event_ondocumentready()
+{
+	//this.style.textAlign = "right";
+	
+}
+
+/*
+function event_onfocusout()
+{
+   if(FocusoutColor!="" && FocusoutColor!=null)
+	  this.style.backgroundColor = FocusoutColor;
+   else
+	  this.style.backgroundColor = thisbackgroundcolor;
+alert("asdfafds");
+
+}
+*/
+
+function event_onblur()
+{
+	if (!isNaN(this.value)!=true) 
+	{
+		event.returnValue=false;
+		alert('Not a validate number!');
+	}
+	
+	var checkflag= (CheckValueRange(this.value,MinValue,MaxValue));
+	if (checkflag!=true)
+	{
+		event.returnValue=false;
+		alert("Value is not match range "+MinValue+" ~ "+MaxValue);		
+	}
+}
+
+function CheckValueRange(v,min,max)
+{
+//	window.status =v+","+min+","+max;
+	if (min==null || max==null) return true;
+	if (min==0 && max==0) return true;
+	
+	if (parseFloat(v)>=parseFloat(min) && parseFloat(v)<=parseFloat(max))
+		 return true;
+	else
+		return false;	 
+}
+
+function isnumber(v)
+{
+	if (isNaN(v))
+		return false;
+	else
+	{
+		var numRegExp = new RegExp(/[-+]?([0-9][0-9,]*)?\.[0-9.]*([eE][-+][0-9]+)?/); 
+		if (!numRegExp.test(v))
+			return false;
+	}
+	/*
+	{
+		vstr = v.toString();
+		if (vstr.indexOf(".")!=-1)
+			return false;
+		if (vstr.indexOf("+")!=-1)
+			return false;
+	}
+	*/
+	return true;
+}
+
+function event_onkeypress()
+{
+
+  //var numRegExp = new RegExp(/^[a-z]+$/i); /* any non space */
+	//var numRegExp = new RegExp(/^\d+$/);
+  
+	var numRegExp = new RegExp(/^[0-9,.,-]+$/i);
+	key=String.fromCharCode(window.event.keyCode);
+	if (numRegExp.test(key))
+		event.returnValue=true;
+	else
+		event.returnValue=false;
+
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,20 @@
+<%@ page language="C#" masterpagefile="~/_site/layout/Template.master" autoeventwireup="true" inherits="SmoothEnterprise.Web.Application.Security.Success, App_Web_success.aspx.cdcab7d2" title="Untitled Page" theme="Default" culture="auto" uiculture="auto" meta:resourcekey="PageResource1" %>
+<%@ Register Assembly="SmoothEnterprise.Web.Control.Enterprise, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2bc4b50aa8c436e1"
+    Namespace="SmoothEnterprise.Content.UI.WebControl" TagPrefix="SmoothEnterpriseWebControlEnterprise" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">    
+    <SmoothEnterpriseWebControlEnterprise:Descriptor ID="ContentDescriptor" runat="server" Details="The desciption for this program"
+		Caption="Program Name" Width="100%" CssClass="Normal" Gradient="None" Height="40%" PaddingSpace="5px">
+		<CaptionStyle Font-Bold="True" CssClass="Medium"></CaptionStyle>
+		<DetailsStyle Font-Size="11px" Font-Names="Arial" ForeColor="Gray"></DetailsStyle>
+    </SmoothEnterpriseWebControlEnterprise:Descriptor>
+	<table Class="Normal" border="0">
+		<tr Class="NormalBold">
+			<td>
+				<asp:Label ID="L_errmsg" runat="server" Text='You currently logon as' meta:resourcekey="L_errmsgResource1"></asp:Label> <b><span id="username" runat="server"></span></b>
+				<br>
+				<br>
+                <asp:HyperLink ID="HyperLink_url" NavigateUrl="logout.aspx" runat="server" meta:resourcekey="HyperLink_urlResource1">Relogin with another user account</asp:HyperLink>
+			</td>
+		</tr>
+	</table>
+</asp:Content>

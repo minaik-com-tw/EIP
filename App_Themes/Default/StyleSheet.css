@@ -1,0 +1,44 @@
+﻿.TextDropDownDiv
+{
+	background-color:#BDC6D6;
+	border-color:Black;
+    border-width:1px;
+    border-style:solid;
+    font-weight: normal;
+	font-size: 12px;
+	FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#BDC6D6, endcolorstr=#EAEFF4);
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+}
+
+.TextDropDownButton
+{
+	background-color:#F0F0F0;
+	FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55888888, endcolorstr=#55ffffff);
+}
+
+.MultiSelectStyle
+{
+	
+    border-bottom:Solid 2px Gainsboro ;
+    border-left:Solid 2px Silver ;
+    border-right:Solid 2px Gainsboro ;
+    border-top:Solid 2px Silver ;
+	font-weight: normal;
+	font-size: 12px;
+	FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55888888, endcolorstr=#55ffffff);	
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+}
+
+.MultiSelectButton
+{
+	background-color:#F0F0F0;
+	border-bottom:Solid 1px ;
+    border-left:Solid 1px ;
+    border-right:Solid 1px ;
+    border-top:Solid 1px ;
+    border-color:Silver;
+	FILTER:progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55888888, endcolorstr=#55ffffff);
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	height:22px;
+	width:22px;
+}

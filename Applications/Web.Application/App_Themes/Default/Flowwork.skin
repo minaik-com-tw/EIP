@@ -1,0 +1,4 @@
+<%@ Register Assembly="SmoothEnterprise.Web.Control.Flowwork, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2bc4b50aa8c436e1" Namespace="SmoothEnterprise.Flowwork.UI.WebControl" TagPrefix="SmoothEnterpriseWebControlFlowwork" %>
+<SmoothEnterpriseWebControlFlowwork:FlowRequest runat="server" Font-Names="Tahoma" Font-Size="11px" />
+<SmoothEnterpriseWebControlFlowwork:FlowFeedback runat="server" BackColor="#F0F0F0" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px" Font-Names="Tahoma" Font-Size="11px" />
+<SmoothEnterpriseWebControlFlowwork:FlowFeedbackViewer runat="server" BorderColor="Silver" BorderStyle="Solid" BorderWidth="1px" Font-Names="Tahoma" Font-Size="11px" />

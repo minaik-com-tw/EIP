@@ -1,0 +1,194 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onpropertychange" ONEVENT="event_onpropertychange()"></PUBLIC:ATTACH>
+
+
+<SCRIPT language="JScript">
+var thisWidth;
+var thisHeight;
+var inputobj, btnobj,inputDiv;
+var loadready=false;
+
+var imgwin;
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputbehaviors.htc");
+	if (!getAttribute("ButtonIconUrl") || getAttribute("ButtonIconUrl")=="" )
+		ButtonIconUrl="\\lib\\img\\icon-downarrow.gif";	
+	
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+	
+}
+
+function event_ondocumentready()
+{
+			thisWidth=this.offsetWidth;
+			thisHeight=this.offsetHeight;
+			
+			if (this.style.width!="") thisWidth=parseInt(this.style.width);
+			if (this.style.height!="") thisHeight=parseInt(this.style.height);			
+			//================Build Input DIV ======================//
+		
+			inputDiv = document.createElement("span");
+			inputDiv.id = "inputDiv_"+this.id;
+			this.insertAdjacentElement("afterEnd",inputDiv);
+
+			inputDiv.style.width=thisWidth;
+			inputDiv.style.height=thisHeight-1;
+			
+			
+			//inputDiv.style.height="20px";
+			inputDiv.style.border="2px inset ";
+		//	inputDiv.style.borderTop="2px inset #d8d8d8";
+		//	inputDiv.style.borderBottom="1px inset #d8d8d8";
+		//	inputDiv.style.borderRight="1px inset #d8d8d8";
+		//	inputDiv.style.filter = this.style.filter;
+		//	inputDiv.style.padding="0 0 0 0";
+			
+			this.style.display="none";
+			//this.style.visibility = "hidden";
+
+			//---------------------------Build Input ----------------------------------------------//
+	
+			inputobj= document.createElement("input");
+			inputDiv.insertAdjacentElement("afterBegin",inputobj);
+			inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+			inputobj.id = "inputselect_"+this.id;
+			if ((this.className != "") && (this.className !=null)) inputobj.className=this.className;
+			inputobj.setAttribute("Required",this.getAttribute("Required"));
+			inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+			inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+			inputobj.attachEvent("onfocusin",onselect);
+
+			
+			if (this.disabled) inputobj.disabled=true;
+		
+			if (this.currentStyle.fontFamily!="")
+				inputobj.style.fontFamily = this.currentStyle.fontFamily;
+			else
+				inputobj.style.fontFamily="Arial, Tahoma";
+		
+			inputobj.style.fontSize = this.currentStyle.fontSize;
+			inputobj.style.fontWeight = this.currentStyle.fontWeight;
+			inputobj.style.color = this.currentStyle.color;		
+			inputobj.style.filter = this.style.filter;
+			inputobj.style.border="none";
+			inputobj.style.borderWidth="0px";
+			inputobj.style.paddingLeft="3px";
+			inputobj.readOnly = this.readOnly;
+			inputobj.style.marginTop="-1px";
+			inputobj.style.marginBottom="-1px";
+			inputobj.style.zIndex = 9;
+			inputobj.style.background = this.style.background;
+			inputobj.tabIndex =this.tabIndex;
+			inputobj.style.width=thisWidth-20;
+			inputobj.style.height = thisHeight-4;
+			
+			if(parseInt(thisWidth)!=0)
+			{
+				inputobj.style.width=thisWidth-20;
+				inputDiv.style.width=thisWidth;
+			}	
+	//		else
+	//			inputDiv.style.width = inputobj.offsetWidth+19;		
+								
+			
+			if (this.selectedIndex>-1)
+				inputobj.value = this.options[this.selectedIndex].text;
+			this.attachEvent("onchange",onchange);
+			this.attachEvent("onfocusout",unselect);
+					
+			if (this.disabled) inputobj.disabled=true;
+			if (this.disabled) btnobj.disabled=true;
+			
+		
+					btnobj = document.createElement("button");
+					btnobj.style.filter = this.style.filter;
+					if (this.disabled)	btnobj.disabled=true;
+					inputobj.insertAdjacentElement("afterEnd",btnobj);
+					btnobj.id = "btn_" + this.id;
+					btnobj.style.cursor = "default";
+					btnobj.style.zIndex = 10;
+					if (parseInt(thisHeight)!=0)
+						btnobj.style.height = thisHeight-4;
+					else	
+						btnobj.style.height ="17px";
+					btnobj.tabIndex = -1;
+					btnobj.style.width = "16px"; 
+			//		btnobj.style.height = thisHeight-4;
+					btnobj.style.marginTop="-1px";
+					btnobj.style.marginBottom="-1px";
+				//	btnobj.attachEvent("onclick",button_onclick);
+					btnobj.attachEvent("onmouseenter",onselect);
+					btnobj.attachEvent("onfocusin",onselect);
+				
+					
+					if (ButtonIconUrl!=null)
+					{
+						var btnimg = document.createElement("img");
+						btnimg.src = ButtonIconUrl;
+						btnimg.align = "absmiddle";
+						btnimg.border = 0;  
+						btnobj.insertAdjacentElement("afterBegin",btnimg);
+					}
+			
+			
+			
+	
+}
+
+function onchange()
+{
+	if (this.selectedIndex>-1)
+		inputobj.value = this.options[this.selectedIndex].text;
+}
+
+function unselect()
+{
+	inputDiv.style.display = "block";
+	this.style.display = "none";
+	//this.style.visibility = "hidden";
+}
+
+function onselect()
+{
+	this.style.display = "block";
+	//this.style.visibility = "hidden";
+	inputDiv.style.display = "none";
+
+	if (this.disabled==false) this.focus();
+}
+
+function event_onpropertychange()
+{
+	// can't fire the disabled=true event .....
+	//	alert(event.propertyName);
+	if(event.propertyName=="disabled")
+	{
+		if (this.disabled==false)
+		{
+			if (inputobj && btnobj)
+			{
+				inputobj.disabled=false;
+				btnobj.disabled=false;
+			 }
+		}
+	}
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0082)http://share3.esd105.wednet.edu/garciaa/webcurriculum/htmlarea/popups/custom2.html -->
+<HTML style="WIDTH: 300px; HEIGHT: 60px"><HEAD><TITLE>Select Phrase</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=big5">
+<SCRIPT language=javascript>
+
+var myTitle = window.dialogArguments;
+document.title = myTitle;
+
+
+function returnSelected() {
+  var idx  = document.all.textPulldown.selectedIndex;
+  var text = document.all.textPulldown[idx].text;
+
+  window.returnValue = text;          // set return value
+  window.close();                     // close dialog
+}
+
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff leftMargin=0>
+<FORM onsubmit="Set(document.all.ColorHex.value); return false;" method=get>
+<DIV align=center><SELECT name=textPulldown> <OPTION selected>The quick 
+  brown</OPTION> <OPTION>fox jumps over</OPTION> <OPTION>the lazy 
+dog.</OPTION></SELECT> <INPUT onclick=returnSelected() type=button value=" Go "> 
+</DIV></FORM></BODY></HTML>

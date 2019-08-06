@@ -1,0 +1,29 @@
+﻿.column, .note {
+    vertical-align: middle;
+    text-align: left;
+    /*padding: 5px 10px;
+    height: 50px;
+    margin: 2px 2px;
+    
+    line-height: 15px;*/
+    color: #686B6F;
+    font-size: 14px;
+    width: 15%;
+}
+
+
+
+.note {
+    background-color: #D2D5D1;
+    text-align: right;
+    font-weight: bolder;
+}
+
+.list_style {
+    height: 30px;
+    background-color: #523971;
+    color: #fff;
+    font-weight: bolder;
+    text-align: center;
+    font-size:14px;
+}

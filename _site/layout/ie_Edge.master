@@ -1,0 +1,97 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ie_Edge.master.cs" Inherits="SmoothEnterprise.Web.Application.Layout.ie_Edge" %>
+
+<%@ Register Src="~/_site/uc/FooterControl.ascx" TagName="FooterControl" TagPrefix="uc2" %>
+<%@ Register Src="~/_site/uc/ie_Edge_HeaderControl.ascx" TagName="HeaderControl" TagPrefix="uc1" %>
+<%@ Register Assembly="SmoothEnterprise.Web.Control.Enterprise, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2bc4b50aa8c436e1"
+    Namespace="SmoothEnterprise.Content.UI.WebControl" TagPrefix="SmoothEnterpriseWebControlEnterprise" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Aik EIP Page</title>
+
+
+    <link href="../../script/jquery/themes/base/jquery.ui.all.css" rel="stylesheet" />
+     <link href="../../script/css/normalize.css" rel="stylesheet" />
+    <link href="../../script/css/mak_base2.css" rel="stylesheet" />
+    <link href="../../script/css/fontawesome/css/all.min.css" rel="stylesheet" />
+
+    <script src="../../script/json/json2.js"></script>
+    <script src="../../Script/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="../../Script/jquery/ui/jquery.ui.core.js" type="text/javascript"></script>
+    <script src="../../Script/jquery/ui/jquery.ui.widget.js" type="text/javascript"></script>
+    
+    <script src="../../script/jquery/jquery.blockUI.js"></script>
+
+    <script src="../../Script/jquery/ui/jquery.ui.datepicker.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../Script/jquery/jquery-ui-timepicker-addon.js"></script> 
+    <script src="../../script/Nomarl.js"></script>
+
+    <!--[if IE 7]> 
+  <link href="../../script/css/font-awesome-4.7.0/css/font-awesome-4.2.0-IE7.css" rel="stylesheet" />
+<![endif]-->
+
+    <style>
+        .main_table {
+            width: 1080px; /* Set Contents width to 900px */
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            display: table;
+            border-collapse: separate;
+            border-spacing: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="main_table">
+            <div id="M_Top" style="margin: 0px; padding: 0px; width: 100%;">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <uc1:HeaderControl ID="HeaderControl1" runat="server" />
+                        <SmoothEnterpriseWebControlEnterprise:CategoryPath ID="CategoryPath1" runat="server"
+                            BackColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" BorderColor="Silver"
+                            Font-Size="11px" Font-Names="Arial" Width="100%" ForeColor="Black" RootURL="~/"
+                            CategoryURL="~/portal/" RootName="Home" RequestQueryID="cid" CID="" meta:resourcekey="CategoryPath1Resource1" />
+                
+                    </div>
+
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+                
+            </div>
+            </div>
+            <div id="M_foot" class="Smaller" style="margin: 0px; padding: 10px 0px 30px 0px; width: 100%;">
+                <div style="border: 1px solid #e6e6e6; padding: 0 0">
+                    <uc2:FooterControl ID="FooterControl1" runat="server" />
+
+                </div>
+            </div>
+        </div>
+
+        <div id="divLoading" style="display: none; padding: 15px; background-color: aliceblue">
+            <div style="font-size: 18px; font-weight: bolder; vertical-align: middle; text-align: center; display: inline-block; color: aliceblue;">
+            </div>
+        </div>
+        <div id="divLoading2" style="display: none; padding: 15px">
+
+            <div>
+                <div style="overflow: hidden">
+                    <div style="float: right;">
+                        <i id="close" class="fa fa-times fa-3x" style="color: red"></i>
+                    </div>
+
+                    <iframe id="wiframe" src="../../comm/UserList.aspx" frameborder="0" scrolling="no" style="width: 600px; height: 500px;"></iframe>
+                </div>
+                <div id="action"></div>
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>

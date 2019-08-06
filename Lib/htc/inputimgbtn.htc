@@ -1,0 +1,349 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:METHOD name="buildinput" />
+<PUBLIC:METHOD name="buildinput1" />
+<PUBLIC:METHOD name="buildimgbtn" />
+<PUBLIC:METHOD name="buildimgbtn1" />
+<PUBLIC:METHOD name="alignInput" />
+<PUBLIC:METHOD name="alignBtn" />
+<SCRIPT language="JScript">
+function event_ondocumentready()
+{
+		//
+}
+
+
+function buildinput()
+{
+
+	var inputobj = document.createElement("input");
+	this.insertAdjacentElement("afterEnd",inputobj);
+	//-------------------------------------------- Set oInput all Attributes --------------------------------------------------------//
+	inputobj.setAttribute("Required",this.getAttribute("Required"));
+	inputobj.setAttribute("Format",this.getAttribute("Format"));
+	inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+    inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+    inputobj.setAttribute("disabled",this.getAttribute("disabled"));
+	//----------------------------------------------------------------------------------------------------------------------------------------//
+	inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+	inputobj.id = "input-"+this.id;
+	
+	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+	if (this.currentStyle.fontFamily!="")
+		inputobj.style.fontFamily = this.currentStyle.fontFamily;
+	else
+		inputobj.style.fontFamily="Arial, Tahoma";
+	
+	inputobj.style.fontSize = this.currentStyle.fontSize;
+	inputobj.style.fontWeight = this.currentStyle.fontWeight;
+	inputobj.style.color = this.currentStyle.color;		
+	inputobj.style.filter = this.style.filter;
+	inputobj.style.position = "absolute";
+	inputobj.style.zIndex = 9;
+	inputobj.style.background = this.style.background;
+	inputobj.style.paddingLeft = this.style.paddingLeft;
+	inputobj.value = this.value;
+	
+	if (this.tagName == "SELECT")
+	{
+		inputobj.style.left = posLeft(this)-1;
+		inputobj.style.top = posTop(this)-1; 
+	//	inputobj.style.left = posLeft(this)-2;
+	//	inputobj.style.top = posTop(this)-2; 
+		if (this.offsetHeight>0) inputobj.style.height = this.offsetHeight ;	
+		if (this.offsetWidth>0) inputobj.style.width = this.offsetWidth;
+		inputobj.style.paddingLeft = this.style.paddingLeft ;
+	}
+	else
+	{
+		inputobj.style.border = 'none';
+		inputobj.style.left = posLeft(this);
+		inputobj.style.top = posTop(this); 	
+		if (this.offsetHeight>0)
+		{
+			inputobj.style.height = this.offsetHeight - 4;		
+		}	
+		else		
+			inputobj.style.height =16;
+		if (this.offsetWidth>0)
+			inputobj.style.width = this.offsetWidth - 20;
+			
+	}
+
+	return(inputobj.id);		
+}
+
+function buildinput1()
+{
+
+	var inputobj = document.createElement("input");
+	this.insertAdjacentElement("afterEnd",inputobj);
+	//-------------------------------------------- Set oInput all Attributes --------------------------------------------------------//
+	inputobj.setAttribute("Required",this.getAttribute("Required"));
+	inputobj.setAttribute("Format",this.getAttribute("Format"));
+	inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+    inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+    inputobj.setAttribute("disabled",this.getAttribute("disabled"));
+	//----------------------------------------------------------------------------------------------------------------------------------------//
+	inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+	inputobj.id = "input-"+this.id;
+	
+	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+	if (this.currentStyle.fontFamily!="")
+		inputobj.style.fontFamily = this.currentStyle.fontFamily;
+	else
+		inputobj.style.fontFamily="Arial, Tahoma";
+	
+	inputobj.style.fontSize = this.currentStyle.fontSize;
+	inputobj.style.fontWeight = this.currentStyle.fontWeight;
+	inputobj.style.color = this.currentStyle.color;		
+	inputobj.style.filter = this.style.filter;
+	inputobj.style.position = "absolute";
+	inputobj.style.zIndex = 9;
+	inputobj.style.background = this.style.background;
+	inputobj.style.paddingLeft = this.style.paddingLeft;
+	inputobj.value = this.value;
+	
+	if (this.tagName == "SELECT")
+	{
+		inputobj.style.left = posLeft(this)-1;
+		inputobj.style.top = posTop(this)-1; 
+	//	inputobj.style.left = posLeft(this)-2;
+	//	inputobj.style.top = posTop(this)-2; 
+		if (this.offsetHeight>0) inputobj.style.height = this.offsetHeight ;	
+		if (this.offsetWidth>0) inputobj.style.width = this.offsetWidth;
+		inputobj.style.paddingLeft = this.style.paddingLeft ;
+	}
+	else
+	{
+		inputobj.style.border = 'none';
+		inputobj.style.left = posLeft(this);
+		inputobj.style.top = posTop(this); 	
+		if (this.offsetHeight>0)
+		{
+			inputobj.style.height = this.offsetHeight - 4;		
+		}	
+		else		
+			inputobj.style.height =16;
+		if (this.offsetWidth>0)
+			inputobj.style.width = this.offsetWidth - 20;
+			
+	}
+
+	return(inputobj);		
+}
+
+
+function buildimgbtn()
+{
+		var objbtn = document.createElement("button");
+		this.insertAdjacentElement("afterEnd",objbtn);
+		objbtn.setAttribute("disabled",this.getAttribute("disabled"));
+		objbtn.style.filter = this.style.filter;
+		objbtn.id = "btn-" + this.id;
+		objbtn.style.position = "absolute";
+		if(!objbtn.disabled) objbtn.style.cursor = "hand";
+		//objbtn.style.position = "relative";
+		objbtn.style.zIndex = 10;
+		objbtn.style.width = 16; 
+		if (this.tagName == "SELECT")
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4;
+		}
+		else
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4+1;
+		}	
+		objbtn.style.left = posLeft(this) + this.offsetWidth - 20 ;	
+		objbtn.style.top = posTop(this); 			
+		
+	//	objbtn.style.backgroundColor = this.style.backgroundColor;
+		//objbtn.style.backgroundColor ="#FFFFFF";
+		if (this.getAttribute("imgSrc")!=null)
+		{
+			var btnimg = document.createElement("img");
+			btnimg.src = imgSrc;
+			btnimg.align = "absmiddle";
+			btnimg.border = 0;  
+			objbtn.insertAdjacentElement("afterBegin",btnimg);
+		}
+		return(objbtn.id);		
+	
+}
+
+function buildimgbtn1()
+{
+		var objbtn = document.createElement("button");
+		this.insertAdjacentElement("afterEnd",objbtn);
+		objbtn.setAttribute("disabled",this.getAttribute("disabled"));
+		objbtn.style.filter = this.style.filter;
+		objbtn.id = "btn-" + this.id;
+		objbtn.style.position = "absolute";
+		if(!objbtn.disabled) objbtn.style.cursor = "hand";
+		//objbtn.style.position = "relative";
+		objbtn.style.zIndex = 10;
+		objbtn.style.width = 16; 
+		if (this.tagName == "SELECT")
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4;
+		}
+		else
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4+1;
+		}	
+		objbtn.style.left = posLeft(this) + this.offsetWidth - 20 ;	
+		objbtn.style.top = posTop(this); 			
+		
+	//	objbtn.style.backgroundColor = this.style.backgroundColor;
+		//objbtn.style.backgroundColor ="#FFFFFF";
+		if (this.getAttribute("imgSrc")!=null)
+		{
+			var btnimg = document.createElement("img");
+			btnimg.src = imgSrc;
+			btnimg.align = "absmiddle";
+			btnimg.border = 0;  
+			objbtn.insertAdjacentElement("afterBegin",btnimg);
+		}
+		return(objbtn);		
+	
+}
+
+
+function buildimgbtn2()
+{
+	if (this.getAttribute("imgSrc")!=null)
+	{
+		var objbtn = document.createElement("img");
+		objbtn.style.filter = this.style.filter;
+		objbtn.id = "btn1-" + this.id;
+		objbtn.style.position = "absolute";
+		objbtn.align = "absmiddle";
+		objbtn.src = imgSrc;
+		objbtn.vspace = 3;
+		objbtn.style.cursor = "hand";
+		objbtn.border = 0;  
+		objbtn.style.zIndex = 10;
+		objbtn.style.left = posLeft(this) + this.offsetWidth - 20;
+		objbtn.style.top = posTop(this); 
+		this.insertAdjacentElement("afterEnd",objbtn);
+		return(objbtn.id);		
+	}
+	
+}
+
+function event_btnonclick()
+{
+	if (this.getAttribute("onclickmore")!=null)
+	{
+//		window.execScript(onclickmore);
+	}		
+}
+
+function alignInput(el,el1)
+{
+	if(el.tagName == "SELECT")
+	{
+		//el.style.visibility = 'visible';
+		el1.style.left = posLeft(el) -2;
+		el1.style.top = posTop(el) -2; 
+		if (el.offsetHeight>0) el1.style.height = el.offsetHeight ;	
+		if (el.offsetWidth>0) el1.style.width = el.offsetWidth;	
+	}
+	else
+	{
+		el1.style.left = posLeft(el) ;
+		el1.style.top = posTop(el) ; 
+		if (el.offsetWidth>0) el1.style.width = el.offsetWidth - 20;
+	}
+}
+
+
+function alignBtn(el,el1)
+{
+	//el1.style.top = posTop(el) +1; 
+	el1.style.top = posTop(el) ; 
+	if (el.offsetWidth>0) el1.style.left = posLeft(el) + el.offsetWidth - 20 ;
+	if (el.offsetHeight>0) el1.style.height = el.offsetHeight - 4;			
+}
+
+function posTop(el)
+{
+	var top = 0;
+	
+    var rect = el.getClientRects()[0];
+    var top = window.document.body.scrollTop+rect.top;
+    //window.status="top:"+top; 
+	return top;
+	
+}
+
+function posLeft(el)
+{
+	var top = 0;
+	
+    var rect = el.getClientRects()[0];
+    var left = window.document.body.scrollLeft+rect.left;
+    
+    //window.status="left:"+left; 
+
+	return left;
+}
+
+
+function posTop1(el)
+{
+	var top = 0;
+	//if(el.style.visibility == 'hidden') el.style.visibility="visible";
+	
+	while (el)
+	{
+		try
+		{
+		if (el.currentStyle.borderTopWidth)
+			if (parseInt(el.currentStyle.borderTopWidth)>0)
+				top += parseInt(el.currentStyle.borderTopWidth);
+		}
+		catch (e)
+		{
+			alert(el.currentStyle.borderTopWidth);
+		}
+		finally
+		{
+		}
+		top += el.offsetTop;
+		el = el.offsetParent;
+	}
+	//el.style.visibility = 'hidden';
+	return top;
+}
+
+
+function posLeft1(el)
+{
+	var left = 0;
+	while (el)
+	{
+		try
+		{
+		if (el.currentStyle.borderLeftWidth)
+			if (parseInt(el.currentStyle.borderLeftWidth)>0)
+				left += parseInt(el.currentStyle.borderLeftWidth);
+		}
+		catch (e)
+		{
+			alert(el.currentStyle.borderLeftWidth);
+		}
+		finally
+		{
+		}
+		left += el.offsetLeft
+		el = el.offsetParent
+	}
+	return left;
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>

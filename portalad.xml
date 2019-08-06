@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Advertisements>
+ 
+ <Ad>
+ <ImageUrl>/lib/img/img-adrotator.jpg</ImageUrl>
+ <NavigateUrl>http://www.doublegreen.com</NavigateUrl>
+ <AlternateText>Double Green Information Tech.</AlternateText>
+ <Impressions>80</Impressions>
+ <Keyword>DG</Keyword>
+ <Caption>Double Green Worldwide Web</Caption> 
+ </Ad>
+ 
+ <Ad>
+ <ImageUrl>/lib/img/img-adrotator1.jpg</ImageUrl>
+ <NavigateUrl>http://www.doublegreen.com</NavigateUrl>
+ <AlternateText>Double Green Information Tech.</AlternateText>
+ <Impressions>80</Impressions>
+ <Keyword>DG</Keyword>
+ <Caption>Double Green Worldwide Web</Caption> 
+ </Ad>
+
+ <Ad>
+ <ImageUrl>/lib/img/img-adrotator2.jpg</ImageUrl>
+ <NavigateUrl>http://www.doublegreen.com</NavigateUrl>
+ <AlternateText>Double Green Information Tech.</AlternateText>
+ <Impressions>80</Impressions>
+ <Keyword>DG</Keyword>
+ <Caption>Double Green Worldwide Web</Caption> 
+ </Ad>
+
+</Advertisements>

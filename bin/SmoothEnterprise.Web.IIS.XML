@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Web.IIS</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Web.IIS">
+            <summary>
+            Summary description for IIS.
+            </summary>
+            <remarks> This object provide the functionality to operate the IIS</remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.GetWebDirectoryEntry(System.String)">
+            <summary>
+            Method provided for get the data table that contain the information of each web site in the IIS 
+            </summary>
+            <remarks>
+            The data table include the five fields :
+            1. SiteName: Web Instance for the web site
+            2. IP: IP address for this web site
+            3. Root: Physical root path fo the web site
+            4. HostName: Host Name header for that web site
+            5. Comment: Server comments for that web site
+            </remarks>
+            <example>
+            <c>
+            SmoothEnterprise.Web.IIS iisobj  = new SmoothEnterprise.Web.IIS
+            System.Data.DataTable pTable = iisobj.GetSiteList()
+            ....
+            </c>
+            </example>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateWebSite(System.String)">
+            <summary>
+            Method provided for create a new web site
+            </summary>
+            <param name="siteroot"> Physical path of the web iste</param>
+            <returns> The web instance that can uniquely identify the newly created web site </returns>
+            <remarks>
+            This method can create a new web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateWebSite(System.String,System.Int32)">
+            <summary>
+            Method provided for create a new web site
+            </summary>
+            <param name="siteroot"> Physical path of the web iste</param>
+            <param name="portnum"> Port number </param>
+            <returns> The web instance that can uniquely identify the newly created web site </returns>
+            <remarks>
+            This method can create a new web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateWebSite(System.String,System.Int32,System.String)">
+            <summary>
+            Method provided for create a new web site
+            </summary>
+            <param name="siteroot"> Physical path of the web iste</param>
+            <param name="portnum"> Port number </param>
+            <param name="ServerComment"> Comments for this newly created site</param>
+            <returns> The web instance that can uniquely identify the newly created web site </returns>
+            <remarks>
+            This method can create a new web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateWebSite(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Method provided for create a new web site
+            </summary>
+            <param name="siteroot"> Physical path of the web iste</param>
+            <param name="portnum"> Port number </param>
+            <param name="ServerComment"> Comments for this newly created site</param>
+            <param name="ipaddress"> IP address for this newly created web site</param>
+            <returns> The web instance that can uniquely identify the newly created web site </returns>
+            <remarks>
+            This method can create a new web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteWebSite">
+            <summary>
+            Method provided for delete the specified web site
+            </summary>
+            <returns> Boolean value for indicate the success or failure after delete web site </returns>
+            <remarks>
+            This method can delete a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteWebSite(System.Int32)">
+            <summary>
+            Method provided for delete the specified web site
+            </summary>
+            <param name="webinst"> The web instance for the specified site.</param>
+            <returns> Boolean value for indicate the success or failure after delete web site </returns>
+            <remarks>
+            This method can delete a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateVirtualDir(System.String,System.String,System.String,System.String)">
+            <summary>
+            Method provided for create a virtual directory
+            </summary>
+            <param name="vdname"> Name for the virtual directory </param>
+            <param name="vdroot"> Physical path for the virtual directory </param>
+            <param name="UNCUsername"> Specify a logon account when access this virtual directory</param>
+            <param name="UNCPassword"> Specify the password of logon account when access this virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after create Virtual Directory </returns>
+            <remarks>
+            This method can create a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateVirtualDir(System.String,System.String)">
+            <summary>
+            Method provided for create a virtual directory
+            </summary>
+            <param name="vdname"> Name for the virtual directory </param>
+            <param name="vdroot"> Physical path for the virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after create Virtual Directory </returns>
+            <remarks>
+            This method can create a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateVirtualDir(System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            Method provided for create a virtual directory
+            </summary>
+            <param name="webinst"> The web instance of the specified web site</param>
+            <param name="vdname"> Name for the virtual directory </param>
+            <param name="vdroot"> Physical path for the virtual directory </param>
+            <param name="UNCUsername"> Specify a logon account when access this virtual directory</param>
+            <param name="UNCPassword"> Specify the password of logon account when access this virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after create Virtual Directory </returns>
+            <remarks>
+            This method can create a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateVirtualDir(System.Int32,System.String,System.String)">
+            <summary>
+            Method provided for create a virtual directory
+            </summary>
+            <param name="webinst"> The web instance of the specified web site</param>
+            <param name="vdname"> Name for the virtual directory </param>
+            <param name="vdroot"> Physical path for the virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after create Virtual Directory </returns>
+            <remarks>
+            This method can create a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteVirtualDir(System.String)">
+            <summary>
+            Method provided for delete a virtual directory
+            </summary>		
+            <param name="vdname"> Name for the virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after delete Virtual Directory </returns>
+            <remarks>
+            This method can delete a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteVirtualDir(System.Int32,System.String)">
+            <summary>
+            Method provided for delete a virtual directory
+            </summary>
+            <param name="webinst"> The web instance of the specified web site</param>
+            <param name="vdname"> Name for the virtual directory </param>
+            <returns> Boolean value for indicate the success or failure after delete Virtual Directory </returns>
+            <remarks>
+            This method can delete a virtual directory accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateAuthFilter(System.String,System.String)">
+            <summary>
+            Method provided for install a AuthFiler in a specified web site
+            </summary>
+            <param name="sFilePath"> Physical path for Filter file </param>
+            <returns> Boolean value for indicate the success or failure after install a filter</returns>
+            <remarks>
+            This method can install a authentication filter in a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CreateAuthFilter(System.Int32,System.String,System.String)">
+            <summary>
+            Method provided for install a AuthFiler in a specified web site
+            </summary>
+            <param name="webinst"> Web instance number to specified a web site</param>
+            <param name="sFilePath"> Physical path for Filter file </param>
+            <returns> Boolean value for indicate the success or failure after install a filter</returns>
+            <remarks>
+            This method can install a authentication filter in a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteAuthFilter(System.Int32,System.String)">
+            <summary>
+            Method provided for remove the AuthFiler in a specified web site
+            </summary>
+            <param name="webinst"> Web instance number to specified a web site</param>
+            <returns> Boolean value for indicate the success or failure after remove the filter</returns>
+            <remarks>
+            This method can remove the authentication filter in a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.DeleteAuthFilter(System.String)">
+            <summary>
+            Method provided for install a AuthFiler in a specified web site
+            </summary>
+            <returns> Boolean value for indicate the success or failure after install a filter</returns>
+            <remarks>
+            This method can install a authentication filter in a specified web site accounting to parameter information.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.SetSiteLog(System.Int32,System.Boolean)">
+            <summary>
+            Method for set the status of web site log 
+            </summary>
+            <param name="webinst"> A web instance number for specify a web site</param>
+            <param name="bEnable">the log status of web site</param>
+            <remarks>
+            Developers can set the log status of the specified web site.
+            </remarks>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.GetLogStatus(System.Int32)">
+            <summary>
+            Method for get the status of web site log 
+            </summary>
+            <param name="webinst"> A web instance number for specify a web site</param>
+            <remarks>
+            Developers can get or set the log status of the specified web site.
+            </remarks>
+            <returns> Boolean value for indicate status of the site log. True if the log is enable, and false if the log is disabled.</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.LogFileDirectory(System.Int32)">
+            <summary>
+            Method for get the physical path of the specified web site log.
+            </summary>
+            <param name="webinst"> A web instance number for specify a web site</param>
+            <remarks>
+            Developers can get the physical path of web site.
+            </remarks>
+            <returns> Physical path of the log file in that specified web site.</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CheckInstallSmoothEnterprise(System.Int32)">
+            <summary>
+            Method for check the Smoothenterprise installation in a specified web site
+            </summary>
+            <param name="webinst"> A web instance number for specify a web site</param>
+            <remarks>
+            Developers can check the SmoothEnterprise Installation in a specified web site.
+            </remarks>
+            <returns> Boolean value for indicate status of the SmoothEnterprise Installation in a specified web site.
+             True if SmoothEnterprise is installed in that specified web site, and false if SmoothEnterprise is not installed in that specified web site.</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IIS.CheckInstallSmoothEnterprise">
+            <summary>
+            Method for check the Smoothenterprise installation in a specified web site
+            </summary>
+            <remarks>
+            Developers can check the SmoothEnterprise Installation in a specified web site.
+            </remarks>
+            <returns> Boolean value for indicate status of the SmoothEnterprise Installation in a specified web site.
+             True if SmoothEnterprise is installed in that specified web site, and false if SmoothEnterprise is not installed in that specified web site.</returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.IIS.WebInstance">
+            <summary>
+            Property to get the web instance for the current-referenced web site.
+            </summary>
+            <remarks>
+            The Web Instance is a number that can uniquely identify a web site
+            </remarks>
+        </member>
+        <member name="P:SmoothEnterprise.Web.IIS.RootPath">
+            <summary>
+            Property to get the physical path of the web site
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.IIS.LogStatus">
+            <summary>
+            property for get or set the status of web site log 
+            </summary>
+            <remarks>
+            Developers can get or set the log status of the specified web site.
+            </remarks>
+            <returns> Boolean value for indicate status of the site log. True if the log is enable, and false if the log is disabled.</returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.IIS.LogDirectory">
+            <summary>
+            Property for get the physical path of web site log.
+            </summary>
+            <remarks>
+            Developers can get the physical path of web site.
+            </remarks>
+            <returns> Physical path of the log file in that specified web site.</returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.SyncDll">
+            <summary>
+            Summary description for SyncDll.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.IISWebEntry">
+            <summary>
+            Summary description for WebEntry.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.IISWebEntries">
+            <summary>
+            Summary description for WebEntries.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.IISWebEntries.GetPath(System.DirectoryServices.DirectoryEntry)">
+            <summary>
+            Get DirectoryEntry's Physical Path,If this DirectoryEntry can't get "Path" by properties then well to search parent DirectoryEntry's Physical Path.
+            </summary>
+            <param name="de"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UrlInfo">
+            <summary>
+            Summary description for UrlInfo.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:SmoothEnterprise.Web.UrlInfo.ParseURL(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:SmoothEnterprise.Web.UrlInfo.ParsePath(System.String)" -->
+    </members>
+</doc>

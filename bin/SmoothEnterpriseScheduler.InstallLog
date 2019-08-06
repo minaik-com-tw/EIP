@@ -1,0 +1,13 @@
+﻿正在安裝組件 'C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.exe'。
+受影響的參數為:
+   logtoconsole = 
+   assemblypath = C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.exe
+   logfile = C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.InstallLog
+正在安裝服務 SmoothEnterpriseScheduler...
+已經成功安裝服務 SmoothEnterpriseScheduler。
+正在記錄檔 Application 中建立 EventLog 來源 SmoothEnterpriseScheduler...
+正在認可組件 'C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.exe'。
+受影響的參數為:
+   logtoconsole = 
+   assemblypath = C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.exe
+   logfile = C:\Program Files\Double Green Information Tech\SmoothEnterprise.NET\Bin\SmoothEnterpriseScheduler.InstallLog

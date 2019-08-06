@@ -1,0 +1,260 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY name="imgSrc" />
+<PUBLIC:METHOD name="SetColor" />
+<SCRIPT language="JScript">
+
+var colorpicker;
+var idx = 0 ;
+var idy = 0 ;
+//var thisbackgroundcolor;
+var loadready=false;
+//var thisfontcolor;
+var inputobj;
+var btnobj;
+var BodyHeight;
+var BodyWidth;
+
+
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputbehaviors.htc");
+	if (this.getAttribute("imgSrc") == null) this.setAttribute("imgSrc","\\lib\\img\\icon-pickcolor.gif");
+	this.addBehavior("/lib/htc/inputimgbtn.htc");
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	this.tabIndex="-1";
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+}
+
+
+function event_ondocumentready()
+{	
+	colorpicker= document.createElement("div");
+	window.document.body.appendChild(colorpicker);
+	colorpicker.id=window.document.uniqueID;
+	colorpicker.addBehavior("/lib/htc/floatpanel1.htc");	
+	
+	var src 	= this;
+	while (src.tagName != "BODY")
+	{
+		src = src.parentElement;
+		if(src.tagName == "TABLE")
+		{
+			src.attachEvent("onresize",event_onmove);		
+			src.attachEvent("onmove",event_onmove);		
+		}	
+	}	
+	
+
+	var btnid =	this.buildimgbtn();
+	btnobj = window.document.getElementById(btnid);
+	if(btnobj)
+		 btnobj.attachEvent("onclick",button_show_onclick);
+	else
+		alert("objimg not found!");
+
+
+	var inputid = this.buildinput();
+	inputobj = window.document.getElementById(inputid);
+	if(inputobj)
+	{
+		inputobj.attachEvent("onfocusin",event_onfocusin);
+		inputobj.attachEvent("onfocusout",event_onfocusout);
+	}
+	else
+		alert("inputobj not found!");		
+	
+	//thisbackgroundcolor = this.style.backgroundColor;  //原始color
+	loadready=true;
+
+}
+
+function button_show_onclick()
+{
+	if (colorpicker.actived())
+		colorpicker.hide();
+	else 
+		BuildColorTable();
+}
+
+
+function adjustY()
+{
+	
+	sy = idy;
+	if ((sy +  colorpicker.offsetHeight) > window.document.body.clientHeight)
+	    if (sy  < colorpicker.offsetHeight) 
+			return 0 ;
+	    else
+			return sy;
+	else
+		return sy + 20;
+}
+
+function adjustX()
+{
+	var sx;
+	sx = idx;
+	if ((sx+20 + colorpicker.offsetWidth) > window.document.body.clientWidth)
+	    if (sx  < colorpicker.offsetWidth) 
+			return 0 ;
+	    else
+			return sx-colorpicker.offsetWidth;
+	else
+		return sx + 20;
+}
+
+function event_onfocusin()
+{
+	var obj = event.srcElement;
+	if (obj.value != "")
+	{
+		//
+    }
+}
+
+
+function event_onfocusout()
+{
+	var obj = event.srcElement;
+    if(obj.value != "")
+    {
+		obj.value=obj.Trim(obj.value);
+		//待加 色碼值檢驗
+		this.value = obj.value;
+	}
+	else
+	{
+		this.value = "";
+	}
+}
+
+function BuildColorTable()
+{
+
+	var c = new Array();
+	c[1] = "FF";
+	c[2] = "CC";
+	c[3] = "99";
+	c[4] = "66";
+	c[5] = "33";
+	c[6] = "00";
+	var tempstr="";
+	tempstr = "<table border=0 cellpadding=0 cellspacing=0  bgcolor=\"#000000\">\n"
+	tempstr = tempstr + "<tr><td><table border=0 bordercolor=#000000 cellpadding=0 cellspacing=1>\n"
+	//tempstr = tempstr + "<tbody><tr>\n"
+	tempstr = tempstr + "<tr>\n"
+	d = 0;
+	for (i=1;i <=6;i++){
+		if (i >1){
+		tempstr = tempstr +  "</tr>\n<tr>\n";
+		}
+		for (m=1;m <=6;m++){		
+			for (n=1;n <=6;n++){	
+				d++;
+				colour = c[i] + c[m] + c[n];
+				tempstr = tempstr +  "<td bgcolor=\"#"+ colour +"\" width=1% class=\"text\"><a href=\"javascript:void(0)\" onclick=\" window.document.getElementById('" + this.id + "').SetColor('#" + colour + "');\"><img  width=7 height=7 name=\"a"+d+"\" border=0></td>\n";
+			}
+		}
+	}
+	
+	//tempstr = tempstr + "</tr> </tbody>  </table> </table>";
+	tempstr = tempstr + "</tr> </table> </table>";
+	colorpicker.innerHTML=tempstr;
+	
+//	BodyHeight=window.document.body.scrollHeight;
+//	BodyWidth=window.document.body.clientWidth;		
+	alignPicker();
+	colorpicker.show(idy,idx,10);
+	
+	//colorpicker.show(adjustY(),adjustX(),10);
+}
+
+function SetColor(ColorValue)
+{
+	inputobj.value=ColorValue;
+	this.value=ColorValue;
+	
+	colorpicker.hide();
+}
+
+function alignPicker()
+{
+	var el=btnobj;
+	 idy =el.offsetTop; 
+	 idx = el.offsetLeft;
+	
+	idy=adjustY();
+	idx=adjustX();
+}
+
+function event_onmove()
+{
+	if(!loadready) return;
+	this.alignInput(this,inputobj);
+	this.alignBtn(this,btnobj);
+}
+
+function adjustY()
+{
+	sy = idy;
+	var h;
+	h=sy;
+	BodyHeight=window.document.body.scrollTop+window.document.body.clientHeight;
+	if ((sy +  colorpicker.offsetHeight) > BodyHeight)
+	{
+		for (var y=0;y<=300;y+=10)
+		{
+			h -=y;
+			if (h + colorpicker.offsetHeight< BodyHeight)
+			{
+				sy=h;
+				break;
+			}	
+		}
+		return sy;
+	}		
+	else
+	{
+		return sy ;
+	}	
+}
+
+function adjustX()
+{
+	sx = idx;
+	var w;
+	w=sx;
+	BodyWidth=window.document.body.scrollLeft+window.document.body.clientWidth;		
+	if ((sx+20 + colorpicker.offsetWidth) > BodyWidth)
+	{
+		for (var x=0;x<=200;x+=10)
+		{
+			w-=x;
+			if (w + colorpicker.offsetWidth< BodyWidth)
+			{
+				sx = w;
+				break;
+			}	
+		}
+		return sx;	
+	}		
+	else
+		return sx + 20;
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

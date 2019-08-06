@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "E:\...\Web.Application.Calendar\", "Web.Application.Calendar", "{7759D45C-6FA7-4C7B-8C3F-63F6712D0A6D}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
+		Debug.AspNetCompiler.VirtualPath = "/Web.Application.Calendar"
+		Debug.AspNetCompiler.PhysicalPath = "E:\Development\SmoothEnterprise\Web.Application.Calendar\Web.Application.Calendar\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Web.Application.Calendar\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Web.Application.Calendar"
+		Release.AspNetCompiler.PhysicalPath = "E:\Development\SmoothEnterprise\Web.Application.Calendar\Web.Application.Calendar\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Web.Application.Calendar\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "3534"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7759D45C-6FA7-4C7B-8C3F-63F6712D0A6D}.Debug|.NET.ActiveCfg = Debug|.NET
+		{7759D45C-6FA7-4C7B-8C3F-63F6712D0A6D}.Debug|.NET.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

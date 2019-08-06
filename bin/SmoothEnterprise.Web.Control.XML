@@ -1,0 +1,1761 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmoothEnterprise.Web.Control</name>
+    </assembly>
+    <members>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.TabSheet">
+            <summary>
+            Summary description for Tab.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.Control">
+            <summary>
+            The base class for SmoothEnterprise.NET web controls
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.Control.ToStyles(System.String)">
+            <summary>
+            Build the HTML style attribute value string
+            Return format : style="xx:xx;xx:xx;...."
+            </summary>
+            <param name="addstyles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.Control.ToAttributes(System.String)">
+            <summary>
+            Build the HTML tag attribute key and value string
+            </summary>
+            <param name="addattributes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.MultiSelectItem">
+            <summary>
+            Summary description for SelectItem.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputCombo">
+            <summary>
+            Summary description for InputText.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.HTMLControl">
+            <summary>
+            Summary description for HTMLControl.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.PageJumper">
+            <summary>
+            Summary description for PageJumper.
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.PageJumper.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.PageJumper.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.LineItem">
+            <summary>
+            Summary description for SelectItem.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:SmoothEnterprise.Web.UI.HTMLControl.InputFile" -->
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.CheckBoxListItem">
+            <summary>
+            Summary description for CheckBoxListItem.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.BarItems">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.TabCollection">
+            <summary>
+            Summary description for TabCollection.
+            </summary>
+            
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.TabCollection.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.TabCollection.Add(SmoothEnterprise.Web.UI.WebControl.Tab)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.TabCollection.IndexOf(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="tab"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.TabCollection.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.LineChart">
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.WebChart">
+            <summary>
+            Summary description for Chart.
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.Chart.LineChart._coordinalbgcolor">
+            <summary>
+            以上////////////////////////////////////////////////////////////////////////////
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputSelect">
+            <summary>
+            InputSelect Web Control.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.OnLoad(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.DoRender">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.RefreshItems">
+            <summary>
+            Refresh items selected
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.LoadPostData(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            
+            </summary>
+            <param name="postDataKey"></param>
+            <param name="postCollection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.RaisePostDataChangedEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.SetPersonalizeValues(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="setvalues"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.GetPersonalizeValues">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.EnablePersonalize">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Items">
+            <summary>
+            InputSelect items
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.SelectedItems">
+            <summary>
+            Get selected items
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Gradient">
+            <summary>
+            Gradient Style
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.TextBoxStyle">
+            <summary>
+            TextBox Style
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ButtonIconUrl">
+            <summary>
+            Button IconUrl
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ButtonClick">
+            <summary>
+            Change Input Button's Click Behavior
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ListPosition">
+            <summary>
+            List Position
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.FadeSpeed">
+            <summary>
+            Fade Speed
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.EnabledHTC">
+            <summary>
+            use HTC
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemAll" -->
+        <!-- Badly formed XML comment ignored for member "P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemAllDisplayed" -->
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemNoneDisplayed">
+            <summary>
+            Add - None - Item.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemNone">
+            <summary>
+            - None - Item Property.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemAddDisplayed" -->
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.ItemAddUrl">
+            <summary>
+            Open dialog ap url.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Mode">
+            <summary>
+            InputSelect Mode
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Editable">
+            <summary>
+            use edit mode
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.EditIconDisplayed">
+            <summary>
+            Display edit icon
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.Value">
+            <summary>
+            InputSelect value string
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.HTMLControl.InputSelect.SelectedIndexChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.SelectMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.SelectStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.Position">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.FadeSpeedNumber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputHTML">
+            <summary>
+            Summary description for InputHTML.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DateItem">
+            <summary>
+            Summary description for DateItems.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataColumns">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumns.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumns.Add(SmoothEnterprise.Web.UI.WebControl.DataColumn)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumns.GetItem(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumns.IndexOf(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumns.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.LineItems">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataColumnType">
+            <summary>
+            DataList column type
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.ViewText">
+            <summary>
+            Displayed read only of single line
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.ViewArea">
+            <summary>
+            Displayed read only of multiple lines
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.EditText">
+            <summary>
+            Displayed editable of inputbox
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.EditArea">
+            <summary>
+            Displayed editable of textarea
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.IconEdit">
+            <summary>
+            Displayed with edit icon for redirecting to edit page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.IconView">
+            <summary>
+            Displayed with view icon for redirecting to view page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.IconDelete">
+            <summary>
+            Displayed with delete icon for redirecting to delete page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.ButtonEdit">
+            <summary>
+            Displayed with edit button for redirecting to edit page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.ButtonView">
+            <summary>
+            Displayed with view button for redirecting to view page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.ButtonDelete">
+            <summary>
+            Displayed with delete button for redirecting to delete page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.LinkEdit">
+            <summary>
+            Displayed with hyperlink text for redirecting to edit page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.LinkView">
+            <summary>
+            Displayed with hyperlink text for redirecting to view page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.LinkDelete">
+            <summary>
+            Displayed with hyperlink text for redirecting to delete page
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.CheckBox">
+            <summary>
+            Displayed with checkbox for row selection
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnType.UserDefined">
+            <summary>
+            Displayed with customization output
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataColumnAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnAlign.Left">
+            <summary>
+            Align to left of column
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnAlign.Center">
+            <summary>
+            Align to center of column
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataColumnAlign.Right">
+            <summary>
+            Align to right of column
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataColumnTemplate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumnTemplate.Text">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataColumn">
+            <summary>
+            The class for DataList column
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="columnname"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.GetControl(System.String)">
+            <summary>
+             Find the webcontrol in DataColumn template
+            </summary>
+            <param name="controlid">WebControl ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.CreateChildControls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataBind">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataColumn.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Required">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataName">
+            <summary>
+            Database field name to be binded with DataList column
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Caption">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.HeaderAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.HeaderWrap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.HeaderStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataWrap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Sortable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.DataStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Template">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.CustomTemplate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataColumn.Controls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.PieChart">
+            
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.Chart.PieChart._radio">
+            <summary>
+            以上////////////////////////////////////////////////////////////////////////////
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.CheckBoxListItems">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.MultiSelectItems">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.SelectItem">
+            <summary>
+            Summary description for SelectItem.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.#ctor">
+            <summary>
+            InputSelect Item
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.Value">
+            <summary>
+            InputSelect Item's Value
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.Text">
+            <summary>
+            InputSelect Item's Text
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.IconUrl">
+            <summary>
+            InputSelect Item's IconUrl
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.RowHeight">
+            <summary>
+            InputSelect Item's RowHeight
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.GroupText">
+            <summary>
+            InputSelect Item's GroupText
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.Selected">
+            <summary>
+            InputSelect Item's Selected
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItem.Gradient">
+            <summary>
+            InputSelect Item's Gradient
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.PieItems">
+            <summary>
+            Summary description for DataColumns.
+            </summary>
+            
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputDateTime">
+            <summary>
+            Summary description for InputDateTime.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.DataList_customback">
+            <summary>
+              Looks up a localized string similar to Back.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.DataList_customhide">
+            <summary>
+              Looks up a localized string similar to Available Column(s).
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.DataList_customreset">
+            <summary>
+              Looks up a localized string similar to Reset.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.DataList_customsave">
+            <summary>
+              Looks up a localized string similar to Save.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.DataList_customshow">
+            <summary>
+              Looks up a localized string similar to Displayed Column(s).
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.InputSelect_ItemAll_Text">
+            <summary>
+              Looks up a localized string similar to &lt; All &gt;.
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.Resources.InputSelect_ItemNone_Text">
+            <summary>
+              Looks up a localized string similar to - None -.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.PieItem">
+            <summary>
+            Summary description for SelectItem.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.MultiSelect">
+            <summary>
+            Summary description for MultiSelect.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.OnLoad(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            
+            </summary>
+            <param name="output"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.DoRender">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.MultiSelectedItemsClear">
+            <summary>
+            Clear Selected Items
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.RefreshItems">
+            <summary>
+            Refresh items selected
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.LoadPostData(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            
+            </summary>
+            <param name="postDataKey"></param>
+            <param name="postCollection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.MultiSelect.RaisePostDataChangedEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.SelectBgColor1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.SelectBgColor2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.SelectedLabel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.SelectionLabel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.Order">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.LabelStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.Items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.SelectedItems">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.MultiSelect.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.CheckBoxList">
+            <summary>
+            Summary description for CheckBoxList.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.DoRender">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.GroupHeaderStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.DescriptionStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Items">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.CheckMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.RadioUnCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.ListDirection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.CheckedItems">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Mode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.CheckBoxList.Direction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputText">
+            <summary>
+            Summary description for InputText.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputText.Render(System.Web.UI.HtmlTextWriter)">
+            <summary> 
+            Render this control to the output parameter specified.
+            </summary>
+            <param name="output"> The HTML writer to write out to </param>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputImage">
+            <summary>
+            Summary description for InputImage.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputImage.Render(System.Web.UI.HtmlTextWriter)">
+            <summary> 
+            Render this control to the output parameter specified.
+            </summary>
+            <param name="output"> The HTML writer to write out to </param>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.TransferImage">
+            <summary>
+            Summary description for LineChart.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Tab">
+            <summary>
+            Summary description for Tab.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.SelectItems">
+            <summary>
+            InputSelect Item Collection.
+            </summary>
+            
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.#ctor">
+            <summary>
+            InputSelect Item Collection.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Add(System.String,System.String)">
+            <summary>
+            Item add
+            </summary>
+            <param name="itemtext">Text</param>
+            <param name="itemvalue">Value</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Add(System.String,System.String,System.String)">
+            <summary>
+            Item add
+            </summary>
+            <param name="itemtext">Text</param>
+            <param name="itemvalue">Value</param>
+            <param name="itemiconurl">IconUrl</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Add(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Item add
+            </summary>
+            <param name="itemtext">Text</param>
+            <param name="itemvalue">Value</param>
+            <param name="itemiconurl">IconUrl</param>
+            <param name="selected">Selected</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Add(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Item add
+            </summary>
+            <param name="itemtext">Text</param>
+            <param name="itemvalue">Value</param>
+            <param name="itemiconurl">IconUrl</param>
+            <param name="itemgroup">Group Text</param>
+            <param name="selected">Selected</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Add(SmoothEnterprise.Web.UI.HTMLControl.SelectItem)">
+            <summary>
+            Item add
+            </summary>
+            <param name="item">InputSelect Item</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Insert(System.Int32,SmoothEnterprise.Web.UI.HTMLControl.SelectItem)">
+            <summary>
+            Item insert to index
+            </summary>
+            <param name="index">Item Index</param>
+            <param name="item">InputSelect Item</param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.CheckDuplicate(SmoothEnterprise.Web.UI.HTMLControl.SelectItem)">
+            <summary>
+            Check item is duplicate
+            </summary>
+            <param name="item">InputSelect Item</param>
+            <returns>is duplicate?</returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.IndexOf(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.HTMLControl.SelectItems.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.HTMLControl.InputButton">
+            <summary>
+            Summary description for InputButton.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.HTMLControl.InputButton.Render(System.Web.UI.HtmlTextWriter)">
+            <summary> 
+            Render this control to the output parameter specified.
+            </summary>
+            <param name="output"> The HTML writer to write out to </param>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DateRange">
+            <summary>
+            Summary description for DateRange.
+            </summary>
+            
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DateRange.DateWidth">
+            <summary>
+            Grid line width
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DateRange.PeriodType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.BarItem">
+            <summary>
+            Summary description for SelectItem.
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataRow">
+            <summary>
+            Summary description for DataRow.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataRow.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataRow.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="rowno"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataRow.Item(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="idx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataRow.Add(SmoothEnterprise.Web.UI.WebControl.DataCell)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataRow.Empty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.ForeColor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.BgColor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.CssClass">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.Style">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.Rowno">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataRow.OutputHTML">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataCell">
+            <summary>
+            The class for DataList display cell object.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataCell.#ctor">
+            <summary>
+            DataCell constructor
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataCell.Clear">
+            <summary>
+            Clear all DataCell properties
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataCell.CellAttributes">
+            <summary>
+            Build HTML style attribute value string for DataCell
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataCell.DataAttributes">
+            <summary>
+            Build HTML style attribute value string for displayed value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataCell.GetControl(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="controlid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.Controls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.ClientID">
+            <summary>
+            HTML object id
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.CellCss">
+            <summary>
+            HTML CSS name for display cell
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.CellStyle">
+            <summary>
+            HTML style attribute value string
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.BgColor">
+            <summary>
+            HTML display cell background color
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.DataCss">
+            <summary>
+            Displayed value HTML CSS name
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.DataStyle">
+            <summary>
+            Displayed value HTML style attribute value string
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.LinkURL">
+            <summary>
+            Click link URL
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.Value">
+            <summary>
+            Displayed HTML cell value
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.Enabled">
+            <summary>
+            Set to enable or disable the HTML cell
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.OnClick">
+            <summary>
+            HTML JavaScript event for mouse onclick
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.OnBlur">
+            <summary>
+            HTML JavaScript event for field onblur
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.OutputHTML">
+            <summary>
+            The optional HTML text to be added for this cell such as hidden field
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.Row">
+            <summary>
+            DataRow object of the data cell
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataCell.Rowno">
+            <summary>
+            Current row number of the data cell
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataListHeaderPos">
+            <summary>
+            DataList header position
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListHeaderPos.Top">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListHeaderPos.Bottom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListHeaderPos.Both">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListHeaderPos.None">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorPos">
+            <summary>
+            DataList page jumper position
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorPos.Top">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorPos.Bottom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorPos.Both">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorPos.None">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataListRowAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListRowAlign.Top">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListRowAlign.Middle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListRowAlign.Bottom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataListConnectType">
+            <summary>
+            Database connection string source
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListConnectType.SmoothEnterprise">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SmoothEnterprise.Web.UI.WebControl.DataListConnectType.Custom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataRowRenderEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataCellRenderEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataListNavigatorRenderEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.PrintEventHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.DataList">
+            <summary>
+            Summary description for DataList.
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoPrevPage(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoNextPage(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoRenderNavigator(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoRenderRow(System.Data.DataRowView,SmoothEnterprise.Web.UI.WebControl.DataRow,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="rs"></param>
+            <param name="row"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoRenderCell(System.Data.DataRowView,SmoothEnterprise.Web.UI.WebControl.DataColumn,SmoothEnterprise.Web.UI.WebControl.DataCell,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="rs"></param>
+            <param name="column"></param>
+            <param name="cell"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoRedirect(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoBeforePrint(System.Int32,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="currentpage"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoAfterPrint(System.Int32,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="currentpage"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.OnInit(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.OnLoad(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.OnPreRender(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.OnUnload(System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Render HTML output
+            </summary>
+            <param name="output"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.WriteState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.ReadState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DoFormat(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.CreateChildControls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.DataBind">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.RaisePostBackEvent(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="eventArgument"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.SetPersonalizeValues(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="setvalues"></param>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.GetPersonalizeValues">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmoothEnterprise.Web.UI.WebControl.DataList.EnablePersonalize">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.GridLine">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.HeaderStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.RowStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.NavigatorStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.HoverStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SelectStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SelectColumnStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.BackImageURL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.CellPadding">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.EnablePrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.EnableExport">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.HeaderHeight">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.NavigatorHeight">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.RowHeight">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.RowAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.HeaderAlign">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.HeaderPos">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.NavigatorPos">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SelectedIndex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconSort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconSortAsc">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconSortDesc">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconCustom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconPrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconExport">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconPages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconPageSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconGoPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconGoFirstPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconGoPrevPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconGoNextPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.IconGoLastPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Columns">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.ShowColumns">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.PageSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.ShowPages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Cols">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.DataSet">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.ConnectionType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.ConnectionString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SQL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.RowNumber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Pages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Rows">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.CurrentPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.CurrentRow">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.CurrentColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SortColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Connected">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Personalize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.SortType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.GetAutoFormats">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnPrevPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnNextPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnRenderNavigator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnRenderRow">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnRenderCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.OnRedirect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.BeforePrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:SmoothEnterprise.Web.UI.WebControl.DataList.AfterPrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SmoothEnterprise.Web.UI.WebControl.DataList.Controls">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SmoothEnterprise.Web.UI.WebControl.Chart.BarChart">
+            
+        </member>
+    </members>
+</doc>

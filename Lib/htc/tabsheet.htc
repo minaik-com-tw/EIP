@@ -1,0 +1,188 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()" />
+<PUBLIC:PROPERTY NAME="tabclass" />
+<PUBLIC:PROPERTY NAME="tabalign" />
+<PUBLIC:PROPERTY NAME="tabcapalign" />
+<PUBLIC:PROPERTY NAME="tabwidth" />
+<PUBLIC:PROPERTY NAME="tabfontcolor" />
+<PUBLIC:PROPERTY NAME="sheetclass" />
+<PUBLIC:PROPERTY NAME="width" />
+<PUBLIC:PROPERTY NAME="height" />
+
+<SCRIPT language="JScript">
+
+var tabid,sheetid,tabtable,tabrow;
+var activetab;
+var sheettd;
+
+function event_ondocumentready()
+{	
+	var tabletag = window.document.createElement("table");
+	tabletag.border=0;
+	tabletag.cellPadding=0;
+	tabletag.cellSpacing=0;
+	if (width)
+		tabletag.width=width;
+	var tabtd = tabletag.insertRow().insertCell();
+	if (tabalign)
+		tabtd.align=tabalign;
+	tabtd.id=newid();
+	tabid=tabtd.id;
+	tabtable=window.document.createElement("table");
+	tabtable.border=0;
+	tabtable.cellPadding=0;
+	tabtable.cellSpacing=0;
+	tabrow=tabtable.insertRow();
+	sheettd = tabletag.insertRow().insertCell();
+	sheettd.id=newid();
+	sheettd.vAlign="top";
+	sheettd.style.filter="blendTrans(duration=0.2)";	
+	sheetid=sheettd.id;
+	if (height)
+		sheettd.height=height;
+	sheettd.innerHTML="&nbsp;";
+	if (sheetclass)
+		sheettd.className=sheetclass;
+	var n = this.length;
+	for (i=0;i<n;i++)
+	{
+		var tabcell=tabrow.insertCell();
+		tabcell.id=newid();
+		tabcell.attachEvent("onclick",ontabclick);
+		var obj=window.document.getElementById(this.options(i).value);
+		if ((this.options(i).value) && (obj))
+		{
+			tabcell.sheet=this.options(i).value;
+			obj.style.display="none";
+			//eval(this.options(i).value + ".style.display='none'");
+		}
+		if (tabwidth)
+			tabcell.width=tabwidth;
+		else	
+			tabcell.width="100px";
+		if (tabcapalign)
+		   	tabcell.align=tabcapalign;
+		tabcell.noWrap=true; 
+		
+		tabcell.innerHTML=this.options(i).text;
+	//	tabcell.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77000000,endColorstr=#55DDDDDD)";			
+		tabcell.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77DDDDDD,endColorstr=#77555555)";			
+		tabcell.style.filter+="blendTrans(duration=0.2)";
+		if (tabclass)
+			tabcell.className=tabclass;
+		//if (!activetab)
+		if (this.options(i).selected)
+		{
+			activetab=tabcell.id;
+			if (tabfontcolor) 
+				tabcell.innerHTML="<font color='"+tabfontcolor+"'>"+tabcell.innerHTML+"</font>";
+			
+			tabcell.className=tabcell.className+"On";
+			//tabcell.style.filter="";
+			tabcell.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77555555,endColorstr=#55DDDDDD)";						
+			if ((this.options(i).value) && (obj))
+				//sheettd.innerHTML=eval(this.options(i).value + ".innerHTML");
+				sheettd.innerHTML=obj.innerHTML;
+		}
+	}
+	tabtd.insertAdjacentElement("afterBegin",tabtable);		
+	this.insertAdjacentElement("afterEnd",tabletag);	
+}
+
+function ontabclick()
+{
+	var id=event.srcElement.id;
+	var obj;
+	
+	if ((id) && (id!=activetab))
+	{
+		if (activetab)
+		{
+		//alert(sheettd.innerHTML);
+		//alert(eval(activetab+".sheet"));
+			obj=window.document.getElementById(eval(activetab+".sheet"));
+			if (obj)
+			{
+				obj.innerHTML = sheettd.innerHTML;
+				//eval(activetab+".sheet.innerHTML='"+sheettd.innerHTML+"'");
+			}
+			sheettd.innerHTML = "&nbsp;";
+			//eval(activetab + ".style.filter='progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77000000,endColorstr=#55DDDDDD)'");			
+			eval(activetab + ".style.filter='progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77DDDDDD,endColorstr=#77555555)'");			
+			eval(activetab + ".style.filter+='blendTrans(duration=0.5)'");			
+			if (tabclass)
+			{
+				if (eval(activetab + ".filters.blendTrans.status") != 2) 
+				{
+					eval(activetab + ".filters.blendTrans.apply()");
+					eval(activetab + ".className=tabclass");
+					eval(activetab + ".filters.blendTrans.play()");
+				}
+				//eval(activetab + ".className=tabclass");
+			}
+		}
+		activetab=id;
+		
+		event.srcElement.className=event.srcElement.className + "On";
+		event.srcElement.style.filter='progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#77555555,endColorstr=#55DDDDDD)';
+/*		
+		event.srcElement.style.filter="blendTrans(duration=0.2)";
+		if (event.srcElement.filters.blendTrans.status != 2) 
+		{
+			//event.srcElement.filters.blendTrans.apply();
+			event.srcElement.className=event.srcElement.className + "On";
+			//event.srcElement.filters.blendTrans.play();
+		}
+	*/	
+		obj=window.document.getElementById(event.srcElement.sheet);
+		if (event.srcElement.sheet)
+		{
+			if (sheettd.filters.blendTrans.status != 2) 
+			{
+			sheettd.filters.blendTrans.apply();
+			sheettd.innerHTML = eval(event.srcElement.sheet + ".innerHTML");
+			eval(event.srcElement.sheet + ".innerHTML=''");
+			sheettd.filters.blendTrans.play();
+			var n = this.length;
+			for (i=0;i<n;i++)
+			{
+				if (this.options(i).value==event.srcElement.sheet)
+				{
+					this.SelectedIndex = i;
+					this.value = event.srcElement.sheet;
+					if (this.options(i).tabclick)
+						window.execScript(this.options(i).tabclick+'();');
+					
+				}
+			}
+			}
+			//sheettd.innerHTML = eval(event.srcElement.sheet + ".innerHTML");
+		}
+		
+		for (i=0;i<this.length;i++)
+		{
+		   if (i==this.SelectedIndex){
+				if (tabfontcolor)
+					tabtable.rows(0).cells(i).innerHTML="<font color='"+tabfontcolor+"'>"+tabtable.rows(0).cells(i).innerHTML+"</font>";
+				else
+					tabtable.rows(0).cells(i).innerHTML=this.options(i).text;			
+		   }
+		   else
+				tabtable.rows(0).cells(i).innerHTML=this.options(i).text;		   
+		}		
+	}
+}
+
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

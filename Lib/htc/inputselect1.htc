@@ -1,0 +1,328 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onpropertychange" ONEVENT="event_onpropertychange()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onreadystatechange" ONEVENT="event_onreadystatechange()"></PUBLIC:ATTACH>
+<PUBLIC:METHOD name="buildinput" />
+<PUBLIC:METHOD name="buildimgbtn" />
+<PUBLIC:METHOD name="alignInput" />
+<PUBLIC:METHOD name="alignBtn" />
+<SCRIPT language="JScript">
+//<PUBLIC:ATTACH EVENT="onfocusin" ONEVENT="event_onfocusin()" />
+//<PUBLIC:ATTACH EVENT="onfocusout" ONEVENT="event_onfocusout()" />
+
+var inputobj, btnobj;
+var bgcolor;
+var loadready=false;	
+var thisWidth;
+var thisHeight;
+
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputimgbtn.htc");
+    this.setAttribute("imgSrc","\\lib\\img\\icon-downarrow.gif");
+	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+	/*
+	if((this.className =="") || (this.className == null))
+	{
+		this.className = "normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	*/
+}
+
+function event_ondocumentready()
+{	
+
+
+
+
+	//	this.onreadystatechange=function(){
+	//		if(this.readyState=="complete")
+	//		{
+
+
+					var inputid = this.buildinput();
+					inputobj = window.document.getElementById(inputid);
+					if (inputobj)
+					{
+						inputobj.attachEvent("onfocusin",onselect);
+						inputobj.style.paddingLeft = 3 +"px";
+						inputobj.style.top = posTop(this) - 2;
+						inputobj.style.left = posLeft(this) - 2;	
+					}	
+					else
+						alert("inputobj not found!");		
+
+					var btnid =	this.buildimgbtn();
+					btnobj = window.document.getElementById(btnid);
+					if(btnobj)
+					{
+						btnobj.style.backgroundColor = this.style.backgroundColor;
+						btnobj.attachEvent("onmouseenter",onselect);
+						btnobj.attachEvent("onfocusin",onselect);
+					}
+					if(btnobj && (this.getAttribute("onclickmore") != null))
+						btnobj.attachEvent("onclick",button_show_onclick);
+						 
+					var src 	= this;
+					while (src.tagName != "BODY")
+					{
+						src = src.parentElement;
+						if(src.tagName == "TABLE" )
+						{
+							src.attachEvent("onresize",event_onmove);		
+							src.attachEvent("onmove",event_onmove);		
+						}	
+					}			 
+
+					if (this.selectedIndex>-1)
+						inputobj.value = this.options[this.selectedIndex].text;
+
+					bgcolor = this.style.backgroundColor;
+					inputobj.style.backgroundColor = this.style.backgroundColor;
+					this.style.visibility = 'hidden';
+					
+					this.attachEvent("onchange",onchange);
+					this.attachEvent("onfocusout",unselect);
+					
+					if (this.disabled) inputobj.disabled=true;
+					if (this.disabled) btnobj.disabled=true;
+	//			}
+	//	}
+	
+	loadready=true;
+}
+
+function event_onreadystatechange()
+{
+//	alert("ddaass");
+}
+
+
+function onselect()
+{
+	inputobj.style.top = posTop(this) - 2;
+	inputobj.style.left = posLeft(this) - 2;	
+	
+	btnobj.style.left = posLeft(inputobj) + inputobj.offsetWidth - 20;
+	btnobj.style.top = posTop(inputobj); 
+	this.style.visibility = 'visible';
+	inputobj.style.visibility = 'hidden';
+	btnobj.style.visibility = 'hidden';
+	if (this.disabled==false) this.focus();
+}
+
+function unselect()
+{
+	this.style.visibility = 'hidden';
+	inputobj.style.visibility = 'visible';
+	btnobj.style.visibility = 'visible';
+//	this.style.display = "none";
+//	inputobj.style.display = "block";
+//	btnobj.style.display = "block";	
+}
+
+
+function onchange()
+{
+	if (this.selectedIndex>-1)
+		inputobj.value = this.options[this.selectedIndex].text;
+}
+/*
+function event_onfocusin()
+{
+   if (FocusinColor)
+	  this.style.backgroundColor = FocusinColor;
+   else
+   {
+	  this.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+	this.style.backgroundColor = bgcolor; 
+}
+*/
+function event_onmouseover()
+{	
+}
+
+function event_onmouseout()
+{	
+}
+
+
+function posTop(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var top = window.document.body.scrollTop+rect.top;
+	return top;
+}
+
+function posLeft(el)
+{
+	var top = 0;
+    var rect = el.getClientRects()[0];
+    var left = window.document.body.scrollLeft+rect.left;
+	return left;
+}
+
+function event_onmove()
+{
+	if(!loadready) return;
+	this.alignInput(this,inputobj);
+	this.alignBtn(this,btnobj);	
+}
+
+function event_onpropertychange()
+{
+	// can't fire the disabled=true event .....
+	//	alert(event.propertyName);
+	if(event.propertyName=="disabled")
+	{
+		if (this.disabled==false)
+		{
+			 inputobj.disabled=false;
+			 btnobj.disabled=false;
+		}
+	}
+}
+
+
+function buildinput()
+{
+
+	var inputobj = document.createElement("input");
+	this.insertAdjacentElement("afterEnd",inputobj);
+	//-------------------------------------------- Set oInput all Attributes --------------------------------------------------------//
+	inputobj.setAttribute("Required",this.getAttribute("Required"));
+	inputobj.setAttribute("Format",this.getAttribute("Format"));
+	inputobj.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+    inputobj.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+	//----------------------------------------------------------------------------------------------------------------------------------------//
+	inputobj.addBehavior("/lib/htc/inputbehaviors.htc");	
+	inputobj.id = "input-"+this.id;
+	
+	if ((this.className != "") || (this.className !=null)) inputobj.className=this.className;
+	if (this.currentStyle.fontFamily!="")
+		inputobj.style.fontFamily = this.currentStyle.fontFamily;
+	else
+		inputobj.style.fontFamily="Arial, Tahoma";
+	
+	inputobj.style.fontSize = this.currentStyle.fontSize;
+	inputobj.style.fontWeight = this.currentStyle.fontWeight;
+	inputobj.style.color = this.currentStyle.color;		
+	inputobj.style.filter = this.style.filter;
+	inputobj.style.position = "absolute";
+	inputobj.style.zIndex = 9;
+	inputobj.style.background = this.style.background;
+	inputobj.style.paddingLeft = this.style.paddingLeft;
+	inputobj.value = this.value;
+	
+	if (this.tagName == "SELECT")
+	{
+		inputobj.style.left = posLeft(this)-1;
+		inputobj.style.top = posTop(this)-1; 
+	//	inputobj.style.left = posLeft(this)-2;
+	//	inputobj.style.top = posTop(this)-2; 
+		if (this.offsetHeight>0) inputobj.style.height = this.offsetHeight ;	
+		if (this.offsetWidth>0) inputobj.style.width = this.offsetWidth;
+		inputobj.style.paddingLeft = this.style.paddingLeft ;
+	}
+	else
+	{
+		inputobj.style.border = 'none';
+		inputobj.style.left = posLeft(this);
+		inputobj.style.top = posTop(this); 	
+		if (this.offsetHeight>0)
+		{
+			inputobj.style.height = this.offsetHeight - 4;		
+		}	
+		else		
+			inputobj.style.height =16;
+		if (this.offsetWidth>0)
+			inputobj.style.width = this.offsetWidth - 20;
+			
+	}
+
+	return(inputobj.id);		
+}
+
+function buildimgbtn()
+{
+		var objbtn = document.createElement("button");
+		this.insertAdjacentElement("afterEnd",objbtn);
+		objbtn.style.filter = this.style.filter;
+		objbtn.id = "btn-" + this.id;
+		objbtn.style.position = "absolute";
+		objbtn.style.cursor = "hand";
+		//objbtn.style.position = "relative";
+		objbtn.style.zIndex = 10;
+		objbtn.style.width = 16; 
+		if (this.tagName == "SELECT")
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4;
+		}
+		else
+		{
+			if (this.offsetHeight>0)
+				objbtn.style.height = this.offsetHeight - 4+1;
+		}	
+		objbtn.style.left = posLeft(this) + this.offsetWidth - 20 ;	
+		objbtn.style.top = posTop(this); 			
+		
+	//	objbtn.style.backgroundColor = this.style.backgroundColor;
+		//objbtn.style.backgroundColor ="#FFFFFF";
+		if (this.getAttribute("imgSrc")!=null)
+		{
+			var btnimg = document.createElement("img");
+			btnimg.src = imgSrc;
+			btnimg.align = "absmiddle";
+			btnimg.border = 0;  
+			objbtn.insertAdjacentElement("afterBegin",btnimg);
+		}
+		return(objbtn.id);		
+	
+}
+
+function alignInput(el,el1)
+{
+	if(el.tagName == "SELECT")
+	{
+		//el.style.visibility = 'visible';
+		el1.style.left = posLeft(el) -2;
+		el1.style.top = posTop(el) -2; 
+		if (el.offsetHeight>0) el1.style.height = el.offsetHeight ;	
+		if (el.offsetWidth>0) el1.style.width = el.offsetWidth;	
+	}
+	else
+	{
+		el1.style.left = posLeft(el) ;
+		el1.style.top = posTop(el) ; 
+		if (el.offsetWidth>0) el1.style.width = el.offsetWidth - 20;
+	}
+}
+
+function alignBtn(el,el1)
+{
+	//el1.style.top = posTop(el) +1; 
+	el1.style.top = posTop(el) ; 
+	if (el.offsetWidth>0) el1.style.left = posLeft(el) + el.offsetWidth - 20 ;
+	if (el.offsetHeight>0) el1.style.height = el.offsetHeight - 4;			
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

@@ -1,0 +1,921 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onreadystatechange" ONEVENT="event_onreadystatechange()"></PUBLIC:ATTACH>
+
+
+<PUBLIC:ATTACH EVENT="onmove" ONEVENT="event_onmove()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY name="imgSrc" />
+
+<PUBLIC:PROPERTY NAME="POSTEXEC" />
+<PUBLIC:PROPERTY NAME="format" />
+<PUBLIC:PROPERTY NAME="interval" />
+<PUBLIC:PROPERTY name="Month" />
+<PUBLIC:PROPERTY name="Year" />
+<PUBLIC:PROPERTY name="CalendarClass" />
+
+<PUBLIC:METHOD name="BuildCalendar" />
+<PUBLIC:METHOD name="setDateValue" />
+<PUBLIC:METHOD name="Next" />
+<PUBLIC:METHOD name="Prev" />
+<PUBLIC:METHOD name="Reset" />
+<PUBLIC:METHOD name="Close" />
+<PUBLIC:METHOD name="ChangeYear" />
+<PUBLIC:METHOD name="ChangeMonth" />
+
+<SCRIPT language="JScript">
+var isactive;
+var calendarobj;
+var outtercalender;
+
+var loadready=false;
+var formatcolor = "#a9a9a9";
+var thisfontcolor;
+
+var dateinput;//,hrinput;
+var inputobj;
+var btnobj;
+var odx,ody;
+var idx=0;
+var idy=0;
+var BodyHeight;
+var BodyWidth;
+var ProxyHrId;
+var ProxyInputId;
+var ProxyMinId;
+
+function event_inputonstatechange2()
+{
+	var o=window.event.srcElement;
+	if (!o) return;
+	if(o.readyState=="complete")
+	{
+		
+		var inputid = o.buildinput();
+	//	alert(inputid);
+		inputobj = window.document.getElementById(inputid);
+		o.onreadystatechange=null;
+		
+		//return inputid;
+	}
+
+
+	
+}
+
+function event_oncontentready()
+{
+	this.addBehavior("/lib/htc/errmsg.htc");
+	this.addBehavior("/lib/htc/inputbehaviors.htc");
+//	if (this.getAttribute("imgSrc") == null) this.setAttribute("imgSrc","\\lib\\img\\icon-pickdate.gif");
+	if ((this.getAttribute("imgSrc") == null) || (this.getAttribute("imgSrc")=="")) this.setAttribute("imgSrc","\\lib\\img\\icon-pickdate.gif");
+	this.addBehavior("/lib/htc/inputimgbtn.htc");
+	if((this.className =="") || (this.className == null)) 
+	{
+		this.className="normal";
+		this.style.paddingLeft= "2px";
+	}
+	else if(this.className =="normal")  
+	{
+		this.style.paddingLeft= "2px";
+	}
+	
+	if((this.id == "") || (this.id == null)) this.id = window.document.uniqueID;
+	
+	dateinput = document.createElement("input");
+	dateinput.attachEvent("onreadystatechange",event_inputonstatechange);
+//	dateinput.attachEvent("onreadystatechange",usrAddNodes);
+		//inputobj.attachEvent("onfocusin",event_onfocusin);
+	dateinput.type="text";
+	dateinput.id = "prxyinput"+this.id;
+	dateinput.name=dateinput.id;
+
+	dateinput.setAttribute("FocusinColor",this.getAttribute("FocusinColor"));
+	dateinput.setAttribute("FocusoutColor",this.getAttribute("FocusoutColor"));
+	dateinput.setAttribute("Format",this.getAttribute("Format"));
+	dateinput.setAttribute("imgSrc",this.getAttribute("imgSrc"));
+	dateinput.setAttribute("Required",this.getAttribute("Required"));
+
+	dateinput.style.filter=this.style.filter;
+	dateinput.style.backgroundColor=this.style.backgroundColor;
+//	if ((this.className != "") || (this.className !=null)) dateinput.className=this.className;
+//	if ((this.className =="") || (this.className == null)) dateinput.style.fontSize = "12px";
+	dateinput.style.fontSize = this.style.fontSize ;
+	dateinput.className=this.className;
+	dateinput.style.paddingLeft =this.style.paddingLeft;
+
+	dateinput.addBehavior("/lib/htc/inputbehaviors.htc");
+	dateinput.addBehavior("/lib/htc/inputimgbtn.htc");
+//	dateinput.onreadystatechange = usrAddNodes();
+	
+}
+
+
+function event_onreadystatechange()
+{
+   // don't continue until the tree object is complete
+//     alert(this.readyState)
+   if (this.readyState == "complete")
+   {
+   
+   
+   
+   }
+   
+   
+   
+   // unhook the onreadystatechange handler
+ //  this.onreadystatechange = null;
+   
+} 
+
+function event_inputonstatechange()
+{
+	if (dateinput.readyState=="complete")
+	{
+	}
+}
+
+
+
+function event_ondocumentready()
+{	
+	this.tabIndex="-1";
+	thisfontcolor = this.style.color; 
+	dateinput.size = this.size;
+	dateinput.tabIndex = this.tabIndex;
+
+	ProxyInputId=dateinput.id;  //work input
+	this.insertAdjacentElement("afterend",dateinput);
+	dateinput.style.width=this.offsetWidth;	
+	this.style.visibility="hidden";
+	this.style.display="none";
+	
+//----------------
+	
+//	if(dateinput.readyState!="complete")
+//	{
+	//	dateinput.onreadystatechange=function()
+	//	{
+		//	if(dateinput.readyState=="complete")
+		//	{
+	
+			//			return true;		
+//			seek
+//			else
+//			{
+			//	return false;		
+//			}
+		
+//		}
+	//}	
+
+		
+//---------------------
+				dateinput.setAttribute("disabled",this.getAttribute("disabled"));
+				var inputid = dateinput.buildinput();
+				inputobj = window.document.getElementById(inputid);
+				if(inputobj)
+				{
+					inputobj.attachEvent("onfocusin",event_onfocusin);
+					inputobj.attachEvent("onfocusout",event_onfocusout);
+				}
+				else
+					alert("inputobj not found!");		
+
+				var btnid =	dateinput.buildimgbtn();
+				btnobj = window.document.getElementById(btnid);
+				if(btnobj)
+				{
+					btnobj.attachEvent("onclick",button_show_onclick);
+				}	
+				else
+					alert("objimg not found!");
+					var strarray=this.value.split(" ")
+					var inithr, initminute;
+					inithr="00";
+					initminute="00";
+					if (isvdate(strarray[0]) )
+					{
+							dateinput.value=strarray[0];
+							inputobj.value=dateinput.value;
+							var timearray=strarray[1].split(":")
+							inithr=timearray[0];
+							initminute=timearray[1];
+					}
+					else
+					{
+							this.value="";
+							dateinput.value="";	
+							inputobj.value="";
+					}
+//					window.status =this.value;
+				//	this.value="2005/2/20 13:53:20";
+					var d1=new Date(this.value);
+					//create a proxy hour input text 
+					var hrinput = document.createElement("select");
+						hrinput.attachEvent("onchange", Reset)	;
+					//hrinput.id=window.document.uniqueID;
+					hrinput.id = this.id+"hr";
+					
+					ProxyHrId=hrinput.id;
+					var oOption,tmp ;
+					for (var i=0; i<24;i++)
+					{
+						oOption = document.createElement("Option");
+						tmp=100 + i;
+						oOption.text = tmp.toString().substring(1,3);
+						oOption.value = tmp.toString().substring(1,3);
+						hrinput.add(oOption);
+						
+						if (parseInt(tmp.toString().substring(1,3), 10)==parseInt(inithr))
+							oOption.selected=true;
+					}
+					
+					hrinput.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#55888888, endColorstr=#55ffffff)";
+					hrinput.style.fontFamily= this.currentStyle.fontFamily;
+					hrinput.style.fontSize = this.currentStyle.fontSize;
+					hrinput.style.fontWeight = this.currentStyle.fontWeight;
+					hrinput.style.color = this.currentStyle.color;
+					hrinput.setAttribute("disabled",this.getAttribute("disabled"));
+					hrinput.className = "inputtext";
+					hrinput.attachEvent("onfocus",event_onselect);		
+					hrinput.attachEvent("onblur",event_onblur);	
+				
+				//	hrinput.addBehavior("/lib/htc/comboselect.htc");
+					
+					dateinput.insertAdjacentElement("afterend",hrinput);
+
+					//create a proxy minute input text 
+					var mininput = document.createElement("select");
+				//	mininput.id=window.document.uniqueID;
+					mininput.id=this.id+"min";
+
+					ProxyMinId=mininput.id;
+					var minterval;
+					if (this.interval==null)
+						minterval=1;
+					else
+						minterval=this.interval;
+					for (var i = 0; i< 60 ; )
+					{
+						oOption = document.createElement("Option");
+						tmp=100 + i;
+						oOption.text = tmp.toString().substring(1,3);
+						oOption.value = tmp.toString().substring(1,3);
+						i=eval( i + "+" + minterval);
+						mininput.add(oOption);
+						if (parseInt(tmp.toString().substring(1,3), 10)==parseInt(initminute))
+							oOption.selected=true;
+					}
+					hrinput.insertAdjacentElement("afterend",mininput);
+					mininput.style.filter="progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#55888888, endColorstr=#55ffffff)";
+					mininput.style.fontFamily= this.currentStyle.fontFamily;
+					mininput.style.fontSize = this.currentStyle.fontSize;
+					mininput.style.fontWeight = this.currentStyle.fontWeight;
+					mininput.style.color = this.currentStyle.color;
+					mininput.className = "inputtext";
+					mininput.attachEvent("onchange", Reset)	;
+					mininput.attachEvent("onfocus",event_onselect);		
+					mininput.attachEvent("onblur",event_onblur);	
+					mininput.setAttribute("disabled",this.getAttribute("disabled"));
+				//	mininput.addBehavior("/lib/htc/inputselect1.htc");
+				//	mininput.addBehavior("/lib/htc/comboselect.htc");
+
+
+					if (this.value == null) inputobj.value="";
+					if (this.getAttribute("Format") == null)  Format = "YYYY/MM/DD";
+					Format = Format.toUpperCase();
+					if (Format != null)
+					{
+						if(inputobj.value == "")
+						{
+							inputobj.value = Format;
+							inputobj.style.color = formatcolor;
+						}
+						else if (inputobj.value == Format)
+							inputobj.style.color = formatcolor;
+					}
+					
+						var src 	= this;
+						while (src.tagName != "BODY")
+						{
+							src = src.parentElement;
+							if(src.tagName == "TABLE")
+							{
+								src.attachEvent("onresize",event_onmove);		
+								src.attachEvent("onmove",event_onmove);		
+							}	
+						}	
+						
+						calendarobj = document.createElement("div");
+
+						window.document.body.appendChild(calendarobj);
+						//calendarobj.id=newid();
+						calendarobj.id="calendar"+this.id;
+						calendarobj.addBehavior("/lib/htc/floatpanel1.htc");
+						calendarobj.addBehavior("/lib/htc/dragdrop.htc");
+						
+						ody =btnobj.offsetTop; 
+						odx = btnobj.offsetLeft;
+						calendarobj.style.posTop=ody;
+						calendarobj.style.posLeft=odx+20;	
+					
+
+
+
+	 
+	loadready=true;
+}
+
+function ChangeYear(y)
+{
+	BuildCalendar(y, this.Month );
+}
+
+function ChangeMonth(m)
+{
+	BuildCalendar(this.Year, m );
+}
+
+function Reset()
+{
+	if ((window.document.getElementById(ProxyInputId).value=="") || (window.document.getElementById(ProxyInputId).value==null) || !(isvdate(window.document.getElementById(ProxyInputId).value)) )
+		window.document.getElementById(ProxyInputId).value=""
+	else
+	{
+		this.value=window.document.getElementById(ProxyInputId).value + " " + window.document.getElementById(ProxyHrId).value + ":" + window.document.getElementById(ProxyMinId).value;
+		if (POSTEXEC!=null && POSTEXEC!='')
+			{
+				window.execScript(POSTEXEC);
+			}
+	}
+}
+
+//var sourceid=''
+//var idx=0
+//var idy=0
+function newid()
+{
+	var id
+	do
+		id = 'id' + Math.random().toString().substr(2, 10)
+	while (window.document.all(id))
+	return id
+}
+
+function Next()
+{
+	if ( parseInt(this.Month) >= 11 ) 
+		BuildCalendar(this.Year+1, 0 );
+	else
+		BuildCalendar(this.Year, this.Month +1 );
+}
+
+function Prev()
+{
+	if ( parseInt(this.Month) <= 0  ) 
+		BuildCalendar(this.Year-1, 11 );
+	else
+		BuildCalendar(this.Year, this.Month - 1 );
+}
+
+function event_onfocusin()
+{
+	var obj = event.srcElement;
+	if ((obj.value != "") && (Format != ""))
+	{
+		if (obj.value == Format) 
+		{
+			obj.value="";
+			obj.style.color = thisfontcolor;
+			dateinput.value=obj.value;
+		}
+    }
+
+}
+
+function event_onfocusout()
+{
+	var obj = event.srcElement;
+	var datestr="";
+    if(obj.value != "")
+    {
+		obj.value=obj.Trim(obj.value);
+		if (dateFormat(Format,obj.value) != false)
+		{
+			obj.value = dateFormat(Format,obj.value) ;
+			if (isvdate(obj.value)!=true)
+			{
+				event.returnValue=false;
+				this.value=obj.value;
+				dateinput.value=obj.value;
+				alert('Not a validate date!');
+				//obj.focus(); //有時會造成網頁掛掉
+			}
+			else
+			{
+				var curDate = new Date(obj.value);
+				var yyyy = curDate.getFullYear();
+				var mm = curDate.getMonth()+1;
+				var dd = curDate.getDate();
+				datestr = formatdate(Format,yyyy + "/" + mm + "/" + dd)
+				obj.value = datestr;
+				this.value = obj.value;
+				dateinput.value=obj.value;
+				Reset();
+			}
+		}
+		else
+		{
+				event.returnValue=false;
+				//this.value=obj.value;
+				dateinput.value=obj.value;
+				alert('Not a validate date!');
+				obj.focus();
+		}
+	}
+	else
+	{
+		obj.value = Format;
+		obj.style.color = formatcolor;
+		dateinput.value="";
+		this.value = "";
+	}
+
+}
+
+function button_show_onclick()
+{	
+	if (calendarobj.actived())
+		calendarobj.hide();
+	else 
+	{
+		var els = window.document.all.tags("DIV")
+		for (var i=0; i < els.length; i++)
+		{
+			var el = els.item(i)	
+			if(el.id.indexOf("calendar")>=0)
+			{
+				if(el.id != calendarobj.id) 	el.hide();
+			}
+		}	
+		showcalendar();
+	}	
+}
+
+
+function adjustY(y)
+{
+	//sy = idy;
+	sy=y;
+	var h;
+	h=sy;
+	//alert("body offsetH="+window.document.body.offsetHeight+", body clientH="+ window.document.body.clientHeight);
+	//if ((sy +  calendarobj.offsetHeight) > BodyHeight)
+	BodyHeight=window.document.body.scrollTop+window.document.body.clientHeight;
+	//window.status=BodyHeight;
+	if ((sy +  calendarobj.offsetHeight) > BodyHeight)
+	{
+		for (var y=0;y<=300;y+=10)
+		{
+			h -=y;
+			if (h + calendarobj.offsetHeight< BodyHeight)
+			{
+				sy=h;
+				break;
+			}	
+		}
+		return sy;
+	}		
+	else
+	{
+		return sy ;
+	}	
+}
+
+function adjustX(x)
+{
+	//sx = idx;
+	sx = x;
+	var w;
+	w=sx;
+	//alert("BodyWidth="+BodyWidth+",calendarobj.offsetWidth="+calendarobj.offsetWidth);
+	BodyWidth=window.document.body.scrollLeft+window.document.body.clientWidth;		
+	if ((sx+20 + calendarobj.offsetWidth) > BodyWidth)
+	{
+		for (var x=0;x<=200;x+=10)
+		{
+			w-=x;
+			if (w + calendarobj.offsetWidth< BodyWidth)
+			{
+				sx = w;
+				break;
+			}	
+		}
+		return sx;	
+	}		
+	else
+		return sx + 20;
+}
+
+function formatdate(f,d)
+{
+	var d1 = new Date(d);
+	var d1y = d1.getFullYear();
+	var d1m = d1.getMonth() + 1;
+	var d1d = d1.getDate();
+	var mm,dd;
+	mm=d1m.toString();
+	dd=d1d.toString();
+	if (mm.length<2) mm="0"+mm;
+	if (dd.length<2) dd="0"+dd;	
+	f = f.toLowerCase();
+	switch(f)
+	{
+		case "yyyy/mm/dd":
+			return d1y.toString() + "/" + mm + "/" + dd;
+		case "mm/dd/yyyy":
+			return mm + "/" + dd + "/" + d1y.toString();
+		case "dd/mm/yyyy":
+			return dd + "/" + mm + "/" + d1y.toString();
+		case "mm/dd":
+			return mm + "/" + dd;
+		default:
+			return mm + "/" + dd + "/" + d1y.toString();
+	}
+}
+
+function lastdayof(y,m)
+{
+	if (m==2)
+	{
+		if ((y%4 == 0) && (!((y%100 == 0) && (y%400 != 0))))
+			return 29
+		else
+			return 28
+	}
+	else if ((m<=7 && m%2!=0) || (m>=8 && m%2==0))
+		return 31
+	else 
+		return 30
+}
+
+/*
+function setDateValue(y,m,d)
+{
+
+	var datestr="";
+	m++;
+	if (typeof(Format)=="string")
+		Format = Format.toLowerCase();
+	
+	datestr = formatdate(Format,y + "/" + m + "/" + d)
+	this.value = datestr;
+	this.style.color = thisfontcolor;
+	inputobj.value = this.value;
+	inputobj.style.color = thisfontcolor;
+	
+	if ((POSTEXEC!=null) && (POSTEXEC!=""))
+		{
+			window.execScript(POSTEXEC);
+		}
+	calendarobj.hide();	
+}
+*/
+function setDateValue(y,m,d)
+{
+
+	var datestr="";
+	m++;
+	if (typeof(format)=="string")
+		format = format.toLowerCase();
+	
+	datestr = formatdate(format,y + "/" + m + "/" + d)
+	
+	var obj=window.document.getElementById(ProxyInputId);
+	obj.value=datestr;
+	obj.style.color = thisfontcolor;
+	this.value = datestr;
+	//this.style.color = thisfontcolor;
+	inputobj.value = this.value;
+	inputobj.style.color = thisfontcolor;
+	dateinput.value=obj.value;
+	
+	Reset();
+	calendarobj.hide();	
+	//alert(ProxyInputId);
+}
+
+
+function BuildCalendar(y,m)
+{
+	
+	var thisday = new Date()
+	var thisdayD = thisday.getDate()
+
+	var curday = new Date(y,m,1)
+	
+	var curY = curday.getFullYear()
+	var curM = curday.getMonth()
+	
+	
+	this.Year=y;
+	this.Month=m;
+	
+	var curD = curday.getDate()
+	var curW = curday.getDay()
+	var lDay = new Date(curY,curM,lastdayof(curY,curM+1))
+	var lDayD = lDay.getDate()
+	
+	var sameflag
+	if (thisday.getYear()==curY && thisday.getMonth()==curM)
+		sameflag = true
+	else
+		sameflag = false
+
+	var i,k
+	
+	var mName = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	var yselstr = ""
+	for (i=curY-50;i<=curY+50;i++)
+	{
+		if (i==curY)
+			yselstr += "<option value=" + i + " selected>" + i + "</option>"
+		else
+			yselstr += "<option value=" + i + ">" + i + "</option>"
+	}
+	var mselstr = ""
+	for (i=0;i<12;i++)
+	{
+		if (i==curM)
+			mselstr += "<option value=" + i + " selected>" + (parseInt(i)+1) + "</option>"
+		else
+			mselstr += "<option value=" + i + ">" + (parseInt(i)+1) + "</option>"
+	}
+	var funcstr = "<select class=smallbold id=ysel onchange='window.document.getElementById(\"" + this.id + "\").ChangeYear(this.value);' >" + yselstr + "</select><select class=smallbold	 id=msel onchange='window.document.getElementById(\"" + this.id + "\").ChangeMonth(this.value);' >" + mselstr + "</select>"
+
+	//var tablestr = "<tr><td colspan=7 class=smallbold align=center><button onclick='window.document.getElementById(\"" + this.id + "\").Prev()' class=InputButton id=button1 name=button1>Prev</button>&nbsp&nbsp&nbsp" + funcstr + "&nbsp&nbsp&nbsp<button onclick='window.document.getElementById(\"" + this.id + "\").Next()'  class=InputButton id=button1 name=button1>Next</button></td></tr>";
+	var tablestr = "<tr height=10 bgcolor='#ADAAFF' ><td style=\"filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FF0b5bb5', EndColorStr='#00cEccFF');\" colspan=7 align=right drag=true><img src='/lib/img/icon-close.gif' style='cursor:hand;' onclick='window.document.getElementById(\"" + this.id + "\").Close()' ></td></tr> <tr><td colspan=7 class=smallbold align=center><button onclick='window.document.getElementById(\"" + this.id + "\").Prev()' class=InputButton id=button1 name=button1>Prev</button>&nbsp&nbsp&nbsp" + funcstr + "&nbsp&nbsp&nbsp<button onclick='window.document.getElementById(\"" + this.id + "\").Next()'  class=InputButton id=button1 name=button1>Next</button></td></tr>";
+	tablestr = tablestr + "<tr align=center  class=small><td colspan=7> <table border=1 cellspacing=0 cellpadding=1>"
+	tablestr = tablestr + "<th class=smallbold style=\"color:red;width:24px\">Sun</th><th class=smallbold style=\"width:24px\">Mon</th><th class=smallbold style=\"width:24px\">Tue</th><th class=smallbold style=\"width:24px\">Wed</th><th class=smallbold style=\"width:24px\">Thu</th><th class=smallbold style=\"width:24px\">Fri</th><th class=smallbold style=\"color:red;width:24px\">Sat</th>"
+	tablestr = tablestr + "<tr align=center  class=small>"
+	
+	for (i=0;i<curW;i++)
+	{
+		tablestr = tablestr + "<td style=\"width:24px;height:24px\">&nbsp;</td>"
+	}
+	i = 1
+	k = curW
+	while (i<=lDayD)
+	{
+		if (k==0)
+			tablestr = tablestr + "<tr align=center>"
+		if (sameflag && i==thisdayD)
+			tablestr = tablestr + "<td class=small style=\"cursor:hand;color:blue;width:24px;height:24px\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," + curM + "," + i + ");' >" + i + "</td>"
+		else
+			tablestr = tablestr + "<td class=small style=\"cursor:hand; width:24px;height:24px\" onclick='window.document.getElementById(\"" + this.id + "\").setDateValue(" + curY + "," + curM + "," + i + ");' >" + i + "</td>"
+		if (k==6 && i!=lDay)
+			tablestr = tablestr + "</tr>"
+		if (k==6)
+			k = 0
+		else
+			k++;
+		i = i + 1
+	}
+	if (k!=0)
+	{
+		for (i=k;i<=6;i++)
+		{
+			tablestr = tablestr + "<td style=\"width:24px;height:24px\">&nbsp;</td>"
+		}
+	}
+
+	tablestr = tablestr + "</tr></table></tr>"
+	if (CalendarClass) 
+		tablestr = "<table bgcolor=white border=0 cellspacing=0 cellpadding=2 class='"+CalendarClass+"'>" + tablestr + "</table>";
+	else
+		tablestr = "<table bgcolor=white border=0 cellspacing=0 cellpadding=2 class='PanelSilver'>" + tablestr + "</table>";
+	calendarobj.innerHTML=tablestr;
+//	calendarobj.show(adjustY(),adjustX(),10);
+
+	if((btnobj.offsetTop!=ody) || (btnobj.offsetLeft!=odx))  //是否move過
+	{
+		alignCalendar();
+		calendarobj.show(idy,idx,10);
+	}
+	else
+	{
+		calendarobj.show(adjustY(calendarobj.offsetTop),adjustX(calendarobj.offsetLeft)-20,10);
+	}	
+	
+	
+}
+
+function isvdate(v)
+{
+	var datepattern=/^\d{4}\/\d{1,2}\/\d{1,2}$|^\d{1,2}\/\d{1,2}\/\d{4}$/
+	if (datepattern.test(v))
+	{
+		vstr = v.toString();
+		pos1 = vstr.indexOf("/");
+		if (pos1==4)								//format: yyyy/mm/dd
+		{
+			y = vstr.substr(0,pos1);
+			pos2 = vstr.indexOf("/",pos1+1);
+			m = vstr.substring(5,pos2);
+			d = vstr.substr(pos2+1);
+		}
+		else										//format: mm/dd/yyyy
+		{
+			pos2 = vstr.indexOf("/",pos1+1);
+			m = vstr.substr(0,pos1);
+			d = vstr.substr(pos1+1,pos2-pos1-1);
+			y = vstr.substr(pos2+1);
+		}
+		if (y>0 && m>0 && m<13 && d>0 && d<32)
+		{
+			maxday = lastdayof(y,m);
+			if (d>maxday)
+				return false;
+			else
+				return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
+
+function showcalendar()
+{
+		
+		var today;
+		var obj=window.document.getElementById(ProxyInputId);
+		if ((obj.value=="") || (obj.value==null) || !(isvdate(obj.value)) )
+		{
+			if ((obj.value != "") && (obj.value != Format)) 
+			{		
+			   obj.value="";
+			   obj.style.color = thisfontcolor;
+			}  
+		   today = new Date();
+		 }
+		else
+		{
+				today = new Date(obj.value);
+				obj.style.color = thisfontcolor;
+		}
+					
+		today_yr = today.getFullYear();		
+		today_mo = today.getMonth();
+		BuildCalendar(today_yr,today_mo);
+
+}
+
+function event_onmove()
+{
+
+	if(!loadready) return;
+	var obj=window.document.getElementById(ProxyInputId);
+	//var obj=
+	obj.alignInput(obj,inputobj);
+	obj.alignBtn(obj,btnobj);
+}
+
+function alignCalendar()
+{
+	var el=btnobj;
+	 idy =el.offsetTop; 
+	 idx = el.offsetLeft;
+	
+	idy=adjustY(idy);
+	idx=adjustX(idx);
+}
+
+function Close()
+{
+	calendarobj.hide();
+}
+
+
+function dateFormat(f,d)
+{
+	var regexp,value,index;
+	var year,month,day;
+	var iyear,imonth,iday;
+	var fmt,regfmt,ordfmt;
+	var dateArray;
+	var format;
+
+	format=f.toLowerCase();
+	fmt=new Array("yyyy/mm/dd","mm/dd/yyyy","dd/mm/yyyy" );
+	regfmt= new Array("/^([0-9]{4})\\/([0-9]{2})\\/([0-9]{2})$/","/^([0-9]{2})\\/([0-9]{2})\\/([0-9]{4})$/","/^([0-9]{2})\\/([0-9]{2})\\/([0-9]{4})$/");
+	ordfmt=new Array("012","201","210");
+
+	// -------------先檢查 Date Format 是否接受----//
+	for(index=0;index<fmt.length;index++)
+	{
+		if(format==fmt[index])
+		{ 
+			eval('regexp='+regfmt[index]+';');
+
+			iyear=parseInt(ordfmt[index].charAt(0));
+			imonth=parseInt(ordfmt[index].charAt(1));
+			iday=parseInt(ordfmt[index].charAt(2));
+
+			break;
+		}
+	}
+	if(index==fmt.length)
+	{
+		alert("Date Format Not Supported!");
+		return false;
+	}
+	
+	//--------- 將Date String 轉為 Format 格式
+	
+	var datestr = d;
+	var dateSplit = "";
+	
+	if (datestr.indexOf("/") >=0 )
+		dateSplit = "/";
+	else if(datestr.indexOf(".") >=0 )
+		dateSplit = ".";
+	else if(datestr.indexOf(",") >=0 )
+		dateSplit = ",";
+	else if(datestr.indexOf("-") >=0 )
+		dateSplit = "-";
+	
+	if (dateSplit != "")
+	{
+		var date_array = datestr.split(dateSplit)
+		if (date_array.length!=3)
+		{
+			//alert("Date value is wrong !");
+			return false;
+		}
+		else
+		{
+			var Datestr1 = ""
+			for (var j=0 ;j<=2;j++)
+			{
+				if (j==iyear)
+					Datestr1+= date_array[iyear] +"/";
+				else if(j==imonth)
+					Datestr1+= date_array[imonth] +"/";
+				else if(j==iday)
+					Datestr1+= date_array[iday] +"/";
+			}
+			if (Datestr1.charAt(Datestr1.length-1) == '/' ) Datestr1=Datestr1.substring(0,Datestr1.length-1);
+		}
+	}
+	else
+	{
+		var Datestr1 = ""
+		if((datestr.length!=8))
+			//alert("Date value is wrong !");
+			return false;
+		else
+		{	
+			if(format == "yyyy/mm/dd")
+			{
+				Datestr1 = datestr.substring(0,4)+"/"+datestr.substring(4,6)+"/"+datestr.substring(6,8);
+			}
+			else if (format == "mm/dd/yyyy")
+			{
+				Datestr1 = datestr.substring(0,2)+"/"+datestr.substring(2,4)+"/"+ datestr.substring(4,8)
+			}
+			else if (format == "dd/mm/yyyy")
+			{
+				Datestr1 =  datestr.substring(0,2)+"/"+datestr.substring(2,4)+"/"+ datestr.substring(4,8)
+			}
+		}
+	}
+	
+	return Datestr1;
+
+}
+
+function event_onselect()
+{
+	var obj = event.srcElement;
+	if(this.getAttribute("FocusinColor")!=null)
+		obj.style.backgroundColor = FocusinColor;
+
+}
+
+function event_onblur()
+{
+	var obj = event.srcElement;
+	if(this.getAttribute("FocusoutColor")!=null)
+		obj.style.backgroundColor = FocusoutColor;
+
+}
+
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

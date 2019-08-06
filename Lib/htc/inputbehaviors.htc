@@ -1,0 +1,83 @@
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+
+<PUBLIC:PROPERTY NAME="Required" />
+<PUBLIC:ATTACH EVENT="onfocusin" ONEVENT="event_onfocusin()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="onfocusout" ONEVENT="event_onfocusout()"></PUBLIC:ATTACH>
+<PUBLIC:PROPERTY name="FocusinColor" />
+<PUBLIC:PROPERTY name="FocusoutColor" />
+<PUBLIC:METHOD name="Trim" />
+<SCRIPT language="JScript">
+
+var inputobj = this;
+var thisbackgroundcolor = "";
+//var thisfontcolor = "";
+
+function event_oncontentready()
+{
+//	this.addBehavior("/lib/htc/errmsg.htc");
+//	if((this.id == "") || (this.id == null)) this.id =  window.document.uniqueID;
+
+}
+
+function event_ondocumentready()
+{	
+
+	if((inputobj.className =="") || (inputobj.className == null))
+	{
+		with(inputobj.style)
+		{
+			paddingLeft = 2 +"px";
+			fontSize = "12px";
+			fontFamily = " Sans-Serif, Verdana, Arial, Tahoma";
+			fontWeight= "normal";
+			if ((width == "") && (inputobj.tagName == "INPUT")) width = 132 +"px";
+		}
+	}	
+	
+	if (inputobj.getAttribute("Required")!=null)
+	{
+		inputobj.style.backgroundImage = 'url(/lib/img/icon-required1.gif)';
+	//	inputobj.style.backgroundPosition = 'left top';
+		inputobj.style.backgroundPosition = 'right top';
+		inputobj.style.backgroundAttachment = "fixed";
+		inputobj.style.backgroundRepeat = "no-repeat";
+	}
+	
+	if (!FocusoutColor) FocusoutColor = inputobj.style.backgroundColor;
+
+}
+
+
+function event_onfocusin()
+{
+   thisbackgroundcolor = this.style.backgroundColor ;
+   if(FocusinColor)
+   {
+	  this.style.backgroundColor = FocusinColor;
+	}  
+   else
+   {
+	  this.style.backgroundColor="#ffe08b";
+    }  	
+}
+
+function event_onfocusout()
+{
+   if(FocusoutColor)
+	  this.style.backgroundColor = FocusoutColor;
+   else
+	  this.style.backgroundColor = thisbackgroundcolor;
+}
+
+//-------- input comon function -----------
+function Trim(str)
+{
+  str = str.replace(/^\s*(.*)/, "$1");
+  str = str.replace(/(.*?)\s*$/, "$1");
+  return str;
+}
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

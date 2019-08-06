@@ -1,0 +1,49 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Template.master.cs" Inherits="SmoothEnterprise.Web.Application.Layout.Template" %>
+
+<%@ Register Src="~/_site/uc/FooterControl.ascx" TagName="FooterControl" TagPrefix="uc2" %>
+<%@ Register Src="~/_site/uc/HeaderControl.ascx" TagName="HeaderControl" TagPrefix="uc1" %>
+<%@ Register Assembly="SmoothEnterprise.Web.Control.Enterprise, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2bc4b50aa8c436e1"
+    Namespace="SmoothEnterprise.Content.UI.WebControl" TagPrefix="SmoothEnterpriseWebControlEnterprise" %>
+<html>
+<head runat="server">
+    <title>Min Aik EIP Page</title>
+    <script src="../../script/js/jquery.min_1.6.1.js"></script>
+    <script src="../../script/json/json2.js"></script> 
+</head>
+<body topmargin="0" rightmargin="0" leftmargin="0" bottommargin="0">
+    <form id="form1" runat="server">
+        <center>
+        <table id="main_table" style="height: 1px;" border="0px">
+            <tr>
+                <td style="width: 100%">
+                    
+                    <uc1:HeaderControl ID="HeaderControl1" runat="server"  />                    
+                    <SmoothEnterpriseWebControlEnterprise:CategoryPath ID="CategoryPath1" runat="server"
+                        BackColor="#E0E0E0" BorderStyle="Solid" BorderWidth="0px" BorderColor="Silver"
+                        Font-Size="11px" Font-Names="Arial" Width="100%" ForeColor="Black" RootURL="~/"
+                        CategoryURL="~/portal/" RootName="Home" RequestQueryID="cid" CID="" meta:resourcekey="CategoryPath1Resource1" />
+                      <div id="app_ver" style="position:absolute;width:50px;height:10px;"></div>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%">
+        <uc2:FooterControl ID="FooterControl1" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px">
+                    &nbsp;</td>
+            </tr>
+        </table>
+        </center>
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td height="0"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

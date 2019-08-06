@@ -1,0 +1,231 @@
+
+<PUBLIC:COMPONENT>
+<PUBLIC:ATTACH EVENT="oncontentready" ONEVENT="event_oncontentready()"></PUBLIC:ATTACH>
+<PUBLIC:ATTACH EVENT="ondocumentready" ONEVENT="event_ondocumentready()"></PUBLIC:ATTACH>
+
+<PUBLIC:ATTACH EVENT="onresize" ONEVENT="event_onresize()"/>
+<PUBLIC:PROPERTY name="cellWidth" />
+<PUBLIC:PROPERTY name="cellHeight" />
+<SCRIPT language="JScript">
+var oColCount;
+var oRowCount;
+
+var oCellWidth=50;
+var oCellHeight=50;
+var oCellCount;
+var nColCount;
+var cellArray = new Array();
+var tabletag=null;
+var contentObj=null;
+var oTip;
+
+function event_oncontentready()
+{
+	if (this.tagName!="TABLE") return;
+	//this.addBehavior("/lib/htc/errmsg.htc");
+}
+
+function event_ondocumentready()
+{
+	if (this.tagName!="TABLE") return;
+	if (this.getAttribute("cellWidth")!=null) 	oCellWidth=this.getAttribute("cellWidth");
+	if (this.getAttribute("cellHeight")!=null) oCellHeight=this.getAttribute("cellHeight");
+
+	contentObj =this.parentElement;
+	if (contentObj.tagName!="BODY") 
+		while (contentObj.tagName != "BODY" ) 
+		{
+			if((contentObj.tagName== "BODY")  || (contentObj.tagName=="TD") )	 
+			{
+			//	contentObj.attachEvent("onresize",event_onresize);		
+				break;
+			}
+			contentObj = contentObj.parentElement;
+		}	
+	window.attachEvent("onresize",event_windowresize);		
+
+	oColCount = this.rows(0).cells.length;
+	
+	oRowCount = this.rows.length;
+	var n=0;
+	for (i=0;i<oRowCount;i++)
+	{
+		for (j=0;j<oColCount;j++)
+		{
+			this.rows[i].children[j].width=oCellWidth;
+			this.rows[i].children[j].height=oCellHeight;
+			cellArray[n]=this.rows[i].children[j];
+			n+=1;
+			
+			with (this.rows[i].children[j])
+			{			
+				style.backgroundColor="";
+				style.borderStyle = "solid";
+				style.borderWidth ="1px";
+				style.borderColor=""; 
+				if (innerText!="")
+				{
+					attachEvent("onfocus",cellevent_onfocus);		
+					attachEvent("onfocusout",cellevent_onlostfocus);		
+				}
+			}
+			
+		}
+	}
+	oCellCount=cellArray.length ;
+
+	event_onresize();
+}
+
+
+function cellevent_onfocus()
+{
+
+	var o=event.srcElement;
+	o.style.backgroundColor="#C0C5F8";
+	o.style.borderColor="#606EF1"; 
+	o.style.borderWidth ="1px";
+
+	if(o.title !="")
+	{	
+		oTip =  window.document.createElement("DIV");
+		oTip.innerText = o.title;
+		with(oTip.style)
+		{
+			backgroundColor="#FFFFE7";
+			borderStyle = "solid";
+			borderWidth ="1px";
+			borderColor="black"; 
+			position='absolute';
+			paddingTop= "2px";
+			paddingLeft= "2px";
+			paddingRight= "2px";
+			fontSize = "12px";
+		//	filter = "alpha(opacity=80);";
+			width=o.offsetWidth-15;
+			zIndex=100;
+		}
+		window.document.body.appendChild(oTip);	
+		
+		var rect = o.getClientRects()[0];
+		oTip.style.left = window.document.body.scrollLeft+rect.left+ 5;
+		oTip.style.top = window.document.body.scrollTop+rect.top + 36 ;
+	}
+	
+}
+
+function cellevent_onlostfocus()
+{
+	var o=event.srcElement;
+	o.style.backgroundColor="";
+//	o.style.borderColor="transparent"; 
+	o.style.borderColor=""; 
+	//o.style.borderWidth ="1px";
+	if(oTip) 
+	{
+		oTip.removeNode(true);		
+		oTip=null;
+	}
+}
+
+function GetWidth(o)
+{
+    var rect = o.getClientRects()[0];
+    var iWidth = rect.right - rect.left;
+    return iWidth;
+}
+
+function GetHeight(o)
+{
+    var rect = o.getClientRects()[0];
+    var iHeight = rect.bottom - rect.top;
+    return iHeight;
+}
+
+function event_windowresize()
+{
+	if(tabletag) tabletag.style.display="none";
+	event_onresize();
+}
+
+function event_onresize()
+{
+	if(!contentObj) return;
+	var nTableWidth=GetWidth(contentObj) - (this.cellPadding*2);
+	
+	nColCount = parseInt(parseInt( nTableWidth) /parseInt(oCellWidth)); 
+//	window.status=	nTableWidth+"@"+nColCount+"@"+oColCount+"@"+oCellWidth;
+	if(tabletag) tabletag.style.display="none";
+	if ((nColCount != oColCount) && (nColCount>0)) 
+	{
+		if(tabletag!=null) 
+		{
+			tabletag.removeNode(true);
+			tabletag=null;
+		}
+		this.style.display="none";
+		RebuildTable(nColCount);
+	}
+	else
+	{
+		if(tabletag) tabletag.style.display="block";
+	}
+}
+
+function RebuildTable(colCount)
+{
+    tabletag = window.document.createElement("table");
+	tabletag.border=this.border;
+	tabletag.cellPadding=this.cellPadding;
+	tabletag.cellSpacing=this.cellSpacing;
+	tabletag.style.cssText = this.style.cssText;
+	tabletag.className= this.className;
+	tabletag.bgColor= this.bgColor;
+	tabletag.style.display="block";
+	this.insertAdjacentElement("afterEnd",tabletag);
+	
+	var nRowCount;
+	if (((oCellCount/colCount) - parseInt(oCellCount/colCount))!=0)
+		nRowCount=parseInt(oCellCount/colCount)+1;
+	else
+		nRowCount=oCellCount/colCount;
+		
+	if ((nRowCount==1) && (nColCount>cellArray.length)) nColCount=cellArray.length;
+	
+	var k=0;
+	for (var i=0;i<nRowCount;i++)
+	{
+		var iRow = tabletag.insertRow();
+		iRow.height=oCellHeight;
+		for (var j=0;j<nColCount;j++)
+		{
+			if (k<cellArray.length )
+			{
+				var fromCell = cellArray[k];
+				var oCloneNode = fromCell.cloneNode(true);
+				iRow.insertAdjacentElement("beforeEnd",oCloneNode);
+			}	
+			else
+			{
+				var tmpcell=iRow.insertCell(j);
+			}
+			k+=1;
+		}
+	}
+	
+
+	if (nRowCount!=0)
+	{
+		oColCount = tabletag.rows[0].children.length;
+		oRowCount = tabletag.rows.length;	
+	}
+}
+
+function tdevent_onresize()
+{
+	//window.status ="tdresize";
+	
+}
+
+</SCRIPT>
+</PUBLIC:COMPONENT>

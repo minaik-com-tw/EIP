@@ -1,0 +1,103 @@
+.Smaller
+{
+	font-weight: normal;
+	font-size: 10px;
+	font-family: Arial, Sans-Serif, Verdana, Tahoma;
+}
+.Small
+{
+	font-size: 11px;
+	font-family: Tahoma, Verdana, Arial, Sans-Serif, 'Franklin Gothic Medium';
+}
+.SmallBorder
+{
+	border-right: 1px solid;
+	padding-right: 2px;
+	border-top: 1px solid;
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 10px;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.SmallBold
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+	font-family: Tahoma, Verdana, Arial, Sans-Serif, 'Franklin Gothic Medium';
+}
+.Normal
+{
+	font-weight: normal;
+	font-size: 12px;
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+	
+}
+.NormalBold
+{
+	font-weight: bold;
+	font-size: 12px;
+	padding-top :1px;	
+	font-family: Sans-Serif, Verdana, Arial, Tahoma;
+}
+.NormalBorder
+{
+	border-right: 1px solid;
+	padding-right: 2px;
+	border-top: 1px solid;
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 12px;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	font-family: Arial, Tahoma;
+}
+.Medium
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 16px;
+	font-family: Arial, Tahoma;
+}
+.MediumBorder
+{
+	border-right: 1px solid;
+	padding-right: 2px;
+	border-top: 1px solid;
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 16px;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	font-family: Arial, Tahoma;
+}
+.MediumBold
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 18px;
+	font-family: Arial, Tahoma;
+}
+.Large
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 24px;
+	font-family: Arial, Tahoma;
+}
+.LargeBorder
+{
+	border-right: 1px solid;
+	padding-right: 2px;
+	border-top: 1px solid;
+	padding-left: 2px;
+	font-weight: normal;
+	font-size: 24px;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	font-family: Arial, Tahoma;
+}
+.LargeBold
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 24px;
+	font-family: Arial, Tahoma;
+}
