@@ -69,9 +69,9 @@ public class data_table
 
         DataRow[] row = _temp.Select(command);
 
-        if (row.Length > 0)
+        foreach ( DataRow r in row)
         {
-            _temp.Rows.Remove(row[0]);
+            _temp.Rows.Remove(r);
         }
     }
 
@@ -91,5 +91,6 @@ public class data_table
         }
     }
 
+  
 
 }

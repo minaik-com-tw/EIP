@@ -14,7 +14,7 @@
             var curr_page = "";
             $(function () {
 
-               // $("#ft_Area").css("display", "none");
+                // $("#ft_Area").css("display", "none");
                 $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "none");
 
                 $("#ctl00_ContentPlaceHolder1_up_vmi").addClass("t1");
@@ -285,7 +285,6 @@
                 return isPadd;
             }
 
-
             function cancel() {
 
                 var ispass = false;
@@ -317,7 +316,7 @@
             }
 
             function ft_add_chk() {
-
+                 $("#test_s5").css("border", " 0px solid red");
                 var isPadd = false;
 
                 if (add_inspct()) {
@@ -334,9 +333,36 @@
                         }
                     });
 
+                    
                     if (!isPadd) {
                         alert($("#required").text());
                     }
+
+                    var prod = $("#ctl00_ContentPlaceHolder1_txt_prod_index").val();
+                    var time =$("#ctl00_ContentPlaceHolder1_txt_insp_time").val();
+
+                    //檢查是否有重覆資料
+                    if (isPadd) { 
+                        //var td = $('#ctl00_ContentPlaceHolder1_ft_list tr td:eq(1)').text();
+                        //console.log("td", td); 
+
+                        var tr_length = $('#ctl00_ContentPlaceHolder1_ft_list tr').length; //tr 長度
+                        for (var i = 1; i <= tr_length; i++) { 
+                            
+                            var ft_1 = $('#ctl00_ContentPlaceHolder1_ft_list tr:eq(' + i + ')').find(".ft_list_1").text();
+                            var ft_2 = $('#ctl00_ContentPlaceHolder1_ft_list tr:eq(' + i + ')').find(".ft_list_2").text();
+
+                            if (prod == ft_1 && time== ft_2 )
+                            {
+                                 $("#test_s5").css("border", " 2px solid red");
+                                isPadd = false;
+                                
+                                alert($("#duplicate").text() );
+                            }
+                        } 
+
+                    }
+
                 }
 
 
@@ -365,8 +391,35 @@
                 return isPadd;
             }
 
-            function Svr_Replay(msg) {
-                alert(msg);
+            function ft_edit_check() {
+
+                var isPass = false;
+                var th = $("#ctl00_ContentPlaceHolder1_s5_list").find("th").length; //empty_data th is 9
+
+
+                $("#test_s5").css("border", " 0px solid red");
+
+                if (th > 9) {
+
+                    $("#test_s5").css("border", " 2px solid red");
+                    alert($("#unable_to_run").text());
+
+                } else {
+                    isPass = true;
+                }
+
+
+                return isPass;
+            }f
+
+            function ft_update(prod, test_time) {
+
+               var pass =ft_edit_check();
+                if (pass) {
+                    $("#ctl00_ContentPlaceHolder1_txt_prod_index").val(prod);
+                    $("#ctl00_ContentPlaceHolder1_txt_insp_time").val(test_time);
+                }
+                return pass;   
             }
 
         </script>
@@ -440,14 +493,14 @@
                 position: relative;
                 color: #41ae3c;
                 font-size: 2em;
-                text-shadow: #5e665b 2px 2px 1px;
                 cursor: pointer;
                 text-decoration: none;
             }
 
                 .add_btn:hover {
                     color: #96c24e;
-                    font-size: 2em;
+                    font-size: 2.2em;
+                    text-shadow: #5e665b 0.05em 0.05em 0.001em;
                 }
 
 
@@ -502,34 +555,29 @@
             }
 
             .fa-minus {
-                color: #fff;
+                color: #ff7575;
                 font-size: 0.8em;
-                text-shadow: #5e665b 0.1em 0.1em 0.15em;
             }
 
                 .fa-minus:hover {
-                    color: #74759b;
-                    font-size: 0.8em;
+                    color: red;
+                    font-size: 1em;
+                    text-shadow: #2f0000 0.01em 0.01em 0.001em;
                 }
 
-            .fa-pen-square, .fa-angle-double-down {
-                position: relative;
-                color: #005CAF;
-                text-shadow: #c5c5ce 2px 2px 1px;
-                cursor: pointer;
+            .fa-angle-double-down {
+                font-size: 2.5em;
+                color: #84c1ff;
                 text-decoration: none;
+                text-shadow: #005CAF 0.05em 0.05em 0.001em;
             }
 
-                .fa-pen-square:hover, .fa-angle-double-down:hover {
-                    font-size: 3em;
+                .fa-angle-double-down:hover {
+                    font-size: 2.8em;
                     color: #4588C4;
-                    text-shadow: #005CAF 1px 1px 1px;
+                    text-decoration: none;
+                    text-shadow: #d0d0d0 0.05em 0.05em 0.001em;
                 }
-
-            #ft_left .th {
-                background-color: #B5CAA0;
-                color: #0B346E;
-            }
 
             .fa-clock {
                 color: #4588C4;
@@ -572,14 +620,71 @@
                     color: #fff;
                 }
 
-            #ctl00_ContentPlaceHolder1_up_s5 {
-                
-                border:0px solid #bf3553;
+
+            #ft_right .th {
+                background-color: #F5F2F9;
+                color: #806d9e;
             }
+
+            #ft_right .th, #ft_right .td {
+                height: 30px;
+            }
+
+            #ft_left .th {
+                background-color: #a7a8bd;
+                color: #4A225D
+            }
+
+            #ft_left .td, #ft_left .th {
+                border: 1px solid #5e616d;
+                border-bottom: 0px solid #22202e;
+                margin-right: 0px;
+                height: 40px;
+            }
+
+            #ft_left .td {
+                border-left: 0px;
+            }
+
+            .ft_del, .ft_edit, .ft_copy {
+                font-size: 1.2em;
+                text-decoration: none;
+            }
+
+
+            .fa-trash-alt {
+                font-size: 1em;
+                color: #ed5a65;
+            }
+
+                .fa-trash-alt:hover {
+                    color: red;
+                    font-size: 1.2em;
+                    text-shadow: #930000 0.05em 0.05em 0.001em;
+                }
+
+            .ft_copy {
+                color: #f8b37f;
+            }
+
+                .ft_copy:hover {
+                    color: #ffd111;
+                    font-size: 1.4em;
+                    text-shadow: #930000 0.05em 0.05em 0.001em;
+                }
+
+            .ft_edit {
+                color: #b7d07a;
+            }
+
+                .ft_edit:hover {
+                    color: #41ae3c;
+                    font-size: 1.4em;
+                    text-shadow: #8e8e8e 0.05em 0.05em 0.001em;
+                }
         </style>
     </header>
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
-
 
     <div id="leica" style="margin: 10px; width: 1200px">
         <div style="display: none">
@@ -599,7 +704,11 @@
             <div id="more_zero"><%=getStr("more_zero")%></div>
             <div id="is_zero"><%=getStr("is_zero")%></div>
             <div id="all_empty"><%=getStr("all_empty")%></div>
+            <div id="duplicate" ><%=getStr("duplicate") %></div>
         </div>
+
+       <asp:Label ID="lb_test" runat="server" ForeColor="Red" Font-Size="Large"  ></asp:Label>
+        <div id="unable_to_run"><%=getStr("unable_to_run") %> </div>
         <div style="font-size: 2em; color: #9b1e64; height: 35px; font-weight: bolder;">
             Leica Inspection Record             
         </div>
@@ -729,7 +838,7 @@
                                                         <ItemTemplate>
                                                             <asp:Label ID="lab_stemp" runat="server"><%#Eval("shape").ToString().Trim() %></asp:Label>
 
-                                                            <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape_id") %>' ID="del_shape" runat="server">
+                                                            <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape_id") %>' ID="del_shape" runat="server" ToolTip="Del">
                                                               
                                                             <i class="fas fa-minus"></i>
                                                             </asp:LinkButton>
@@ -765,7 +874,7 @@
                             <div class="cell" style="width: 60%">
                                 <div style="float: left; margin: 5px; width: 90%;">
 
-                                    <asp:GridView ID="vmi_list" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                    <asp:GridView ID="vmi_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
                                         OnRowDataBound="vmi_list_RowDataBound" OnRowDeleting="vmi_list_RowDeleting" DataKeyNames="vmi_id"
                                         CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="100%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
                                         <AlternatingRowStyle BackColor="#F4F6F7" />
@@ -852,433 +961,437 @@
 
         <div id="ft_Area" class="t1" style="display: block">
             <div class="tb1">
-                <div class="td" style="text-align: center; font-size: x-large; color: #5e665b; font-weight: bold; color: #636F58; width: 100%">
+                <div class="td" style="text-align: center; font-size: x-large; font-weight: bold; color: #636F58; width: 100%; border-bottom: 0px solid red">
                     <%=getStr("fun_test") %>
                 </div>
             </div>
-
             <div class="tb1">
-
-                <div class="tr">
-                    <div class="td" style="width: 30%">
-                        <div id="ft_right" class="tb1" style="vertical-align: top; border: 0px">
-                            <div class="tr">
-                                <div class="th">測試項目</div>
-                                <div class="td">
-                                    <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost" OnSelectedIndexChanged="ddl_test_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                                </div>
-                                <div class="th">測試標準</div>
-                                <div class="td">
-                                    <asp:DropDownList ID="ddl_ts_standard" runat="server" level="1" CssClass="required AutoPost"></asp:DropDownList>
-                                </div>
-
+                <div class="td" style="width: 40%; vertical-align: top">
+                    <div id="ft_right" class="tb1" style="vertical-align: top; border: 0px solid red;">
+                        <div class="tr">
+                            <div class="th">測試項目</div>
+                            <div class="td">
+                                <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost" OnSelectedIndexChanged="ddl_test_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                             </div>
-                            <div class="tr">
-                                <div class="th">數量</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_ft_qty" CssClass="required" runat="server" Text="0"></asp:TextBox>
-                                </div>
-                                <div class="th">判定</div>
-                                <div class="td">
-                                    <asp:DropDownList ID="ddl_ft_judg" CssClass="required" runat="server">
-                                    </asp:DropDownList>
-                                </div>
+                            <div class="th">測試標準</div>
+                            <div class="td">
+                                <asp:DropDownList ID="ddl_ts_standard" runat="server" level="1" CssClass="required AutoPost"></asp:DropDownList>
                             </div>
-                            <div class="tr">
 
-                                <div class="th">S1</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_s1" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="th">S2</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_s2" runat="server"></asp:TextBox>
-                                </div>
+                        </div>
+                        <div class="tr">
+                            <div class="th">數量</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_ft_qty" CssClass="required" runat="server" Text="0"></asp:TextBox>
                             </div>
-                            <div class="tr">
-                                <div class="th">S3</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_s3" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="th">S4</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_s4" runat="server"></asp:TextBox>
-                                </div>
-
-
-
+                            <div class="th">判定</div>
+                            <div class="td">
+                                <asp:DropDownList ID="ddl_ft_judg" CssClass="required" runat="server">
+                                </asp:DropDownList>
                             </div>
-                            <div class="tr">
-                                <div class="th">S5</div>
-                                <div class="td">
-                                    <asp:TextBox ID="txt_s5" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="td"></div>
-                                <div class="td">
+                        </div>
+                        <div class="tr">
 
-                                    <asp:LinkButton class="far fa-file-alt fa-3x add_btn" runat="server" ID="lbtn_S5_add" OnClick="lbtn_S5_add_Click" OnClientClick="return S5_add_chk();"></asp:LinkButton>
-                                </div>
+                            <div class="th">S1</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_s1" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="th">S2</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_s2" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="th">S3</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_s3" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="th">S4</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_s4" runat="server"></asp:TextBox>
+                            </div>
+
+
+
+                        </div>
+                        <div class="tr">
+                            <div class="th">S5</div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_s5" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="td"></div>
+                            <div class="td">
+
+                                <asp:LinkButton class="far fa-file-alt fa-3x add_btn" runat="server" ID="lbtn_S5_add" OnClick="lbtn_S5_add_Click" OnClientClick="return S5_add_chk();"></asp:LinkButton>
                             </div>
                         </div>
                     </div>
-                    <asp:UpdatePanel runat="server" ID="up_s5" UpdateMode="Conditional" ChildrenAsTriggers="true">
-                        <ContentTemplate>
-                            <div class="td" style=" vertical-align: top; padding: 2px">
-                                <div style="float: left; width: 70%; border: 0px solid red"> 
-                                    <asp:GridView ID="gv_s5" runat="server" AutoGenerateColumns="true">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="Seq" HeaderStyle-Width="40">
-                                                <ItemStyle HorizontalAlign="Center" />
-                                                <ItemTemplate>
-                                                    <%#Container.DataItemIndex + 1%>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:BoundField DataField="test" HeaderText="Test Item" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="ts_standard" HeaderText="Test Standard" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="ft_qty" HeaderText="Qty" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="ft_jdug" HeaderText="ft jdug" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="s1" HeaderText="s1" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="s2" HeaderText="s2" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="s3" HeaderText="s3" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="s4" HeaderText="s4" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="s5" HeaderText="s5" Visible="true">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:TemplateField HeaderText="Del">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="lbtn_del_s5" runat="server" CommandName="del_row" title="del" Text="del" class="far fa-trash-alt"></asp:LinkButton>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                    </asp:GridView>
-                                    <div>a</div>
-                                    <div>b</div>
-                                    <div>c</div>
-                                </div>
-                                <div style="float: left; width: 30%; border: 1px solid #8a988e">
-                                    <div id="ft_left">
-                                        <div>
-                                            <div class="th">產品編號</div>
-                                            <div class="td">
-                                                <asp:TextBox ID="txt_prod_index" runat="server" CssClass="required"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="th">檢測時間</div>
-                                            <div class="td">
-                                                <asp:TextBox ID="txt_insp_time" runat="server" CssClass="Mclock required"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <asp:LinkButton ID="lbtn_ft_add" runat="server" class="fas fa-angle-double-down fa-3x" OnClick="lbtn_ft_add_Click" OnClientClick="return ft_add_chk();"></asp:LinkButton>
-                                        </div>
+                </div>
+
+                <div class="td" style="width: 60%; text-align: center; vertical-align: top;">
+                    <div id="test_s5" style="margin: 10px; text-align: center;">
+                     
+                                <div id="ft_left" style="width: 100%; border: 0px solid red;">
+                                    <div class="th">產品編號</div>
+                                    <div class="td" style="border-right: 0px solid red;">
+                                        <asp:TextBox ID="txt_prod_index" runat="server" CssClass="required"></asp:TextBox>
+                                    </div>
+
+
+                                    <div class="th">檢測時間</div>
+                                    <div class="td">
+                                        <asp:TextBox ID="txt_insp_time" runat="server" CssClass="Mclock required"></asp:TextBox>
+
+                                    </div>
+                                    <div class="td" style="text-align: center">
+                                        <asp:LinkButton ID="lbtn_ft_add" runat="server" class="fas fa-angle-double-down" OnClick="lbtn_ft_add_Click" OnClientClick="return ft_add_chk();"></asp:LinkButton>
                                     </div>
                                 </div>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="lbtn_S5_add" EventName="Click" />
 
-                        </Triggers>
-                    </asp:UpdatePanel>
+                           <asp:UpdatePanel runat="server" ID="up_s5" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                            <ContentTemplate>
 
+                                <asp:GridView ID="s5_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
+                                    OnRowDeleting="s5_list_RowDeleting" DataKeyNames="ft_id"
+                                    BorderColor="#5e616d" BorderStyle="Solid" BorderWidth="1px" Width="100%" CellPadding="0" GridLines="Both"
+                                    ForeColor="#856CAE" Font-Size="Small" Font-Bold="true">
+                                    <%--<AlternatingRowStyle BackColor="#a7a8bd" Height="25" ForeColor="#592C63" />--%>
+                                    <AlternatingRowStyle BackColor="#a7a8bd" Height="25" />
+                                    <HeaderStyle BackColor="#a7a8bd" Font-Size="Small" ForeColor="#eef7f2" Height="25" />
+                                    <Columns>
+                                        <asp:BoundField DataField="ft_id" Visible="false" />
+                                        <asp:TemplateField HeaderText="Seq">
+                                            <ItemStyle HorizontalAlign="Center" Height="25" />
+                                            <ItemTemplate>
+                                                <%#Container.DataItemIndex + 1%>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="test" HeaderText="Test Item" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ts_standard" HeaderText="Test Standard" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ft_qty" HeaderText="Qty" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ft_jdug" HeaderText="ft jdug" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="s1" HeaderText="s1" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="s2" HeaderText="s2" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="s3" HeaderText="s3" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="s4" HeaderText="s4" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="s5" HeaderText="s5" Visible="true">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:TemplateField HeaderText="Del">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lbtn_del_s5" runat="server" CommandName="Delete" title="del" class="far fa-trash-alt"></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                                        <tr id="empty_data_s5" style="background-color: #a7a8bd; height: 25px; color: #FFFFFB;">
+                                            <th>測試項目</th>
+                                            <th>測試標準</th>
+                                            <th>數量</th>
+                                            <th>判定</th>
+                                            <th>S1</th>
+                                            <th>S2</th>
+                                            <th>S3</th>
+                                            <th>S4</th>
+                                            <th>S5</th>
+                                        </tr>
+                                    </EmptyDataTemplate>
+                                </asp:GridView>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
                 </div>
             </div>
         </div>
 
-    </div>
+
+        
+        <asp:UpdatePanel runat="server" ID="up_ft" UpdateMode="Conditional" ChildrenAsTriggers="true">
+            <ContentTemplate>
+                <asp:GridView ID="ft_list" runat="server" AllowPaging="false" AutoGenerateColumns="false"
+                    OnRowDataBound="ft_list_RowDataBound" OnRowCommand="ft_list_RowCommand" EnableModelValidation="True"
+                    CellPadding="0" GridLines="Both"
+                    BorderColor="#96c24e" BorderStyle="Solid" BorderWidth="1px" Width="100%"
+                    ForeColor="#006030" Font-Size="Medium" Font-Bold="true">
+                    <AlternatingRowStyle BackColor="#DDE9E3" BorderColor="#96c24e" />
+                    <FooterStyle BackColor="#9abeaf" />
+                    <HeaderStyle BackColor="#9abeaf" Font-Size="Medium" ForeColor="#ffffff" Height="30" />
+                    <Columns>
 
 
-    <asp:UpdatePanel runat="server" ID="up_ft" UpdateMode="Conditional" ChildrenAsTriggers="true">
-        <ContentTemplate>
-            <asp:GridView ID="ft_list" runat="server" AllowPaging="false" AutoGenerateColumns="false"
-                OnRowDataBound="ft_list_RowDataBound" OnRowCommand="ft_list_RowCommand" EnableModelValidation="True"
-                CellPadding="0" GridLines="Both"
-                BorderColor="#96c24e" BorderStyle="Solid" BorderWidth="1px" Width="100%"
-                ForeColor="#5e665b" Font-Size="Medium" Font-Bold="true">
-                <AlternatingRowStyle BackColor="#dfecd5" />
-                <FooterStyle BackColor="#9abeaf" />
-                <HeaderStyle BackColor="#9abeaf" Font-Size="Medium" ForeColor="#ffffff" Height="30" />
 
-                <Columns>
+                        <asp:BoundField DataField="ft_id" Visible="false" />
 
-                    <asp:TemplateField HeaderText="base_id" Visible="true">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="ft_id" Visible="true">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Item" HeaderStyle-Width="40">
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" />
+                            <%--<ItemTemplate>
+                                不計算，由後台計算才會正確
+                                <%#Container.DataItemIndex + 1%>
+                            </ItemTemplate>--%>
+                        </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Item" HeaderStyle-Width="40">
+                        <asp:TemplateField HeaderText="prod_index" HeaderStyle-Width="70" >
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" CssClass="ft_list_1" />
+                        </asp:TemplateField>
 
-                        <ItemStyle HorizontalAlign="Center" />
-                        <ItemTemplate>
-                            <%#Container.DataItemIndex + 1%>
-                        </ItemTemplate>
-                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="insp_time" HeaderStyle-Width="100">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White"  CssClass="ft_list_2" />
+                        </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="prod_index" HeaderStyle-Width="70">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="test_standard" HeaderStyle-Width="110">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" Height="30" />
+                        </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="insp_time" HeaderStyle-Width="100">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="test_standard" HeaderStyle-Width="110">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="Qty" HeaderStyle-Width="110">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Qty" HeaderStyle-Width="110">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
 
 
-                    <asp:TemplateField HeaderText="jdug" HeaderStyle-Width="110">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
+                        <asp:TemplateField HeaderText="jdug" HeaderStyle-Width="110">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="S1" HeaderStyle-Width="30">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="S2" HeaderStyle-Width="30">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="S3" HeaderStyle-Width="30">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="S4" HeaderStyle-Width="30">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="S5" HeaderStyle-Width="30">
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemStyle HorizontalAlign="Center" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="del">
-                        <HeaderStyle HorizontalAlign="Center" Width="60" />
-                        <ItemStyle HorizontalAlign="Center" />
-                        <ItemTemplate>
+                        <asp:TemplateField HeaderText="S1" HeaderStyle-Width="30">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="S2" HeaderStyle-Width="30">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="S3" HeaderStyle-Width="30">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="S4" HeaderStyle-Width="30">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="S5" HeaderStyle-Width="30">
+                            <HeaderStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Edit">
+                            <HeaderStyle HorizontalAlign="Center" Width="30" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" />
+                            <ItemTemplate>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Copy">
+                            <HeaderStyle HorizontalAlign="Center" Width="30" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" />
+                            <ItemTemplate>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Del">
+                            <HeaderStyle HorizontalAlign="Center" Width="30" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" />
+                            <ItemTemplate>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <%--item 產品編號 檢測時間 測試項目 測試標準 數量 判定 S1 S2 S3 S4 S5 Edit Del Copy --%>
+                    <EmptyDataTemplate>
+                        <tr style="width: 100%; border: 0px solid #96c24e; border-collapse: collapse; font-size: medium; font-weight: bold; background-color: #9abeaf; color: #fff">
+                            <td align="center">Item</td>
+                            <td align="center" style="width: 10%">產品編號</td>
+                            <td align="center" style="width: 10%">檢測時間</td>
+                            <td align="center" style="width: 10%">測試項目</td>
+                            <td align="center" style="width: 10%">測試標準</td>
+                            <td align="center" style="width: 10%">數量</td>
+                            <td align="center" style="width: 10%">判定</td>
+                            <td align="center" style="width: 5%">S1</td>
+                            <td align="center" style="width: 5%">S2</td>
+                            <td align="center" style="width: 5%">S3</td>
+                            <td align="center" style="width: 5%">S4</td>
+                            <td align="center" style="width: 5%">S5</td>
+                        </tr>
+                        <tr style="background-color: #FFF; color: #5e665b; width: 100%; text-align: center; font-size: medium">
+                            <td colspan="15" style="height: 25px">
+                                <%=getStr("not_data")%></td>
+                        </tr>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </ContentTemplate>
 
-                            <asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>
-                        </ItemTemplate>
-
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Copy">
-                        <HeaderStyle HorizontalAlign="Center" Width="60" />
-                        <ItemStyle HorizontalAlign="Center" />
-                        <ItemTemplate>
-
-                            <asp:LinkButton ID="lbtn_Copy_del" runat="server" CommandName="del_row" title="copy" Text="copy" class="far fa-trash-alt"></asp:LinkButton>
-                        </ItemTemplate>
-
-                    </asp:TemplateField>
-
-                </Columns>
-                <%--item 產品編號 檢測時間 測試項目 測試標準 數量 判定 S1 S2 S3 S4 S5 Edit Del Copy --%>
-                <EmptyDataTemplate>
-                    <tr style="width: 100%; border: 0px solid #96c24e; border-collapse: collapse; font-size: medium; font-weight: bold; background-color: #9abeaf; color: #fff">
-                        <td align="center">Item</td>
-                        <td align="center" style="width: 10%">產品編號</td>
-                        <td align="center" style="width: 10%">檢測時間</td>
-                        <td align="center" style="width: 10%">測試項目</td>
-                        <td align="center" style="width: 10%">測試標準</td>
-                        <td align="center" style="width: 10%">數量</td>
-                        <td align="center" style="width: 10%">判定</td>
-                        <td align="center" style="width: 5%">S1</td>
-                        <td align="center" style="width: 5%">S2</td>
-                        <td align="center" style="width: 5%">S3</td>
-                        <td align="center" style="width: 5%">S4</td>
-                        <td align="center" style="width: 5%">S5</td>
-                        <td align="center" style="width: 5%">Copy</td>
-                    </tr>
-                    <tr style="background-color: #FFF; color: #5e665b; width: 100%; text-align: center; font-size: medium">
-                        <td colspan="15" style="height: 25px">
-                            <%=getStr("not_data")%></td>
-                    </tr>
-                </EmptyDataTemplate>
-            </asp:GridView>
-        </ContentTemplate>
-
-    </asp:UpdatePanel>
+        </asp:UpdatePanel>
 
 
-    <asp:UpdatePanel runat="server" ID="up_list" UpdateMode="Conditional" ChildrenAsTriggers="true">
-        <ContentTemplate>
-            <asp:HiddenField ID="ft_rowid" runat="server" />
+        <asp:UpdatePanel runat="server" ID="up_list" UpdateMode="Conditional" ChildrenAsTriggers="true">
+            <ContentTemplate>
+                <asp:HiddenField ID="ft_rowid" runat="server" />
 
+                <div class="tb1">
+                    <div class="tr">
+                        <div class="td" style="text-align: center; font-size: 1.4em; color: #b598a1; font-weight: bold; width: 100%">
+                            檢測記錄總表
+                        </div>
+                    </div>
+                    <div class="tr">
+                        <div class="td" style="width: 95%; margin: 0;">
+                            <asp:GridView ID="all_list" runat="server" AllowPaging="false" AutoGenerateColumns="false" Font-Size="Medium"
+                                OnRowDataBound="all_list_RowDataBound" OnRowCommand="all_list_RowCommand"
+                                CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="100%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
+                                <AlternatingRowStyle BackColor="#F1ECED" />
+                                <FooterStyle BackColor="Yellow" />
+                                <HeaderStyle BackColor="#b598a1" Font-Bold="True" ForeColor="#ffffff" BorderWidth="0" Font-Size="Medium" />
+
+                                <SelectedRowStyle BackColor="Pink" Font-Bold="True" ForeColor="White" />
+                                <Columns>
+
+                                    <asp:BoundField DataField="base_id" HeaderText="base_id" Visible="false">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+                                    <asp:TemplateField HeaderText="Item" HeaderStyle-Width="40">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <%#Container.DataItemIndex + 1%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Inspect" HeaderStyle-Width="70">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lab_inspect" runat="server"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Inspect Count Quantity" HeaderStyle-Width="100">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lab_insp_count" runat="server"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Sample Standard" HeaderStyle-Width="100">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lab_sp_standard" runat="server"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Sample Count Quantity" HeaderStyle-Width="100">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lab_samp_count" runat="server"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:BoundField DataField="bith_date" HeaderText="Manufacturing Date" HeaderStyle-Width="110">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+
+                                    <asp:BoundField DataField="b_operator" HeaderText="Operator" HeaderStyle-Width="100">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+
+                                    <asp:TemplateField HeaderText="View" HeaderStyle-Width="500">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+
+                                    <asp:TemplateField HeaderText="del">
+                                        <HeaderStyle HorizontalAlign="Center" Width="60" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+
+                                            <asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" CommandArgument='<%#Eval("base_id") %>' class="far fa-trash-alt"></asp:LinkButton>
+                                        </ItemTemplate>
+
+                                    </asp:TemplateField>
+
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    <tr style="background-color: #b598a1; color: #fff; font-weight: bolder; height: 25px; font-size: medium; width: 95%; border-top: 0px">
+                                        <td align="center" style="width: 5%">Item</td>
+                                        <td align="center" style="width: 10%"><%=getStr("insp_type") %></td>
+                                        <td align="center" style="width: 10%"><%=getStr("inspct_num") %></td>
+                                        <td align="center" style="width: 15%"><%=getStr("sp_stand") %></td>
+                                        <td align="center" style="width: 10%"><%=getStr("samp_num") %></td>
+                                        <td align="center" style="width: 10%"><%=getStr("birth_dt") %></td>
+                                        <td align="center" style="width: 10%"><%=getStr("assembly_staff") %></td>
+                                        <td align="center" style="width: 30%">View</td>
+                                        <td align="center" style="width: 5%">Del</td>
+
+
+                                    </tr>
+                                    <tr style="background-color: #FFF; color: #b598a1; font-weight: bolder; width: 100%; text-align: center">
+                                        <td colspan="10" style="height: 35px">
+                                            <%=getStr("not_data")%></td>
+                                    </tr>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </div>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+        <div class="t1">
             <div class="tb1">
-                <div class="tr">
-                    <div class="td" style="text-align: center; font-size: 1.4em; color: #b598a1; font-weight: bold; width: 100%">
-                        檢測記錄總表
+                <div class="tr" style="text-align: left">
+                    <div class="td">
+                        <SmoothEnterpriseWebControl:InputButton ID="Btn_Save" runat="server" Text="save" OnClick="Btn_Save_Click" OnClientClick="return Leica_chk()">
+                        </SmoothEnterpriseWebControl:InputButton>
+
+                        <SmoothEnterpriseWebControl:InputButton ID="Btn_Cancel" runat="server" Text="Cancel" Visible="true" OnClientClick="return cancel()" OnClick="Btn_Cancel_Click" />
+
+
+                        <SmoothEnterpriseWebControl:InputButton ID="Btn_Back" runat="server" Text="Back" Visible="true" OnClientClick="return Nomarl.goto('Leica.aspx')" />
+
                     </div>
-                </div>
-                <div class="tr">
-                    <div class="td" style="width: 95%; margin: 0;">
-                        <asp:GridView ID="all_list" runat="server" AllowPaging="false" AutoGenerateColumns="false" Font-Size="Medium"
-                            OnRowDataBound="all_list_RowDataBound" OnRowCommand="all_list_RowCommand"
-                            CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="100%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
-                            <AlternatingRowStyle BackColor="#F1ECED" />
-                            <FooterStyle BackColor="Yellow" />
-                            <HeaderStyle BackColor="#b598a1" Font-Bold="True" ForeColor="#ffffff" BorderWidth="0" Font-Size="Medium" />
-
-                            <SelectedRowStyle BackColor="Pink" Font-Bold="True" ForeColor="White" />
-                            <Columns>
-
-                                <asp:BoundField DataField="base_id" HeaderText="base_id" Visible="false">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                </asp:BoundField>
-
-                                <asp:TemplateField HeaderText="Item" HeaderStyle-Width="40">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                        <%#Container.DataItemIndex + 1%>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Inspect" HeaderStyle-Width="70">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                        <asp:Label ID="lab_inspect" runat="server"></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Inspect Count Quantity" HeaderStyle-Width="100">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                        <asp:Label ID="lab_insp_count" runat="server"></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Sample Standard" HeaderStyle-Width="100">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                        <asp:Label ID="lab_sp_standard" runat="server"></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Sample Count Quantity" HeaderStyle-Width="100">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                        <asp:Label ID="lab_samp_count" runat="server"></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:BoundField DataField="bith_date" HeaderText="Manufacturing Date" HeaderStyle-Width="110">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                </asp:BoundField>
-
-
-                                <asp:BoundField DataField="b_operator" HeaderText="Operator" HeaderStyle-Width="100">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                </asp:BoundField>
-
-
-                                <asp:TemplateField HeaderText="View" HeaderStyle-Width="500">
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-
-                                <asp:TemplateField HeaderText="del">
-                                    <HeaderStyle HorizontalAlign="Center" Width="60" />
-                                    <ItemStyle HorizontalAlign="Center" />
-                                    <ItemTemplate>
-
-                                        <asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" CommandArgument='<%#Eval("base_id") %>' class="far fa-trash-alt"></asp:LinkButton>
-                                    </ItemTemplate>
-
-                                </asp:TemplateField>
-
-                            </Columns>
-                            <EmptyDataTemplate>
-                                <tr style="background-color: #b598a1; color: #fff; font-weight: bolder; height: 25px; font-size: medium; width: 95%">
-                                    <td align="center" style="width: 5%">Item</td>
-                                    <td align="center" style="width: 10%"><%=getStr("insp_type") %></td>
-                                    <td align="center" style="width: 10%"><%=getStr("inspct_num") %></td>
-                                    <td align="center" style="width: 15%"><%=getStr("sp_stand") %></td>
-                                    <td align="center" style="width: 10%"><%=getStr("samp_num") %></td>
-                                    <td align="center" style="width: 10%"><%=getStr("birth_dt") %></td>
-                                    <td align="center" style="width: 10%"><%=getStr("assembly_staff") %></td>
-                                    <td align="center" style="width: 30%">View</td>
-                                    <td align="center" style="width: 5%">Del</td>
-
-
-                                </tr>
-                                <tr style="background-color: #FFF; color: #b598a1; font-weight: bolder; width: 100%; text-align: center">
-                                    <td colspan="10" style="height: 35px">
-                                        <%=getStr("not_data")%></td>
-                                </tr>
-                            </EmptyDataTemplate>
-                        </asp:GridView>
-                    </div>
-                </div>
-            </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
-
-    <div class="t1">
-        <div class="tb1">
-            <div class="tr" style="text-align: left">
-                <div class="td">
-                    <SmoothEnterpriseWebControl:InputButton ID="Btn_Save" runat="server" Text="save" OnClick="Btn_Save_Click" OnClientClick="return Leica_chk()">
-                    </SmoothEnterpriseWebControl:InputButton>
-
-                    <SmoothEnterpriseWebControl:InputButton ID="Btn_Cancel" runat="server" Text="Cancel" Visible="true" OnClientClick="return cancel()" OnClick="Btn_Cancel_Click" />
-
-
-                    <SmoothEnterpriseWebControl:InputButton ID="Btn_Back" runat="server" Text="Back" Visible="true" OnClientClick="return Nomarl.goto('Leica.aspx')" />
-
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </asp:Content>
 

@@ -9,10 +9,11 @@ using System.Web.UI.WebControls;
 
 namespace Leica
 {
+    
     public partial class LeicaAdd : LeicaBase
     {
         int _all_row = 0;
-
+        int tt= 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -20,18 +21,18 @@ namespace Leica
                 msg.Value = "";
                 Create_Table();
 
+                //---------------------------------
 
                 if (!IsPostBack)
                 {
                     InitUI();
                     OutTable();
                     _head_id = Guid.NewGuid().ToString();
-
-
+                    tt = 1;
                 }
                 else
                 {
-
+                    tt += 1;
                     GetTable();
                     _h_operator = txt_operator.Text;
                     _insp_date = txt_inspDt.Text;
@@ -70,8 +71,6 @@ namespace Leica
                     _position = ddl_position.SelectedValue;
                     _vmi_qty = txt_vmi_qty.Text;
                     _vmi_judg = ddl_vmi_judg.SelectedValue;
-
-
                 }
 
                 ddl_setting();
@@ -96,18 +95,26 @@ namespace Leica
                 Vmi_Bind();
                 All_Bind(); //all_list
                 Ft_Bind();
-
+                S5_Bind();
 
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            lb_test.Text = tt.ToString();
         }
 
+        /// <summary>
+        /// s5_list 重新開始，所以要清空，以免第一列群組異常
+        /// </summary>
+        private void s5_list_init()
+        {
+            curr_ft_id = "";
+            item = 1;
 
-
-
+        }
 
         /// <summary>
         /// 因為多國語言要轉換 ddl內的選單，所以放在外面
@@ -125,14 +132,12 @@ namespace Leica
 
             Join_Product(ddl_product);
             Join_Program(ddl_program);
-
         }
 
         private void InitUI()
         {
             //up_vmi.Visible = false;
-            //up_ft.Visible = false; 
-
+            //up_ft.Visible = false;  
 
             _insp_date = DateTime.Now.ToShortDateString();
             txt_operator.Text = CurrentUser.LogonID;
@@ -185,14 +190,12 @@ namespace Leica
             {
                 //up_vmi.Visible = true;
                 up_vmi.Update();
-
             }
             else
             {
                 ft_show();
                 //up_ft.Visible = true;
                 up_ft.Update();
-
             }
         }
 
@@ -630,297 +633,361 @@ namespace Leica
 
             string sql = string.Format(" prod_index='{0}' and insp_time='{1}' ", _prod_index, _insp_time);
             DataRow[] ds = t_ft.Table.Select(sql);
+            string rowid = Guid.NewGuid().ToString();
 
+            //不重覆者才可以新增
             if (ds.Length == 0)
             {
-                string rowid = Guid.NewGuid().ToString();
-                ft_rowid.Value = rowid;
-                _ft_rowid = rowid;
+                s5_list_init();
                 t_ft.Table.Rows.Add(_base_id, rowid, _prod_index, _insp_time);
+
+                foreach (DataRow r in t_S5.Table.Rows)
+                {
+                    r[0] = rowid;
+                    ft_S5.Table.ImportRow(r);
+                }
+
                 Ft_Bind();
+
+                t_S5.Table.Clear();
+                S5_Bind();
+
+                txt_prod_index.Text = "";
+                txt_insp_time.Text = "";
+
             }
             else
             {
 
-                if (!Page.ClientScript.IsStartupScriptRegistered("Svr_Replay"))
-                {
-                    string show = getStr("is_exist");
-                    ScriptManager.RegisterStartupScript(Page, GetType(), "Svr_Replay", "Svr_Replay('" + show + "')", true);
-                }
-
+                msg.Value = "資料重覆";
             }
         }
 
         private void Ft_Bind()
-        { 
-            GridView_Bind(ft_list, t_S5.Table);
-            up_ft.Update();
-        }
-
-        protected void ft_list_RowDataBound2(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                int iRowspan = 0;
-                DataRowView drv = (DataRowView)e.Row.DataItem;
+            GridView_Bind(ft_list, ft_S5.Table);
+            up_ft.Update();
 
-                string ft_id = drv["ft_id"].ToString();
-
-                DataRow[] s5 = t_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id));
-                iRowspan = s5.Length;
-
-
-                //base_id
-                e.Row.Cells[0].Text = drv["base_id"].ToString();
-                e.Row.Cells[0].RowSpan = iRowspan;
-
-                //ft_id
-                e.Row.Cells[1].Text = drv["ft_id"].ToString();
-                e.Row.Cells[1].RowSpan = iRowspan;
-
-                //item
-                // e.Row.Cells[2].Text = drv["prod_index"].ToString();
-                e.Row.Cells[2].RowSpan = iRowspan;
-
-                //prod_index
-                e.Row.Cells[3].Text = drv["prod_index"].ToString();
-                e.Row.Cells[3].RowSpan = iRowspan;
-
-                //insp_time
-                e.Row.Cells[4].Text = drv["insp_time"].ToString();
-                e.Row.Cells[4].RowSpan = iRowspan;
-
-
-                foreach (DataRow r in s5)
-                {
-
-                    //"t_S5", "ft_id", "test", "ts_standard", "ft_qty", "ft_jdug", "s1", "s2", "s3", "s4", "s5"
-                    e.Row.Cells[5].Text = r["test"].ToString();
-
-
-                    //Qty
-                    e.Row.Cells[6].Text = r["ft_qty"].ToString();
-
-
-                    //jdug
-                    e.Row.Cells[7].Text = r["ft_jdug"].ToString();
-
-
-                    //s1
-                    e.Row.Cells[8].Text = r["s1"].ToString();
-
-
-                    //s2
-                    e.Row.Cells[9].Text = r["s2"].ToString();
-
-
-                    //s3
-                    e.Row.Cells[10].Text = r["s3"].ToString();
-
-
-                    //s4
-                    e.Row.Cells[11].Text = r["s4"].ToString();
-
-
-                    //s5
-                    e.Row.Cells[12].Text = r["s5"].ToString();
-
-
-                    //del
-                    //e.Row.Cells[13].Text = "";
-
-                }
-
-                //copy
-                //e.Row.Cells[14].Text = "";
-                e.Row.Cells[14].RowSpan = iRowspan;
-            }
         }
 
-        string row_ft = "x";
-        int iRowspan = 1;
+        private void S5_Bind()
+        {
+            GridView_Bind(s5_list, t_S5.Table);
+            up_s5.Update();
+        }
+
+        //protected void ft_list_RowDataBound2(object sender, GridViewRowEventArgs e)
+        //{
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+        //    {
+        //        int iRowspan = 0;
+        //        DataRowView drv = (DataRowView)e.Row.DataItem;
+
+        //        string ft_id = drv["ft_id"].ToString();
+
+        //        DataRow[] s5 = t_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id));
+        //        iRowspan = s5.Length;
+
+
+        //        //base_id
+        //        e.Row.Cells[0].Text = drv["base_id"].ToString();
+        //        e.Row.Cells[0].RowSpan = iRowspan;
+
+        //        //ft_id
+        //        e.Row.Cells[1].Text = drv["ft_id"].ToString();
+        //        e.Row.Cells[1].RowSpan = iRowspan;
+
+        //        //item
+        //        // e.Row.Cells[2].Text = drv["prod_index"].ToString();
+        //        e.Row.Cells[2].RowSpan = iRowspan;
+
+        //        //prod_index
+        //        e.Row.Cells[3].Text = drv["prod_index"].ToString();
+        //        e.Row.Cells[3].RowSpan = iRowspan;
+
+        //        //insp_time
+        //        e.Row.Cells[4].Text = drv["insp_time"].ToString();
+        //        e.Row.Cells[4].RowSpan = iRowspan;
+
+
+        //        foreach (DataRow r in s5)
+        //        {
+
+        //            //"t_S5", "ft_id", "test", "ts_standard", "ft_qty", "ft_jdug", "s1", "s2", "s3", "s4", "s5"
+        //            e.Row.Cells[5].Text = r["test"].ToString();
+
+
+        //            //Qty
+        //            e.Row.Cells[6].Text = r["ft_qty"].ToString();
+
+
+        //            //jdug
+        //            e.Row.Cells[7].Text = r["ft_jdug"].ToString();
+
+
+        //            //s1
+        //            e.Row.Cells[8].Text = r["s1"].ToString();
+
+
+        //            //s2
+        //            e.Row.Cells[9].Text = r["s2"].ToString();
+
+
+        //            //s3
+        //            e.Row.Cells[10].Text = r["s3"].ToString();
+
+
+        //            //s4
+        //            e.Row.Cells[11].Text = r["s4"].ToString();
+
+
+        //            //s5
+        //            e.Row.Cells[12].Text = r["s5"].ToString();
+
+
+        //            //del
+        //            //e.Row.Cells[13].Text = "";
+
+        //        }
+
+        //        //copy
+        //        //e.Row.Cells[14].Text = "";
+        //        e.Row.Cells[14].RowSpan = iRowspan;
+        //    }
+        //}
+
+        string curr_ft_id = "";
+        int iRowspan = 1; //合併列數
         int item = 1;
+        System.Drawing.Color bg_Color, ft_Color;
+
+        /// <summary>
+        /// 因為資料有做分群，所以字色來區分資料項次，以行色來分別列數
+        /// 字色由資料算出
+        /// 行色由系統設定，設定在aspx上，item,prod_index,insp_time,Edit,Copy,Del皆設為白色
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ft_list_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-
                 DataRowView drv = (DataRowView)e.Row.DataItem;
 
                 string ft_id = drv["ft_id"].ToString();
-                DataRow[] ft;
 
-                
+                //-------------------test-----------------------------------------
 
-                if (t_S5.Table.Rows.Count == 0)
+                if (curr_ft_id == "" || (ft_id != curr_ft_id && !string.IsNullOrEmpty(ft_id)))
                 {
-                    ft = t_ft.Table.Select();
-                }
-                else
-                {
-                    ft = t_ft.Table.Select(string.Format(" ft_id='{0}' ", ft_id));
+                    e.Row.Height = 35;
 
-                }
+                    //新資料
 
-                //base_id
-                if (ft[0]["ft_id"].ToString() != row_ft)
-                {
+                    DataRow[] ft = t_ft.Table.Select(string.Format(" ft_id='{0}' ", ft_id));
 
-                    row_ft = ft_id;
+                    curr_ft_id = ft_id;
                     iRowspan = 1;
 
-                    e.Row.Cells[0].Text = ft[0]["base_id"].ToString();
+                    //e.Row.Cells[0].Text = ft[0]["base_id"].ToString();
 
+                    if (ft.Length> 0)
+                    {
 
+                    
                     //ft_id
-                    e.Row.Cells[1].Text = ft[0]["ft_id"].ToString();
+                    e.Row.Cells[0].Text = ft[0]["ft_id"].ToString();
 
 
                     //item
-                    e.Row.Cells[2].Text = item.ToString();
+                    e.Row.Cells[1].Text = Convert.ToString(item); //item
+
+                    ft_Color = e.Row.ForeColor;
+
+                    if ((item % 2) == 0) //背景色
+                    {
+                        e.Row.ForeColor = Utility.HexColor("#DDA52D");
+                        ft_Color = e.Row.ForeColor;
+
+                    }
+
 
 
                     //prod_index
-                    e.Row.Cells[3].Text = ft[0]["prod_index"].ToString();
+                    e.Row.Cells[2].Text = ft[0]["prod_index"].ToString();
 
 
                     //insp_time
-                    e.Row.Cells[4].Text = ft[0]["insp_time"].ToString();
+                    e.Row.Cells[3].Text = ft[0]["insp_time"].ToString();
 
-                   DataRow[] r = t_S5.Table.Select(string.Format(" ft_id='{0}' ", ft[0]["ft_id"].ToString()));
+                    DataRow[] s5 = ft_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id)); ;//計算合併的列數
 
-                    iRowspan = r.Length > 0 ? r.Length : 1;
+                    iRowspan = s5.Length > 0 ? s5.Length : 1; //合併的列數
 
+                    LinkButton lbtn_del = new LinkButton();
+                    lbtn_del.CommandName = "del_comm";
+                    lbtn_del.CommandArgument = ft_id;
+                    lbtn_del.CssClass = "far fa-trash-alt ft_del";
+
+
+                    //lbtn_del.Style.Value = "color:#eea08c;";
+
+
+                    LinkButton lbtn_copy = new LinkButton();
+                    lbtn_copy.CommandName = "copy_comm";
+                    lbtn_copy.CommandArgument = ft_id;
+                    lbtn_copy.CssClass = "far fa-copy ft_copy"; //<i class="far fa-copy"></i>
+                    lbtn_copy.OnClientClick = "return ft_edit_check()";
+
+                    LinkButton lbtn_edit = new LinkButton();
+                    lbtn_edit.CommandName = "edit_comm";
+                    lbtn_edit.CommandArgument = ft_id;
+                    lbtn_edit.CssClass = "fas fa-wrench ft_edit"; //<i class="far fa-copy"></i>
+                    lbtn_edit.OnClientClick =string.Format("return ft_update('{0}','{1}')", ft[0]["prod_index"].ToString(), ft[0]["insp_time"].ToString()); //將要修改的資料傳回javascript 因為在UpdatePanel之外
+
+
+                        e.Row.Cells[12].Controls.Add(lbtn_edit);
+                    e.Row.Cells[13].Controls.Add(lbtn_copy);
+                    e.Row.Cells[14].Controls.Add(lbtn_del);
+
+                    e.Row.Cells[12].RowSpan = iRowspan;
+                    e.Row.Cells[13].RowSpan = iRowspan;
                     e.Row.Cells[14].RowSpan = iRowspan;
+
                     e.Row.Cells[0].RowSpan = iRowspan;
                     e.Row.Cells[1].RowSpan = iRowspan;
                     e.Row.Cells[2].RowSpan = iRowspan;
                     e.Row.Cells[3].RowSpan = iRowspan;
-                    e.Row.Cells[4].RowSpan = iRowspan;
 
-                    item++;
+
+                    item++;//項次
+                    }
                 }
                 else
-                {
+                { //合併資料 將欄位隱藏
+                    e.Row.Cells[12].Visible = false;
+                    e.Row.Cells[13].Visible = false;
                     e.Row.Cells[14].Visible = false;
+
                     e.Row.Cells[0].Visible = false;
                     e.Row.Cells[1].Visible = false;
                     e.Row.Cells[2].Visible = false;
                     e.Row.Cells[3].Visible = false;
-                    e.Row.Cells[4].Visible = false;
+
+
+                    int index = e.Row.RowIndex;
+                    e.Row.ForeColor = ft_Color;
                 }
-           
-
-
 
                 //"t_S5", "ft_id", "test", "ts_standard", "ft_qty", "ft_jdug", "s1", "s2", "s3", "s4", "s5"
-                if ( t_S5.Table.Rows.Count >0)
-                {
-                    e.Row.Cells[5].Text = drv["test"].ToString();
+
+                e.Row.Cells[4].Text = drv["ts_standard"].ToString();
 
 
-                    //Qty
-                    e.Row.Cells[6].Text = drv["ft_qty"].ToString();
+                //Qty
+                e.Row.Cells[5].Text = drv["ft_qty"].ToString();
 
 
-                    //jdug
-                    e.Row.Cells[7].Text = drv["ft_jdug"].ToString();
+                //jdug
+                e.Row.Cells[6].Text = drv["ft_jdug"].ToString();
 
 
-                    //s1
-                    e.Row.Cells[8].Text = drv["s1"].ToString();
+                //s1
+                e.Row.Cells[7].Text = drv["s1"].ToString();
 
 
-                    //s2
-                    e.Row.Cells[9].Text = drv["s2"].ToString();
+                //s2
+                e.Row.Cells[8].Text = drv["s2"].ToString();
 
 
-                    //s3
-                    e.Row.Cells[10].Text = drv["s3"].ToString();
+                //s3
+                e.Row.Cells[9].Text = drv["s3"].ToString();
 
 
-                    //s4
-                    e.Row.Cells[11].Text = drv["s4"].ToString();
+                //s4
+                e.Row.Cells[10].Text = drv["s4"].ToString();
 
 
-                    //s5
-                    e.Row.Cells[12].Text = drv["s5"].ToString();
+                //s5
+                e.Row.Cells[11].Text = drv["s5"].ToString();
 
-
-                    //del
-                    //e.Row.Cells[13].Text = "";
-
-
-                    //copy
-                    //e.Row.Cells[14].Text = "";
-                }
             }
         }
+
 
         protected void ft_list_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            string ft_id = e.CommandArgument.ToString();
+            if (e.CommandName == "del_comm")
+            {
 
-        }
+                string del_cmd = string.Format(" ft_id='{0}' ", ft_id);
+                ft_S5.Row_Del(del_cmd);
+                t_ft.Row_Del(del_cmd);
+                Ft_Bind();
+            }
 
+            if (e.CommandName == "copy_comm")
+            {
 
+                Set_S5_Update(ft_id, "COPY");
+            }
 
-        protected void lbtn_S5_add_Click(object sender, EventArgs e)
-        {
-
-
-            t_S5.Table.Rows.Add(_ft_rowid, ddl_test.SelectedItem.Text, _test, ddl_ts_standard.SelectedItem.Text, _ts_standard, _ft_qty, ddl_ft_judg.SelectedItem.Text, _ft_jdug, _s1, _s2, _s3, _s4, _s5);
-            System.Diagnostics.Debug.WriteLine(t_S5.Table.Rows.Count);
-            Ft_Bind();
-            if (ft_list.Rows.Count > 0)
+            if (e.CommandName == "edit_comm")
             {
 
 
+                Set_S5_Update(ft_id, "EDIT");
+
+                //因為修改 所以不需要再存在
+                string del_cmd = string.Format(" ft_id='{0}' ", ft_id);
+                t_ft.Row_Del(del_cmd);
+                Ft_Bind();
             }
 
         }
 
-
-
-
-        protected void lbtn_test_Click(object sender, EventArgs e)
+        private void Set_S5_Update(string ft_id, string action)
         {
-            _ft_rowid = Guid.NewGuid().ToString();
-            ft_rowid.Value = _ft_rowid;
+            string get_cmd = string.Format(" ft_id='{0}' ", ft_id);
+            DataRow[] s5 = ft_S5.Table.Select(get_cmd);
+
+            string o_grid = "";
+            foreach (DataRow r in s5)
+            {
+                //t_S5 = new data_table("t_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug" ,"ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
+                o_grid = r[0].ToString();//將舊的資料存起 
+                r[0] = Guid.NewGuid().ToString();//刷新
+                t_S5.Table.ImportRow(r);//存回Temp檔
+                if (action == "EDIT") { r.Delete(); }
+
+                r[0] = o_grid;//回存;因為在copy的時候，僅僅只是復制一份到t_S5 但因為//刷新 guid會影響ft_S5 再存回
+            }
+
+            if (action != "COPY")
+            {
+                DataRow[] ft = t_ft.Table.Select(get_cmd); //只會有一筆
+
+                txt_prod_index.Text = ft[0]["prod_index"].ToString();
+                txt_insp_time.Text = ft[0]["insp_time"].ToString();
+                 
+            }
+
+            S5_Bind();
         }
 
-        protected void btn_test_Click(object sender, EventArgs e)
+        protected void lbtn_S5_add_Click(object sender, EventArgs e)
         {
-            t_S5.Table.Clear();
-            t_ft.Table.Clear();
+            t_S5.Table.Rows.Add(Guid.NewGuid().ToString(), ddl_test.SelectedItem.Text, _test, ddl_ts_standard.SelectedItem.Text, _ts_standard, _ft_qty, ddl_ft_judg.SelectedItem.Text, _ft_jdug, _s1, _s2, _s3, _s4, _s5);
+            S5_Bind();
+        }
 
-            string ft_id = Guid.NewGuid().ToString();
+        protected void s5_list_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            string ft_id = s5_list.DataKeys[e.RowIndex].Value.ToString();
 
-            t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "1-1", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "1", "1", "1", "1", "1");
-            t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "1-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "1", "1", "1", "1", "1");
-            t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "1-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "1", "1", "1", "1", "1");
-            t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "1-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "1", "1", "1", "1", "1");
-            t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "1-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "1", "1", "1", "1", "1");
-
-
-
-            t_ft.Table.Rows.Add(Guid.NewGuid().ToString(), ft_id, "1", DateTime.Now.ToShortTimeString());
-
-             ft_id = Guid.NewGuid().ToString();
-
-            t_S5.Table.Rows.Add(ft_id, "測試項目3", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "A-1", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "A", "A", "A", "A", "A");
-            t_S5.Table.Rows.Add(ft_id, "測試項目3", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "A-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "A", "A", "A", "A", "A");
-
-            t_ft.Table.Rows.Add(Guid.NewGuid().ToString(), ft_id, "2", DateTime.Now.AddSeconds(5).ToShortTimeString());
-
-
-            ft_id = Guid.NewGuid().ToString();
-            t_S5.Table.Rows.Add(ft_id, "測試項目4", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "C-1", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "C", "1", "1", "1", "1");
-            t_S5.Table.Rows.Add(ft_id, "測試項目4", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "C-2", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "C", "1", "1", "1", "1");
-            //t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "E", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "D", "1", "1", "1", "1");
-            //t_S5.Table.Rows.Add(ft_id, "測試項目2", "8bef2d3e-cb59-4296-a594-c000eb06c7e9", "測試標準", "4a601661-a989-47d7-ae3d-4a76b788a3f9", "F", "判定2", "d1d6ea97-3513-4b4b-8218-e2c1d044abf4", "F", "1", "1", "1", "1");
-
-            t_ft.Table.Rows.Add(Guid.NewGuid().ToString(), ft_id, "3", DateTime.Now.ToShortTimeString());
-            Ft_Bind();
+            t_S5.Row_Del(string.Format(" ft_id='{0}' ", ft_id));
+            S5_Bind();
         }
     }
 }

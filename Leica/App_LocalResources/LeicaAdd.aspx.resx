@@ -210,4 +210,10 @@
   <data name="not_null" xml:space="preserve">
     <value>不得為空</value>
   </data>
+  <data name="unable_to_run" xml:space="preserve">
+    <value>Unable to run operation if test data is not processed</value>
+  </data>
+  <data name="duplicate" xml:space="preserve">
+    <value>Duplicate product number and test time</value>
+  </data>
 </root>

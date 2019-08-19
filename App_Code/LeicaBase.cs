@@ -13,9 +13,10 @@ public class LeicaBase : MABase
     protected string _position = "", _vmi_qty = "0", _vmi_judg;
     protected string _ft_qty = "", _ft_jdug = "", _s1 = "", _s2 = "", _s3 = "", _s4 = "", _s5 = "" ;
     public string msg = "",   _insp_time = "", _shape = "", _head_id, _base_id, _ft_rowid;
+    
    
 
-    protected data_table lbase, t_ft, vmi, t_vmi, shape, t_shape, track, t_S5;
+    protected data_table lbase, t_ft, vmi, t_vmi, shape, t_shape, track, t_S5,ft_S5 ;
     protected DataTable db = new DataTable();
 
     public LeicaBase()
@@ -102,8 +103,12 @@ public class LeicaBase : MABase
         t_shape = new data_table("stemp", "shape_id", "shape");
         //----------------------
         t_ft = new data_table("t_ft", "base_id", "ft_id", "prod_index", "insp_time");
+
         t_S5 = new data_table("t_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug" ,"ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
-        
+        ft_S5 = new data_table("ft_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug", "ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
+
+
+
     }
 
     protected void GetTable()
@@ -118,6 +123,7 @@ public class LeicaBase : MABase
 
         t_ft.Table = (DataTable)ViewState[t_ft.Name];
         t_S5.Table = (DataTable)ViewState[t_S5.Name];
+        ft_S5.Table = (DataTable)ViewState[ft_S5.Name];
     }
 
     protected void OutTable()
@@ -132,6 +138,7 @@ public class LeicaBase : MABase
 
         ViewState[t_ft.Name] = t_ft.Table;
         ViewState[t_S5.Name] = t_S5.Table;
+        ViewState[ft_S5.Name] = ft_S5.Table;
     }
 
     #region save
@@ -141,10 +148,7 @@ public class LeicaBase : MABase
     //ViewState[shape.Name] = shape.Table;
 
     private void save_base()
-    {
-
-
-
+    { 
     }
 
 

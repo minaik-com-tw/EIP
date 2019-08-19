@@ -204,4 +204,7 @@
   <data name="vmi" xml:space="preserve">
     <value>外觀檢驗</value>
   </data>
+  <data name="duplicate" xml:space="preserve">
+    <value>產品編號與檢測時間重覆</value>
+  </data>
 </root>
