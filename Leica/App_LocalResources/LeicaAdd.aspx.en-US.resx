@@ -207,4 +207,31 @@
   <data name="vmi" xml:space="preserve">
     <value>Visual and Mechanical Inspection</value>
   </data>
+  <data name="custmer" xml:space="preserve">
+    <value>Custmer</value>
+  </data>
+  <data name="inspect_record" xml:space="preserve">
+    <value>Inspect total record</value>
+  </data>
+  <data name="insp_record" xml:space="preserve">
+    <value>Leica Inspection Record</value>
+  </data>
+  <data name="insp_time" xml:space="preserve">
+    <value>Inspect time</value>
+  </data>
+  <data name="judg" xml:space="preserve">
+    <value>Judgment</value>
+  </data>
+  <data name="prod_no" xml:space="preserve">
+    <value>Product No.</value>
+  </data>
+  <data name="qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="ts_item" xml:space="preserve">
+    <value>Test Item</value>
+  </data>
+  <data name="ts_stand" xml:space="preserve">
+    <value>Test Standard</value>
+  </data>
 </root>

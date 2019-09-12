@@ -34,6 +34,7 @@ namespace Build
                
                 _def = chk_def.Checked;
                 _display = chk_display.Checked;
+                _tw = lab_tw.Text;
             }
 
         }
@@ -75,7 +76,7 @@ namespace Build
                  
                 rs["def"] = _def == true ? 1 : 0;
                 rs["display"] = _display == true ? 0 :1;
-
+                rs["tw"] = _tw;
                 rs.Update();
                 rs.Close();
 
@@ -87,7 +88,7 @@ namespace Build
                     while (!rs.EOF)
                     {
                         rs["def"] = 0;
-                        
+                      
                         rs.Update();
                         rs.MoveNext();
                         

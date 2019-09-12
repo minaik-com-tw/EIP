@@ -169,7 +169,7 @@
     <value>Judgment</value>
   </data>
   <data name="more_zero" xml:space="preserve">
-    <value>value must be more than 0 or is equal 0</value>
+    <value>Value must be more than 0 or is equal 0</value>
   </data>
   <data name="not_data" xml:space="preserve">
     <value>Not Data</value>
@@ -208,7 +208,7 @@
     <value>Visual and Mechanical Inspection</value>
   </data>
   <data name="not_null" xml:space="preserve">
-    <value>不得為空</value>
+    <value>The  is not null</value>
   </data>
   <data name="unable_to_run" xml:space="preserve">
     <value>Unable to run operation if test data is not processed</value>
@@ -216,8 +216,35 @@
   <data name="duplicate" xml:space="preserve">
     <value>Duplicate product number and test time</value>
   </data>
-  <data name="custmer" xml:space="preserve">
-    <value>Custmer</value>
+  <data name="save_ok" xml:space="preserve">
+    <value>Save is success</value>
+  </data>
+  <data name="obsolete" xml:space="preserve">
+    <value>Obsolete</value>
+  </data>
+  <data name="remind" xml:space="preserve">
+    <value>Remind Reviewer</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Submittal</value>
+  </data>
+  <data name="suspend" xml:space="preserve">
+    <value>Suspend</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="supervisor" xml:space="preserve">
+    <value>Supervisor</value>
+  </data>
+  <data name="manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="fail" xml:space="preserve">
+    <value>Data is fail</value>
   </data>
   <data name="inspect_record" xml:space="preserve">
     <value>Inspect total record</value>
@@ -242,5 +269,8 @@
   </data>
   <data name="ts_stand" xml:space="preserve">
     <value>Test Standard</value>
+  </data>
+  <data name="custmer" xml:space="preserve">
+    <value>Custmer</value>
   </data>
 </root>

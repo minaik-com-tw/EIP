@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace Leica
 {
-    
+
     public partial class LeicaAdd : LeicaBase
     {
         int _all_row = 0;
-        int tt= 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -28,11 +28,11 @@ namespace Leica
                     InitUI();
                     OutTable();
                     _head_id = Guid.NewGuid().ToString();
-                    tt = 1;
+
                 }
                 else
                 {
-                    tt += 1;
+
                     GetTable();
                     _h_operator = txt_operator.Text;
                     _insp_date = txt_inspDt.Text;
@@ -40,6 +40,7 @@ namespace Leica
                     _product = ddl_product.SelectedValue;
                     _program = ddl_program.SelectedValue;
                     _result = ddl_result.SelectedValue;
+                    _custmer = ddl_custmer.SelectedValue;
 
                     _inspect = ddl_inspect.SelectedValue;
                     _samp_count = txt_samp_count.Text;
@@ -83,6 +84,7 @@ namespace Leica
                 ddl_product.SelectedValue = _product;
                 ddl_program.SelectedValue = _program;
                 ddl_result.SelectedValue = _result;
+                ddl_custmer.SelectedValue=_custmer;
 
                 ddl_inspect.SelectedValue = _inspect;
                 txt_samp_count.Text = _samp_count;
@@ -92,18 +94,20 @@ namespace Leica
                 txt_birthDt.Text = _birthDt;
                 txt_b_opeartor.Text = _b_opeartor;
 
+                //test();
+
                 Vmi_Bind();
-                All_Bind(); //all_list
+
                 Ft_Bind();
                 S5_Bind();
 
+                All_Bind(); //最後
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            lb_test.Text = tt.ToString();
         }
 
         /// <summary>
@@ -129,6 +133,7 @@ namespace Leica
             OperatorShape(ddl_shape, false);
             OperatorPosition(ddl_position, false);
             OperatorInpsert(ddl_inspect, false);
+            OperatorCustmer(ddl_custmer, false);
 
             Join_Product(ddl_product);
             Join_Program(ddl_program);
@@ -157,10 +162,14 @@ namespace Leica
 
             if (vmi_list.Rows.Count > 0)
             {
+                string get = string.Format(" base_id='{0}' ", _base_id);
+                DataRow[] bases = lbase.Table.Select(get);
+
                 add_vmi(_base_id);
                 add_All(_base_id);
-                DataTable empty = new DataTable();
-                GridView_Bind(vmi_list, empty);
+
+                ScriptManager.RegisterStartupScript(Page, GetType(), "click", "clear_all()", true);
+
             }
         }
 
@@ -169,6 +178,7 @@ namespace Leica
             foreach (DataRow row in t_vmi.Table.Rows)
             {
                 row["base_id"] = uid;
+
                 vmi.Table.ImportRow(row);
             }
 
@@ -194,7 +204,6 @@ namespace Leica
             else
             {
                 ft_show();
-                //up_ft.Visible = true;
                 up_ft.Update();
             }
         }
@@ -225,7 +234,7 @@ namespace Leica
             string id = e.CommandArgument.ToString();
             if (!string.IsNullOrEmpty(id))
             {
-                string del = string.Format("shape_id ='{0}' ", id);
+                string del = string.Format("shape ='{0}' ", id);
                 t_shape.Row_Del(del);
             }
 
@@ -270,13 +279,13 @@ namespace Leica
                 p.Style.Add("margin", "5px");
 
                 Label lab_sp = new Label(); //名稱
-                lab_sp.ID = dr["shape_id"].ToString();
-                lab_sp.Text = dr["shape"].ToString();
+                lab_sp.ID = dr["shape"].ToString();
+                lab_sp.Text = dr["shape_txt"].ToString();
 
                 LinkButton lbtn_sp_del = new LinkButton();
                 lbtn_sp_del.Attributes.Add("title", "del");
                 lbtn_sp_del.ID = string.Format("lbtn_sp_del_{0}", i);
-                lbtn_sp_del.CommandArgument = dr["shape_id"].ToString();
+                lbtn_sp_del.CommandArgument = dr["shape"].ToString();
                 lbtn_sp_del.CommandName = guid;
                 lbtn_sp_del.Click += new EventHandler(lbtn_sp_del_Click);
                 //lbtn_sp_del.Command += new CommandEventHandler(lbtn_sp_del_Command);
@@ -306,7 +315,7 @@ namespace Leica
             foreach (DataRow dr in Rows)
             {
 
-                txt += "<p>" + dr["shape"].ToString() + "</p>";
+                txt += "<p>" + dr["shape_txt"].ToString() + "</p>";
             }
 
             lab_sp.Text = txt;
@@ -320,7 +329,7 @@ namespace Leica
             string shape_id = ((LinkButton)sender).CommandArgument;
             string guid = ((LinkButton)sender).CommandName;
 
-            string del = string.Format(" vmi_id='{0}' and shape_id='{1}' ", guid, shape_id);
+            string del = string.Format(" vmi_id='{0}' and shape='{1}' ", guid, shape_id);
             shape.Row_Del(del);
             Vmi_Bind();
         }
@@ -329,7 +338,7 @@ namespace Leica
         {
             string guid = vmi_list.DataKeys[e.RowIndex].Value.ToString();
 
-            shape.Row_Del(string.Format(" shape_id='{0}' ", guid));
+            shape.Row_Del(string.Format(" shape='{0}' ", guid));
             t_vmi.Row_Del(string.Format(" vmi_id='{0}' ", guid));
             Vmi_Bind();
         }
@@ -342,8 +351,8 @@ namespace Leica
         {
             foreach (DataRow dr in t_shape.Table.Rows)
             {
-                //"vmi_id", "shape_id", "shape_txt"
-                shape.Table.Rows.Add(vmi_id, dr["shape_id"], dr["shape"]);
+                //"vmi_id", "shape", "shape_txt"
+                shape.Table.Rows.Add(vmi_id, dr["shape_txt"], dr["shape"]);
             }
 
             t_shape.Table.Rows.Clear();
@@ -358,7 +367,13 @@ namespace Leica
         private void add_All(string uid)
         {
             //lbase.Table.Rows.Add("head_id", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator", "seq", "base_id"
-            lbase.Table.Rows.Add(head_id.Value, _inspect, ddl_inspect.SelectedItem.Text, _insp_count, _samp_count, _sp_stand, ddl_sp_stand.SelectedItem.Text, _birthDt, _b_opeartor, 0, uid);
+            string sql = string.Format(" base_id ='{0}' ", uid);
+            DataRow[] r = lbase.Table.Select(sql); //有資料者，不新增
+
+            if (r.Length == 0)
+            {
+                lbase.Table.Rows.Add(head_id.Value, _inspect, ddl_inspect.SelectedItem.Text, _insp_count, _samp_count, _sp_stand, ddl_sp_stand.SelectedItem.Text, _birthDt, _b_opeartor, 0, uid,DateTime.Now.ToString());
+            }
             All_Bind();
 
         }
@@ -376,18 +391,25 @@ namespace Leica
 
         private void All_Bind()
         {
+
             GridView_Bind(all_list, lbase.Table);
 
             up_list.Update();
+
         }
-
-
 
         private void ft_show()
         {
             up_ft.Visible = true;
 
             ddl_join_parent(ddl_test, _program, false);
+            ddl_ft_judg.SelectedValue = "";
+            txt_ft_qty.Text = "0";
+            txt_s1.Text = "";
+            txt_s2.Text = "";
+            txt_s3.Text = "";
+            txt_s4.Text = "";
+            txt_s5.Text = "";
         }
 
         #endregion input 
@@ -397,100 +419,425 @@ namespace Leica
         protected void all_list_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+
+                e.Row.Cells[0].Style.Add("display", "none");
+
+                e.Row.Cells[1].Style.Add("display", "none");
+            }
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 DataRowView drv = (DataRowView)e.Row.DataItem;
+                string base_id = drv["base_id"].ToString();
+                e.Row.Attributes.Add("id", base_id);
+
+
+
+                e.Row.Cells[0].Text = base_id;
+                e.Row.Cells[0].Style.Add("display", "none");
+
+
+                e.Row.Cells[1].Text = drv["inspect_id"].ToString();
+                e.Row.Cells[1].Style.Add("display", "none");
+                e.Row.Cells[1].Attributes.Add("id", base_id + "_inspect_id");
                 //"lbase", "head_guid", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator"
-                e.Row.Cells[2].Text = drv["inspect"].ToString();
-                e.Row.Cells[3].Text = drv["insp_count"].ToString();
-                e.Row.Cells[4].Text = drv["standard"].ToString();
-                e.Row.Cells[5].Text = drv["samp_count"].ToString();
-                e.Row.Cells[6].Text = drv["bith_date"].ToString();
-                e.Row.Cells[7].Text = drv["b_operator"].ToString();
-                e.Row.Cells[8].Controls.Add(getView(drv["base_id"].ToString()));//view 該筆vmi的資料; 
+                e.Row.Cells[2].Text = Convert.ToString(e.Row.DataItemIndex + 1);
+
+
+                e.Row.Cells[3].Text = drv["inspect"].ToString();
+                e.Row.Cells[3].Attributes.Add("id", base_id + "_insp");
+
+                e.Row.Cells[4].Text = drv["insp_count"].ToString();
+                //e.Row.Cells[4].CssClass = base_id+"_insp_count";
+                e.Row.Cells[4].Attributes.Add("id", base_id + "_insp_count");
+
+                e.Row.Cells[5].Text = drv["standard"].ToString();
+                //e.Row.Cells[5].CssClass = base_id+"_standard";
+                e.Row.Cells[5].Attributes.Add("id", base_id + "_standard");
+
+                e.Row.Cells[6].Text = drv["samp_count"].ToString();
+                //e.Row.Cells[6].CssClass = base_id+"_samp_count";
+                e.Row.Cells[6].Attributes.Add("id", base_id + "_samp_count");
+
+                e.Row.Cells[7].Text = drv["bith_date"].ToString();
+                //e.Row.Cells[7].CssClass = base_id+"_bith_date";
+                e.Row.Cells[7].Attributes.Add("id", base_id + "_bith_date");
+
+                e.Row.Cells[8].Text = drv["b_operator"].ToString();
+                //e.Row.Cells[8].CssClass = base_id+"_b_operator";
+                e.Row.Cells[8].Attributes.Add("id", base_id + "_b_operator");
+
+                e.Row.Cells[9].Controls.Add(getView(base_id));//view 該筆vmi的資料; 
+                e.Row.Cells[9].Style.Value = "text-align: center";  //text-align: center;
+
+                //< asp:LinkButton ID = "lbtn_All_Update" runat = "server" CommandName = "Update_All" title = "Update" CommandArgument = "<%# ((GridViewRow) Container).RowIndex %>" class="fas fa-wrench ft_edit" OnClientClick="return upload_base()" ></asp:LinkButton>
+                LinkButton lbtn_All_Update = new LinkButton();
+
+                int Row_Index = e.Row.DataItemIndex;//從tr開始算
+                lbtn_All_Update.CommandName = "Update_All";
+                lbtn_All_Update.CommandArgument = Convert.ToString(Row_Index);
+                lbtn_All_Update.CssClass = "fas fa-wrench ft_edit";
+
+
+                lbtn_All_Update.OnClientClick = "return upload_base('" + base_id + "','" + Guid.NewGuid().ToString() + "' )";
+
+                e.Row.Cells[10].Controls.Add(lbtn_All_Update);
                 _all_row++;
             }
         }
 
         protected void all_list_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "del_row")
+            int index = int.Parse(e.CommandArgument.ToString());
+            GridViewRow gvr = all_list.Rows[index];
+
+            string insepect = gvr.Cells[1].Text; //head_id
+            string base_id = gvr.Cells[0].Text;
+
+            if (e.CommandName == "Del_All")
             {
-                string base_id = e.CommandArgument.ToString();
+                Del_All(insepect, base_id);
+            }
 
-                //vmi del;
-                vmi.Row_Del(" base_id='" + base_id + "' ");
-                lbase.Row_Del(" base_id='" + base_id + "' ");
+            if (e.CommandName == "Update_All")
+            {
 
-                All_Bind();
+                if (insepect == "VMI")
+                {
+
+                    Copy_To_Vmi(base_id);
+                    Del_All(insepect, base_id);
+
+                    up_vmi.Update();
+                }
+                else
+                {
+                    Copy_To_ft(base_id);
+                    ft_show();
+                    up_ft.Update();
+
+                }
+
 
             }
+        }
+
+        private void Copy_To_ft(string guid)
+        {
+            string get_ft = string.Format(" base_id='{0}' ", guid);
+            DataRow[] all_ft = ft.Table.Select(get_ft);
+
+            foreach (DataRow r in all_ft)
+            {
+                string ft_id = r["ft_id"].ToString();
+                string get_s5 = string.Format(" ft_id='{0}' ", ft_id);
+
+                DataRow[] s5_row = S5.Table.Select(get_s5);
+                if (s5_row.Length > 0) //要有S5才可以新增ft
+                {
+                    foreach (DataRow s in s5_row)
+                    {
+                        ft_S5.Table.ImportRow(s);
+                    }
+
+                    S5.Row_Del(get_s5);
+                    r["base_id"] = base_id.Value; //新資料的base_id
+
+                    t_ft.Table.ImportRow(r);
+
+                    r["base_id"] = guid;//回恢原資料;
+                }
+            }
+            ft.Row_Del(get_ft);
+            Ft_Bind();
+
+            lbase.Row_Del(" base_id='" + guid + "' ");
+            All_Bind();
+
+        }
+
+        //用jquery填寫
+        //private void Copy_To_Base(string base_id)
+        //{
+        //    // "head_id", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator", "seq", "base_id"
+        //    DataRow[] bRows = lbase.Table.Select(string.Format(" base_id ='{0}' ", base_id)); //只會一筆
+
+        //    foreach (DataRow r in bRows)
+        //    {
+        //        ddl_inspect.SelectedValue = r["inspect_id"].ToString();
+        //        txt_insp_count.Text = r["insp_count"].ToString();
+        //        ddl_sp_stand.SelectedValue = r["standard_id"].ToString();
+        //        txt_samp_count.Text = r["samp_count"].ToString();
+        //        txt_birthDt.Text = r["bith_date"].ToString();
+        //        txt_b_opeartor.Text = r["b_operator"].ToString();
+
+        //    }
+        //    //  up_base.Update();
+        //}
+
+        private void Copy_To_Vmi(string base_id)
+        {
+            DataRow[] vmi_row = vmi.Table.Select(string.Format(" base_id='{0}' ", base_id));
+
+            foreach (DataRow r in vmi_row)
+            {
+                t_vmi.Table.ImportRow(r);
+            }
+
+            Vmi_Bind();
+            up_vmi.Update();
+        }
+
+        private void Del_All(string insepect, string base_id)
+        {
+            if (insepect == "VMI")
+            {
+                vmi.Row_Del(" base_id='" + base_id + "' ");
+            }
+            else
+            {
+                DataRow[] rs = ft.Table.Select(" base_id='" + base_id + "' ");
+
+                System.Diagnostics.Debug.WriteLine(S5.Table.Rows.Count);
+                foreach (DataRow r in rs)
+                {
+                    string ft_id = r["ft_id"].ToString();
+                    S5.Row_Del("ft_id ='{" + ft_id + "}' ");
+                }
+                System.Diagnostics.Debug.WriteLine(S5.Table.Rows.Count);
+                ft.Row_Del(" base_id='" + base_id + "' ");
+
+            }
+            //vmi del;
+
+            lbase.Row_Del(" base_id='" + base_id + "' ");
+
+            All_Bind();
         }
 
         #endregion all_list
         private Table getView(string baseid)
         {
-            //"vmi", "head_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id"
-            DataRow[] list = vmi.Table.Select(" base_id='" + baseid + "' ");
-
-            StringBuilder sb = new StringBuilder();
-
             Table tb = new Table();
-            tb.Attributes.Add("border", "1");
-            tb.Style.Add("margin", "2px");
-            tb.Style.Add("border", "1px solid #8a988e;");
-            tb.Style.Add("color", "#C87E20");
-            tb.Style.Add("width", "99%");
-            tb.Style.Add("height", "40px");
+            tb = getVim(baseid);
 
+            if (tb.Rows.Count == 0)
+            {
+                tb = getFtList(baseid);
+            }
+            return tb;
+        }
+
+        private Table getFtList(string baseid)
+        {
+            Table tb = new Table();
+            tb.ID = baseid;
+            tb.GridLines = GridLines.None;
+
+
+            DataRow[] ft_dr = ft.Table.Select(" base_id='" + baseid + "' "); //不重覆
             int i = 0;
-            foreach (DataRow row in list)
+            foreach (DataRow f in ft_dr)
             {
                 TableRow tr = new TableRow();
-                //tr.BorderColor = Utility.HexColor("#126e82"); //TETSUKON 
-                //tr.ForeColor = Utility.HexColor("#211E55"); //TETSUKON 
-                tr.ForeColor = Utility.HexColor("#815c94");
-                if (i % 2 != 0)
+
+                TableCell td = new TableCell();
+
+                //--------------------------------------
+
+                Table view = getFT2(f);
+
+                if (i % 2 == 0)
                 {
-
-                    //view style
-                    //tr.BackColor = Utility.HexColor("#FFF6EC");
-                    tr.ForeColor = Utility.HexColor("#1661ab");
-
-                    if (_all_row % 2 != 0)
-                    {
-                        //#F1ECED
-                        //tr.ForeColor = Utility.HexColor("#815c94");
-                    }
-
-                    //tr.ForeColor = System.Drawing.Color.Rosybrown;
-                    //tr.ForeColor = System.Drawing.Color.RosyBrown;
+                    view.CssClass = "comicGreen";
+                }
+                else
+                {
+                    view.CssClass = "comicYellow";
                 }
 
-
-                TableCell cell01 = DefultTc(80);
-                cell01.Text = row["position"].ToString();
-                tr.Cells.Add(cell01);
-
-
-                TableCell cell02 = DefultTc(80);
-                cell02.Controls.Add(getShapeRegion(row["vmi_id"].ToString()));
-                tr.Cells.Add(cell02);
-
-                TableCell cell03 = DefultTc(60);
-
-                cell03.Text = row["qty"].ToString();
-                tr.Cells.Add(cell03);
-
-                TableCell cell04 = DefultTc(80);
-
-                cell04.Text = row["judg"].ToString();
-                tr.Cells.Add(cell04);
+                //--------------------------------------
+                td.Controls.Add(view);
+                td.Attributes.Add("align", "center");
+                tr.Cells.Add(td);
                 tb.Rows.Add(tr);
                 i++;
             }
-            return tb;
 
+            return tb;
+        }
+
+        private Table getFT2(DataRow f)
+        {
+            Table tb = new Table();
+
+            //prod_index insp_time
+            TableHeaderRow hr = new TableHeaderRow();
+
+
+            //hr.CssClass = "ft_hr";
+
+            //t_ft = new data_table("t_ft", "base_id", "ft_id", "prod_index", "insp_time");
+            TableHeaderCell hh_prod = new TableHeaderCell();
+            hh_prod.Text = f["prod_index"].ToString();
+            //colspan="要橫跨的列數"
+            hh_prod.ColumnSpan = 4;
+            hr.Cells.Add(hh_prod);
+
+
+            TableHeaderCell hh_time = new TableHeaderCell();
+            hh_time.Text = f["insp_time"].ToString();
+            hh_time.ColumnSpan = 4;
+            hr.Cells.Add(hh_time);
+            tb.Rows.Add(hr);
+
+
+            DataRow[] R_s5 = S5.Table.Select(string.Format(" ft_id='{0}' ", f["ft_id"].ToString()));
+            int i = 0;
+            foreach (DataRow s in R_s5)
+            {
+                TableRow tr = new TableRow();
+
+                //tr.CssClass = "s5_even";
+                if (i % 2 == 0)
+                {
+                    //  tr.CssClass = "s5_single";
+                }
+
+
+                TableCell td_ts_st = DefultTc(120);
+                td_ts_st.Text = s["test"].ToString();
+                tr.Cells.Add(td_ts_st);
+
+                TableCell td_qty = DefultTc(80);
+                td_qty.Text = s["ft_qty"].ToString();
+                tr.Cells.Add(td_qty);
+
+                TableCell td_jdug = DefultTc(120);
+                td_jdug.Text = s["ft_jdug"].ToString();
+                tr.Cells.Add(td_jdug);
+
+                TableCell td_s1 = DefultTc(60);
+                td_s1.Text = s["s1"].ToString();
+                tr.Cells.Add(td_s1);
+
+                TableCell td_s2 = DefultTc(60);
+                td_s2.Text = s["s2"].ToString();
+                tr.Cells.Add(td_s2);
+
+                TableCell td_s3 = DefultTc(60);
+                td_s3.Text = s["s3"].ToString();
+                tr.Cells.Add(td_s3);
+
+                TableCell td_s4 = DefultTc(60);
+                td_s4.Text = s["s4"].ToString();
+                tr.Cells.Add(td_s4);
+
+                TableCell td_s5 = DefultTc(60);
+                td_s5.Text = s["s5"].ToString();
+                tr.Cells.Add(td_s5);
+
+                tb.Rows.Add(tr);
+                i++;
+            }
+
+            return tb;
+        }
+
+        //private TableRow getS5(string ft_id)
+        //{
+        //    TableRow tr_s5=
+        //    DataRow[] R_s5 = ft_S5.Table.Select(" ft_id='" + ft_id + "' "); //不重覆    
+
+        //    //ft_S5 = new data_table("ft_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug", "ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
+        //    foreach (DataRow s in R_s5)
+        //    {
+        //        TableRow tr_s5 = new TableRow();
+
+        //        TableCell td_ts_st = DefultTc(80);
+        //        td_ts_st.Text = s["test"].ToString();
+        //        tr_s5.Cells.Add(td_ts_st);
+
+        //        TableCell td_qty = DefultTc(80);
+        //        td_qty.Text = s["ft_qty"].ToString();
+        //        tr_s5.Cells.Add(td_qty);
+
+        //        TableCell td_jdug = DefultTc(80);
+        //        td_jdug.Text = s["ft_jdug"].ToString();
+        //        tr_s5.Cells.Add(td_jdug);
+
+        //        TableCell td_s1 = DefultTc(80);
+        //        td_s1.Text = s["s1"].ToString();
+        //        tr_s5.Cells.Add(td_s1);
+
+        //        TableCell td_s2 = DefultTc(80);
+        //        td_s1.Text = s["s2"].ToString();
+        //        tr_s5.Cells.Add(td_s2);
+
+        //        TableCell td_s3 = DefultTc(80);
+        //        td_s1.Text = s["s3"].ToString();
+        //        tr_s5.Cells.Add(td_s3);
+
+        //        TableCell td_s4 = DefultTc(80);
+        //        td_s1.Text = s["s4"].ToString();
+        //        tr_s5.Cells.Add(td_s4);
+
+        //        TableCell td_s5 = DefultTc(80);
+        //        td_s1.Text = s["s5"].ToString();
+        //        tr_s5.Cells.Add(td_s5);
+
+        //       // tb_f.Rows.Add(tr_s5);
+
+        //    }
+
+        //    return s5;
+        //}
+
+        private Table getVim(string baseid)
+        {
+            Table tb = new Table();
+            tb.CssClass = "vmi_tb";
+            tb.Attributes.Add("align", "center");
+
+            //"vmi", "head_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id"
+            DataRow[] Vim_dr = vmi.Table.Select(" base_id='" + baseid + "' ");
+
+            if (Vim_dr.Length > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+
+
+                int i = 0;
+                foreach (DataRow row in Vim_dr)
+                {
+                    TableRow tr = new TableRow();
+
+                    TableCell cell01 = DefultTc(80);
+                    cell01.Text = row["position_txt"].ToString();
+                    tr.Cells.Add(cell01);
+
+
+                    TableCell cell02 = DefultTc(80);
+                    cell02.Controls.Add(getShapeRegion(row["vmi_id"].ToString()));
+                    tr.Cells.Add(cell02);
+
+                    TableCell cell03 = DefultTc(60);
+
+                    cell03.Text = row["qty"].ToString();
+                    tr.Cells.Add(cell03);
+
+                    TableCell cell04 = DefultTc(80);
+
+                    cell04.Text = row["judg_txt"].ToString();
+                    tr.Cells.Add(cell04);
+                    tb.Rows.Add(tr);
+                    i++;
+                }
+
+            }
+
+            return tb;
         }
 
         private TableCell DefultTc(int width)
@@ -498,80 +845,58 @@ namespace Leica
             TableCell cell01 = new TableCell(); //Position 
             cell01.Width = width;
             cell01.BorderWidth = 1;
-            cell01.BorderColor = Utility.HexColor("#5d3d21");
+            // cell01.BorderColor = Utility.HexColor("#5d3d21");
             cell01.Style.Add("padding", "2px");
 
             return cell01;
 
         }
+
         protected void Btn_Save_Click(object sender, EventArgs e)
         {
-            if (Confirm())
+            try
             {
-                Save_Head();
-                Save_Base();
-                Save_VMI();
+                if (Confirm())
+                {
+                    Save_Head();
+                    Save_Base();
+                    Save_VMI();
 
-                //Save_Feature();
+                    Save_Feature();
 
+               
+                }
             }
-        }
-
-        private void Save_Feature()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Save_VMI()
-        {
-            foreach (DataRow row in vmi.Table.Rows)
+            catch (Exception ex)
             {
-                Leica_VMI v = new Leica_VMI(row);
-                v.Insert();
-
-                string sql = string.Format("vmi_id='{0}'", v.Rowid);
-
-                DataRow[] sRow = shape.Table.Select(sql);
-                Leica_VMI_Shape ls = new Leica_VMI_Shape(sRow[0]);
-                ls.Insert();
+                Utility.log(1, ex.Message);
             }
-        }
+            string url = string.Format("LeicaEdit.aspx?rowid={0}", _head_id);
+            Response.Redirect(url);
 
-        private void Save_Base()
-        {
-            int i = 1;
-
-            // Leica_Base.Delete(main_id);
-            foreach (DataRow row in lbase.Table.Rows)
-            {
-
-                Leica_Base lb = new Leica_Base(row);
-                lb.Head_ID = _head_id;
-                lb.Seq = i.ToString();
-                lb.Insert();
-                i++;
-            }
-        }
+        } 
 
         private void Save_Head()
         {
+        
             EIPSysSha SysNum = new EIPSysSha();
 
             Leica_Head Head = new Leica_Head();
 
             Head.Create_User = CurrentUser.LogonID;
             Head.H_Operator = _h_operator;
-            Head.Inspect = _inspect;
+            Head.Insp_Dt = _insp_date;
             Head.Insp_No = SysNum.GetNewSn("Q608", DateTime.Now.ToString("yyMM"));
             Head.Kind = _kind;
-            Head.Product = _product;
-            Head.Program = _program;
+            Head.Product =ConvertToOption( _product);
+            Head.Program = ConvertToOption(_program);
             Head.Result = _result;
             Head.ROWID = _head_id;
             Head.Status = Convert.ToInt16(status.Waite).ToString();
+            Head.Custmer = _custmer;
             Head.Insert();
         }
-
+         
         private bool Confirm()
         {
             bool ispass = true;
@@ -626,7 +951,6 @@ namespace Leica
             return result;
         }
 
-
         protected void lbtn_ft_add_Click(object sender, EventArgs e)
         {
             //  "base_id", "ft_id", "prod_index", "insp_time"
@@ -659,7 +983,7 @@ namespace Leica
             else
             {
 
-                msg.Value = "資料重覆";
+                msg.Value = getStr("duplicate");
             }
         }
 
@@ -676,85 +1000,6 @@ namespace Leica
             up_s5.Update();
         }
 
-        //protected void ft_list_RowDataBound2(object sender, GridViewRowEventArgs e)
-        //{
-        //    if (e.Row.RowType == DataControlRowType.DataRow)
-        //    {
-        //        int iRowspan = 0;
-        //        DataRowView drv = (DataRowView)e.Row.DataItem;
-
-        //        string ft_id = drv["ft_id"].ToString();
-
-        //        DataRow[] s5 = t_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id));
-        //        iRowspan = s5.Length;
-
-
-        //        //base_id
-        //        e.Row.Cells[0].Text = drv["base_id"].ToString();
-        //        e.Row.Cells[0].RowSpan = iRowspan;
-
-        //        //ft_id
-        //        e.Row.Cells[1].Text = drv["ft_id"].ToString();
-        //        e.Row.Cells[1].RowSpan = iRowspan;
-
-        //        //item
-        //        // e.Row.Cells[2].Text = drv["prod_index"].ToString();
-        //        e.Row.Cells[2].RowSpan = iRowspan;
-
-        //        //prod_index
-        //        e.Row.Cells[3].Text = drv["prod_index"].ToString();
-        //        e.Row.Cells[3].RowSpan = iRowspan;
-
-        //        //insp_time
-        //        e.Row.Cells[4].Text = drv["insp_time"].ToString();
-        //        e.Row.Cells[4].RowSpan = iRowspan;
-
-
-        //        foreach (DataRow r in s5)
-        //        {
-
-        //            //"t_S5", "ft_id", "test", "ts_standard", "ft_qty", "ft_jdug", "s1", "s2", "s3", "s4", "s5"
-        //            e.Row.Cells[5].Text = r["test"].ToString();
-
-
-        //            //Qty
-        //            e.Row.Cells[6].Text = r["ft_qty"].ToString();
-
-
-        //            //jdug
-        //            e.Row.Cells[7].Text = r["ft_jdug"].ToString();
-
-
-        //            //s1
-        //            e.Row.Cells[8].Text = r["s1"].ToString();
-
-
-        //            //s2
-        //            e.Row.Cells[9].Text = r["s2"].ToString();
-
-
-        //            //s3
-        //            e.Row.Cells[10].Text = r["s3"].ToString();
-
-
-        //            //s4
-        //            e.Row.Cells[11].Text = r["s4"].ToString();
-
-
-        //            //s5
-        //            e.Row.Cells[12].Text = r["s5"].ToString();
-
-
-        //            //del
-        //            //e.Row.Cells[13].Text = "";
-
-        //        }
-
-        //        //copy
-        //        //e.Row.Cells[14].Text = "";
-        //        e.Row.Cells[14].RowSpan = iRowspan;
-        //    }
-        //}
 
         string curr_ft_id = "";
         int iRowspan = 1; //合併列數
@@ -791,76 +1036,70 @@ namespace Leica
 
                     //e.Row.Cells[0].Text = ft[0]["base_id"].ToString();
 
-                    if (ft.Length> 0)
+                    if (ft.Length > 0)
                     {
+                        //ft_id
+                        e.Row.Cells[0].Text = ft[0]["ft_id"].ToString();
 
-                    
-                    //ft_id
-                    e.Row.Cells[0].Text = ft[0]["ft_id"].ToString();
+                        //item
+                        e.Row.Cells[1].Text = Convert.ToString(item); //item
 
-
-                    //item
-                    e.Row.Cells[1].Text = Convert.ToString(item); //item
-
-                    ft_Color = e.Row.ForeColor;
-
-                    if ((item % 2) == 0) //背景色
-                    {
-                        e.Row.ForeColor = Utility.HexColor("#DDA52D");
                         ft_Color = e.Row.ForeColor;
 
-                    }
+                        if ((item % 2) == 0) //背景色
+                        {
+                            e.Row.ForeColor = Utility.HexColor("#DDA52D");
+                            ft_Color = e.Row.ForeColor;
+                        }
+
+                        //prod_index
+                        e.Row.Cells[2].Text = ft[0]["prod_index"].ToString();
 
 
+                        //insp_time
+                        e.Row.Cells[3].Text = ft[0]["insp_time"].ToString();
 
-                    //prod_index
-                    e.Row.Cells[2].Text = ft[0]["prod_index"].ToString();
+                        DataRow[] s5 = ft_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id)); ;//計算合併的列數
 
+                        iRowspan = s5.Length > 0 ? s5.Length : 1; //合併的列數
 
-                    //insp_time
-                    e.Row.Cells[3].Text = ft[0]["insp_time"].ToString();
-
-                    DataRow[] s5 = ft_S5.Table.Select(string.Format(" ft_id='{0}' ", ft_id)); ;//計算合併的列數
-
-                    iRowspan = s5.Length > 0 ? s5.Length : 1; //合併的列數
-
-                    LinkButton lbtn_del = new LinkButton();
-                    lbtn_del.CommandName = "del_comm";
-                    lbtn_del.CommandArgument = ft_id;
-                    lbtn_del.CssClass = "far fa-trash-alt ft_del";
+                        LinkButton lbtn_del = new LinkButton();
+                        lbtn_del.CommandName = "del_comm";
+                        lbtn_del.CommandArgument = ft_id;
+                        lbtn_del.CssClass = "far fa-trash-alt ft_del";
 
 
-                    //lbtn_del.Style.Value = "color:#eea08c;";
+                        //lbtn_del.Style.Value = "color:#eea08c;";
 
 
-                    LinkButton lbtn_copy = new LinkButton();
-                    lbtn_copy.CommandName = "copy_comm";
-                    lbtn_copy.CommandArgument = ft_id;
-                    lbtn_copy.CssClass = "far fa-copy ft_copy"; //<i class="far fa-copy"></i>
-                    lbtn_copy.OnClientClick = "return ft_edit_check()";
+                        LinkButton lbtn_copy = new LinkButton();
+                        lbtn_copy.CommandName = "copy_comm";
+                        lbtn_copy.CommandArgument = ft_id;
+                        lbtn_copy.CssClass = "far fa-copy ft_copy"; //<i class="far fa-copy"></i>
+                        lbtn_copy.OnClientClick = "return ft_edit_check()";
 
-                    LinkButton lbtn_edit = new LinkButton();
-                    lbtn_edit.CommandName = "edit_comm";
-                    lbtn_edit.CommandArgument = ft_id;
-                    lbtn_edit.CssClass = "fas fa-wrench ft_edit"; //<i class="far fa-copy"></i>
-                    lbtn_edit.OnClientClick =string.Format("return ft_update('{0}','{1}')", ft[0]["prod_index"].ToString(), ft[0]["insp_time"].ToString()); //將要修改的資料傳回javascript 因為在UpdatePanel之外
+                        LinkButton lbtn_edit = new LinkButton();
+                        lbtn_edit.CommandName = "edit_comm";
+                        lbtn_edit.CommandArgument = ft_id;
+                        lbtn_edit.CssClass = "fas fa-wrench ft_edit"; //<i class="far fa-copy"></i>
+                        lbtn_edit.OnClientClick = string.Format("return ft_update('{0}','{1}')", ft[0]["prod_index"].ToString(), ft[0]["insp_time"].ToString()); //將要修改的資料傳回javascript 因為在UpdatePanel之外
 
 
                         e.Row.Cells[12].Controls.Add(lbtn_edit);
-                    e.Row.Cells[13].Controls.Add(lbtn_copy);
-                    e.Row.Cells[14].Controls.Add(lbtn_del);
+                        e.Row.Cells[13].Controls.Add(lbtn_copy);
+                        e.Row.Cells[14].Controls.Add(lbtn_del);
 
-                    e.Row.Cells[12].RowSpan = iRowspan;
-                    e.Row.Cells[13].RowSpan = iRowspan;
-                    e.Row.Cells[14].RowSpan = iRowspan;
+                        e.Row.Cells[12].RowSpan = iRowspan;
+                        e.Row.Cells[13].RowSpan = iRowspan;
+                        e.Row.Cells[14].RowSpan = iRowspan;
 
-                    e.Row.Cells[0].RowSpan = iRowspan;
-                    e.Row.Cells[1].RowSpan = iRowspan;
-                    e.Row.Cells[2].RowSpan = iRowspan;
-                    e.Row.Cells[3].RowSpan = iRowspan;
+                        e.Row.Cells[0].RowSpan = iRowspan;
+                        e.Row.Cells[1].RowSpan = iRowspan;
+                        e.Row.Cells[2].RowSpan = iRowspan;
+                        e.Row.Cells[3].RowSpan = iRowspan;
 
 
-                    item++;//項次
+                        item++;//項次
                     }
                 }
                 else
@@ -914,7 +1153,6 @@ namespace Leica
             }
         }
 
-
         protected void ft_list_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string ft_id = e.CommandArgument.ToString();
@@ -935,10 +1173,8 @@ namespace Leica
 
             if (e.CommandName == "edit_comm")
             {
-
-
                 Set_S5_Update(ft_id, "EDIT");
-
+                curr_ft_id = "";//因為要更新ft_list 
                 //因為修改 所以不需要再存在
                 string del_cmd = string.Format(" ft_id='{0}' ", ft_id);
                 t_ft.Row_Del(del_cmd);
@@ -970,7 +1206,7 @@ namespace Leica
 
                 txt_prod_index.Text = ft[0]["prod_index"].ToString();
                 txt_insp_time.Text = ft[0]["insp_time"].ToString();
-                 
+
             }
 
             S5_Bind();
@@ -989,5 +1225,28 @@ namespace Leica
             t_S5.Row_Del(string.Format(" ft_id='{0}' ", ft_id));
             S5_Bind();
         }
+
+        /// <summary>
+        /// 新增資料至 All List
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbtn_add_all_Click(object sender, EventArgs e)
+        {
+            //GridView_Bind(all_list, lbase.Table);
+            if (ft_list.Rows.Count > 0)
+            {    
+                S5.Table.Merge(ft_S5.Table); 
+                ft.Table.Merge(t_ft.Table); 
+                add_All(_base_id);
+
+                ft_S5.Table.Clear();
+                t_ft.Table.Clear();
+                Ft_Bind();
+                ScriptManager.RegisterStartupScript(Page, GetType(), "click", "clear_all()", true);
+
+            }
+        }
+
     }
 }

@@ -42,7 +42,7 @@
             <div class="tr">
                 <div class="th">中文</div>
                 <div class="td">
-                    <asp:TextBox ID="lab_tw" runat="server" Enabled="false"  ></asp:TextBox>&nbsp;
+                    <asp:TextBox ID="lab_tw" runat="server"  ></asp:TextBox>&nbsp;
                     <asp:CheckBox ID="chk_def" runat="server" Checked="false"  />預設值
                     <asp:CheckBox ID="chk_display" runat="server" Checked="false"  />不顯示
                 </div> 

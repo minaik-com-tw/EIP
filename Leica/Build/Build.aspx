@@ -93,8 +93,8 @@
                     <SmoothEnterpriseWebControl:DataColumn ID="EDIT" DataType="UserDefined" Caption="id" DataName="rowid" Visible="true"></SmoothEnterpriseWebControl:DataColumn>
                     <SmoothEnterpriseWebControl:DataColumn ID="id" DataType="ViewText" Caption="id" DataName="rowid" Visible="false"></SmoothEnterpriseWebControl:DataColumn>
                     <SmoothEnterpriseWebControl:DataColumn ID="kind" DataType="ViewText" Caption="類別" DataName="tag"></SmoothEnterpriseWebControl:DataColumn>
-                    <SmoothEnterpriseWebControl:DataColumn ID="en" DataType="UserDefined" Caption="英文" DataName="en"></SmoothEnterpriseWebControl:DataColumn>
-                    <SmoothEnterpriseWebControl:DataColumn ID="tw" DataType="ViewText" Caption="中文" DataName="tw"></SmoothEnterpriseWebControl:DataColumn>
+                    <SmoothEnterpriseWebControl:DataColumn ID="en" Width="100px" DataType="UserDefined" Caption="英文" DataName="en"></SmoothEnterpriseWebControl:DataColumn>
+                    <SmoothEnterpriseWebControl:DataColumn ID="tw"  Width="100px" DataType="ViewText" Caption="中文" DataName="tw"></SmoothEnterpriseWebControl:DataColumn>
                     <SmoothEnterpriseWebControl:DataColumn ID="def" DataType="ViewText" Caption="預設" DataName="def"></SmoothEnterpriseWebControl:DataColumn>
                     <SmoothEnterpriseWebControl:DataColumn ID="display" DataType="ViewText" Caption="不顯示" DataName="display"></SmoothEnterpriseWebControl:DataColumn>
                     <SmoothEnterpriseWebControl:DataColumn ID="del" DataType="UserDefined" Caption="選擇" DataName="id" Visible="true"></SmoothEnterpriseWebControl:DataColumn>

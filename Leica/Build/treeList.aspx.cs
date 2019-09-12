@@ -21,7 +21,7 @@ namespace Build
                     // SmoothEnterprise2: uid2 ={ 02CA2090 - C5D0 - 455B - A671 - 5D7168D08559} &logonid = Carol.Yeh & email = Carol.Yeh@minaik.com.tw & optvalue1 = &optvalue2 = &optvalue3 =
                     
                     //user.Value = Request.Cookies["SmoothEnterprise711323"]["logonid"]; //EIP
-                    user.Value = Request.Cookies["SmoothEnterprise2"]["logonid"]; //9003 測試用
+                    user.Value = Request.Cookies["SmoothEnterprise1"]["logonid"]; //9003 測試用
                     _parentid = Request.Form["parent_id"];
                     _next_tag = Request.Form["next_tag"];
 

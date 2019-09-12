@@ -42,7 +42,7 @@
             <div class="tr">
                 <div class="th">中文</div>
                 <div class="td">
-                    <asp:TextBox ID="txt_tw" runat="server" MaxLength="50" Width="180" CssClass="required"></asp:TextBox>
+                    <asp:TextBox ID="txt_tw" runat="server" MaxLength="50" Width="180" ></asp:TextBox>
                     <asp:CheckBox ID="chk_def" runat="server" Checked="false" />預設值
                 </div> 
             </div>

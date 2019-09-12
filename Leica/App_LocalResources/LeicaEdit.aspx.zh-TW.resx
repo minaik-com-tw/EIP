@@ -118,129 +118,157 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="all_empty" xml:space="preserve">
-    <value>please input inspect data</value>
-  </data>
-  <data name="assembly_staff" xml:space="preserve">
-    <value>Assembly staff</value>
-  </data>
-  <data name="birth_dt" xml:space="preserve">
-    <value>Manufacturing Date</value>
-  </data>
-  <data name="d_qty" xml:space="preserve">
-    <value>Defect Quantity</value>
-  </data>
-  <data name="fun_test" xml:space="preserve">
-    <value>Functional testing</value>
-  </data>
-  <data name="inpecter" xml:space="preserve">
-    <value>Inspct staff</value>
-  </data>
-  <data name="inspct_num" xml:space="preserve">
-    <value>Number of inspection</value>
-  </data>
-  <data name="inspct_type" xml:space="preserve">
-    <value>Inspection type</value>
-  </data>
-  <data name="Inspect_dt" xml:space="preserve">
-    <value>Inspection date</value>
-  </data>
-  <data name="inspect_empty" xml:space="preserve">
-    <value>Please input inspection type</value>
-  </data>
-  <data name="insp_info" xml:space="preserve">
-    <value>Inspect Informaction</value>
-  </data>
-  <data name="insp_type" xml:space="preserve">
-    <value>Inspect Type</value>
-  </data>
-  <data name="integer" xml:space="preserve">
-    <value>Value must be an integer</value>
-  </data>
-  <data name="isnum" xml:space="preserve">
-    <value>Not a number</value>
-  </data>
-  <data name="is_exist" xml:space="preserve">
-    <value>Data is exist</value>
-  </data>
-  <data name="is_zero" xml:space="preserve">
-    <value>Value is 0</value>
-  </data>
-  <data name="judgment" xml:space="preserve">
-    <value>Judgment</value>
-  </data>
-  <data name="more_zero" xml:space="preserve">
-    <value>value must be more than 0 or is equal 0</value>
-  </data>
-  <data name="not_data" xml:space="preserve">
-    <value>Not Data</value>
-  </data>
-  <data name="operator" xml:space="preserve">
-    <value>Inspect Operator</value>
-  </data>
-  <data name="position" xml:space="preserve">
-    <value>Position of defective</value>
-  </data>
-  <data name="product" xml:space="preserve">
-    <value>Product</value>
-  </data>
-  <data name="program" xml:space="preserve">
-    <value>Model</value>
-  </data>
-  <data name="required" xml:space="preserve">
-    <value>if item is red, please input data</value>
-  </data>
-  <data name="result" xml:space="preserve">
-    <value>Result</value>
-  </data>
-  <data name="samp_num" xml:space="preserve">
-    <value>Number of samples</value>
-  </data>
-  <data name="shape" xml:space="preserve">
-    <value>Shape of defective</value>
+    <value>請輸入檢驗資料</value>
   </data>
   <data name="sp_stand" xml:space="preserve">
-    <value>Sample Standard</value>
+    <value>抽樣標準</value>
+  </data>
+  <data name="samp_num" xml:space="preserve">
+    <value>抽驗數量</value>
+  </data>
+  <data name="assembly_staff" xml:space="preserve">
+    <value>組立人員</value>
+  </data>
+  <data name="birth_dt" xml:space="preserve">
+    <value>生產日期</value>
+  </data>
+  <data name="d_qty" xml:space="preserve">
+    <value>不良數</value>
+  </data>
+  <data name="fun_test" xml:space="preserve">
+    <value>功能檢查</value>
+  </data>
+  <data name="inpecter" xml:space="preserve">
+    <value>檢驗人員</value>
+  </data>
+  <data name="insp_info" xml:space="preserve">
+    <value>檢驗資訊</value>
+  </data>
+  <data name="insp_type" xml:space="preserve">
+    <value>檢驗類別</value>
+  </data>
+  <data name="inspct_num" xml:space="preserve">
+    <value>待驗數量</value>
+  </data>
+  <data name="Inspect_dt" xml:space="preserve">
+    <value>檢驗日期</value>
+  </data>
+  <data name="inspect_empty" xml:space="preserve">
+    <value>請輸入檢驗類別</value>
+  </data>
+  <data name="integer" xml:space="preserve">
+    <value>請輸入數字</value>
+  </data>
+  <data name="is_exist" xml:space="preserve">
+    <value>資料已存在</value>
+  </data>
+  <data name="is_zero" xml:space="preserve">
+    <value>這個值為0</value>
+  </data>
+  <data name="isnum" xml:space="preserve">
+    <value>不是一個數字</value>
+  </data>
+  <data name="judgment" xml:space="preserve">
+    <value>判斷</value>
+  </data>
+  <data name="more_zero" xml:space="preserve">
+    <value>值必</value>
+  </data>
+  <data name="not_data" xml:space="preserve">
+    <value>尚無資料</value>
+  </data>
+  <data name="position" xml:space="preserve">
+    <value>異常位置</value>
+  </data>
+  <data name="product" xml:space="preserve">
+    <value>產品</value>
+  </data>
+  <data name="program" xml:space="preserve">
+    <value>機種</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>紅色項目為必填</value>
+  </data>
+  <data name="result" xml:space="preserve">
+    <value>結果</value>
+  </data>
+  <data name="shape" xml:space="preserve">
+    <value>異常現象</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Type</value>
+    <value>類別</value>
   </data>
   <data name="vmi" xml:space="preserve">
-    <value>Visual and Mechanical Inspection</value>
-  </data>
-  <data name="not_null" xml:space="preserve">
-    <value>不得為空</value>
-  </data>
-  <data name="unable_to_run" xml:space="preserve">
-    <value>Unable to run operation if test data is not processed</value>
+    <value>外觀檢驗</value>
   </data>
   <data name="duplicate" xml:space="preserve">
-    <value>Duplicate product number and test time</value>
+    <value>產品編號與檢測時間重覆</value>
+  </data>
+  <data name="save_ok" xml:space="preserve">
+    <value>存檔成功</value>
+  </data>
+  <data name="not_null" xml:space="preserve">
+    <value>不可為空值</value>
+  </data>
+  <data name="operator" xml:space="preserve">
+    <value>檢驗人員</value>
+  </data>
+  <data name="unable_to_run" xml:space="preserve">
+    <value>測試資料尚未儲存</value>
+  </data>
+  <data name="operators" xml:space="preserve">
+    <value>操作人員</value>
+  </data>
+  <data name="obsolete" xml:space="preserve">
+    <value>作廢</value>
+  </data>
+  <data name="remind" xml:space="preserve">
+    <value>催審</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>送審</value>
+  </data>
+  <data name="suspend" xml:space="preserve">
+    <value>中止</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>儲存</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>回上頁</value>
+  </data>
+  <data name="supervisor" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="manager" xml:space="preserve">
+    <value>審核</value>
   </data>
   <data name="custmer" xml:space="preserve">
-    <value>Custmer</value>
+    <value>客戶</value>
   </data>
   <data name="inspect_record" xml:space="preserve">
-    <value>Inspect total record</value>
+    <value>檢驗記錄總</value>
   </data>
   <data name="insp_record" xml:space="preserve">
-    <value>Leica Inspection Record</value>
+    <value>萊卡檢驗記錄表</value>
   </data>
   <data name="insp_time" xml:space="preserve">
-    <value>Inspect time</value>
+    <value>檢驗時間</value>
   </data>
   <data name="judg" xml:space="preserve">
-    <value>Judgment</value>
+    <value>判斷</value>
   </data>
   <data name="prod_no" xml:space="preserve">
-    <value>Product No.</value>
+    <value>產品編號</value>
   </data>
   <data name="qty" xml:space="preserve">
-    <value>Qty</value>
+    <value>數量</value>
   </data>
   <data name="ts_item" xml:space="preserve">
-    <value>Test Item</value>
+    <value>測試項目</value>
   </data>
   <data name="ts_stand" xml:space="preserve">
-    <value>Test Standard</value>
+    <value>測試標準</value>
   </data>
+  
 </root>

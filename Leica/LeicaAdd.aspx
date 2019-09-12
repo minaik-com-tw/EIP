@@ -7,682 +7,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <header>
-
+    <header> 
         <script src="js/Leica.js"></script>
-        <script>
-            var curr_page = "";
-            $(function () {
-
-                // $("#ft_Area").css("display", "none");
-                $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "none");
-
-                $("#ctl00_ContentPlaceHolder1_up_vmi").addClass("t1");
-                $("#ctl00_ContentPlaceHolder1_up_ft").addClass("t1");
-                $("#ctl00_ContentPlaceHolder1_up_list").addClass("t1");
-
-                $("#ctl00_ContentPlaceHolder1_ddl_inspect").change(function () {
-                    var inspect = $(this).find(":selected").val();
-
-                    if (inspect != "") {
-                        $(this).parent().css("background-color", "#fff");
-                    }
-
-
-                    $("#ctl00_ContentPlaceHolder1_txt_insp_count").val("0");
-                    $("#ctl00_ContentPlaceHolder1_txt_samp_count").val("0");
-                    $('#ctl00_ContentPlaceHolder1_ddl_sp_stand')[0].selectedIndex = 0;
-
-                    $("#ctl00_ContentPlaceHolder1_txt_insp_count").focus();
-                });
-
-                $(".qty").focusout(function () {
-
-                    Nomarl.int($(this));
-
-                    var qty = $(this).val();
-                    if (qty == 0) {
-                        alert($("#is_zero").text());
-                    }
-                });
-
-                $(".AutoPost").change(function () {
-
-                    var parent_id = $(this).val();
-
-                    if (parent_id == "") {
-                        var Level = $(this).attr("level");
-                        clear_list(Level);
-                    }
-                    else {
-                        getOption($(this));
-                    }
-
-                });
-
-                $("#ctl00_ContentPlaceHolder1_ddl_sp_stand").change(function () {
-                    stand_chnage();
-                });
-
-                $("#ctl00_ContentPlaceHolder1_msg").change(function () {
-                    var msg = $(this).val();
-
-                    if (typeof msg == "undefined") //預備沒有找到msg 預設為空
-                    {
-                        msg = "";
-                    }
-
-                    if (msg !== "") {
-                        alert(msg);
-                    }
-                });
-
-                curr_page = $("#ctl00_ContentPlaceHolder1_curr_page").val();
-
-                if (curr_page == "VMI") {
-                    $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "block");
-                }
-                if (curr_page == "Performance") {
-                    $("#ft_Area").css("display", "block");
-                }
-
-            });
-
-            function clear_list(curr) {
-                var curr_obj = curr * 1;
-
-                $(".AutoPost").each(function () {
-                    var level = $(this).attr("level") * 1;
-                    if (curr_obj > level) {
-
-                        $(this).val("");
-                        $(this).attr("disabled", true);
-                    }
-                    $(this).empty();
-                });
-
-            }
-
-            function stand_chnage() {
-                var standard = $("#ctl00_ContentPlaceHolder1_ddl_sp_stand").val();
-                var sample = $("#ctl00_ContentPlaceHolder1_txt_insp_count").val();
-
-
-                $.ajax({
-                    url: 'leicaconnector.ashx',                        // url位置
-                    type: 'post',                   // post/get
-                    data: {
-                        type: "standard",
-                        stand_id: standard,
-                        sample: sample
-
-                    },       // 輸入的資料
-                    error: function error(xhr, status, error) {
-                        $("#debug").html(xhr.responseText);
-
-                    },      // 錯誤後執行的函數
-                    success: function (data) {
-
-                        if (data == "") {
-                            data = "0";
-                        }
-                        $("#ctl00_ContentPlaceHolder1_txt_samp_count").val(data)
-
-
-
-                    }// 成功後要執行的函數
-                });
-            }
-
-            function getOption(obj) {
-
-                var parent_id = $(obj).val();
-                var next_name = $(obj).attr("Next");
-
-
-                $.ajax({
-                    url: 'leicaconnector.ashx',                        // url位置
-                    type: 'post',                   // post/get
-                    data: {
-                        type: "option",
-                        parent_id: parent_id
-
-                    },       // 輸入的資料
-                    error: function error(xhr, status, error) {
-                        $("#debug").html(xhr.responseText);
-
-                    },      // 錯誤後執行的函數
-                    success: function (data) {
-
-                        var next_obj = "#ctl00_ContentPlaceHolder1_ddl_" + next_name;
-                        $(next_obj).attr("disabled", false);
-                        $(next_obj).empty();
-                        var select = "";
-                        for (var i = 0; i < data.length; i++) {
-
-                            var option = "<option value='" + data[i]["value"] + "'>" + data[i]["text"] + "</option>";
-                            if (data[i]["selected"]) {
-                                $(next_obj).val(data[i]["value"]);
-                            }
-
-
-                            $(next_obj).append(option);
-                        }
-
-                    }// 成功後要執行的函數
-                });
-            }
-
-            function add_inspct() {
-
-                var pass = false;
-
-                if (check_head()) {
-
-                    var inspect = $("#ctl00_ContentPlaceHolder1_ddl_inspect").val();
-
-                    //$("#ft_Area").css("display", "none");
-                    //$("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "none");
-                    $("#ctl00_ContentPlaceHolder1_ddl_inspect").parent().css("background-color", "#fff");
-
-                    //if (inspect != "") {
-                    //    if (inspect == "vmi") {
-
-                    //        $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "block");
-                    //    }
-                    //    else {
-
-                    //        $("#ft_Area").css("display", "block");
-                    //    }
-
-                    pass = true;
-                }
-                else {
-                    var msg = $("#inspect_empty").text();
-                    $("#ctl00_ContentPlaceHolder1_ddl_inspect").parent().css("background-color", "red");
-                    alert(msg);
-                    pass = false;
-                }
-                return pass;
-            }
-
-            function check_head() {
-                var isPadd = true;
-                $("#head").find(".required").each(function () {
-
-                    $(this).parent().removeClass("wrong");
-                    var value = $(this).val();
-                    if (value == "" || value == null) {
-
-                        $(this).parent().addClass("wrong");
-                        isPadd = false;
-                    }
-
-                });
-
-                $("#lbase").find(".required").each(function () {
-
-                    $(this).parent().removeClass("wrong");
-                    var value = $(this).val();
-                    if (value == "" || value == null) {
-                        $(this).parent().addClass("wrong");
-                        isPadd = false;
-                    }
-                });
-                if (!isPadd) {
-                    alert($("#required").text());
-                }
-
-                return isPadd;
-                //return true;
-            }
-
-            function add_shape() {
-                var pass = true;
-
-                $("#ctl00_ContentPlaceHolder1_ddl_shape").css("background-color", "#fff");
-                var shape = $("#ctl00_ContentPlaceHolder1_ddl_shape").val();
-
-                if (shape == "") {
-
-                    alert($("#required").text());
-                    $("#ctl00_ContentPlaceHolder1_ddl_shape").css("background-color", "red");
-                    pass = false;
-
-                }
-
-                return pass;
-            }
-
-            function vmi_add() {
-
-                var isPadd = true;
-                $("#ctl00_ContentPlaceHolder1_up_vmi").find(".required").each(function () {
-
-                    $(this).parent().removeClass("wrong");
-                    var value = $(this).val();
-                    if (value == "" || value == null) {
-                        $(this).parent().addClass("wrong");
-                        isPadd = false;
-                    }
-                });
-
-
-                if (isPadd) {
-                    //   var tds = $(originalTable).children('tbody').children('tr').children('td').length;
-                    var td = $("#ctl00_ContentPlaceHolder1_up_vmi").find("#ctl00_ContentPlaceHolder1_stemp_list").find("td").length;
-                    $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().removeClass("wrong");
-                    if (td == 0) {
-                        $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().addClass("wrong");
-                        isPadd = false;
-                    }
-                }
-
-                if (!isPadd) {
-                    alert($("#required").text());
-                }
-
-                return isPadd;
-            }
-
-            function cancel() {
-
-                var ispass = false;
-                var msg = "是否要放棄已輸入的資料?";
-                if (confirm(msg) == true) {
-                    ispass = true;
-                }
-
-                return ispass;
-            }
-
-            function Leica_chk() {
-
-                var isPass = false;
-
-                isPass = check_head();
-                if (isPass) {
-                    var all_count = $("#ctl00_ContentPlaceHolder1_all_count").text();
-                    if (all_count == "0") {
-
-                        alert($("#all_empty").text());
-                        isPass = false;
-                    }
-                    else {
-                        isPass = true;
-                    }
-                }
-                return isPass;
-            }
-
-            function ft_add_chk() {
-                 $("#test_s5").css("border", " 0px solid red");
-                var isPadd = false;
-
-                if (add_inspct()) {
-
-                    var isPadd = true;
-                    $("#ft_left").find(".required").each(function () {
-
-                        $(this).parent().removeClass("wrong");
-                        var value = $(this).val();
-
-                        if (value == "" || value == null) {
-                            $(this).parent().addClass("wrong");
-                            isPadd = false;
-                        }
-                    });
-
-                    
-                    if (!isPadd) {
-                        alert($("#required").text());
-                    }
-
-                    var prod = $("#ctl00_ContentPlaceHolder1_txt_prod_index").val();
-                    var time =$("#ctl00_ContentPlaceHolder1_txt_insp_time").val();
-
-                    //檢查是否有重覆資料
-                    if (isPadd) { 
-                        //var td = $('#ctl00_ContentPlaceHolder1_ft_list tr td:eq(1)').text();
-                        //console.log("td", td); 
-
-                        var tr_length = $('#ctl00_ContentPlaceHolder1_ft_list tr').length; //tr 長度
-                        for (var i = 1; i <= tr_length; i++) { 
-                            
-                            var ft_1 = $('#ctl00_ContentPlaceHolder1_ft_list tr:eq(' + i + ')').find(".ft_list_1").text();
-                            var ft_2 = $('#ctl00_ContentPlaceHolder1_ft_list tr:eq(' + i + ')').find(".ft_list_2").text();
-
-                            if (prod == ft_1 && time== ft_2 )
-                            {
-                                 $("#test_s5").css("border", " 2px solid red");
-                                isPadd = false;
-                                
-                                alert($("#duplicate").text() );
-                            }
-                        } 
-
-                    }
-
-                }
-
-
-                return isPadd;
-            }
-
-            function S5_add_chk() {
-
-
-                var isPadd = true;
-                $("#ft_right").find(".required").each(function () {
-
-                    $(this).parent().removeClass("wrong");
-                    var value = $(this).val();
-
-                    if (value == "" || value == null) {
-                        $(this).parent().addClass("wrong");
-                        isPadd = false;
-                    }
-                });
-
-                if (!isPadd) {
-                    alert($("#required").text());
-                }
-
-                return isPadd;
-            }
-
-            function ft_edit_check() {
-
-                var isPass = false;
-                var th = $("#ctl00_ContentPlaceHolder1_s5_list").find("th").length; //empty_data th is 9
-
-
-                $("#test_s5").css("border", " 0px solid red");
-
-                if (th > 9) {
-
-                    $("#test_s5").css("border", " 2px solid red");
-                    alert($("#unable_to_run").text());
-
-                } else {
-                    isPass = true;
-                }
-
-
-                return isPass;
-            }f
-
-            function ft_update(prod, test_time) {
-
-               var pass =ft_edit_check();
-                if (pass) {
-                    $("#ctl00_ContentPlaceHolder1_txt_prod_index").val(prod);
-                    $("#ctl00_ContentPlaceHolder1_txt_insp_time").val(test_time);
-                }
-                return pass;   
-            }
-
-        </script>
-
-        <style type="text/css">
-            .tb1 {
-                border: 1px solid #B19693;
-                width: 100%;
-                border-spacing: 0px;
-            }
-
-
-
-            .Tempty .td {
-                border-left: 0px solid #8a988e;
-                border-top: 0px solid #8a988e;
-                text-align: center;
-            }
-
-            .td, .th {
-                font-size: 0.9em;
-                vertical-align: middle;
-                width: 180px;
-                border: 1px solid #8a988e;
-                height: 25px;
-                margin: 0px;
-                padding: 2px 2px 2px 2px;
-            }
-
-                .td input, .td select {
-                    width: 120px;
-                    height: 22px;
-                }
-
-            .th {
-                /*color: #FCFEEF;
-                        background-color: #1E88A8;*/
-                font-weight: bolder;
-                width: 120px;
-                text-align: right;
-                color: #7B90D2;
-                background-color: #FCF4F5;
-            }
-
-            #head .th {
-                /*background-color: #A5A051;
-                    color: #FCFEEF;*/
-                font-weight: bolder;
-                text-align: right;
-                width: 110px;
-                color: #A5A051;
-            }
-
-            #lbase .th {
-                /*background-color: #bf3553;
-                    color: #fff;*/
-                background-color: #fff3ee;
-                color: #bf3553;
-                font-weight: bolder;
-                text-align: right;
-                width: 110px;
-            }
-
-            #head {
-                margin-top: 10px;
-                padding: 4px 4px 4px 4px;
-                border: 2px solid #74759b;
-            }
-
-            .add_btn {
-                position: relative;
-                color: #41ae3c;
-                font-size: 2em;
-                cursor: pointer;
-                text-decoration: none;
-            }
-
-                .add_btn:hover {
-                    color: #96c24e;
-                    font-size: 2.2em;
-                    text-shadow: #5e665b 0.05em 0.05em 0.001em;
-                }
-
-
-
-            /*.fa-pen {
-                color: #fff;
-                text-shadow: #bf3553 2px 2px 1px;
-            }
-
-                .fa-pen :hover {
-                    color: yellowgreen;
-                }*/
-
-            #leica .cell {
-                display: table-cell;
-                text-align: center;
-                vertical-align: top;
-            }
-
-            .t1 {
-                padding: 4px 4px 4px 4px;
-                border: 2px solid #74759b;
-                border-top: 0px solid #74759b;
-            }
-
-
-
-
-            #ctl00_ContentPlaceHolder1_up_vmi .cell {
-                padding: 4px 4px 4px 4px;
-            }
-
-
-
-            #ctl00_ContentPlaceHolder1_up_vmi .th {
-                background-color: #F4F6F7;
-                color: #5e665b;
-            }
-
-            /* fontawesome merge */
-
-            .fa-merge {
-                position: relative;
-                display: inline-block;
-                width: 1em;
-                height: 1em;
-                line-height: 1em;
-                vertical-align: middle;
-                font-size: 0.8em;
-                padding: 0.2em;
-                cursor: pointer;
-            }
-
-            .fa-minus {
-                color: #ff7575;
-                font-size: 0.8em;
-            }
-
-                .fa-minus:hover {
-                    color: red;
-                    font-size: 1em;
-                    text-shadow: #2f0000 0.01em 0.01em 0.001em;
-                }
-
-            .fa-angle-double-down {
-                font-size: 2.5em;
-                color: #84c1ff;
-                text-decoration: none;
-                text-shadow: #005CAF 0.05em 0.05em 0.001em;
-            }
-
-                .fa-angle-double-down:hover {
-                    font-size: 2.8em;
-                    color: #4588C4;
-                    text-decoration: none;
-                    text-shadow: #d0d0d0 0.05em 0.05em 0.001em;
-                }
-
-            .fa-clock {
-                color: #4588C4;
-                text-shadow: #484891 1px 1px 2px;
-            }
-
-                .fa-clock:hover {
-                    color: red;
-                    text-shadow: #005CAF 1px 1px 1px;
-                }
-            /*-----------------------------------*/
-            div.time-picker {
-                position: absolute;
-                height: 200px;
-                width: 60px; /* needed for IE */
-                overflow: auto;
-                background: #fff;
-                border: 1px solid #000;
-                z-index: 99;
-                margin-top: 1.1em;
-            }
-
-            div.time-picker-12hours {
-                width: 90px; /* needed for IE */
-            }
-
-            div.time-picker ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-
-            div.time-picker li {
-                padding: 1px;
-                cursor: pointer;
-            }
-
-                div.time-picker li.selected {
-                    background: #316AC5;
-                    color: #fff;
-                }
-
-
-            #ft_right .th {
-                background-color: #F5F2F9;
-                color: #806d9e;
-            }
-
-            #ft_right .th, #ft_right .td {
-                height: 30px;
-            }
-
-            #ft_left .th {
-                background-color: #a7a8bd;
-                color: #4A225D
-            }
-
-            #ft_left .td, #ft_left .th {
-                border: 1px solid #5e616d;
-                border-bottom: 0px solid #22202e;
-                margin-right: 0px;
-                height: 40px;
-            }
-
-            #ft_left .td {
-                border-left: 0px;
-            }
-
-            .ft_del, .ft_edit, .ft_copy {
-                font-size: 1.2em;
-                text-decoration: none;
-            }
-
-
-            .fa-trash-alt {
-                font-size: 1em;
-                color: #ed5a65;
-            }
-
-                .fa-trash-alt:hover {
-                    color: red;
-                    font-size: 1.2em;
-                    text-shadow: #930000 0.05em 0.05em 0.001em;
-                }
-
-            .ft_copy {
-                color: #f8b37f;
-            }
-
-                .ft_copy:hover {
-                    color: #ffd111;
-                    font-size: 1.4em;
-                    text-shadow: #930000 0.05em 0.05em 0.001em;
-                }
-
-            .ft_edit {
-                color: #b7d07a;
-            }
-
-                .ft_edit:hover {
-                    color: #41ae3c;
-                    font-size: 1.4em;
-                    text-shadow: #8e8e8e 0.05em 0.05em 0.001em;
-                }
-        </style>
+        <link href="js/Lieca.css" rel="stylesheet" /> 
     </header>
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
 
@@ -694,7 +21,7 @@
             <asp:HiddenField ID="base_id" runat="server" />
             <asp:HiddenField ID="curr_page" runat="server" />
 
-            <asp:HiddenField ID="msg" runat="server" />
+            <asp:HiddenField ID="msg" runat="server" Value="" />
 
             <div id="integer"><%=getStr("integer")%></div>
             <div id="inspect_empty"><%=getStr("inspect_empty") %></div>
@@ -704,13 +31,13 @@
             <div id="more_zero"><%=getStr("more_zero")%></div>
             <div id="is_zero"><%=getStr("is_zero")%></div>
             <div id="all_empty"><%=getStr("all_empty")%></div>
-            <div id="duplicate" ><%=getStr("duplicate") %></div>
-        </div>
+            <div id="duplicate"><%=getStr("duplicate") %></div>
+            <div id="unable_to_run"><%=getStr("unable_to_run") %> </div>
+            <div id="is_exist"><%=getStr("is_exist") %> </div>
 
-       <asp:Label ID="lb_test" runat="server" ForeColor="Red" Font-Size="Large"  ></asp:Label>
-        <div id="unable_to_run"><%=getStr("unable_to_run") %> </div>
+        </div>
         <div style="font-size: 2em; color: #9b1e64; height: 35px; font-weight: bolder;">
-            Leica Inspection Record             
+            <%=getStr("insp_record") %>
         </div>
         <div id="head" class="t1">
             <div class="tb1">
@@ -721,9 +48,9 @@
                         </asp:DropDownList>
                     </div>
 
-                    <div class="th"><%=getStr("operator") %></div>
+                    <div class="th"><%=getStr("inpecter") %></div>
                     <div class="td">
-                        <asp:TextBox ID="txt_operator" runat="server" CssClass="Operater required"></asp:TextBox>
+                        <asp:TextBox ID="txt_operator" runat="server" CssClass="Muser required"></asp:TextBox>
                     </div>
                     <div class="th"><%=getStr("Inspect_dt") %></div>
 
@@ -735,12 +62,12 @@
 
                     <div class="th"><%=getStr("product") %></div>
                     <div class="td">
-                        <asp:DropDownList ID="ddl_product" runat="server" Enabled="false" Next="program" level="4" CssClass="required AutoPost">
+                        <asp:DropDownList ID="ddl_product" runat="server" Next="program" level="4" CssClass="required AutoPost">
                         </asp:DropDownList>
                     </div>
                     <div class="th"><%=getStr("program") %></div>
                     <div class="td">
-                        <asp:DropDownList ID="ddl_program" runat="server" Enabled="false" Next="test" level="3" CssClass="required AutoPost">
+                        <asp:DropDownList ID="ddl_program" runat="server" Next="test" level="3" CssClass="required AutoPost">
                         </asp:DropDownList>
                     </div>
 
@@ -750,9 +77,23 @@
                         </asp:DropDownList>
                     </div>
                 </div>
+                <div class="tr">
+
+                    <div class="th"><%=getStr("custmer") %></div>
+                    <div class="td">
+                        <asp:DropDownList ID="ddl_custmer" runat="server" Next="program" level="4" CssClass="required">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="td"></div>
+                    <div class="td"></div>
+                    <div class="td"></div>
+                    <div class="td"></div>
+                     
+                </div>
             </div>
         </div>
         <div class="t1" id="lbase">
+
             <div class="tb1" style="width: 100%; border-bottom: 0px">
                 <div class="tr ">
                     <div class="td" style="text-align: center; font-size: 1.4em; color: #bf3553; font-weight: bold">
@@ -761,10 +102,11 @@
                 </div>
             </div>
             <div class="tb1">
+
                 <div class="tr">
                     <div class="th"><%=getStr("insp_type") %></div>
                     <div class="td">
-                        <asp:DropDownList ID="ddl_inspect" runat="server"></asp:DropDownList>
+                        <asp:DropDownList ID="ddl_inspect" runat="server" CssClass="required" ></asp:DropDownList>
                     </div>
                     <div class="th"><%=getStr("inspct_num") %></div>
 
@@ -789,10 +131,10 @@
 
                     <div class="th"><%=getStr("assembly_staff") %></div>
                     <div class="td" style="text-align: center">
-                        <asp:TextBox ID="txt_b_opeartor" runat="server" CssClass="Operater required"></asp:TextBox>
+                        <asp:TextBox ID="txt_b_opeartor" runat="server" CssClass="Muser required"></asp:TextBox>
                     </div>
                     <div class="td" style="border: 0px; border-bottom: 1px solid #8a988e; text-align: left">
-                        <asp:LinkButton ID="lbtn_insp_add" runat="server" OnClientClick="return add_inspct()" Class="fas fa-edit add_btn" OnClick="lbtn_insp_add_Click" title="add"></asp:LinkButton>
+                        <asp:LinkButton ID="lbtn_insp_add" runat="server" OnClientClick="return check_head()" Class="fas fa-edit add_btn" OnClick="lbtn_insp_add_Click" title="add"></asp:LinkButton>
                     </div>
 
                     <div class="td" style="border: 0px; border-bottom: 1px solid #8a988e;"></div>
@@ -802,6 +144,7 @@
                 </div>
 
             </div>
+
         </div>
         <asp:UpdatePanel runat="server" ID="up_vmi" UpdateMode="Conditional" ChildrenAsTriggers="true">
             <ContentTemplate>
@@ -815,7 +158,7 @@
                 <div class="tb1 all">
                     <div class="tr">
                         <div class="td">
-                            <div class="cell" style="width: 40%; border-right: 2px solid #B19693;">
+                            <div class="cell" style="width: 45%; border-right: 2px solid #B19693;">
                                 <div style="float: left; width: 90%; margin: 5px">
                                     <div class="tb1 edit " style="width: 100%; float: left; font-size: medium">
                                         <div class="tr ">
@@ -836,9 +179,9 @@
 
                                                     <asp:DataList ID="stemp_list" runat="server" OnDeleteCommand="stemp_list_DeleteCommand">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lab_stemp" runat="server"><%#Eval("shape").ToString().Trim() %></asp:Label>
+                                                            <asp:Label ID="lab_stemp" runat="server"><%#Eval("shape_txt").ToString().Trim() %></asp:Label>
 
-                                                            <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape_id") %>' ID="del_shape" runat="server" ToolTip="Del">
+                                                            <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape") %>' ID="del_shape" runat="server" ToolTip="Del">
                                                               
                                                             <i class="fas fa-minus"></i>
                                                             </asp:LinkButton>
@@ -871,7 +214,7 @@
                                     <asp:LinkButton ID="lbtn_vmi_add" runat="server" CssClass="far fa-plus-square add_btn" OnClick="lbtn_vmi_add_Click" OnClientClick="return vmi_add()" Style="text-decoration: none;" title="lbtn_vmi_add_Click"></asp:LinkButton>
                                 </div>
                             </div>
-                            <div class="cell" style="width: 60%">
+                            <div class="cell" style="width: 55%">
                                 <div style="float: left; margin: 5px; width: 90%;">
 
                                     <asp:GridView ID="vmi_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
@@ -888,7 +231,7 @@
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
                                             </asp:BoundField>
-                                            <asp:BoundField DataField="position" HeaderText="Position of defective">
+                                            <asp:BoundField DataField="position_txt" HeaderText="Position of defective">
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
                                             </asp:BoundField>
@@ -900,7 +243,7 @@
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
                                             </asp:BoundField>
-                                            <asp:BoundField DataField="judg" HeaderText="Judgement">
+                                            <asp:BoundField DataField="judg_txt" HeaderText="Judgement">
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
                                             </asp:BoundField>
@@ -918,7 +261,6 @@
 
                                         </Columns>
                                         <EmptyDataTemplate>
-
                                             <div class="tb1 Tempty" style="background-color: #F4F6F7; color: #7B90D2; width: 100%; height: 25px; text-align: center; border: 0px; font-size: medium">
                                                 <div class="tr">
                                                     <div class="td">
@@ -938,13 +280,12 @@
                                             <div style="background-color: #FFF; color: #7B90D2; width: 100%; height: 25px">
                                                 <%=getStr("not_data")%>
                                             </div>
-
                                         </EmptyDataTemplate>
                                     </asp:GridView>
                                 </div>
 
                                 <div style="float: left; margin: 5px;">
-                                    <asp:LinkButton ID="lbtn_base_add" runat="server" class="far fa-file-alt add_btn" title="save" OnClick="lbtn_base_add_Click">
+                                    <asp:LinkButton ID="lbtn_base_add" runat="server" class="far fa-file-alt add_btn" title="save" OnClick="lbtn_base_add_Click" OnClientClick="return base_add_chk()">
                                     </asp:LinkButton>
                                 </div>
 
@@ -959,7 +300,7 @@
             </Triggers>
         </asp:UpdatePanel>
 
-        <div id="ft_Area" class="t1" style="display: block">
+        <div id="ft_Area" class="t1" style="display: none">
             <div class="tb1">
                 <div class="td" style="text-align: center; font-size: x-large; font-weight: bold; color: #636F58; width: 100%; border-bottom: 0px solid red">
                     <%=getStr("fun_test") %>
@@ -969,22 +310,22 @@
                 <div class="td" style="width: 40%; vertical-align: top">
                     <div id="ft_right" class="tb1" style="vertical-align: top; border: 0px solid red;">
                         <div class="tr">
-                            <div class="th">測試項目</div>
+                            <div class="th"><%=getStr("ts_item") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost" OnSelectedIndexChanged="ddl_test_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                             </div>
-                            <div class="th">測試標準</div>
+                            <div class="th"><%=getStr("ts_stand") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_ts_standard" runat="server" level="1" CssClass="required AutoPost"></asp:DropDownList>
                             </div>
 
                         </div>
                         <div class="tr">
-                            <div class="th">數量</div>
+                            <div class="th"><%=getStr("qty") %></div>
                             <div class="td">
                                 <asp:TextBox ID="txt_ft_qty" CssClass="required" runat="server" Text="0"></asp:TextBox>
                             </div>
-                            <div class="th">判定</div>
+                            <div class="th"><%=getStr("judg") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_ft_judg" CssClass="required" runat="server">
                                 </asp:DropDownList>
@@ -1030,25 +371,25 @@
 
                 <div class="td" style="width: 60%; text-align: center; vertical-align: top;">
                     <div id="test_s5" style="margin: 10px; text-align: center;">
-                     
-                                <div id="ft_left" style="width: 100%; border: 0px solid red;">
-                                    <div class="th">產品編號</div>
-                                    <div class="td" style="border-right: 0px solid red;">
-                                        <asp:TextBox ID="txt_prod_index" runat="server" CssClass="required"></asp:TextBox>
-                                    </div>
+
+                        <div id="ft_left" style="width: 100%; border: 0px solid red;">
+                            <div class="th"><%=getStr("prod_no") %></div>
+                            <div class="td" style="border-right: 0px solid red;">
+                                <asp:TextBox ID="txt_prod_index" runat="server" CssClass="required"></asp:TextBox>
+                            </div>
 
 
-                                    <div class="th">檢測時間</div>
-                                    <div class="td">
-                                        <asp:TextBox ID="txt_insp_time" runat="server" CssClass="Mclock required"></asp:TextBox>
+                            <div class="th"><%=getStr("insp_time") %></div>
+                            <div class="td">
+                                <asp:TextBox ID="txt_insp_time" runat="server" CssClass="Mclock required"></asp:TextBox>
 
-                                    </div>
-                                    <div class="td" style="text-align: center">
-                                        <asp:LinkButton ID="lbtn_ft_add" runat="server" class="fas fa-angle-double-down" OnClick="lbtn_ft_add_Click" OnClientClick="return ft_add_chk();"></asp:LinkButton>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="td" style="text-align: center">
+                                <asp:LinkButton ID="lbtn_ft_add" runat="server" class="fas fa-angle-double-down" OnClick="lbtn_ft_add_Click" OnClientClick="return ft_add_chk()"></asp:LinkButton>
+                            </div>
+                        </div>
 
-                           <asp:UpdatePanel runat="server" ID="up_s5" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                        <asp:UpdatePanel runat="server" ID="up_s5" UpdateMode="Conditional" ChildrenAsTriggers="true">
                             <ContentTemplate>
 
                                 <asp:GridView ID="s5_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
@@ -1112,10 +453,10 @@
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <tr id="empty_data_s5" style="background-color: #a7a8bd; height: 25px; color: #FFFFFB;">
-                                            <th>測試項目</th>
-                                            <th>測試標準</th>
-                                            <th>數量</th>
-                                            <th>判定</th>
+                                            <th><%=getStr("ts_item") %></th>
+                                            <th><%=getStr("ts_stand") %></th>
+                                            <th><%=getStr("qty") %></th>
+                                            <th><%=getStr("judg") %></th>
                                             <th>S1</th>
                                             <th>S2</th>
                                             <th>S3</th>
@@ -1130,9 +471,6 @@
                 </div>
             </div>
         </div>
-
-
-        
         <asp:UpdatePanel runat="server" ID="up_ft" UpdateMode="Conditional" ChildrenAsTriggers="true">
             <ContentTemplate>
                 <asp:GridView ID="ft_list" runat="server" AllowPaging="false" AutoGenerateColumns="false"
@@ -1157,14 +495,14 @@
                             </ItemTemplate>--%>
                         </asp:TemplateField>
 
-                        <asp:TemplateField HeaderText="prod_index" HeaderStyle-Width="70" >
+                        <asp:TemplateField HeaderText="prod_index" HeaderStyle-Width="70">
                             <HeaderStyle HorizontalAlign="Center" />
                             <ItemStyle HorizontalAlign="Center" BackColor="White" CssClass="ft_list_1" />
                         </asp:TemplateField>
 
                         <asp:TemplateField HeaderText="insp_time" HeaderStyle-Width="100">
                             <HeaderStyle HorizontalAlign="Center" />
-                            <ItemStyle HorizontalAlign="Center" BackColor="White"  CssClass="ft_list_2" />
+                            <ItemStyle HorizontalAlign="Center" BackColor="White" CssClass="ft_list_2" />
                         </asp:TemplateField>
 
                         <asp:TemplateField HeaderText="test_standard" HeaderStyle-Width="110">
@@ -1207,21 +545,21 @@
                             <HeaderStyle HorizontalAlign="Center" Width="30" />
                             <ItemStyle HorizontalAlign="Center" BackColor="White" />
                             <ItemTemplate>
-                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_All" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Copy">
                             <HeaderStyle HorizontalAlign="Center" Width="30" />
                             <ItemStyle HorizontalAlign="Center" BackColor="White" />
                             <ItemTemplate>
-                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_All" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Del">
                             <HeaderStyle HorizontalAlign="Center" Width="30" />
                             <ItemStyle HorizontalAlign="Center" BackColor="White" />
                             <ItemTemplate>
-                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
+                                <%--<asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_All" title="Del" Text="del" class="far fa-trash-alt"></asp:LinkButton>--%>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -1229,12 +567,12 @@
                     <EmptyDataTemplate>
                         <tr style="width: 100%; border: 0px solid #96c24e; border-collapse: collapse; font-size: medium; font-weight: bold; background-color: #9abeaf; color: #fff">
                             <td align="center">Item</td>
-                            <td align="center" style="width: 10%">產品編號</td>
-                            <td align="center" style="width: 10%">檢測時間</td>
-                            <td align="center" style="width: 10%">測試項目</td>
-                            <td align="center" style="width: 10%">測試標準</td>
-                            <td align="center" style="width: 10%">數量</td>
-                            <td align="center" style="width: 10%">判定</td>
+                            <td align="center" style="width: 10%"><%=getStr("prod_no") %></td>
+                            <td align="center" style="width: 10%"><%=getStr("insp_time") %></td>
+                            <td align="center" style="width: 10%"><%=getStr("ts_item") %></td>
+                            <td align="center" style="width: 10%"><%=getStr("ts_stand") %></td>
+                            <td align="center" style="width: 10%"><%=getStr("qty") %></td>
+                            <td align="center" style="width: 10%"><%=getStr("judg") %></td>
                             <td align="center" style="width: 5%">S1</td>
                             <td align="center" style="width: 5%">S2</td>
                             <td align="center" style="width: 5%">S3</td>
@@ -1247,11 +585,12 @@
                         </tr>
                     </EmptyDataTemplate>
                 </asp:GridView>
+                <div>
+                    <asp:LinkButton ID="lbtn_add_all" runat="server" CssClass="fas fa-angle-double-down" OnClick="lbtn_add_all_Click"></asp:LinkButton>
+                </div>
             </ContentTemplate>
 
         </asp:UpdatePanel>
-
-
         <asp:UpdatePanel runat="server" ID="up_list" UpdateMode="Conditional" ChildrenAsTriggers="true">
             <ContentTemplate>
                 <asp:HiddenField ID="ft_rowid" runat="server" />
@@ -1259,22 +598,21 @@
                 <div class="tb1">
                     <div class="tr">
                         <div class="td" style="text-align: center; font-size: 1.4em; color: #b598a1; font-weight: bold; width: 100%">
-                            檢測記錄總表
+                            <%=getStr("inspect_record") %>
                         </div>
                     </div>
                     <div class="tr">
                         <div class="td" style="width: 95%; margin: 0;">
-                            <asp:GridView ID="all_list" runat="server" AllowPaging="false" AutoGenerateColumns="false" Font-Size="Medium"
-                                OnRowDataBound="all_list_RowDataBound" OnRowCommand="all_list_RowCommand"
-                                CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="100%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
-                                <AlternatingRowStyle BackColor="#F1ECED" />
-                                <FooterStyle BackColor="Yellow" />
-                                <HeaderStyle BackColor="#b598a1" Font-Bold="True" ForeColor="#ffffff" BorderWidth="0" Font-Size="Medium" />
-
-                                <SelectedRowStyle BackColor="Pink" Font-Bold="True" ForeColor="White" />
+                            <asp:GridView ID="all_list" runat="server" AllowPaging="false" AutoGenerateColumns="false" Font-Size="Medium" Width="100%"
+                                OnRowDataBound="all_list_RowDataBound" OnRowCommand="all_list_RowCommand" CssClass="all_table" EmptyDataText="沒有資料" EmptyDataRowStyle-BackColor="White">
                                 <Columns>
 
-                                    <asp:BoundField DataField="base_id" HeaderText="base_id" Visible="false">
+                                    <asp:BoundField DataField="base_id" HeaderText="base_id" Visible="true">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+                                    <asp:BoundField DataField="inspect_id" HeaderText="inspect_id" Visible="true">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
                                     </asp:BoundField>
@@ -1283,40 +621,26 @@
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
                                         <ItemTemplate>
-                                            <%#Container.DataItemIndex + 1%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-
                                     <asp:TemplateField HeaderText="Inspect" HeaderStyle-Width="70">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
-                                        <ItemTemplate>
-                                            <asp:Label ID="lab_inspect" runat="server"></asp:Label>
-                                        </ItemTemplate>
                                     </asp:TemplateField>
 
                                     <asp:TemplateField HeaderText="Inspect Count Quantity" HeaderStyle-Width="100">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
-                                        <ItemTemplate>
-                                            <asp:Label ID="lab_insp_count" runat="server"></asp:Label>
-                                        </ItemTemplate>
                                     </asp:TemplateField>
 
                                     <asp:TemplateField HeaderText="Sample Standard" HeaderStyle-Width="100">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
-                                        <ItemTemplate>
-                                            <asp:Label ID="lab_sp_standard" runat="server"></asp:Label>
-                                        </ItemTemplate>
                                     </asp:TemplateField>
 
                                     <asp:TemplateField HeaderText="Sample Count Quantity" HeaderStyle-Width="100">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
-                                        <ItemTemplate>
-                                            <asp:Label ID="lab_samp_count" runat="server"></asp:Label>
-                                        </ItemTemplate>
                                     </asp:TemplateField>
 
                                     <asp:BoundField DataField="bith_date" HeaderText="Manufacturing Date" HeaderStyle-Width="110">
@@ -1324,50 +648,42 @@
                                         <ItemStyle HorizontalAlign="Center" />
                                     </asp:BoundField>
 
-
                                     <asp:BoundField DataField="b_operator" HeaderText="Operator" HeaderStyle-Width="100">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
                                     </asp:BoundField>
 
-
                                     <asp:TemplateField HeaderText="View" HeaderStyle-Width="500">
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
-                                        <ItemTemplate>
-                                        </ItemTemplate>
                                     </asp:TemplateField>
-
-
-                                    <asp:TemplateField HeaderText="del">
-                                        <HeaderStyle HorizontalAlign="Center" Width="60" />
+                                    <asp:TemplateField HeaderText="Update" HeaderStyle-Width="40">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Del" HeaderStyle-Width="40">
+                                        <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
                                         <ItemTemplate>
-
-                                            <asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="del_row" title="Del" CommandArgument='<%#Eval("base_id") %>' class="far fa-trash-alt"></asp:LinkButton>
+                                            <asp:LinkButton ID="lbtn_All_del" runat="server" CommandName="Del_All" title="Del" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" class="far fa-trash-alt"></asp:LinkButton>
                                         </ItemTemplate>
-
                                     </asp:TemplateField>
-
                                 </Columns>
                                 <EmptyDataTemplate>
-                                    <tr style="background-color: #b598a1; color: #fff; font-weight: bolder; height: 25px; font-size: medium; width: 95%; border-top: 0px">
-                                        <td align="center" style="width: 5%">Item</td>
-                                        <td align="center" style="width: 10%"><%=getStr("insp_type") %></td>
-                                        <td align="center" style="width: 10%"><%=getStr("inspct_num") %></td>
-                                        <td align="center" style="width: 15%"><%=getStr("sp_stand") %></td>
-                                        <td align="center" style="width: 10%"><%=getStr("samp_num") %></td>
-                                        <td align="center" style="width: 10%"><%=getStr("birth_dt") %></td>
-                                        <td align="center" style="width: 10%"><%=getStr("assembly_staff") %></td>
-                                        <td align="center" style="width: 30%">View</td>
-                                        <td align="center" style="width: 5%">Del</td>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%">Item</th>
+                                            <th style="width: 10%"><%=getStr("insp_type") %></th>
+                                            <th style="width: 10%"><%=getStr("inspct_num") %></th>
+                                            <th style="width: 12%"><%=getStr("sp_stand") %></th>
+                                            <th style="width: 10%"><%=getStr("samp_num") %></th>
+                                            <th style="width: 10%"><%=getStr("birth_dt") %></th>
+                                            <th style="width: 10%"><%=getStr("assembly_staff") %></th>
+                                            <th style="width: 25%">View</th>
+                                            <th style="width: 8%">Del</th>
+                                        </tr>
+                                    </thead>
 
-
-                                    </tr>
-                                    <tr style="background-color: #FFF; color: #b598a1; font-weight: bolder; width: 100%; text-align: center">
-                                        <td colspan="10" style="height: 35px">
-                                            <%=getStr("not_data")%></td>
-                                    </tr>
                                 </EmptyDataTemplate>
                             </asp:GridView>
                         </div>
@@ -1393,5 +709,6 @@
             </div>
         </div>
     </div>
+
 </asp:Content>
 
