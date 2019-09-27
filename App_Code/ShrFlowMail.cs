@@ -117,9 +117,6 @@ public class ShrFlowMail
         sendmessage1.BodyEncoding = System.Text.Encoding.UTF8;
         sendmessage1.Send(); //寄信
 
-      
-
-
     }
 
 
@@ -148,6 +145,8 @@ public class ShrFlowMail
         sendmessage1.From = para.AdministratorEMail.ToString(); //寄信From 填入系統管理者Mail
         sendmessage1.BodyEncoding = System.Text.Encoding.UTF8;
         sendmessage1.Send(); //寄信
+                    
+
 
         Utility.log(0, sendmessage1.Body);
       

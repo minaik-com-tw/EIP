@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost:9003", "http://localhost:9003", "{8317A04F-9DD2-447D-B8A2-FC426C4DE0D8}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "false"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
 		ProjectReferences = ""
 		Debug.AspNetCompiler.VirtualPath = "/localhost_9003"
 		Debug.AspNetCompiler.PhysicalPath = "..\EIP\"
@@ -46,15 +46,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_TaskErrorCategory = Message
-		RESX_RemoveEmptyEntries = False
-		RESX_ShowErrorsInErrorList = True
-		RESX_DuplicateKeyHandling = Fail
-		RESX_SortFileContentOnSave = False
-		SolutionGuid = {B01C1994-A030-4651-BC7B-EF24E62575FB}
-		RESX_AutoCreateNewLanguageFiles = True
-		RESX_ConfirmAddLanguageFile = True
-		RESX_ResXSortingComparison = CurrentCulture
 		RESX_PrefixTranslations = True
+		RESX_ResXSortingComparison = CurrentCulture
+		RESX_ConfirmAddLanguageFile = True
+		RESX_AutoCreateNewLanguageFiles = True
+		SolutionGuid = {B01C1994-A030-4651-BC7B-EF24E62575FB}
+		RESX_SortFileContentOnSave = False
+		RESX_DuplicateKeyHandling = Fail
+		RESX_ShowErrorsInErrorList = True
+		RESX_RemoveEmptyEntries = False
+		RESX_TaskErrorCategory = Message
 	EndGlobalSection
 EndGlobal

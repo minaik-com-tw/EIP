@@ -41,22 +41,24 @@
         }
     </style>
     <script>
+        var app_v = undefined;
         $(function () {
 
-            var app_v = $("#ctl00_HeaderControl1_app_version").val();
-            
-            if (app_v != "") {
+            app_v = $("#ctl00_HeaderControl1_app_version").val();
+
+            if (typeof (app_v) != "undefined" && app_v!="") {
 
                 var l_top = $("#ctl00_HeaderControl1_login_info4").offset().top;
                 var l_left = $("#ctl00_HeaderControl1_login_info4").offset().left;
 
-               // $("#app_ver").css({ 'top': l_top+10, 'left': l_left+150, 'background-color': 'red' });
-                 $("#app_ver").css({ 'top': l_top+10, 'left': l_left+150 });
+                //var l_top = 200;
+                //var l_left = 300;
+                // $("#app_ver").css({ 'top': l_top+10, 'left': l_left+150, 'background-color': 'red' });
+                $("#app_ver").css({ 'top': l_top + 10, 'left': l_left + 150 });
                 $("#app_ver").html(app_v);
             }
 
-
-        })
+        });
 
 
     </script>
@@ -141,7 +143,7 @@
                         <asp:Image ID="BUTTON_search" runat="server" ImageAlign="AbsMiddle" ImageUrl="/lib/img/btn-search.gif" meta:resourcekey="BUTTON_searchResource1" />&nbsp;
                         <asp:Image ID="BUTTON_searchmore" runat="server" ImageAlign="AbsMiddle" ImageUrl="/lib/img/btn-more.gif" meta:resourcekey="BUTTON_searchmoreResource1" />&nbsp;
                         <asp:Label ID="BUTTON_logout" runat="server" Style="cursor: default" Width="60px" meta:resourcekey="BUTTON_logoutResource1">Logout</asp:Label>
-                        
+
                     </td>
                 </tr>
                 <tr height="14">

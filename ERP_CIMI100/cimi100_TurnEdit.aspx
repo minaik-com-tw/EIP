@@ -38,8 +38,8 @@
                 turntext();
                 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(AutoClick);  //防止UpdatePanel jQuery失效 
                 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(AutoClick2);  //防止UpdatePanel jQuery失效 
-               
-                
+
+
                 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(turntext);  //防止UpdatePanel jQuery失效 
                 document.getElementById("ctl00_ContentPlaceHolder1_Button_UpdateItem").style.display = "none";
 
@@ -52,24 +52,24 @@
 
 
                 $("#FIELD_PartNo").autocomplete("ACDataSrc.aspx",
-                {
-                    delay: 10,
-                    width: 500,
-                    minChars: 1, //至少輸入幾個字元才開始給提示?
-                    matchSubset: false,
-                    matchContains: false,
-                    cacheLength: 0,
-                    noCache: true, //黑暗版自訂參數，每次都重新連後端查詢(適用總資料筆數很多時)
-                    onItemSelect: findValue,
-                    onFindValue: findValue,
-                    formatItem: function (row) {
-                        return "<div style='height:12px'><div style='float:left'>" + row[0] +
-                              "</div><div style='float:right;padding-right:5px;'>" +
-                               row[1] + "/" + row[2] + "</div></div>";
-                    },
-                    autoFill: false,
-                    mustMatch: true //是否允許輸入提示清單上沒有的值?
-                });
+                    {
+                        delay: 10,
+                        width: 500,
+                        minChars: 1, //至少輸入幾個字元才開始給提示?
+                        matchSubset: false,
+                        matchContains: false,
+                        cacheLength: 0,
+                        noCache: true, //黑暗版自訂參數，每次都重新連後端查詢(適用總資料筆數很多時)
+                        onItemSelect: findValue,
+                        onFindValue: findValue,
+                        formatItem: function (row) {
+                            return "<div style='height:12px'><div style='float:left'>" + row[0] +
+                                "</div><div style='float:right;padding-right:5px;'>" +
+                                row[1] + "/" + row[2] + "</div></div>";
+                        },
+                        autoFill: false,
+                        mustMatch: true //是否允許輸入提示清單上沒有的值?
+                    });
 
 
                 function findValue(li) { //cima01的formatItem的資料代入相關欄位
@@ -94,24 +94,24 @@
 
 
                 $("#Textc_imi031").autocomplete("ACDataSrc3.aspx",
-                {
-                    delay: 10,
-                    width: 500,
-                    minChars: 1, //至少輸入幾個字元才開始給提示?
-                    matchSubset: false,
-                    matchContains: false,
-                    cacheLength: 0,
-                    noCache: true, //黑暗版自訂參數，每次都重新連後端查詢(適用總資料筆數很多時)
-                    onItemSelect: findValues,
-                    onFindValue: findValues,
-                    formatItem: function (row) {
-                        return "<div style='height:12px'><div style='float:left'>" + row[0] +
-                              "</div><div style='float:right;padding-right:5px;'>" +
-                               row[0] + "/" + row[1] + "</div></div>";
-                    },
-                    autoFill: false,
-                    mustMatch: true //是否允許輸入提示清單上沒有的值?
-                });
+                    {
+                        delay: 10,
+                        width: 500,
+                        minChars: 1, //至少輸入幾個字元才開始給提示?
+                        matchSubset: false,
+                        matchContains: false,
+                        cacheLength: 0,
+                        noCache: true, //黑暗版自訂參數，每次都重新連後端查詢(適用總資料筆數很多時)
+                        onItemSelect: findValues,
+                        onFindValue: findValues,
+                        formatItem: function (row) {
+                            return "<div style='height:12px'><div style='float:left'>" + row[0] +
+                                "</div><div style='float:right;padding-right:5px;'>" +
+                                row[0] + "/" + row[1] + "</div></div>";
+                        },
+                        autoFill: false,
+                        mustMatch: true //是否允許輸入提示清單上沒有的值?
+                    });
 
 
                 function findValues(li) { //cima01的formatItem的資料代入相關欄位
@@ -133,83 +133,83 @@
                 //alert(class_no);
                 var rownumber = parseInt(rowIdx) + 1;
                 var gdview = document.getElementById("<%=GridView1.ClientID %>");
-         document.getElementById("ctl00_ContentPlaceHolder1_rember_item").value = gdview.rows(rownumber).cells(2).innerText
-         $('#FIELD_PartNo').val(gdview.rows(rownumber).cells(3).innerText);
-         $('#FIELD_Component').val(gdview.rows(rownumber).cells(4).innerText);
-         $('#FIELD_DWG').val(gdview.rows(rownumber).cells(5).innerText);
-         $('#Textc_imi02').val(gdview.rows(rownumber).cells(6).innerText);
-         $('#Textc_imi021').val(gdview.rows(rownumber).cells(7).innerText);
-         $('#Textc_imi031').val(gdview.rows(rownumber).cells(9).innerText);
-         document.getElementById("ctl00_ContentPlaceHolder1_Button_UpdateItem").style.display = "block";  //顯示UPDATE ITEM按鈕
-         //alert(class_no);
-         //alert(gdview.rows(rownumber).cells(6).innerText);
-         if (class_no == "2")  //類別為拋轉才顯示,變更不顯示
-         {
+                document.getElementById("ctl00_ContentPlaceHolder1_rember_item").value = gdview.rows(rownumber).cells(2).innerText
+                $('#FIELD_PartNo').val(gdview.rows(rownumber).cells(3).innerText);
+                $('#FIELD_Component').val(gdview.rows(rownumber).cells(4).innerText);
+                $('#FIELD_DWG').val(gdview.rows(rownumber).cells(5).innerText);
+                $('#Textc_imi02').val(gdview.rows(rownumber).cells(6).innerText);
+                $('#Textc_imi021').val(gdview.rows(rownumber).cells(7).innerText);
+                $('#Textc_imi031').val(gdview.rows(rownumber).cells(9).innerText);
+                document.getElementById("ctl00_ContentPlaceHolder1_Button_UpdateItem").style.display = "block";  //顯示UPDATE ITEM按鈕
+                //alert(class_no);
+                //alert(gdview.rows(rownumber).cells(6).innerText);
+                if (class_no == "2")  //類別為拋轉才顯示,變更不顯示
+                {
 
-             var plantid = document.getElementById("ctl00_ContentPlaceHolder1_CheckBoxList2").getElementsByTagName("input"); //廠區
-             var ele = document.getElementById("ctl00_ContentPlaceHolder1_CheckBoxList2").getElementsByTagName("input");
+                    var plantid = document.getElementById("ctl00_ContentPlaceHolder1_CheckBoxList2").getElementsByTagName("input"); //廠區
+                    var ele = document.getElementById("ctl00_ContentPlaceHolder1_CheckBoxList2").getElementsByTagName("input");
 
-             for (var i = 0; i < ele.length; i++) //先把checkboxlist2做清除
-             {
-                 ele[i].checked = false;
+                    for (var i = 0; i < ele.length; i++) //先把checkboxlist2做清除
+                    {
+                        ele[i].checked = false;
 
-             }
+                    }
 
-             var myString = gdview.rows(rownumber).cells(6).innerText  //把checkboxlist2塞回去
-             var splits = myString.split(",");
-             var CheckBoxList = document.getElementById('ctl00_ContentPlaceHolder1_CheckBoxList2');
-             var CheckBoxs = CheckBoxList.getElementsByTagName('input');
-             var Labels = CheckBoxList.getElementsByTagName('Label');
+                    var myString = gdview.rows(rownumber).cells(6).innerText  //把checkboxlist2塞回去
+                    var splits = myString.split(",");
+                    var CheckBoxList = document.getElementById('ctl00_ContentPlaceHolder1_CheckBoxList2');
+                    var CheckBoxs = CheckBoxList.getElementsByTagName('input');
+                    var Labels = CheckBoxList.getElementsByTagName('Label');
 
-             for (var i2 = 0; i2 < splits.length; i2++) {
-                 for (var i = 0; i < CheckBoxs.length; i++) {
-
-
-                     if (splits[i2] == Labels[i].innerHTML) {
-
-                         CheckBoxs[i].checked = true;
-                     }
-
-                 }
-             } //end for
-         } //end if
+                    for (var i2 = 0; i2 < splits.length; i2++) {
+                        for (var i = 0; i < CheckBoxs.length; i++) {
 
 
+                            if (splits[i2] == Labels[i].innerHTML) {
+
+                                CheckBoxs[i].checked = true;
+                            }
+
+                        }
+                    } //end for
+                } //end if
 
 
-     }
-
-     function turntext()  //如果拋轉2的話,不能修改品名規格
-     {
-         //js 取參數---------------------------------------------------------------------------
-         var url = window.location.toString(); //取得當前網址
-         var str = ""; //參數中等號左邊的值
-         var str_value = ""; //參數中等號右邊的值
-         if (url.indexOf("?") != -1) {
-             //如果網址有"?"符號
-             var ary = url.split("?")[1].split("&");
-             //取得"?"右邊網址後利用"&"分割字串存入ary陣列 ["a=1","b=2","c=3"]
-             for (var i in ary) {
-                 //取得陣列長度去跑迴圈，如:網址有三個參數，則會跑三次
-                 str = ary[i].split("=")[0];
-                 //取得參數"="左邊的值存入str變數中
-                 if (str == "class_no") {
-                     //若str等於想要抓取參數 如:b
-                     str_value = decodeURI(ary[i].split("=")[1]);
-                     //取得b等號右邊的值並經過中文轉碼後存入str_value
-                 }
-             }
-         }
-         //-------------------------------------------------------------------------------------
-         if (str_value == "2") {
-             document.getElementById('FIELD_Component').disabled = true;
-             document.getElementById('FIELD_dwg').disabled = true;
-
-         }
 
 
-     }
-        </script>
+            }
+
+            function turntext()  //如果拋轉2的話,不能修改品名規格
+            {
+                //js 取參數---------------------------------------------------------------------------
+                var url = window.location.toString(); //取得當前網址
+                var str = ""; //參數中等號左邊的值
+                var str_value = ""; //參數中等號右邊的值
+                if (url.indexOf("?") != -1) {
+                    //如果網址有"?"符號
+                    var ary = url.split("?")[1].split("&");
+                    //取得"?"右邊網址後利用"&"分割字串存入ary陣列 ["a=1","b=2","c=3"]
+                    for (var i in ary) {
+                        //取得陣列長度去跑迴圈，如:網址有三個參數，則會跑三次
+                        str = ary[i].split("=")[0];
+                        //取得參數"="左邊的值存入str變數中
+                        if (str == "class_no") {
+                            //若str等於想要抓取參數 如:b
+                            str_value = decodeURI(ary[i].split("=")[1]);
+                            //取得b等號右邊的值並經過中文轉碼後存入str_value
+                        }
+                    }
+                }
+                //-------------------------------------------------------------------------------------
+                if (str_value == "2") {
+                    document.getElementById('FIELD_Component').disabled = true;
+                    document.getElementById('FIELD_dwg').disabled = true;
+
+                }
+
+
+            }
+        </script>   
 
     </header>
     <SmoothEnterpriseWebControlEnterprise:Descriptor ID="ContentDescriptor" runat="server" Details="The desciption for this program"
@@ -402,12 +402,20 @@
                                         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                             <ContentTemplate>
                                                 &nbsp;<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="elapsedTicks,item"
-                                                    DataSourceID="SqlDataSource1" CellPadding="4" ForeColor="#333333" GridLines="None" Font-Size="10pt" Width="800px" OnRowDataBound="GridView1_RowDataBound" OnRowDeleting="GridView1_RowDeleting">
+                                                    DataSourceID="SqlDataSource1" CellPadding="4" ForeColor="#333333" GridLines="None" Font-Size="10pt" Width="800px" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand" >
                                                     <Columns>
-                                                        <asp:CommandField ButtonType="Image" DeleteImageUrl="~/shipment/img/button_drop.png"
-                                                            ShowDeleteButton="True">
-                                                            <ItemStyle HorizontalAlign="Center" />
-                                                        </asp:CommandField>
+
+                                                        <%--<asp:TemplateField ShowHeader="False">
+                                                            <ItemTemplate>
+                                                               <asp:LinkButton ID="img_del" runat="server" CommandArgument='<%# ((GridViewRow)Container).RowIndex %>' CausesValidation="false" CommandName="DelModel">
+                                                                   <img src="../shipment/img/button_drop.png" />                                                                   
+                                                               </asp:LinkButton> 
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                      <asp:TemplateField ShowHeader="False">
+                                                          <ItemTemplate></ItemTemplate>
+                                                      </asp:TemplateField>
+
                                                         <asp:TemplateField ShowHeader="False">
                                                             <ItemTemplate>
                                                                 <asp:Image ID="Image3" runat="server" CommandArgument='<%# ((GridViewRow)Container).RowIndex %>' CausesValidation="false" CommandName="EditModel"
@@ -441,20 +449,13 @@
                                                     <EditRowStyle BackColor="#7C6F57" />
                                                     <AlternatingRowStyle BackColor="White" />
 
-
-
-
-
-
-
-
-
+                                                     
                                                 </asp:GridView>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:EIPAConnectionString %>"
-                                            DeleteCommand="DELETE FROM cimi100_turn WHERE (item = @item) AND (elapsedTicks = @elapsedTicks)"
-                                            SelectCommand="SELECT elapsedTicks, item, partno, component, dwg, turn_plantid FROM cimi100_turn">
+                                            DeleteCommand="DELETE FROM eipb.dbo.cimi100_turn WHERE (item = @item) AND (elapsedTicks = @elapsedTicks)"
+                                            SelectCommand="SELECT elapsedTicks, item, partno, component, dwg, turn_plantid FROM eipb.dbo.cimi100_turn">
                                             <DeleteParameters>
                                                 <asp:Parameter Name="item" />
                                                 <asp:Parameter Name="elapsedTicks" />
@@ -590,4 +591,7 @@
             </td>
         </tr>
     </table>
+    <div>
+        <%=error %>
+    </div>
 </asp:Content>

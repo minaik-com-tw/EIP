@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -30,7 +31,7 @@ public class MABase : SmoothEnterprise.Web.Page
         lang = CurrLang;
         string dir = Server.MapPath(".");
         _sysName = Path.GetFileNameWithoutExtension(dir);
-        
+
     }
 
     public MABase(string SysName)
@@ -258,9 +259,9 @@ public class MABase : SmoothEnterprise.Web.Page
         {
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(" SELECT  top 1 requesturl, revieweruid,name,email,convert(varchar(20), a.initdate,120)'initdate' FROM   eipa.dbo.dgflowqueue a  ");
-            sb.AppendFormat(" left join eipa.dbo.dguser b   on revieweruid=b.id  where requesturl like '%{0}' order by b.initdate  desc ", rowid);
-            //  sb.AppendFormat("  and resulttype is null and revieweruid!='00000000-0000-0000-0000-000000000000' ");
+            sb.Append(" SELECT  requesturl,name,email,convert(varchar(20), a.initdate,120)'initdate'  FROM   eipa.dbo.dgflowqueue a  ");
+            sb.AppendFormat(" left join eipa.dbo.dguser b   on revieweruid=b.id  where requesturl like '%{0}' ", rowid);
+            sb.AppendFormat("  and resulttype is null and revieweruid<>'00000000-0000-0000-0000-000000000000'  order by b.initdate  desc");
 
 
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
@@ -279,57 +280,14 @@ public class MABase : SmoothEnterprise.Web.Page
             }
         }
 
+
         /// <summary>
-        /// 催審
+        /// 審核人 送審信(已由ToApproval 已不使用)
         /// </summary>
-        /// <param name="rowid">url </param>
-        /// <param name="subject">mail subject </param>
-        /// <param name="mail"> 制式格式，不需要寫 [詳細資料請點選連結進入……]等 EIP結尾用語 </param>
-        //public void RemindReviewer(string url, string subject, string content)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append(" SELECT  requesturl, revieweruid,name,email,convert(varchar(20), a.initdate,120)'initdate' FROM   eipa.dbo.dgflowqueue a  ");
-        //    sb.AppendFormat(" left join eipa.dbo.dguser b   on revieweruid=b.id  where requesturl like '%{0}' ", rowid);
-        //    sb.AppendFormat("  and resulttype is null and revieweruid!='00000000-0000-0000-0000-000000000000' ");
-
-
-        //    using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
-        //    {
-        //        ds.Open(sb.ToString());
-
-        //        if (!ds.EOF)
-        //        {
-        //            string uid = ds["revieweruid"].ToString();
-        //            string email = ds["email"].ToString();
-        //            string name = ds["name"].ToString();
-        //            string initdate = ds["initdate"].ToString();
-
-        //            StringBuilder body = new StringBuilder();
-
-        //            body.AppendFormat("Dear {0},<br>", name);
-        //            body.AppendFormat("{0}<br>", content);
-
-        //            body.AppendFormat("詳細資料請點選連結進入: {0}{1}<br><br>", Utility.LocalUrl, url);
-
-        //            body.Append("如您想了解更多有關員工入口網站的資訊請點選以下連結進入 <br>");
-        //            sb.Append("<a href=\"" + Utility.LocalUrl + "\">員工入口網站</a><br>");
-        //            body.Append("感謝您對員工入口網站的支持與愛護，<font Color='red'>。因本信件為系統自動發送,請勿直接以此郵件回覆。</font>");
-
-        //            Utility.MailFromEIP(email, subject, body.ToString(), false);
-
-        //            DeputyApprove(uid, ds["requesturl"].ToString(), subject + " (代)", content);
-
-        //        }
-
-
-        //    }
-
-
-        //    //Response.Redirect("OQCView.aspx?id=" + Request.QueryString["id"].ToString());
-        //}
-
-        #region Approve
-
+        /// <param name="id"></param>
+        /// <param name="request_url"></param>
+        /// <param name="subject"></param>
+        /// <param name="content"></param>
         public void ApproveMail(string rowid, string user_id, string Subject, string MailBody)
         {
 
@@ -344,59 +302,27 @@ public class MABase : SmoothEnterprise.Web.Page
             {
                 string context = string.Format("Dear {0},<br>{1}", us["NAME"], MailBody);
                 Utility.SendMail(us["EMAIL"], "EIP(員工入口網站)", Subject, context);
-
-                DeputyApprove2(user_id, rowid, Subject, MailBody);
+                DeputyApprove(user_id, rowid, Subject, MailBody);
 
             }
         }
-        #endregion Approve
 
-        #region 代理人
-        private void DeputyApprove(string id, string request_url, string subject, string content)
+        public void ToApproval(string rowid, string logonid, string Subject, string MailBody)
         {
-            StringBuilder body = new StringBuilder();
-
-            body.Append("Dear *** ,<br>");
-            body.AppendFormat("{0}<br>", content);
-
-            body.AppendFormat("詳細資料請點選連結進入: {0}{1}<br><br>", Utility.LocalUrl, request_url);
-
-            body.Append("如您想了解更多有關員工入口網站的資訊請點選以下連結進入 <br>");
-            body.Append("<a href=\"" + Utility.LocalUrl + "\">員工入口網站</a><br>");
-            body.Append("感謝您對員工入口網站的支持與愛護，<font Color='red'>。因本信件為系統自動發送,請勿直接以此郵件回覆。</font>");
-
-            using (SmoothEnterprise.Database.DataSet rs2 = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append(" SELECT b.name name,email FROM dguserdeputy a ");
-                sb.Append("  left join dguser b on a.deputyuid=b.id ");
-                sb.Append("  left join dgflow c on a.sid=c.id ");
-                sb.AppendFormat(" where  a.uid='{0}' ", id); //請假人
-                sb.Append("and ( (a.sid is null and  sdate < GETDATE() and edate is null) ");
-                sb.Append("or (c.typename like 'sharflow12_21%' and sdate < GETDATE() and edate is null) ");
-                sb.Append("or (c.typename like 'sharflow12_21%' and sdate < GETDATE() and edate > GETDATE() ");
-                sb.Append(") or a.sid is null and sdate < GETDATE() and edate  > GETDATE())   group by b.name,email ");
-
-
-
-                while (!rs2.EOF)
-                {
-                    string AppName = rs2["name"].ToString();
-                    string AppMail = rs2["email"].ToString();
-
-                    string text = body.ToString().Replace("***", AppName);
-
-                    Utility.MailFromEIP(AppMail, subject, text, false);
-
-                    rs2.MoveNext();
-
-                }
-                rs2.Close();
-            }
+            User_Info us = new User_Info();
+            us.GetUserByLogo(logonid);
+            Utility.SendMail(us.EMAIL, "EIP(員工入口網站)", Subject, MailBody);
+            DeputyApprove(us.ID, rowid, Subject, MailBody);
         }
 
-        private void DeputyApprove2(string id, string request_url, string subject, string content)
+        /// <summary>
+        /// 代理人 送審信
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request_url"></param>
+        /// <param name="subject"></param>
+        /// <param name="content"></param>
+        public void DeputyApprove(string id, string request_url, string subject, string content)
         {
             using (SmoothEnterprise.Database.DataSet rs2 = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
             {
@@ -426,9 +352,16 @@ public class MABase : SmoothEnterprise.Web.Page
                 rs2.Close();
             }
         }
-        #endregion
 
-        public void Feedback_FeedbackComplete(string uid, string url, FlowFeedback feedback, SmoothEnterprise.Flowwork.UI.WebControl.FeedbackCompleteEventArgs e)
+
+        /// <summary>
+        /// 簽核結束
+        /// </summary>
+        /// <param name="logonid">人員帳號</param>
+        /// <param name="rowno">requesturl</param>
+        /// <param name="feedback">Smooth FlowFeedback </param>
+        /// <param name="e">SmoothFeedbackCompleteEventArgs </param>
+        public void Feedback_FeedbackComplete(string logonid, string rowno, FlowFeedback feedback, SmoothEnterprise.Flowwork.UI.WebControl.FeedbackCompleteEventArgs e)
         {
 
             try
@@ -441,7 +374,7 @@ public class MABase : SmoothEnterprise.Web.Page
                 SmoothEnterprise.Web.UI.HTMLControl.InputText it3;
                 object obj3 = feedback.ReplyView.FindControl("Flow_loginID");
                 it3 = (SmoothEnterprise.Web.UI.HTMLControl.InputText)obj3;
-                it3.Text = uid;
+                it3.Text = logonid;
                 e["Flow_loginID"] = it3.Text;
 
                 //寫入是否為代理人
@@ -452,9 +385,9 @@ public class MABase : SmoothEnterprise.Web.Page
 
                 StringBuilder sb = new StringBuilder();
                 //
-                sb.AppendFormat(" select revieweruid  from  eipa.dbo.dgflowqueue   where requesturl like '%{0}' ", url);
-                sb.AppendFormat("  and revieweruid='{0}' and  initdate=(select MAX(initdate)   from  eipa.dbo.dgflowqueue    where requesturl like '%{1}') ", uid, url);
-                sb.AppendFormat(" and  initdate=(select MAX(initdate)   from  eipa.dbo.dgflowqueue    where requesturl like '%{0}') ", url);
+                sb.AppendFormat(" select revieweruid  from  eipa.dbo.dgflowqueue   where requesturl like '%{0}' ", rowno);
+                sb.AppendFormat("  and revieweruid='{0}' and  initdate=(select MAX(initdate)   from  eipa.dbo.dgflowqueue    where requesturl like '%{1}') ", logonid, rowno);
+                sb.AppendFormat(" and  initdate=(select MAX(initdate)   from  eipa.dbo.dgflowqueue    where requesturl like '%{0}') ", rowno);
 
                 using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
                 {
@@ -500,49 +433,64 @@ public class MABase : SmoothEnterprise.Web.Page
 
         }
 
-        public void FlowViewer_History(FlowFeedbackViewer fview, SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackHistoryEventArgs e)
+        /// <summary>
+        /// History 基本設定
+        /// </summary>
+        /// <param name="CommentName">Comment Laber nmae </param>
+        /// <param name="fview">flow object </param>
+        /// <param name="e">FlowFeedbackHistoryEvent</param>
+        public void FlowViewer_History(string CommentName, FlowFeedbackViewer fview, SmoothEnterprise.Flowwork.UI.WebControl.FlowFeedbackHistoryEventArgs e)
         {
-            Label label;
-            object obj = fview.HistoryView.FindControl("Show_Comment");
-            label = (Label)obj;
-            label.Text = e["Flow_Comment"].ToString();
-            label.ForeColor = System.Drawing.Color.Red;
-            label.Font.Bold = true;
-            label.Enabled = true;
-            label.Font.Size = 13;
+            //簽核備註顯示
+            Label Comment = (Label)fview.HistoryView.FindControl(CommentName);
+            Comment.Text = (string)e["Flow_Comment"];
+            Comment.Style.Value = "FILTER: none;  BACKGROUND-COLOR: #f0f0f0;border:2px inset #f0f0f0;";
+            Comment.Width = 400;
+            Comment.Height = 23;
+             
+            Image autograph = (Image)fview.HistoryView.FindControl("Image1");
+            autograph.BorderColor = Utility.HexColor("#28ff28");
 
-            //電子簽章呈現-----------------------------------------------------------------------------------------
-            System.Web.UI.WebControls.Image sin1;
-            object obj5 = fview.HistoryView.FindControl("Image1");
-            sin1 = (System.Web.UI.WebControls.Image)obj5;
-            //Response.Write((string)e["Flow_loginID"] + "--");
-            if ((string)e["Flow_loginID"].ToString().Length.ToString() != "0")
+            autograph.Visible = false;  //default 簽名檔不顯示 
+
+            //顯示簽名檔
+            string user_guid = e["Flow_loginID"].ToString();
+            User_Info us = new User_Info();
+
+            //us.GetUserByID();
+            if (!string.IsNullOrEmpty(user_guid))
             {
-                sin1.Visible = true;
+                autograph.Visible = true; //顯示簽名檔  
+                string img_name = string.Format(@"../../image/{0}.jpg", user_guid); //確定檔案存在 
+                autograph.ImageUrl = img_name;
+                autograph.Visible = true; 
             }
-            else
+              
+            Image signature = (Image)fview.HistoryView.FindControl("Image2");
+            //e["IniReviewer"].ToString() 表示"代"字 
+            signature.Visible = false;
+
+            string AppDeputy = e["InputText3"].ToString();
+            if (!string.IsNullOrEmpty(AppDeputy))
             {
-                sin1.Visible = false;
+                //判斷圖檔是否存在 
+                autograph.Visible = true; //顯示簽名檔  
+                string img_name = string.Format(@"../../image/{0}.jpg", AppDeputy); //確定檔案存在 
+                autograph.ImageUrl = img_name;
+                autograph.Visible = true;
+                signature.Visible = true;
             }
-
-            Dictionary<string, string> us = Utility.GetUIDInfo(e["Flow_loginID"].ToString());
-            sin1.ImageUrl = "~/image/" + us["LOGONID"] + ".jpg";
-
-            System.Web.UI.WebControls.Image sin2;
-            object obj6 = fview.HistoryView.FindControl("Image2");
-            sin2 = (System.Web.UI.WebControls.Image)obj6;
-
-            if ((string)e["IniReviewer"].ToString().Length.ToString() == "0") sin2.Visible = false;
-            else sin2.Visible = true;
 
         }
 
-
-        //DeputyApprove
-        public void GetCurrApproveMail(string _rowid, ref string emial, ref string name)
+        /// <summary>
+        /// 取得目前的審核人員
+        /// </summary>
+        /// <param name="_rowid"></param>
+        /// <param name="emial"></param>
+        /// <param name="name"></param>
+        public void GetCurrApproveMail(string _rowid, ref string email, ref string name)
         {
-            Utility.log(1, string.Format("{0},id:{1}", "FlowFeedback1_FlowStop", _rowid));
-
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
             {
                 //取得目前的簽核中的階層
@@ -558,11 +506,170 @@ public class MABase : SmoothEnterprise.Web.Page
                 if (!ds.EOF)
                 {
                     name = ds["name"].ToString();
-                    emial = ds["email"].ToString();
+                    email = ds["email"].ToString();
 
                 }
             }
         }
+
+        public static User_Info GetReviewer(string _rowid)
+        {
+            User_Info a = new User_Info();
+            try
+            {
+
+                using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
+                {
+                    //取得目前的簽核中的階層
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(" SELECT  top 1  text,reviewdate,qseq, REPLACE(requesturl,'EDIT','VIEW') requesturl,b.name name,email,b.id bid, revieweruid , ");
+                    sb.Append(" convert(varchar(20), a.initdate,120)'initdate' ");
+                    sb.Append(" FROM   eipa.dbo.dgflowqueue a  ");
+                    sb.Append(" left join eipa.dbo.dguser b   on revieweruid=b.id  ");
+                    sb.AppendFormat(" where requesturl like '%{0}' AND reviewdate IS NULL AND qseq is not null order by a.initdate  desc  ", _rowid);
+
+                    ds.Open(sb.ToString());
+
+                    if (!ds.EOF)
+                    {
+                        string uid = ds["revieweruid"].ToString();
+
+                        a.GetUserByID(uid);
+                    }
+
+                    return a;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #region Mail Format
+
+        public static class MailFormat
+        {
+            public static string Complete(string Title, string UserName, string NO, string Url)
+            {
+                //Remind Reviewer
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("您的申請<font Color='red'>已通過審核</font><br>", Title);
+                sb.AppendFormat("系統:{0}<br>", Title);
+                sb.AppendFormat("單號:{0}<br>", NO);
+                return Normal(UserName, Url, sb.ToString());
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="Title"></param>
+            /// <param name="UserName"></param>
+            /// <param name="NO"></param>
+            /// <param name="Url"></param>
+            /// <param name="Other"></param>
+            /// <returns></returns>
+            public static string Terminate(string Title, string UserName, string NO, string Url)
+            {
+                //Remind Reviewer
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("EIP中，有一筆您的申請<font Color='red'>已被退回</font><br>", Title);
+                sb.AppendFormat("系統:{0}<br>", Title);
+                sb.AppendFormat("單號:{0}<br>", NO);
+
+                return Normal(UserName, Url, sb.ToString());
+            }
+
+            /// <summary>
+            /// 審核
+            /// </summary>
+            /// <param name="Title"></param>
+            /// <param name="UserName"></param>
+            /// <param name="NO"></param>
+            /// <param name="Url"></param>
+            /// <returns></returns>
+            public static string Approve(string Title, string UserName, string NO, string Url)
+            {
+                //Remind Reviewer
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("有一筆資料<font Color='red'>需要您的審核</font><br>");
+                sb.AppendFormat("系統:{0}<br>", Title);
+                sb.AppendFormat("單號:{0}<br>", NO);
+                return Normal(UserName, Url, sb.ToString());
+            }
+
+
+            /// <summary>
+            /// 中止
+            /// </summary>
+            /// <param name="Title"></param>
+            /// <param name="UserName"></param>
+            /// <param name="NO"></param>
+            /// <param name="Url"></param>
+            /// <returns></returns>
+            public static string Stop(string Title, string UserName, string NO, string Url)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("需要您處理的資料，已<font Color='red'>被中止</font><br>");
+                sb.AppendFormat("系統:{0}<br>", Title);
+                sb.AppendFormat("單號:{0}<br>", NO);
+
+                return Normal(UserName, Url, sb.ToString());
+            }
+
+            /// <summary>
+            /// 催審
+            /// </summary>
+            /// <param name="Title"></param>
+            /// <param name="UserName"></param>
+            /// <param name="NO"></param>
+            /// <param name="Url"></param>
+            /// <returns></returns>
+            public static string Remind(string Title, string UserName, string NO, string Url)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("EIP中有一筆資料，請您<font Color='red'>盡速審核</font><br>");
+                sb.AppendFormat("系統:{0}<br>", Title);
+                sb.AppendFormat("單號:{0}<br>", NO);
+                return Normal(UserName, Url, sb.ToString());
+            }
+
+            /// <summary>
+            /// 基本的信件格式
+            /// </summary>
+            /// <param name="UserName"></param>
+            /// <param name="Url"></param>
+            /// <param name="Discript"></param>
+            /// <returns></returns>
+            public static string Normal(string UserName, string Url, string Discript)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendFormat("Dear {0},<br><br>", UserName);
+                sb.AppendFormat("{0}<br>", Discript);
+                sb.AppendFormat("資料內容請點選連結查詢{0}<br>", Url);
+                sb.Append(Bottom());
+                return sb.ToString();
+            }
+
+            /// <summary>
+            /// 通用底稿
+            /// </summary>
+            /// <returns></returns>
+            public static string Bottom()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<br>如您想了解更多有關員工入口網站的資訊請點選以下連結進入 <br>");
+                sb.Append("<a href=\"" + Utility.LocalUrl + "\">員工入口網站</a><br>");
+                sb.Append("感謝您對員工入口網站的支持與愛護，<font Color='red'>。因本信件為系統自動發送,請勿直接以此郵件回覆。</font>");
+                return sb.ToString();
+            }
+        }
+        #endregion
     }
 
     public virtual void loaded()
@@ -596,8 +703,7 @@ public class MABase : SmoothEnterprise.Web.Page
         }
 
     }
- 
+
 
 
 }
-

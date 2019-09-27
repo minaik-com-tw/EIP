@@ -184,7 +184,7 @@ public partial class ShipmentReport : SmoothEnterprise.Web.Page
                          "     group by b.partno ) d on c.partno=d.partno and  c.no=d.ano "+
                          "  ) e on  IMA01=e.partno  COLLATE Chinese_Taiwan_Stroke_CS_AS  ") + whereis;
 
-        if (this.CurrentUser.LogonID.ToString() == "herzog.lin") Response.Write(DataList1.SQL);
+            if (Utility.MIS_Manager(CurrentUser.LogonID)) { Response.Write(DataList1.SQL); }
 	}
 
 

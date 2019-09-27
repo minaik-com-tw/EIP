@@ -661,22 +661,22 @@
                     BorderColor="Silver" BorderStyle="Solid" BorderWidth="1px" CssClass="Normal"
                     Font-Size="11px" OnOnLoadHistory="FlowFeedbackViewer1_OnLoadHistory">
                     <Columns>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="No" CustomKey="" Label=""></SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Node" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="No"  Label=""></SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Node"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="ReviewerPhoto" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="ReviewerPhoto"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Reviewer" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Reviewer"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Initdate" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Initdate"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Receivedate" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Receivedate"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Reviewdate" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Reviewdate"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Result" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="Result"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
-                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="ResultIcon" CustomKey="" Label="">
+                        <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="ResultIcon"  Label="">
                         </SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
                     </Columns>
                     <HistoryTemplate>

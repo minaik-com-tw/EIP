@@ -19,6 +19,13 @@
 <%@ Register TagPrefix="uc1" TagName="NewsBox" Src="uc/NewsBox.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <header>
+        <style>
+            a {
+               text-decoration:none;
+            }
+        </style>
+    </header>
     <table align="center">
         <tr>
             <td style="width: 100%">
@@ -159,7 +166,7 @@
 
                         </td>
 
-                        <td rowspan="2" style="vertical-align: text-top">
+                        <td rowspan="2" style="vertical-align: text-top;">
                             <table cellspacing="0" cellpadding="0" width="100%">
                                 <tr>
                                     <td style="border-right: #6f99a8 1px solid; padding-right: 2px; border-top: #6f99a8 1px solid; padding-left: 2px; filter: progid:DXImageTransform.Microsoft.gradient(gradienttype=0,startcolorstr=#55ffffff, endcolorstr=#30316c84); padding-bottom: 2px; border-left: #6f99a8 1px solid; padding-top: 2px; border-bottom: #6f99a8 1px solid; background-color: scrollbar; width: 1000px; height: 0px;">
@@ -280,8 +287,8 @@
                                     </td>
                                 </tr>
                             </table>
-                            ====================================
-                           <%-- <EnterpriseT:TCategoryContent ID="CategoryContent1" runat="server" NewWithinDays="0"
+                            
+                           <EnterpriseT:TCategoryContent ID="CategoryContent1" runat="server" NewWithinDays="0"
                                 BackColor="Window" BorderColor="#C0C0FF" BorderStyle="Solid" BorderWidth="1px"
                                 Font-Size="11px" Font-Names="Tahoma" Width="100%" Height="1267px" MaxContentCount="5"
                                 EnableLog="True" DisplayMode="Mode2" ForeColor="Black" meta:resourcekey="CategoryContent1Resource1" OnOnClickLink="CategoryContent1_OnClickLink">
@@ -294,19 +301,8 @@
                                     Font-Names="Arial" DescriptionForeColor="109, 125, 171" NameForeColor="32, 53, 115"
                                     NameFont-Bold="True" GradientBegin="173, 184, 217" PaddingSize="5px" GradientEnd="White"
                                     GradientLevel="50" BorderStyle="NotSet" CssClass=""></CategoryStyle>
-                            </EnterpriseT:TCategoryContent>--%>
-                            <EnterpriseT:TCategoryContent ID="CategoryContent1" runat="server" OnOnClickLink="CategoryContent1_OnClickLink">
-                                <ContentStyle Gradient="Bottom" DescriptionFont-Size="11px" DescriptionFont-Names="Arial"
-                                    BorderWidth="1px" BorderColor="182, 191, 216" DescriptionForeColor="Gray" BorderStyle="Solid"
-                                    NameForeColor="Black" NameFont-Size="12px" NameFont-Names="Arial" NameFont-Bold="True"
-                                    GradientBegin="Lavender" PaddingSize="5px" BackColor="Silver" GradientEnd="White"
-                                    GradientLevel="150" CssClass=""></ContentStyle>
-                                <CategoryStyle DescriptionFont-Size="11px" DescriptionFont-Names="Arial" Font-Size="12px"
-                                    Font-Names="Arial" DescriptionForeColor="109, 125, 171" NameForeColor="32, 53, 115"
-                                    NameFont-Bold="True" GradientBegin="173, 184, 217" PaddingSize="5px" GradientEnd="White"
-                                    GradientLevel="50" BorderStyle="NotSet" CssClass=""></CategoryStyle>
                             </EnterpriseT:TCategoryContent>
-                            =======================================
+                          
                         </td>
 
                     </tr>

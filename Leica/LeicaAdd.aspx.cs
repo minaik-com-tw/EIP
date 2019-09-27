@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -25,6 +28,7 @@ namespace Leica
 
                 if (!IsPostBack)
                 {
+                    ddl_setting();
                     InitUI();
                     OutTable();
                     _head_id = Guid.NewGuid().ToString();
@@ -36,9 +40,8 @@ namespace Leica
                     GetTable();
                     _h_operator = txt_operator.Text;
                     _insp_date = txt_inspDt.Text;
-                    _kind = ddl_kind.SelectedValue;
-                    _product = ddl_product.SelectedValue;
-                    _program = ddl_program.SelectedValue;
+                    
+                    
                     _result = ddl_result.SelectedValue;
                     _custmer = ddl_custmer.SelectedValue;
 
@@ -49,8 +52,7 @@ namespace Leica
                     _birthDt = txt_birthDt.Text;
                     _b_opeartor = txt_b_opeartor.Text;
 
-                    _test = ddl_test.SelectedValue;
-                    _ts_standard = ddl_ts_standard.SelectedValue;
+                    
                     _prod_index = txt_prod_index.Text;
                     _insp_time = txt_insp_time.Text;
                     _ft_qty = txt_ft_qty.Text;
@@ -72,9 +74,16 @@ namespace Leica
                     _position = ddl_position.SelectedValue;
                     _vmi_qty = txt_vmi_qty.Text;
                     _vmi_judg = ddl_vmi_judg.SelectedValue;
+
+                    //暫時不使用，
+                    //_kind = ddl_kind.SelectedValue;
+                    //_product = ddl_product.SelectedValue;
+                    //_program = ddl_program.SelectedValue;
+                    //_test = ddl_test.SelectedValue;
+                    //_ts_standard = ddl_ts_standard.SelectedValue;
                 }
 
-                ddl_setting();
+
                 head_id.Value = _head_id;
                 base_id.Value = _base_id;
                 ft_rowid.Value = _ft_rowid;
@@ -84,7 +93,7 @@ namespace Leica
                 ddl_product.SelectedValue = _product;
                 ddl_program.SelectedValue = _program;
                 ddl_result.SelectedValue = _result;
-                ddl_custmer.SelectedValue=_custmer;
+                ddl_custmer.SelectedValue = _custmer;
 
                 ddl_inspect.SelectedValue = _inspect;
                 txt_samp_count.Text = _samp_count;
@@ -94,7 +103,8 @@ namespace Leica
                 txt_birthDt.Text = _birthDt;
                 txt_b_opeartor.Text = _b_opeartor;
 
-                //test();
+                ddl_test.SelectedValue = _test;
+                ddl_ts_standard.SelectedValue = _ts_standard;
 
                 Vmi_Bind();
 
@@ -135,8 +145,11 @@ namespace Leica
             OperatorInpsert(ddl_inspect, false);
             OperatorCustmer(ddl_custmer, false);
 
-            Join_Product(ddl_product);
-            Join_Program(ddl_program);
+            //Join_Product(ddl_product);
+            //Join_Program(ddl_program);
+
+            //Join_Test(ddl_test);
+            //Join_TsSeand(ddl_ts_standard);
         }
 
         private void InitUI()
@@ -206,6 +219,8 @@ namespace Leica
                 ft_show();
                 up_ft.Update();
             }
+
+
         }
 
         protected void ddl_test_SelectedIndexChanged(object sender, EventArgs e)
@@ -372,7 +387,7 @@ namespace Leica
 
             if (r.Length == 0)
             {
-                lbase.Table.Rows.Add(head_id.Value, _inspect, ddl_inspect.SelectedItem.Text, _insp_count, _samp_count, _sp_stand, ddl_sp_stand.SelectedItem.Text, _birthDt, _b_opeartor, 0, uid,DateTime.Now.ToString());
+                lbase.Table.Rows.Add(head_id.Value, _inspect, ddl_inspect.SelectedItem.Text, _insp_count, _samp_count, _sp_stand, ddl_sp_stand.SelectedItem.Text, _birthDt, _b_opeartor, 0, uid, DateTime.Now.ToString());
             }
             All_Bind();
 
@@ -599,13 +614,13 @@ namespace Leica
             {
                 DataRow[] rs = ft.Table.Select(" base_id='" + base_id + "' ");
 
-                System.Diagnostics.Debug.WriteLine(S5.Table.Rows.Count);
+
                 foreach (DataRow r in rs)
                 {
                     string ft_id = r["ft_id"].ToString();
                     S5.Row_Del("ft_id ='{" + ft_id + "}' ");
                 }
-                System.Diagnostics.Debug.WriteLine(S5.Table.Rows.Count);
+
                 ft.Row_Del(" base_id='" + base_id + "' ");
 
             }
@@ -864,21 +879,21 @@ namespace Leica
 
                     Save_Feature();
 
-               
+
                 }
             }
             catch (Exception ex)
             {
-                Utility.log(1, ex.Message);
+                throw ex;
             }
             string url = string.Format("LeicaEdit.aspx?rowid={0}", _head_id);
             Response.Redirect(url);
 
-        } 
+        }
 
         private void Save_Head()
         {
-        
+
             EIPSysSha SysNum = new EIPSysSha();
 
             Leica_Head Head = new Leica_Head();
@@ -888,7 +903,7 @@ namespace Leica
             Head.Insp_Dt = _insp_date;
             Head.Insp_No = SysNum.GetNewSn("Q608", DateTime.Now.ToString("yyMM"));
             Head.Kind = _kind;
-            Head.Product =ConvertToOption( _product);
+            Head.Product = ConvertToOption(_product);
             Head.Program = ConvertToOption(_program);
             Head.Result = _result;
             Head.ROWID = _head_id;
@@ -896,7 +911,7 @@ namespace Leica
             Head.Custmer = _custmer;
             Head.Insert();
         }
-         
+
         private bool Confirm()
         {
             bool ispass = true;
@@ -993,6 +1008,14 @@ namespace Leica
             up_ft.Update();
 
         }
+
+        private void upload_Bind()
+        {
+            File_list(file_list);
+            up_file.Update();
+
+        }
+
 
         private void S5_Bind()
         {
@@ -1235,9 +1258,9 @@ namespace Leica
         {
             //GridView_Bind(all_list, lbase.Table);
             if (ft_list.Rows.Count > 0)
-            {    
-                S5.Table.Merge(ft_S5.Table); 
-                ft.Table.Merge(t_ft.Table); 
+            {
+                S5.Table.Merge(ft_S5.Table);
+                ft.Table.Merge(t_ft.Table);
                 add_All(_base_id);
 
                 ft_S5.Table.Clear();
@@ -1248,5 +1271,132 @@ namespace Leica
             }
         }
 
+
+        protected void btn_file_Click(object sender, EventArgs e)
+        {
+
+            if (fileU.HasFile != false)
+            {
+                //3.上傳FTP
+                string filename = fileU.FileName;
+
+                // 限制檔案大小，限制為 2MB
+                int filesize = fileU.PostedFile.ContentLength / 1024;
+                if (filesize > 15360)
+                {
+                    msg.Value = getStr("file_large");
+
+                }
+                else
+                {
+
+                    if (filename.Length > 200)
+                    {
+                        msg.Value = getStr("file_name_long");
+                    }
+                    else
+                    {
+                        msg.Value = File_upload(fileU);
+                        upload_Bind();
+                    }
+
+
+                }
+
+            }
+        }
+
+        /// <summary>
+        ///  table colnum f
+        /// </summary>
+        /// <param name="fu">FileUpload  object</param>
+        /// <returns> 
+        /// </returns>
+
+
+        /*
+        //上傳檔案
+        private void FileUploadData(string sysid)
+        {
+            SmoothEnterprise.Database.DataSet rs = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate);
+
+            //region 動態新增
+            HttpFileCollection files = HttpContext.Current.Request.Files;
+            System.Text.StringBuilder strMsg = new System.Text.StringBuilder();
+            int att_count = 0;
+
+            for (int ifile = 0; ifile < files.Count; ifile++)
+            {
+                HttpPostedFile postedfile = files[ifile];
+                string filename, fileExt, filePath;
+                filename = System.IO.Path.GetFileName(postedfile.FileName);    //抓取文件名
+                fileExt = System.IO.Path.GetExtension(postedfile.FileName);    //抓取文件附檔名
+
+                if (postedfile.ContentLength > 0)
+                {
+                    att_count = att_count + 1;
+
+                    String tafilename = "ulname" + att_count.ToString();
+                    String taattach = "ulbody" + att_count.ToString();
+
+
+
+                    byte[] fileBytes = new byte[postedfile.ContentLength];
+                    postedfile.InputStream.Read(fileBytes, 0, postedfile.ContentLength);
+
+
+                    rs.Open("SELECT * FROM [EIPB].[dbo].[upload_attachment] WHERE 1=0");
+                    rs.Add();
+                    rs["DetId"] = sysid;
+                    rs["upname"] = filename;
+                    rs["upfil"] = fileBytes;
+                    rs["PId"] = "A101";
+                    rs["attinidate"] = DateTime.Now.ToString();
+                    rs.Update();
+                    rs.Close();
+                    filePath = System.IO.Path.GetFullPath(postedfile.FileName);    //try抓取文件路徑
+                                                                                   // fpath[att_count] = filePath;
+
+                }
+
+            }
+        }
+        */
+
+        protected void f_list_DeleteCommand(object source, DataListCommandEventArgs e)
+        {
+            Upload_Del(e.CommandArgument.ToString());
+            upload_Bind();
+        }
+
+
+
+        protected void lab_file_Command(object sender, CommandEventArgs e)
+        {
+            upload_download(e.CommandArgument.ToString());
+        }
+
+        protected void file_list_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item ||
+             e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+
+                // Retrieve the Label control in the current DataListItem.
+                LinkButton lbtn = (LinkButton)e.Item.FindControl("lbtn_file");
+                DataRowView DRV = (DataRowView)e.Item.DataItem;
+
+                lbtn.Text = DRV.Row["file_name"].ToString();
+                //lbtn.OnClientClick = "return Download('" + DRV.Row["rowid"].ToString()+ "')";
+
+                string paramster = string.Format("rowid={0} and head_id={1}", "'" + DRV.Row["rowid"].ToString() + "'", "'" + _head_id + "'");
+
+                string Url = string.Format("{0}/comm/download_handler.ashx?table={1}&col_filename={2}&col_type={3}&col_content={4}&paramenter={5}", Utility.LocalUrl, "eipe.dbo.leica_file", "file_name", "kind", "arguments", paramster);
+                lbtn.Attributes.Add("href", Url);
+
+
+            }
+
+        }
     }
 }

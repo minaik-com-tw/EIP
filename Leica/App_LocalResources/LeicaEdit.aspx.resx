@@ -273,4 +273,19 @@
   <data name="custmer" xml:space="preserve">
     <value>Custmer</value>
   </data>
+  <data name="file_large" xml:space="preserve">
+    <value>File too large</value>
+  </data>
+  <data name="file_upload" xml:space="preserve">
+    <value>File Upload</value>
+  </data>
+  <data name="file_name_long" xml:space="preserve">
+    <value>File name exceeds 200 words</value>
+  </data>
+  <data name="file_exist" xml:space="preserve">
+    <value>File is exist</value>
+  </data>
+  <data name="not_has_file" xml:space="preserve">
+    <value>Not has file upload</value>
+  </data>
 </root>

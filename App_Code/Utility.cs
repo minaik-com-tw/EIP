@@ -15,6 +15,7 @@ using System.Web.UI.WebControls;
 using System.Web.Script.Serialization;
 using System.Drawing;
 
+
 /// <summary>
 /// 共用程式
 /// create by carol  20170209
@@ -50,6 +51,8 @@ public static class Utility
             return url;
         }
     }
+
+
 
     public static string ConnStr = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["EIPAConnectionString"].ConnectionString;
 
@@ -430,6 +433,13 @@ public static class Utility
     public static void log(params string[] txt)
     {
         log(0, txt);
+    }
+
+    public static void Debug(params string[] msg)
+    {
+
+        string txt = string.Join(",", msg);
+        System.Diagnostics.Debug.WriteLine(txt);
     }
 
     /// <summary>
@@ -1326,6 +1336,53 @@ public static class Utility
         return Color.FromArgb(a, r, g, b);
     }
 
+    public static HttpWebRequest Send(string uri, string method, string param, string ContentType)
+    {
+        //string ContentType = "text/html"
+        if (string.IsNullOrEmpty(ContentType))
+        {
+            ContentType = "text/html";
+        }
+
+        if (string.IsNullOrEmpty(param))
+        {
+            param = null;
+        }
+
+
+        if ((method== HttpMethod.Get) && !string.IsNullOrEmpty(param))
+        {
+            uri = uri + "?" + param;
+            param = null;
+        }
+
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+
+        try
+        {
+            request.Method = method;
+            request.ContentType = ContentType;
+            request.Timeout = 1000 * 60 * 5;//連線最長2分鐘
+
+            if (param != null)
+            {
+                byte[] data = Encoding.ASCII.GetBytes(param);
+                request.ContentLength = data.Length;
+
+                using (Stream stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+        return request;
+    }
+
 }
 
 public class Container
@@ -1374,9 +1431,16 @@ public enum status : int  //在這修改預設的型別
     Back = 5//退回提案 
 }
 
+public class HttpMethod
+{
+    public static string Get { get { return "GET"; } } 
+    public static string Post { get { return "Post"; } }
+     
+}
+
 public class User_Info
 {
- private   string _id, _logonid, _name, _email, _empid, _levid, _erpid, _deptno, _dept, _erppid, _jod;
+    private string _id, _logonid, _name, _email, _empid, _levid, _erpid, _deptno, _dept, _erppid, _jod;
 
     public string ID { get { return _id; } }
     public string LOGONID { get { return _logonid; } }
@@ -1398,7 +1462,7 @@ public class User_Info
             conn4.Open();
 
             StringBuilder sb = new StringBuilder();
-             
+
             sb.Append(" select d.dept_no,d.dept_nm,u.id,u.logonid,u.name ,u.email,u.empid,u.levid,u.erpid,l.lname 'job', a.erpid from eipa.dbo.dguser u ");
             sb.Append(" left join EIPA.DBO.dgusererpid a on  a.id = u.id ");
             sb.Append(" left join eipa.dbo.lea_hm1emp10 e on e.emp_no=u.empid ");
@@ -1406,7 +1470,7 @@ public class User_Info
             sb.Append(" left join eipa.dbo.dglevel l on l.lnid=u.levid");
             sb.AppendFormat("  where a.erpid = '{0}' ", erpid);
 
- 
+
             using (SqlCommand cmd4 = new SqlCommand(sb.ToString(), conn4))
             {
                 SqlDataReader rd = cmd4.ExecuteReader();
@@ -1464,7 +1528,7 @@ public class User_Info
                     _erpid = rd["erpid"].ToString();
                     _deptno = rd["dept_no"].ToString();
                     _dept = rd["dept_nm"].ToString();
-                    
+
                 }
                 rd.Close();
             }

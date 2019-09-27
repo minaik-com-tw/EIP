@@ -73,7 +73,7 @@
 				<SmoothEnterpriseWebControl:DataList id="DataList1" runat="server" BorderColor="#000000" RowNumber="True" RowAlign="Middle" 
 					NavigatorPos="Bottom" HeaderPos="Top" HeaderAlign="Middle" EnablePrint="True" EnableExport="True" 
 					CellPadding="3px" borderwidth="1px" borderstyle="Solid" HeaderHeight="30px"  Font-Names="Arial" Font-Size="12px" 
-					ConnectionType="Custom"   Personalize="True" OnOnRenderCell="DataList1_OnRenderCell">
+					ConnectionType="Custom"  SQL="SELECT * FROM Forwarder" Personalize="True" OnOnRenderCell="DataList1_OnRenderCell">
 					<Columns>
 					    <SmoothEnterpriseWebControl:DataColumn ID="DataList1_chk" Width="1%" DataAlign="Center" DataType="CheckBox" Required="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" Visible="False"></SmoothEnterpriseWebControl:DataColumn>
                         <SmoothEnterpriseWebControl:DataColumn ID="DataList1_Send" runat="server" DataAlign="Center" Caption="上傳" DataStyle-BorderStyle="NotSet" DataType="UserDefined" HeaderStyle-BorderStyle="NotSet" DataStyle-CssClass="" HeaderStyle-CssClass="">
@@ -111,10 +111,6 @@
  	 	 	 	 	 	<SmoothEnterpriseWebControl:DataColumn ID="DataList1_ETA" DataType="ViewText" Caption="預計到港日(ETA)" DataName="ETA"   Sortable="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" ></SmoothEnterpriseWebControl:DataColumn>
  	 	 	 	 	 	<SmoothEnterpriseWebControl:DataColumn ID="DataList1_ATAAS" DataType="ViewText" Caption="實際到港日(ATA)" DataName="ATAAS"   Sortable="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" ></SmoothEnterpriseWebControl:DataColumn>
  	 	 	 	 	 	<SmoothEnterpriseWebControl:DataColumn ID="DataList1_ATAC" DataType="ViewText" Caption="實際到貨日(客人)ATAC" DataName="ATAC"   Sortable="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" ></SmoothEnterpriseWebControl:DataColumn>
- 	 	 	 	 	 	
- 	 	 	 	 	 	<SmoothEnterpriseWebControl:DataColumn ID="DataColumn1" DataType="ViewText" Caption="建立日期" DataName="Cdate"   Sortable="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" ></SmoothEnterpriseWebControl:DataColumn>
- 	 	 	 	 	 	
- 	 	 	 	 	 	
  	 	 	 	 	 	<SmoothEnterpriseWebControl:DataColumn ID="DataList1_Udate" DataType="ViewText" Caption="Udate" DataName="Udate" Visible="False"  Sortable="True" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server" ></SmoothEnterpriseWebControl:DataColumn>
 					    
 					    <SmoothEnterpriseWebControl:DataColumn ID="DataList1_edit2" Width="1%" DataAlign="Center" DataType="UserDefined" DataStyle-BorderStyle="NotSet" HeaderStyle-BorderStyle="NotSet" runat="server"></SmoothEnterpriseWebControl:DataColumn>

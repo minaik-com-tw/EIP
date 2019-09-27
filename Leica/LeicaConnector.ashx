@@ -19,14 +19,17 @@ public class Leica_action : LeicaBase, IHttpHandler
         string type = context.Request.Params["type"];
         ///_lang = context.Request.Cookies["userLan"].Value;
         string json = "is empty";
-        string inspect_qty = "0";
+
         if (type == "option")
         {
             string parent_id = context.Request.Params["parent_id"];
+
             if (!string.IsNullOrEmpty(parent_id))
             {
                 json = getOption(parent_id);
             }
+
+            Utility.Debug(parent_id, json);
         }
         else if (type == "standard")
         {
@@ -77,18 +80,15 @@ public class Leica_action : LeicaBase, IHttpHandler
             SqlCommand cmd = new SqlCommand(sql, con);
             SqlDataReader rd = cmd.ExecuteReader();
 
-            if (rd.HasRows)
-            {
-                Option o = new Option();
-                o.selected = false;
-                o.text = "select";
-                o.value = "";
-                options.Add(o);
-            }
+            Option o = new Option();
+            o.selected = false;
+            o.text = "select";
+            o.value = "";
+            options.Add(o);
 
             while (rd.Read())
             {
-                Option o = new Option();
+                o = new Option();
                 o.selected = (bool)rd["def"];
                 o.text = rd[lg].ToString();
                 o.value = rd["rowno"].ToString();

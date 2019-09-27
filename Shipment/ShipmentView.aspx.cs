@@ -540,9 +540,10 @@ namespace Shipment
                     }
                 }
 
-                e.Row.Cells[0].Attributes.Add("onclick", "onGridViewRowSelected('" + e.Row.DataItemIndex + "','" + te2.ToString() + "','" + countpaper + "')");
+                e.Row.Cells[0].Attributes.Add("onclick", "return onGridViewRowSelected('" + e.Row.DataItemIndex + "','" + te2.ToString() + "','" + countpaper + "')");
 
-                GetBoxNumbers(e.Row.Cells[21], drv["lab_no"].ToString());
+                GetBoxNumbers(e.Row.Cells[20], drv["lab_no"].ToString());
+
 
             }
 
@@ -1022,14 +1023,23 @@ namespace Shipment
 
             if (!string.IsNullOrEmpty(numbers))
             {
+                Table tb = new Table();
 
+                tb.Font.Size = 11;
+                TableRow tr;
+                int i = 1;
                 SmoothEnterprise.Database.DataSet rsb = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
                 rsb.Open("SELECT rowid ,SamDescription FROM  eipA.dbo.Experiment_head_file WHERE no='" + numbers + "' ");
                 System.Diagnostics.Debug.WriteLine(rsb.SQL);
-                int i = 1;
+
                 while (!rsb.EOF)
                 {
+                    tr = new TableRow();
+                    TableCell td = new TableCell();
+
                     LinkButton lb = new LinkButton();
+
+                    lb.Attributes.Add("seq", i.ToString());
 
                     lb.Text = numbers;
 
@@ -1037,15 +1047,16 @@ namespace Shipment
                     lb.Attributes.Add("href", url);
                     lb.Attributes.Add("target", "_blank");
 
-                    Label l = new Label();
+                    td.Controls.Add(lb);
+                    tr.Cells.Add(td);
+                    tb.Rows.Add(tr);
 
-                    l.Text = i.ToString() + ".";
-                    cell.Controls.Add(l);
-                    cell.Controls.Add(lb);
-                    cell.Controls.Add(new LiteralControl("<br />"));
                     i++;
                     rsb.MoveNext();
                 }
+
+                cell.Controls.Add(tb);
+                cell.Attributes.Add("id", numbers);
             }
         }
 

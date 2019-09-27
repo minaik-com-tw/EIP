@@ -95,6 +95,7 @@
     <font color="#484891">ERP</font>
 
     <p style="background-color: #81c0c0; color: #ff6a00"><b><%=Error %></b></p>
-
-    <%=Show %>
+    <div style="font-size:15px">
+        <%=Show %>
+    </div>
 </asp:Content>

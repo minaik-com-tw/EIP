@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text;
 using System.IO;
-using Oracle.DataAccess.Client;
+
 
 namespace EMP_ADD
 {
@@ -145,8 +145,12 @@ public partial class EMP_ADDDelete : SmoothEnterprise.Web.Page
                 whereis = " where makes_no is not null " + whereis;
             }
 
+            
+
             SmoothEnterprise.Database.DataSet rsa = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
             rsa.Open("select no,rev,makes_no from engineeringtest_head a left join dguser b on a.add_user=b.id" + whereis + " order by no desc");
+
+            
             while (!rsa.EOF)
             {
                 eno = rsa["no"].ToString();
@@ -175,12 +179,9 @@ public partial class EMP_ADDDelete : SmoothEnterprise.Web.Page
                                      " left join ( select * from IP185.MINAIK.dbo.IMG_FILE where img02='R5') cc on aa.asfb05=cc.img01  "+
                                      " left join ( select * from IP185.MINAIK.dbo.IMG_FILE where img02='R6') dd on aa.asfb05=dd.img01  "+
                                      "  group by asfa,aima02,asfb05,abima02,asfa03,asfa06,asfb09,asfb08) a left join EIPA.dbo.engineeringtest_head b on asfa=makes_no " +
-                                     " COLLATE Chinese_Taiwan_Stroke_CI_AS ";   //COLLATE Chinese_Taiwan_Stroke_CI_AS 定序
-
-            this.GridView1.DataBind();
-
-       
-
+                                     " COLLATE Chinese_Taiwan_Stroke_CI_AS ";   //COLLATE Chinese_Taiwan_Stroke_CI_AS 定序 
+             
+            this.GridView1.DataBind(); 
     }
    
 

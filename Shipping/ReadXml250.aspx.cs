@@ -40,7 +40,7 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
                             Download("ftp://192.168.0.250/" + s, InitDirectory, "xmluser", "(XmlUser)");
                             DeleteFileOnServer("ftp://192.168.0.250/" + s, "xmluser", "(XmlUser)");
                         }
-                        Response.Write(s + "<br>");
+
                 }
 
 
@@ -54,8 +54,6 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
 
                 foreach (string T in MyFiles)
                 {
-                    Response.Write(T + "<br>");
-                    
                     try
                     {
                         if (T.IndexOf("_axmt610") != -1 || T.IndexOf("_axmt850") != -1)
@@ -152,7 +150,7 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
                         MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(錯誤訊息)");
                         MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
                         MailMessage message = new MailMessage(from, to);
-                        message.Subject = "Forwarder(錯誤訊息)_Shipping_Read_ERP_Xml";
+                        message.Subject = "Forwarder(錯誤訊息)";
                         string ques = "";
                         ques = "您好:" + "<br>" +
                                "<br>" +
@@ -176,7 +174,7 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
                 MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(錯誤訊息)");
                 MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
                 MailMessage message = new MailMessage(from, to);
-                message.Subject = "Forwarder(錯誤訊息)_Shipping_Read_ERP_Xml";
+                message.Subject = "Forwarder(錯誤訊息)";
                 string ques = "";
                 ques = "您好:" + "<br>" +
                        "<br>" +
@@ -277,7 +275,7 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
 
                         //ToSupplerFile
 
-                        Response.Write("<br>D:\\Forwarder\\ToSupplerFile\\" + rs1["FileName"].ToString().Trim() + ",ftp://ftp.minaik.com.tw/ToSupplerFile/" + rs1["FileName"].ToString().Trim() + "," + rs1["account"].ToString().Trim() + " , " + rs1["password"].ToString().Trim()+"<br>");
+                        Response.Write("D:\\Forwarder\\ToSupplerFile\\" + rs1["FileName"].ToString().Trim() + ",ftp://ftp.minaik.com.tw/ToSupplerFile/" + rs1["FileName"].ToString().Trim() + "," + rs1["account"].ToString().Trim() + " , " + rs1["password"].ToString().Trim() );
                         //Response.End();
 
                         Upload("D:\\Forwarder\\ToSupplerFile\\" + rs1["FileName"].ToString().Trim(), "ftp://ftp.minaik.com.tw/ToSupplerFile/" + rs1["FileName"].ToString().Trim(), rs1["account"].ToString().Trim(), rs1["password"].ToString().Trim());
@@ -420,8 +418,6 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
             // //設定Method取得目錄資訊
             listRequest.Method = WebRequestMethods.Ftp.ListDirectory;
             FtpWebResponse listResponse = (FtpWebResponse)listRequest.GetResponse();
-           
-            
             reader = new StreamReader(listResponse.GetResponseStream());
 
             while (reader.Peek() >= 0)
@@ -429,9 +425,6 @@ public partial class Shipping_ReadXml250 : System.Web.UI.Page
                 FileNameList.Add(reader.ReadLine());
             }
 
-
-            reader.Close();
-            listResponse.Close();
             return FileNameList;//回傳目前清單
         }
         catch (Exception ex)

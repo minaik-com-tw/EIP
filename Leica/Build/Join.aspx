@@ -18,10 +18,9 @@
 
             var opens = new Array();
 
-            function release() {
-
-                opens = reader_open();
+            function release() {                 
                 getTree(0);
+                opens = reader_open();
                 setTimeout("befer_open();", 500);
             }
 
@@ -92,8 +91,7 @@
                 }
 
                 curr = rowid;
-
-
+                 
                 $.ajax({
                     url: 'treelist.aspx',                        // url位置
                     type: 'post',                   // post/get
@@ -113,15 +111,18 @@
 
             function tree_refresh() {
 
-                opens = reader_open();
+                
                 getTree(1);
+                opens = reader_open();
                 setTimeout("befer_open();", 500);
 
             }
 
             function tree_update(action) {
 
-                $("ul").children().find("ul").css("display", action);
+                var curr =$("#curr").val();
+
+                
             }
         </script>
         <style>

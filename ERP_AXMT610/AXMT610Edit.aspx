@@ -94,9 +94,6 @@
 
     <gradient gradientbegin="" gradientend="" gradienttype="Top">
 </gradient>
-
-    <gradient gradientbegin="" gradientend="" gradienttype="Top">
-</gradient>
     <SmoothEnterpriseWebControlEnterprise:Descriptor ID="ContentDescriptor" runat="server" Details="The desciption for this program"
 		Caption="AXMT610 Edit Page" Width="100%" CssClass="Normal" Gradient="None" Height="40%" PaddingSpace="5px">
 		<CaptionStyle Font-Bold="True" CssClass="Medium"></CaptionStyle>
@@ -105,8 +102,8 @@
     <table>
         <tr>
             <td style="width: 1000px; height: 30px;"><center>
-                <asp:Image ID="Image1" runat="server" Height="42px" ImageUrl="~/ERP_AXMT610/minaik.gif"
-                    Width="56px" />
+                <asp:Image ID="Image1" runat="server" Height="29px" ImageUrl="~/ERP_AXMT610/minaik.gif"
+                    Width="32px" />
                 <asp:Label ID="FIELD_companyname" runat="server" Font-Bold="True" Font-Names="·s²Ó©úÅé"
                     Text="Label"></asp:Label></center></td>
         </tr>

@@ -527,7 +527,7 @@ public partial class Shipping_ReadFtpXml_Mor : System.Web.UI.Page
                             MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(資料錯誤)");
                             MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
                             MailMessage message = new MailMessage(from, to);
-                            message.Subject = "Forwarder(資料錯誤) ";
+                            message.Subject = "Forwarder(資料錯誤)";
 
                             if (Errmsg == "")
                             {
@@ -607,7 +607,7 @@ public partial class Shipping_ReadFtpXml_Mor : System.Web.UI.Page
                 MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(錯誤訊息)");
                 MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
                 MailMessage message = new MailMessage(from, to);
-                message.Subject = "Forwarder(錯誤訊息)_Shipping_ReadFtpXml_Mor";
+                message.Subject = "Forwarder(錯誤訊息)";
                 string ques = "";
                 ques = "您好:" + "<br>" +
                        "<br>" +
@@ -653,14 +653,10 @@ public partial class Shipping_ReadFtpXml_Mor : System.Web.UI.Page
     // FTP 列出檔案名稱
     protected ArrayList List(string listUrl, string UserName, string Password)
     {
-        StreamReader reader = null;
-        ArrayList FileNameList = new ArrayList();
-        
-        try
-        {
+            StreamReader reader = null;
+            ArrayList FileNameList = new ArrayList();
+
             
-
-
             FtpWebRequest listRequest = (FtpWebRequest)WebRequest.Create(listUrl);
 
             listRequest.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -668,35 +664,23 @@ public partial class Shipping_ReadFtpXml_Mor : System.Web.UI.Page
 
             FtpWebResponse listResponse = (FtpWebResponse)listRequest.GetResponse();
             reader = new StreamReader(listResponse.GetResponseStream());
-             
-           
 
-           string line = reader.ReadLine();
-        
+            /*
+                while (reader.Peek() >= 0)
+                {
+                    FileNameList.Add(reader.ReadLine());
+                }
+           */
 
-              while (line != null)
+            string line = reader.ReadLine();
+            while (line != null)
             {
                 FileNameList.Add(line);
                 line = reader.ReadLine();
             }
-           
+              
             reader.Close();
             listResponse.Close();
-
-        }
-        catch (System.Exception oEx)
-        {
-            Response.Write(oEx.Message);
-            if (oEx.GetType() == typeof(System.Net.WebException))
-            {
-                
-            }
-            else
-            {
-            
-            }
-
-        }
 
             return FileNameList;
             //回傳目前清單
@@ -719,13 +703,12 @@ public partial class Shipping_ReadFtpXml_Mor : System.Web.UI.Page
         StreamReader reader = null;
 
         FtpWebRequest downloadRequest = (FtpWebRequest)WebRequest.Create(downloadUrl);
-         
+        //downloadRequest.EnableSsl = true;
         downloadRequest.Method = WebRequestMethods.Ftp.DownloadFile;
         downloadRequest.Credentials = new NetworkCredential(UserName, Password);
         
 
         FtpWebResponse downloadResponse = (FtpWebResponse)downloadRequest.GetResponse();
-        
         responseStream = downloadResponse.GetResponseStream();
         string fileName = Path.GetFileName(downloadRequest.RequestUri.AbsolutePath);
 

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Text;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace Leica
@@ -96,13 +91,13 @@ namespace Leica
                 txt_inspDt.Text = _insp_date;
                 ddl_kind.SelectedValue = _kind;
 
-                test(ddl_product, _product);
+                //test(ddl_product, _product);
 
                 ddl_product.SelectedValue = _product;
                 ddl_program.SelectedValue = _program;
                 ddl_custmer.SelectedValue = _custmer;
 
-                test(ddl_program, _program);
+                //test(ddl_program, _program);
 
                 ddl_result.SelectedValue = _result;
                 txt_operator.Text = _h_operator;
@@ -155,15 +150,7 @@ namespace Leica
 
         }
 
-        private void test(DropDownList ddl, string value)
-
-        {
-            foreach (ListItem item in ddl.Items)
-            {
-                Utility.Debug(item.Value, value);
-            }
-        }
-
+  
         private void Head_load()
         {
             Leica_Head head = new Leica_Head();

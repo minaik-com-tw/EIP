@@ -575,7 +575,10 @@ namespace IPQC
             }
             catch (Exception ex)
             {
-                throw ex;
+                Response.Write(ex.Message+"<br>");
+                Response.Write(ex.Source + "<br>");
+                Response.Write(ex.StackTrace + "<br>");
+                //throw ex;
             }
         }
         private void Deletefile(string FileList)

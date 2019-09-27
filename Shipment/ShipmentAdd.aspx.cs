@@ -830,7 +830,7 @@ namespace Shipment
 
             rs2.Open(sql);
 
-           
+            Utility.log(sql);
             if (!rs2.EOF)
             {
                 this.FIELD_Customer.Items.Add(new ListItem(rs2["oea032"].ToString(), rs2["oea032"].ToString()));

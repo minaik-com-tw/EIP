@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/_site/layout/Template.master" AutoEventWireup="true" CodeFile="cimi100_NewAdd.aspx.cs" Inherits="ERP_CIMI100.cimi100_NewAdd" StylesheetTheme="Default" Culture="Auto" UICulture="Auto" EnableEventValidation="false" %>
+﻿ＥＲＰＥＲ<%@ Page Language="C#" MasterPageFile="~/_site/layout/Template.master" AutoEventWireup="true" CodeFile="cimi100_NewAdd.aspx.cs" Inherits="ERP_CIMI100.cimi100_NewAdd" StylesheetTheme="Default" Culture="Auto" UICulture="Auto" EnableEventValidation="false" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>

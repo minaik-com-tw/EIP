@@ -279,7 +279,7 @@
                 return str.replace(/^(\s|\xA0)+|(\s|\xA0)+$/g, '');
             }
 
-            function onGridViewRowSelected(rowIdx, aa, count, status) {   //當gridview選擇修改時  rowIdx-->選擇列 status-->Y=送審 其它等不管
+            function onGridViewRowSelected(rowIdx, aa, count, status) {   //當gridview選擇修改時  rowIdx--%>選擇列 status-->Y=送審 其它等不管
 
                 var choose = document.getElementById('div2');
                 choose.style.display = 'block';
@@ -292,7 +292,7 @@
                 var rownumber = parseInt(rowIdx) + 1;
                 //將gridview的值抛回去欄位中，便於修改
                 var gdview = document.getElementById("<%=GridView1.ClientID %>");
-                document.getElementById("ctl00_ContentPlaceHolder1_rember_item").value = gdview.rows(rownumber).cells(3).innerText
+                $("#ctl00_ContentPlaceHolder1_rember_item").val( gdview.rows(rownumber).cells(3).innerText);
                 $('#FIELD_PartNo').val(gdview.rows(rownumber).cells(4).innerText);
                 $('#FIELD_Component').val(gdview.rows(rownumber).cells(5).innerText);
                 $('#FIELD_DWG').val(gdview.rows(rownumber).cells(6).innerText);
@@ -352,9 +352,16 @@
                     document.getElementById("ctl00_ContentPlaceHolder1_FIELD_packing").value = packing;
                 }
 
+                var obj = gdview.rows(rownumber).cells(19);
+                var id = $(obj).attr("id"); //用id回傳
+                
+                document.getElementById("ctl00_ContentPlaceHolder1_FIELD_labno").value = id;
+                //console.log("labno:",labno_var);
+                /*
                 var labno_var = gdview.rows(rownumber).cells(19).innerText.replace(/\ /g, ",");//因lab_no如多個,Gridview以空白分割,故將空白取代為逗號(/\ /g-->尋找全部空白)
                 labno_var = labno_var.substring(0, labno_var.length - 1);                     //去除最後一個逗號
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_labno").value = labno_var;
+                */
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_Labsn").value = gdview.rows(rownumber).cells(20).innerText;
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_EngineeringTestNo").value = gdview.rows(rownumber).cells(21).innerText;
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_purpose2").value = gdview.rows(rownumber).cells(18).innerText;
@@ -409,7 +416,7 @@
 
                     }
                 }
-
+                return false; //不會回傳表單，所以回傳false ;
 
 
             }
@@ -947,7 +954,9 @@
                                         <Gradient GradientBegin="136, 136, 136" GradientEnd="White" GradientType="Bottom" />
                                     </SmoothEnterpriseWebControl:InputButton>
                                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<input
-                                            id="rember_item" runat="server" style="width: 83px" text="rember_item" type="hidden" /></td>
+                                            id="rember_item" runat="server" style="width: 83px" text="rember_item" type="hidden" />
+                                        
+                                    </td>
                                 </tr>
                             </table>
                         </ContentTemplate>
@@ -959,65 +968,79 @@
                         <asp:GridView ID="GridView1" runat="server" ForeColor="#333333" Width="1000px" Font-Size="10pt" AutoGenerateColumns="False" CellPadding="4"  GridLines="None"  OnRowDeleting="GridView1_RowDeleting" DataKeyNames="item,aid" OnRowDataBound="GridView1_RowDataBound">
                             <RowStyle BackColor="#E3EAEB" />
                             <Columns>
+                                <%--0--%>
                                 <asp:CommandField ButtonType="Image" DeleteImageUrl="~/shipment/img/button_drop.png"
                                     ShowDeleteButton="True">
                                     <ItemStyle HorizontalAlign="Center" />
                                 </asp:CommandField>
+                                <%--1--%>
                                 <asp:TemplateField ShowHeader="False">
                                     <ItemTemplate>
                                         <asp:ImageButton ID="ImageButton1" runat="server" CommandArgument='<%# ((GridViewRow)Container).RowIndex %>' CausesValidation="false" CommandName="EditModel"
-                                            ImageUrl="~/shipment/img/edit.gif" Text="Button" />
+                                    ImageUrl="~/shipment/img/edit.gif" Text="Button" />
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" />
                                 </asp:TemplateField>
+                                <%--2--%>
                                 <asp:BoundField DataField="aid" HeaderText="aid" SortExpression="aid">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField> 
+                                <%--3--%>
                                 <asp:BoundField DataField="item" HeaderText="Item" SortExpression="item"></asp:BoundField>
+                                <%--4--%>
                                 <asp:BoundField DataField="partno" HeaderText="PartNo" SortExpression="partno"></asp:BoundField>
+                                <%--5--%>
                                 <asp:BoundField DataField="component" HeaderText="Component" SortExpression="component"></asp:BoundField>
+                                <%--6--%>
                                 <asp:BoundField DataField="dwg" HeaderText="DWG" SortExpression="dwg"></asp:BoundField>
+                                <%--7--%>
                                 <asp:BoundField DataField="material" HeaderText="Material" SortExpression="material"></asp:BoundField>
+                                <%--8--%>
                                 <asp:BoundField DataField="Qty" HeaderText="Qty" SortExpression="Qty"></asp:BoundField> 
+                                <%--9--%>
                                 <asp:BoundField DataField="lv" HeaderText="LV" SortExpression="lv">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
+                                <%--10--%>
                                 <asp:BoundField DataField="hv" HeaderText="HV" SortExpression="hv">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
-
+                                <%--11--%>
                                 <asp:BoundField DataField="c_demand" HeaderText="MA commitment date(ETD)" SortExpression="c_demand"></asp:BoundField>
-
+                                <%--12--%>
                                 <asp:BoundField DataField="ETD" HeaderText="ETD" SortExpression="ETD">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
 
-
+                                <%--13--%>
                                 <asp:BoundField DataField="potential_p" HeaderText="potential_p" SortExpression="potential_p">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
+                                <%--14--%>
                                 <asp:BoundField DataField="paper" HeaderText="paper" SortExpression="paper">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
-
+                                <%--15--%>
                                 <asp:BoundField DataField="packing" HeaderText="packing" SortExpression="packing">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
+                                <%--16--%>
                                 <asp:BoundField DataField="Shipment_type" HeaderText="Shipment_type" SortExpression="Shipment_type">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
-
+                                <%--17--%>
                                 <asp:BoundField DataField="c_demand2" HeaderText="MA commitment date revise (ETD)" SortExpression="c_demand2" />
+                                <%--18--%>
                                 <asp:BoundField DataField="purpose2" HeaderText="Purpose" SortExpression="purpose2" />
-
+                                <%--19--%>
                                 <asp:BoundField DataField="lab_no" HeaderText="Lab No" HeaderStyle-Width="100" ItemStyle-Width="100" >
                                  
                                 </asp:BoundField>

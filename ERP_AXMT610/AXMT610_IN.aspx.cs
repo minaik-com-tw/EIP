@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
 using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Xml;
 using System.IO;
-using System.Data.SqlClient;
-using System.Text;
-using System.Collections;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
+using System.Xml;
 
 public partial class APMT420_IN : SmoothEnterprise.Web.Page 
 {
     string pnumber = string.Empty; //程式代號
     string OK_NO = string.Empty; //單號
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         /*   ================= 抓 ERP 資料進 EIP =================  */
@@ -114,7 +104,7 @@ public partial class APMT420_IN : SmoothEnterprise.Web.Page
                     pnumber = PlantID[0].InnerXml;
                     //Response.Write(pnumber+"ooooooooo");
                     SmoothEnterprise.Database.DataSet hs = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
-                    //Response.Write("select * from axmt610_in_head  where oga01 = '" + oga01[0].InnerXml + "' and PlantID='" + PlantID[0].InnerXml + "' ");
+                    Response.Write("select * from axmt610_in_head  where oga01 = '" + oga01[0].InnerXml + "' and PlantID='" + PlantID[0].InnerXml + "' ");
                     hs.Open("select * from axmt610_in_head  where oga01 = '" + oga01[0].InnerXml + "' and PlantID='" + PlantID[0].InnerXml + "' ");//檢查單頭是否有重覆單據號碼
                     if (!hs.EOF)
                     {
@@ -499,26 +489,26 @@ public partial class APMT420_IN : SmoothEnterprise.Web.Page
 
                         String ques;
                         SmoothEnterprise.Database.DataSet es = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
-                        es.Open("select b.email email1,a.id,ogauser,c.email email2  from axmt610_in_head  a LEFT JOIN dguser b ON oga14=b.erpid left join "+ 
-                             "( select email,a.erpid from dgusererpid a   left join dguser b on a.id=b.id )   c on ogauser=c.erpid " +
-                                "where oga01 = '" + oga01[0].InnerXml + "' and PlantID='" + PlantID[0].InnerXml + "' and no='" + OK_NO.ToString() + "'");
+                        es.Open("select b.email email1,a.id,ogauser,c.email email2  from axmt610_in_head  a LEFT JOIN dguser b ON oga14=b.erpid left join dguser c on ogauser=c.erpid " +
+                                "where oga01 = '" + oga01[0].InnerXml + "' and PlantID='" + PlantID[0].InnerXml + "' and no='" + OK_NO.ToString() + "' ");
 
                         if (!es.EOF)
                         {
                             MailAddress from = new MailAddress("eip@minaik.com.tw", "ePortal(員工入口網站)");
 
-                            MailAddress to = new MailAddress(es["email2"].ToString());
+                            MailAddress to = new MailAddress(es["email1"].ToString());
 
-                            MailAddress bcc = new MailAddress("herzog.lin@minaik.com.tw");
+                            MailAddress bcc = new MailAddress("carol.yeh@minaik.com.tw");
+                           
 
                             MailMessage message = new MailMessage(from, to);
                             message.Bcc.Add(bcc);
-                            //20171017 Jill.Ting(丁心茹) 反應只要業助收到就好
+                            
 
-                            //if (es["email1"].ToString() != es["email2"].ToString())
-                            //{
-                            //    message.To.Add(es["email2"].ToString());
-                            //}
+                            if (es["email1"].ToString() != es["email2"].ToString())
+                            {
+                                message.To.Add(es["email2"].ToString());
+                            }
                             ques = "您好:" + "<br>" +
                                    "<br>" +
                                    "ERP信用放行電子簽核申請單現有一筆，正等待您的處理:" + "<br>" +
@@ -568,35 +558,14 @@ public partial class APMT420_IN : SmoothEnterprise.Web.Page
                 sw.WriteLine("\"" + s1.Substring(0, sone) + "\",\"" + pnumber + "\",\"" + s1.Substring(stwo, 10) + "\",\"E\"");
                 sw.Close();
                 fs.Close();
-                Upload(fs.ToString(), "ftp://192.168.0.250/" + s1.ToString() + ".txt", "4gl", "4gl");
-
-
+                Upload(fs.ToString(), "ftp://192.168.0.250/" + s1.ToString() + ".txt", "4gl", "4gl"); 
                 //發mail---------------------------------------------------------------------------------------------------------------------------
-                String ques;
+         
 
-                MailAddress from = new MailAddress("eip@minaik.com.tw", "ePortal(員工入口網站)");
-                MailAddress to = new MailAddress("ann.lin@minaik.com.tw");
-
-                MailAddress bcc = new MailAddress("ann.lin@minaik.com.tw");
-
-                MailMessage message = new MailMessage(from, to);
-                message.Bcc.Add(bcc);
-
-                ques = "有問題";
-
-                message.Subject = "ERP信用放行有問題";
-                message.IsBodyHtml = true;
-                message.Body = ques;
-
-                SmtpClient client = new SmtpClient("192.168.0.12");
-
-                client.Send(message);
-
-                Response.Write("ERP信用放行有問題" + "<br>");
-
+                string  Subject = "ERP信用放行有問題";
+                string Body = string.Format("{0}<br>{1}<br>{0}<br>", ex.Message.ToString(),ex.TargetSite.ToString(),Request.Url );
+                Utility.MailFromEIP("carol.yeh@minaik.com.tw",Subject,Body,false ); 
                 //attch.MoveNext();
-
-
                 //---------------------------------------------------------------------------------------------------------------------------
 
 

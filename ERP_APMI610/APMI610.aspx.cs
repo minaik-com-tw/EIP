@@ -20,6 +20,7 @@ namespace ERP_APMI610
 {
     public partial class APMI610 : SmoothEnterprise.Web.Page
     {
+        string sdt, edt;
         protected void Page_Load(object sender, System.EventArgs e)
         {
             //Page.Title = "APMI610 List Page";
@@ -35,12 +36,24 @@ namespace ERP_APMI610
                     Plant = Request.QueryString["Plant"];
                 }
 
+                sdt = DateTime.Now.AddDays(-180).ToShortDateString();
+                edt = DateTime.Now.ToShortDateString();
+
+
+
             }
             else
             {
+                sdt= QUERY_init01.Text;
+                edt= QUERY_init02.Text;
+
                 //V1.0.12
                 Plant = ddl_plant.SelectedValue;
             }
+
+            QUERY_init01.Text = sdt;
+            QUERY_init02.Text = edt;
+
             //V1.0.1
             ddl_plant.SelectedValue = Plant;
         }
@@ -99,7 +112,7 @@ namespace ERP_APMI610
                     sb.AppendFormat(" and requesturl like '%{0}' ", rs["rowid"]);
                     sb.Append(" and  resulttype is null ");
 
-                    cell.OutputHTML = Utility.getSingle(sb.ToString());
+                    //cell.OutputHTML = Utility.getSingle(sb.ToString());
                 }
 
                 if (column.ID == "TDataColumn1")
@@ -200,6 +213,7 @@ namespace ERP_APMI610
             }
             catch (Exception ex)
             {
+                Utility.log(ex.Message, ex.StackTrace.ToString());
                 this.AddError(this, "DataList1_OnRenderCell()", "", ex.Message);
             }
         }
@@ -249,19 +263,19 @@ namespace ERP_APMI610
                 whereis = whereis + " b.name LIKE N'%" + TxtIniUser.Text + "%'";
             }
 
-            if (QUERY_init01.Text != "")
+            if (sdt != "")
             {
                 if (whereis != "")
                     whereis = whereis + " AND";
-                whereis = whereis + " pmcaud15>='" + QUERY_init01.Text + "'";
+                whereis = whereis + " pmcaud15>='" + sdt + "'";
 
             }
 
-            if (QUERY_init02.Text != "")
+            if (edt != "")
             {
                 if (whereis != "")
                     whereis = whereis + " AND";
-                whereis = whereis + " pmcaud15<='" + QUERY_init02.Text + "'";
+                whereis = whereis + " pmcaud15<='" + edt + "'";
 
             }
 
@@ -298,10 +312,10 @@ namespace ERP_APMI610
             //      "left join EIPA.dbo.dguser t on z.appid=t.id  " + whereis;
 
 
-            string sql = "select * from eipb.dbo.APMI610_IN x  " + whereis;
+            string sql = "select top 500 * from eipb.dbo.APMI610_IN x  " + whereis;
 
 
-
+            Utility.log(sql);
 
             DataList1.SQL = sql.ToString();
         }

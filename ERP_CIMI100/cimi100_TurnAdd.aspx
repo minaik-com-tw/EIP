@@ -24,7 +24,7 @@
         turntext();
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(AutoClick);  //防止UpdatePanel jQuery失效 
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(AutoClick2);  //防止UpdatePanel jQuery失效 
-        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(turntext);  //防止UpdatePanel jQuery失效 
+        Sys.WebForms.PageRequestManＣＥＲager.getInstance().add_endRequest(turntext);  //防止UpdatePanel jQuery失效 
        
         document.getElementById("ctl00_ContentPlaceHolder1_Button_UpdateItem").style.display = "none" ;
        
@@ -435,7 +435,7 @@
                             </asp:UpdatePanel>
                             &nbsp;&nbsp;
                            
-                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:EIPAConnectionString %>" SelectCommand="SELECT elapsedticks,[item], [partno], [component], [dwg], [turn_plantid] FROM [cimi100_turn]" DeleteCommand="DELETE FROM cimi100_turn WHERE (item = @item) AND (elapsedTicks = @elapsedTicks)">
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:EIPAConnectionString %>" SelectCommand="SELECT elapsedticks,[item], [partno], [component], [dwg], [turn_plantid] FROM eipb.dbo.cimi100_turn" DeleteCommand="DELETE FROM eipb.dbo.cimi100_turn WHERE (item = @item) AND (elapsedTicks = @elapsedTicks)">
                                 <DeleteParameters>
                                     <asp:Parameter Name="item" />
                                     <asp:Parameter Name="elapsedTicks" />

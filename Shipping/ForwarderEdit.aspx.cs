@@ -61,9 +61,8 @@ public partial class ForwarderEdit : SmoothEnterprise.Web.Page
 				}
                 DBTransfer fg = new DBTransfer();
                 string fac=fg.GetTopfile("select comid from  dguser where id='"+this.CurrentUser.ID+"'");
-                
-               // if (fac == "MAT") PopupUser1.Text = "9254F876-0DE1-41B6-866B-CBFE796F8871";
-                PopupUser1.Text = "88A1F32B-ED1D-4FF8-9EBC-6C63C3E9EACA";   
+                if (fac == "MAT") PopupUser1.Text = "9254F876-0DE1-41B6-866B-CBFE796F8871";
+                else PopupUser1.Text = "515191BF-38DA-44D5-A19A-72B2A0E21E3A";  //彭沛榛
                 
 
 			}

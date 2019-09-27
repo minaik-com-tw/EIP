@@ -323,14 +323,7 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
                     #endregion
 
                     //this.Panel1.Visible = false;
-                   // if(FIELD_no.Text=="B2018100007") FIELD_plantid.Text = "GIT";
-
-                    if (FIELD_plantid.Text == "GIT")
-                    {
-                        FIELD_companyname.Visible = false;
-                        Image1.ImageUrl = "~/gif/GIT.gif";
-                        Image1.Width = 250;
-                    }
+                    
 
                 }
                 else
@@ -555,9 +548,8 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
 
                         if (this.FIELD_programid.Text.ToString() == "axmt610" || this.FIELD_programid.Text.ToString() == "axmt620" || this.FIELD_programid.Text.ToString() == "axmt650")
                         {
-                            if ((this.FIELD_plantid.Text.ToString().Trim() == "MINAIK") || (this.FIELD_plantid.Text.ToString().Trim() == "GIT"))
+                            if (this.FIELD_plantid.Text.ToString().Trim() == "MINAIK")
                             {
-                                Response.Write(this.FIELD_plantid.Text.ToString().Trim());
                                    #region MAT正常信用放行
 
                                 int costlevel = 10; //簽到協理
@@ -569,10 +561,8 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
                                 {
                                     if (xxx == 0)
                                     {
-                                        //
-                                        mb = getdeprtid(getdep(FIELD_Lsend.Text));
-                                        //因業務助理歸ann管理,所以用直屬主管來search 牽核流程
-                                        //mb = getdeprtid(getdep(this.CurrentUser.ID.ToString()));
+
+                                        mb = getdeprtid(getdep(this.CurrentUser.ID.ToString()));
                                         xxx = xxx + 1;
 
 
@@ -618,9 +608,9 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
                                 }
 
 
-                                if (countlevel.Contains("09EF664C-22AB-43F1-A16E-729CF1C1FD68") != true)
+                                if (countlevel.Contains("D0D0EE91-3A1C-4BB5-A85F-C66A58B74C14") != true && this.CurrentUser.ID.Replace("{", "").Replace("}", "").ToLower() != "DC62DBEB-6268-4254-B8ED-191DD35587C6")
                                 {
-                                    countlevel.Add("09EF664C-22AB-43F1-A16E-729CF1C1FD68");
+                                    countlevel.Add("D0D0EE91-3A1C-4BB5-A85F-C66A58B74C14");
                                     jobname.Add("財務中心處最高主管");
                                     strCount = strCount + 1;
                                 }
@@ -826,9 +816,9 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
                                     strCount = strCount + 1;
                                 }
 
-                                if (countlevel.Contains("09EF664C-22AB-43F1-A16E-729CF1C1FD68") != true && this.CurrentUser.ID.Replace("{", "").Replace("}", "").ToLower() != "DC62DBEB-6268-4254-B8ED-191DD35587C6")
+                                if (countlevel.Contains("D0D0EE91-3A1C-4BB5-A85F-C66A58B74C14") != true && this.CurrentUser.ID.Replace("{", "").Replace("}", "").ToLower() != "DC62DBEB-6268-4254-B8ED-191DD35587C6")
                                 {
-                                    countlevel.Add("09EF664C-22AB-43F1-A16E-729CF1C1FD68");
+                                    countlevel.Add("D0D0EE91-3A1C-4BB5-A85F-C66A58B74C14");
                                     jobname.Add("財務中心處最高主管");
                                     strCount = strCount + 1;
                                 }
@@ -848,11 +838,7 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
 
                         //if (this.FIELD_plantid.Text.ToString().Trim() == "MINAIK")
                         //{
-                          //201712/15 秀珍外出,代理人為ann,故流程將ann 簽核部份 del,只流秀珍
-                          //          但ann 沒簽, 故秀珍又以為流程有問題(還好ann 發信,不然找問題找死了)
                             #region 尋找簽核人員中的代理人是否與簽核中人員相如, 如相同則刪除該截點(留職位大的)
-                               
- 
                             DateTime dt = DateTime.Now;
                             countlevel.Reverse(); //倒轉arraylist中的順序(因為要從大的往下找,才能留最大的)
                             jobname.Reverse();
@@ -924,23 +910,6 @@ public partial class AXMT610Edit : SmoothEnterprise.Web.Page
                                 countlevel[0] = "6D6D309B-C9B8-493B-9C56-71814EBBDF67";
                             }
 
-
-                            if ((FIELD_no.Text == "B2018120001") && (this.FIELD_plantid.Text.ToString().Trim()=="GIT"))
-                            {
-                                countlevel.Clear();
-                                jobname.Clear();
-                                
-                                countlevel.Add("D45938A7-3430-42EC-8BE6-0E1F391329E0");
-                                jobname.Add("MIS Test1");
-
-                                countlevel.Add("D45938A7-3430-42EC-8BE6-0E1F391329E0");
-                                jobname.Add("MIS Test2");
-
-                                countlevel.Add("D45938A7-3430-42EC-8BE6-0E1F391329E0");
-                                jobname.Add("MIS Test3");
-                            }
-
-                            
 
                         int count = 0;
                         foreach (string i in countlevel)

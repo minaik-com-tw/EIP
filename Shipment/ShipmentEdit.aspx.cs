@@ -263,12 +263,16 @@ namespace Shipment
 
                     btn_test.Visible = Utility.MIS_Manager(CurrentUser.LogonID);
                 }
+            
+
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
+             
         }
 
         protected void Page_PreRender(object sender, System.EventArgs e)
@@ -815,7 +819,7 @@ namespace Shipment
                         }
                     }
 
-                    e.Row.Cells[1].Attributes.Add("onclick", "onGridViewRowSelected('" + e.Row.DataItemIndex + "','" + te2.ToString() + "','" + countpaper + "',+'" + rs["status"].ToString() + "')");
+                    e.Row.Cells[1].Attributes.Add("onclick", "return onGridViewRowSelected('" + e.Row.DataItemIndex + "','" + te2.ToString() + "','" + countpaper + "',+'" + rs["status"].ToString() + "')");
 
 
                     GetBoxNumbers(e.Row.Cells[19], drv["lab_no"].ToString());
@@ -1292,31 +1296,42 @@ namespace Shipment
         public void GetBoxNumbers(TableCell cell, string numbers) //lab_no傳參數
         {
 
-            if (!string.IsNullOrEmpty(numbers))
+           if (!string.IsNullOrEmpty(numbers))
             {
+                Table tb = new Table();
+                 
+                tb.Font.Size = 11;
+                TableRow tr;
                 int i = 1;
                 SmoothEnterprise.Database.DataSet rsb = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
                 rsb.Open("SELECT rowid ,SamDescription FROM  eipA.dbo.Experiment_head_file WHERE no='" + numbers + "' ");
-                System.Diagnostics.Debug.WriteLine(rsb.SQL);
-                while (!rsb.EOF)
-                {
-                    LinkButton lb = new LinkButton();
+                System.Diagnostics.Debug.WriteLine(rsb.SQL); 
 
-                    lb.Text = numbers;
+                    while (!rsb.EOF)
+                    {
+                        tr = new TableRow();
+                        TableCell td = new TableCell();
+                      
+                        LinkButton lb = new LinkButton();
+                        
+                        lb.Attributes.Add("seq", i.ToString());
 
-                    string url = string.Format("/experiment/StaExperimentShow.aspx?rowid={0}", rsb["rowid"]);
-                    lb.Attributes.Add("href", url);
-                    lb.Attributes.Add("target", "_blank");
+                        lb.Text = numbers;
 
-                    Label l = new Label();
-                    l.Text = i.ToString() + ".";
-                    cell.Controls.Add(l);
-                    cell.Controls.Add(lb);
+                        string url = string.Format("/experiment/StaExperimentShow.aspx?rowid={0}", rsb["rowid"]);
+                        lb.Attributes.Add("href", url);
+                        lb.Attributes.Add("target", "_blank");
 
-                    cell.Controls.Add(new LiteralControl("<br />"));
-                    i++;
-                    rsb.MoveNext();
-                }
+                        td.Controls.Add(lb);
+                        tr.Cells.Add(td);
+                        tb.Rows.Add(tr);
+                        
+                        i++;
+                        rsb.MoveNext(); 
+                    }
+                     
+                cell.Controls.Add(tb);
+                cell.Attributes.Add("id", numbers);
             } 
         }
 
@@ -1539,6 +1554,11 @@ namespace Shipment
                 }
             }
             return isPass;
+        }
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+        {
+ 
         }
     }
 }

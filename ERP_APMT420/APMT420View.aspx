@@ -553,6 +553,7 @@
                 <SmoothEnterpriseWebControl:InputButton ID="PRINT" runat="server" Text="直接列印" width="80px" BackColor="#C8C8C8" BorderColor="#606060" BorderStyle="Solid" BorderWidth="1px" CssClass="NormalBold" Font-Bold="True" Font-Names="Arial" Font-Size="12px" OnClick="PRINT_Click">
                     <Gradient GradientBegin="136, 136, 136" GradientEnd="White" GradientType="Bottom" />
                 </SmoothEnterpriseWebControl:InputButton>
+                <SmoothEnterpriseWebControl:InputButton runat="server" ID="btn_test" Text="Text" OnClick="btn_test_Click" ></SmoothEnterpriseWebControl:InputButton>
 			</td>
 		</tr>
 	</table>

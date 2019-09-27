@@ -216,7 +216,13 @@ public partial class AXMT610View : SmoothEnterprise.Web.Page
 
                     //--------------------------------------------------------
 
-                    # endregion
+                    #endregion
+
+                    if (Utility.MIS_Manager(CurrentUser.LogonID))
+                    {
+                        btn_export.Visible = true;
+
+                    }
 
                 }
                 else
@@ -229,17 +235,6 @@ public partial class AXMT610View : SmoothEnterprise.Web.Page
                 //Response.Write("select b.plantid plantid,bno,ogb31,ogb32,ogb04,ogb06,ima021,ogb05,ogb12 from AXMT610_IN_HEAD a left join AXMT610_IN_BODY b on a.plantid=b.plantid and a.no=b.bno where a.id='" + Request.QueryString["id"] + "'");
                 this.GridView1.DataBind();
 
-
-                //if (FIELD_no.Text == "B2018100007") FIELD_plantid.Text = "GIT";
-
-                if (FIELD_plantid.Text == "GIT")
-                {
-                    FIELD_companyname.Visible = false;
-                    Image1.ImageUrl = "~/gif/GIT.gif";
-                    Image1.Width = 250;
-                    Image1.Height = 42;
-                }
-                
                 //if (Request.QueryString["a"] != "1") //如果從放大鏡來不跳
                 //{
                 ////有審核過跳出
@@ -1071,6 +1066,28 @@ public partial class AXMT610View : SmoothEnterprise.Web.Page
                 requestStream.Close();
         }
     }
-    //檔案上傳
-}
+        //檔案上傳
+
+        protected void btn_export_Click(object sender, EventArgs e)
+        {
+            string sqlstra = "";
+            sqlstra = "SELECT * FROM axmt610_IN_HEAD where id='" + Request.QueryString["id"] + "'";
+            SmoothEnterprise.Database.DataSet dsa = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
+            dsa.Open(sqlstra);
+
+            if (!dsa.EOF)
+            {
+                //審核通過產生檔案給erp--------------------------------------------------------------------
+                FileStream fs = new FileStream(@"D:\" + dsa["plantid"].ToString() + "_ovaxmt610_" + dsa["oga01"].ToString() + ".txt", FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine("\"" + dsa["plantid"].ToString() + "\",\"ovaxmt610\",\"" + dsa["oga01"].ToString() + "\",\"Y\"");
+                sw.Close();
+                fs.Close();
+                //Upload("D:\\AXMT610_XML\\4GL\\" + dsa["plantid"].ToString() + "_ovaxmt610_" + dsa["oga01"].ToString() + ".txt", "ftp://192.168.0.250/" + this.FIELD_plantid.Text.ToString() + "_ovaxmt610_" + this.FIELD_oga01.Text.ToString() + ".txt", "4gl", "4gl");
+
+                //------------------------------------------------------------------------------------------
+            }
+
+        }
+    }
 }

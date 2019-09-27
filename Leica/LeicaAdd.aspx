@@ -7,20 +7,28 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <header> 
+    <header>
         <script src="js/Leica.js"></script>
-        <link href="js/Lieca.css" rel="stylesheet" /> 
+        <link href="js/Lieca.css" rel="stylesheet" />
+        <script>
+            function Download(guid) {
+
+                var head = $("#ctl00_ContentPlaceHolder1_head_id").val();
+                $.get("../comm/download_handler.ashx?table=eipe.dbo.leica_file&col_filename=file_name&col_type=kind&col_content=arguments&paramenter=rowid='" + guid + "' and head_id='" + head + "' ");
+                return false;
+            }
+        </script>
     </header>
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
 
     <div id="leica" style="margin: 10px; width: 1200px">
+
         <div style="display: none">
             <!--隱藏傳Server的預設資訊-->
 
             <asp:HiddenField ID="head_id" runat="server" />
             <asp:HiddenField ID="base_id" runat="server" />
             <asp:HiddenField ID="curr_page" runat="server" />
-
             <asp:HiddenField ID="msg" runat="server" Value="" />
 
             <div id="integer"><%=getStr("integer")%></div>
@@ -35,6 +43,25 @@
             <div id="unable_to_run"><%=getStr("unable_to_run") %> </div>
             <div id="is_exist"><%=getStr("is_exist") %> </div>
 
+
+        </div>
+        <div>
+            ctl00_ContentPlaceHolder1_ddl_kind_h<div id="ctl00_ContentPlaceHolder1_ddl_kind_h">
+                <!--給javascrip-->
+            </div>
+            ctl00_ContentPlaceHolder1_ddl_product_h<div id="ctl00_ContentPlaceHolder1_ddl_product_h">
+                <!--給javascrip-->
+            </div>
+            ctl00_ContentPlaceHolder1_ddl_program_h<div id="ctl00_ContentPlaceHolder1_ddl_program_h">
+                <!--給javascrip-->
+            </div>
+            ctl00_ContentPlaceHolder1_ddl_test_h<div id="ctl00_ContentPlaceHolder1_ddl_test_h">
+                <!--給javascrip-->
+            </div>
+            ctl00_ContentPlaceHolder1_ddl_ts_standard_h<div id="ctl00_ContentPlaceHolder1_ddl_ts_standard_h">
+                <!--給javascrip-->
+            </div>
+
         </div>
         <div style="font-size: 2em; color: #9b1e64; height: 35px; font-weight: bolder;">
             <%=getStr("insp_record") %>
@@ -46,6 +73,7 @@
                     <div class="td">
                         <asp:DropDownList ID="ddl_kind" runat="server" Next="product" level="5" CssClass="required AutoPost">
                         </asp:DropDownList>
+                        <asp:HiddenField ID="kind" runat="server"  />
                     </div>
 
                     <div class="th"><%=getStr("inpecter") %></div>
@@ -64,11 +92,13 @@
                     <div class="td">
                         <asp:DropDownList ID="ddl_product" runat="server" Next="program" level="4" CssClass="required AutoPost">
                         </asp:DropDownList>
+                        <asp:HiddenField ID="product" runat="server"  />
                     </div>
                     <div class="th"><%=getStr("program") %></div>
                     <div class="td">
                         <asp:DropDownList ID="ddl_program" runat="server" Next="test" level="3" CssClass="required AutoPost">
                         </asp:DropDownList>
+                        <asp:HiddenField ID="program" runat="server"  />
                     </div>
 
                     <div class="th"><%=getStr("result") %></div>
@@ -88,7 +118,35 @@
                     <div class="td"></div>
                     <div class="td"></div>
                     <div class="td"></div>
-                     
+
+                </div>
+
+            </div>
+            <div class="tb1" style="border-top: 0px">
+                <div class="tr">
+
+                    <div class="th" id="file_up" style="border-top: 0px">上傳檔案</div>
+                    <div class="td" style="vertical-align: central; width: auto; border-top: 0px">
+                        <asp:FileUpload ID="fileU" runat="server" Width="300px" /><asp:Button ID="btn_file" runat="server" Text="檔案上傳" Width="60" Height="22px" OnClick="btn_file_Click" />
+                    </div>
+                    <div class="td" style="vertical-align: central; width: auto; border-top: 0px; width: 50%">
+                        <asp:UpdatePanel runat="server" ID="up_file" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                            <ContentTemplate>
+                                <asp:DataList ID="file_list" runat="server" OnDeleteCommand="f_list_DeleteCommand" OnItemDataBound="file_list_ItemDataBound">
+                                    <ItemTemplate>
+                                        <%--<asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("rowid") %>' ID="del_file" runat="server" ToolTip="Del" Height="30">
+                                    <i class="fas fa-trash" style="font-size:1.2em" ></i>
+                                        </asp:LinkButton>--%>
+                                        <asp:LinkButton ID="lbtn_Del" CommandName="DELETE" runat="server" CommandArgument='<%# Bind("rowid") %>' ToolTip="Del" Height="30">
+                                            <i class="far fa-trash-alt" style="font-size:1.2em" ></i>
+                                        </asp:LinkButton>
+                                        <asp:LinkButton ID="lbtn_file" runat="server"></asp:LinkButton>
+
+                                    </ItemTemplate>
+                                </asp:DataList>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,12 +159,11 @@
                     </div>
                 </div>
             </div>
-            <div class="tb1">
-
+            <div class="tb1" style="border-bottom: 0px">
                 <div class="tr">
                     <div class="th"><%=getStr("insp_type") %></div>
                     <div class="td">
-                        <asp:DropDownList ID="ddl_inspect" runat="server" CssClass="required" ></asp:DropDownList>
+                        <asp:DropDownList ID="ddl_inspect" runat="server" CssClass="required"></asp:DropDownList>
                     </div>
                     <div class="th"><%=getStr("inspct_num") %></div>
 
@@ -142,7 +199,6 @@
                     <div class="td" style="border: 0px; border-bottom: 1px solid #8a988e; border-right: 1px solid #8a988e;"></div>
 
                 </div>
-
             </div>
 
         </div>
@@ -312,11 +368,13 @@
                         <div class="tr">
                             <div class="th"><%=getStr("ts_item") %></div>
                             <div class="td">
-                                <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost" OnSelectedIndexChanged="ddl_test_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost"></asp:DropDownList>
+                                <asp:HiddenField ID="test" runat="server"  />
                             </div>
                             <div class="th"><%=getStr("ts_stand") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_ts_standard" runat="server" level="1" CssClass="required AutoPost"></asp:DropDownList>
+                                <asp:HiddenField ID="ts_stand" runat="server"  />
                             </div>
 
                         </div>

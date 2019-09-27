@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using System.IO;
-using Oracle.DataAccess.Client;
+
 
 public partial class jQueryAutoComp_ACDataSrc : System.Web.UI.Page
 {

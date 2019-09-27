@@ -30,11 +30,11 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
         string sINV_Num = "";
         ArrayList FtpList;
         
-         FtpList = List("ftp://ftp.minaik.com.tw//ToMinaik//", "Agilitylogistics", "agi315708");
+        FtpList = List("ftp://ftp.minaik.com.tw//ToMinaik//", "Agilitylogistics", "agi315708");
 
         System.Threading.Thread.Sleep(3000);
 
-       foreach (string FileName in FtpList)
+        foreach (string FileName in FtpList)
         {
             if (FileName.IndexOf(".xml") != -1)
             {
@@ -47,7 +47,7 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
                 System.Threading.Thread.Sleep(3000);
             }
         }
-        
+
 
         // 設定檔案讀取位置...
         string searchPattern = "*";
@@ -416,7 +416,7 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
                         if (isError)
                         {
                             MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(資料錯誤)");
-                            MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
+                            MailAddress to = new MailAddress("rick.chen@minaik.com.tw");
                             MailMessage message = new MailMessage(from, to);
                             message.Subject = "Forwarder(資料錯誤)";
 
@@ -494,10 +494,10 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(錯誤訊息)_Shipping_ReadFtpXml_Agi");
-                MailAddress to = new MailAddress("herzog.lin@minaik.com.tw");
+                MailAddress from = new MailAddress("eip@minaik.com.tw", "Forwarder(錯誤訊息)");
+                MailAddress to = new MailAddress("rick.chen@minaik.com.tw");
                 MailMessage message = new MailMessage(from, to);
-                message.Subject = "Forwarder(錯誤訊息)-Shipping_ReadFtpXml_Agi";
+                message.Subject = "Forwarder(錯誤訊息)";
                 string ques = "";
                 ques = "您好:" + "<br>" +
                        "<br>" +
@@ -518,11 +518,10 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
     // FTP 列出檔案名稱
     protected ArrayList List(string listUrl, string UserName, string Password)
     {
-        StreamReader reader = null;
-        ArrayList FileNameList = new ArrayList();
+            StreamReader reader = null;
+            ArrayList FileNameList = new ArrayList();
 
-        try
-        {
+            
             FtpWebRequest listRequest = (FtpWebRequest)WebRequest.Create(listUrl);
 
             listRequest.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -531,35 +530,25 @@ public partial class Shipping_ReadFtpXml_Agi : System.Web.UI.Page
             FtpWebResponse listResponse = (FtpWebResponse)listRequest.GetResponse();
             reader = new StreamReader(listResponse.GetResponseStream());
 
-            string line = reader.ReadLine();
-            Response.Write(line);
+            /*
+                while (reader.Peek() >= 0)
+                {
+                    FileNameList.Add(reader.ReadLine());
+                }
+           */
 
+            string line = reader.ReadLine();
             while (line != null)
             {
                 FileNameList.Add(line);
                 line = reader.ReadLine();
             }
-
+              
             reader.Close();
             listResponse.Close();
 
-        }
-        catch (System.Exception oEx)
-        {
-            Response.Write(oEx.Message);
-            if (oEx.GetType() == typeof(System.Net.WebException))
-            {
-
-            }
-            else
-            {
-
-            }
-
-        }
-
-        return FileNameList;
-        //回傳目前清單
+            return FileNameList;
+            //回傳目前清單
     }
 
 

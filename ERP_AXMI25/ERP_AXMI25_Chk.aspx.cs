@@ -17,7 +17,7 @@ namespace CNE
         string eDt;
         string custem = "";
         Out2 outInfo;
-        string  mail = "";
+        string mail = "";
         bool diffect = false;
         protected void Page_Load(object sender, System.EventArgs e)
         {
@@ -26,9 +26,9 @@ namespace CNE
             {
                 eDt = DateTime.Now.ToShortDateString();
                 sDt = DateTime.Now.AddDays(-7).ToShortDateString();
-                mail=Request.QueryString["mail"];
+                mail = Request.QueryString["mail"];
 
-                
+
                 Run(false);
             }
             else
@@ -58,41 +58,40 @@ namespace CNE
             StringBuilder sb_head_tr = new StringBuilder();
             StringBuilder sb_head_td = new StringBuilder();
             StringBuilder sb_body_tr = new StringBuilder();
-            
+
 
             DBTransfer db = new DBTransfer();
 
-            sb.Append("select  max(occano) 'occano'  FROM EIPB.DBO.ERP_AXMI25 where isState='Complete' ");
-            
-
-            if (!string.IsNullOrEmpty(eDt))
-            {
-                sb.AppendFormat("and convert( char(10), occaud15,121) <='{0}' ", Convert.ToDateTime(eDt).ToString("yy/MM/dd"));
-            }
-
-            if (!string.IsNullOrEmpty(sDt))
-            {
-                sb.AppendFormat("and convert( char(10), occaud15,121) >='{0}' ", Convert.ToDateTime(sDt).ToString("yy/MM/dd"));
-            }
-
-            if (!string.IsNullOrEmpty(custem))
-            {
-                sb.AppendFormat("and occa01 like '{0}%' ", custem);
-            }
-
-            sb.Append("  group by occa01 ");
-
-            Utility.log(sb.ToString());
             //float count = db.GetCount(sb.ToString());
             //lab_count.Text = "總筆數:" + count.ToString();
 
             using (SmoothEnterprise.Database.DataSet EIP = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead))
             {
-                string sql = "select * FROM EIPB.DBO.ERP_AXMI25 where  occano in ( "+sb.ToString()+" ) order by occa01 "; 
+                sb.Append("select a.* FROM EIPB.DBO.ERP_AXMI25 a left join ");
+                sb.Append("(select occa01 'occ01' ,max(updatetime) up_time  FROM EIPB.DBO.ERP_AXMI25   where isState='Complete' group by occa01 )b ");
+                sb.Append(" on a.occa01=b.occ01 where a.updatetime=b.up_time  ");
+
+                if (!string.IsNullOrEmpty(sDt))
+                {
+                    sb.AppendFormat(" and  convert(nvarchar(10),a.occaud15,121)>='{0}'", Convert.ToDateTime(sDt).ToString("yy/MM/dd"));
+                }
 
 
-                EIP.Open(sql);
-                
+                if (!string.IsNullOrEmpty(eDt))
+                {
+                    sb.AppendFormat(" and convert(nvarchar(10),a.occaud15,121)<= '{0}'  ", Convert.ToDateTime(eDt).ToString("yy/MM/dd"));
+                }
+
+                if (!string.IsNullOrEmpty(custem))
+                {
+                    sb.AppendFormat(" and a.occa01 like '%{0}%'   ", custem);
+                }
+
+                sb.Append(" order by a.occaud15 desc ");
+
+                Utility.log(sb.ToString());
+                EIP.Open(sb.ToString());
+
                 int i = 0;
                 while (!EIP.EOF)
                 {
@@ -106,6 +105,9 @@ namespace CNE
                     string ERP_NO = EIP["occano"].ToString();
                     string status = EIP["isState"].ToString();
                     string custmer = EIP["occa01"].ToString();
+                    string updatetime = EIP["updatetime"].ToString();
+
+
 
 
                     //每一次都要清空
@@ -113,23 +115,23 @@ namespace CNE
 
                     //只有一筆資料 
                     //收集EIP的資料
-                    
+
                     foreach (DataColumn col in EIP.Columns)
                     {
                         string Key = col.ColumnName.ToUpper();
                         string Val = EIP[Key].ToString();
                         dc_EIP.Add(Key, Val);
-                    
+
                     }
 
-                    
+
                     SmoothEnterprise.Database.DataSet ERP = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
                     {
                         StringBuilder erp_sql = new StringBuilder();
                         erp_sql.AppendFormat(" SELECT * FROM IP185.{0}.dbo.OCC_FILE ", plant);
                         erp_sql.AppendFormat(" WHERE 1=1   AND OCC01 = '{0}'", occa01);
                         ERP.Open(erp_sql.ToString());
-                        
+
                         if (ERP.EOF && action == "I")
                         {
                             // 沒資料，以OCCA_FILE為主去比對網頁資料，然後新增
@@ -169,7 +171,7 @@ namespace CNE
 
                                 string name = action == "I" ? col : col.Replace("OCCA", "OCC"); //欄位名稱大寫;
 
-                                 
+
 
                                 string td_ERP = "";
                                 string td_EIP = "";
@@ -224,11 +226,21 @@ namespace CNE
                                         isChange = false;
                                     }
 
-                                    Tansfer(col, ref EIP_Val,ref ERP_Val);
+                                    Tansfer(col, ref EIP_Val, ref ERP_Val);
 
-                                    
+                                    if (EIP_Val.Contains(".000"))
+                                    {
+                                        long iEIP = (long)decimal.Parse(EIP_Val);
+                                        long iERP = ERP_Val == "NULL" ? 0 : (long)decimal.Parse(ERP_Val);
 
-                                    if (!EIP_Val.Contains(ERP_Val) || EIP_Val!= ERP_Val)
+                                        if (iEIP == iERP)
+                                        {
+                                            isChange = false;
+                                        }
+                                    }
+
+
+                                    if (!EIP_Val.Contains(ERP_Val) || EIP_Val != ERP_Val)
                                     {
                                         if (ERP_NO == "101-1840001")
                                         {
@@ -238,15 +250,15 @@ namespace CNE
                                         if (isChange)//不更新欄位
                                         {
                                             diffect = true;
-                                               value = "<font color='#009393'> " + col + "</font><br><font color='red'> " + EIP_Val + "</font>" + "<br>" + "<font color='#484891'> " + ERP_Val + "</font>";
+                                            value = "<font color='#009393'> " + col + "</font><br><font color='red'> " + EIP_Val + "</font>" + "<br>" + "<font color='#484891'> " + ERP_Val + "</font>";
 
                                             EIP_Val = EIP_Val == "NULL" ? string.Empty : EIP_Val;
                                             outInfo.Add(plant, col, EIP_Val, ERP_NO, action);
-                                            
+
                                         }
                                     }
 
-                                    
+
                                 }
                                 if (!string.IsNullOrEmpty(value))
                                 {
@@ -256,12 +268,14 @@ namespace CNE
                                 //sb_tr.AppendFormat("<tr>{0}</tr>", td);
                             }
 
-                     
-                                sb_head_tr.AppendFormat("<tr><td>{4}</td><td><a href='{7}/ERP_AXMI25/ERP_AXMI25View.aspx?ROWNO={0}' Target='_blank' >{1}</a></td><td>{5}</td><td>{6}</td><td >{3}</td>{2}</tr>", rowno, ERP_NO, sb_body_td.ToString(), status, i.ToString(), custmer, action,Utility.LocalUrl);
+
+                            if (!string.IsNullOrEmpty(sb_body_td.ToString()))
+                            {
+                                sb_head_tr.AppendFormat("<tr><td>{4}</td><td><a href='{7}/ERP_AXMI25/ERP_AXMI25View.aspx?ROWNO={0}' Target='_blank' >{1}</a></td><td>{5}</td><td>{8}</td><td>{9}</td><td>{6}*</td><td >{3}..</td>{2}</tr>", rowno, ERP_NO, sb_body_td.ToString(), status, i.ToString(), custmer, action, Utility.LocalUrl, plant, updatetime);
+                            }
 
 
 
-                             
                             //sb_head.AppendFormat("<tr><td>{0}</td><td>{3}</td><td>{4}</td></tr>", i.ToString(), rowno, ERP_NO, status, sb_td.ToString());
                         }
                     }
@@ -280,14 +294,14 @@ namespace CNE
 
                 Show = "<table border='1'>" + sb_head_tr.ToString() + "</table>";
 
-                if (mail.ToUpper() == "Y" )
+                if (mail.ToUpper() == "Y")
                 {
                     StringBuilder body = new StringBuilder();
 
-                    
-                    body.AppendFormat("Query Data form {0} to {1} <br><br><br>", sDt,eDt);
+
+                    body.AppendFormat("Query Data form {0} to {1} <br><br><br>", sDt, eDt);
                     body.Append(Show);
-                    string subject = string.Format(" {0} to {1} 客代異常報表 ",sDt,eDt);
+                    string subject = string.Format(" {0} to {1} 客代異常報表 ", sDt, eDt);
 
                     mail = "herzog.lin@minaik.com.tw,yoyo.huang@minaik.com.tw;catherine.wu@minaik.com,carol.yeh@minaik.com.tw";
                     //mail = "carol.yeh@minaik.com.tw";
@@ -295,13 +309,13 @@ namespace CNE
                     Utility.SendMail(mail, "eip1@minaik.com.tw", subject, body.ToString());
                 }
 
-                lab_count.Text = "總筆數:" +i.ToString();
+                lab_count.Text = "總筆數:" + i.ToString();
             }
         }
 
         private void upt_Temp(string Col, string Value, string Plant, string Action, string ERP_NO)
         {
-             
+
             StringBuilder sb = new StringBuilder();
             sb.Append("INSERT INTO EIPB.dbo.ERP_AXMI25_TEMP ([ROWNO] ,[ID] ,[zone] ,[field_name] ,[field_value] ,[no] ,[apply_atrribute],[modify_user],[modify_date]) ");
             sb.AppendFormat("VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}') ", Guid.NewGuid(), Guid.NewGuid(), Plant, Col, Value, ERP_NO, Action, "system", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
@@ -324,13 +338,13 @@ namespace CNE
 
             foreach (Out2 o in outInfo.List)
             {
-                upt_Temp(o.Column, o.Value,o.Plant,o.Action,o.ERP_NO);
+                upt_Temp(o.Column, o.Value, o.Plant, o.Action, o.ERP_NO);
                 sb.AppendFormat("{0}|{1}|{2}|{3}|{4}\r\n", o.Plant, o.Column, o.Value, o.ERP_NO, o.Action); //MINAIK|ta_occa24c|0.000000|101-1810001|U
                 erp_no = o.ERP_NO;
                 action = o.Action;
                 plant = o.Plant;
             }
-             
+
             //3.上傳FTP
 
             //檔案路徑 string path = "D:\\ERP_AXMI250"
@@ -348,9 +362,9 @@ namespace CNE
 
         }
 
-        private void Tansfer(string col, ref string EIP ,ref string ERP)
+        private void Tansfer(string col, ref string EIP, ref string ERP)
         {
-            if (col == "OCCA55" || col == "OCCA06" || col == "TA_OCCA11" || col == "TA_OCCA21" )
+            if (col == "OCCA55" || col == "OCCA06" || col == "TA_OCCA11" || col == "TA_OCCA21")
             {
 
                 string[] Val = EIP.Split(':');
@@ -404,7 +418,7 @@ namespace CNE
 
                 requestStream.Close();
                 uploadResponse = (FtpWebResponse)uploadRequest.GetResponse();
-                
+
                 return true;
             }
             catch (Exception ex)

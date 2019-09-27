@@ -234,4 +234,13 @@
   <data name="ts_stand" xml:space="preserve">
     <value>Test Standard</value>
   </data>
+    <data name="file_large" xml:space="preserve">
+    <value>File too large</value>
+  </data>
+     <data name="file_upload" xml:space="preserve">
+    <value>File Upload</value>
+  </data>
+  <data name="file_name_long" xml:space="preserve">
+    <value>File name exceeds 200 words</value>
+  </data>
 </root>

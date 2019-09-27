@@ -22,7 +22,7 @@
             <td>
                 <asp:Label ID="LABEL_EMP_NM" runat="server" CssClass="NormalBold" meta:resourcekey="LABEL_EMP_NMResource1"
                     Text="製令單號"></asp:Label></td>
-            <td style="width: 78px; height: 19px">
+            <td style="width: 78px; height: 19px">Ｅ
                 <asp:Label ID="Label21" runat="server" CssClass="NormalBold" Text="料號客戶別"></asp:Label></td>
             <td style="width: 110px">
                 <asp:Label ID="Label1" runat="server" CssClass="NormalBold" meta:resourcekey="Label1Resource1"

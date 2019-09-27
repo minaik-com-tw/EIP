@@ -33,6 +33,7 @@ H201603001   20150311 佩佩要求增加 信用查核 -說明要求財務可以�
  * V1.0.10  2019/03/15   Carol         TextBox add data attribute 'tag'; tag representative of the datatype ex: tag="Money"  
  * V1.0.11  2019/04/12 carol update    君洋人員收不到信 因帳號問題
  * V1.0.12  2019/06/24 carol update    信用評等 加入廠別  [OCG_FILE]  
+ * V1.0.13  2019/08/20 carol update    發現單號回傳修改值異常，是因為SQL沒加入廠別，造成資料回常錯誤
 
 */
 using System;
@@ -116,7 +117,8 @@ namespace CNE
                 //string sql = "select  * from EIPB.dbo.ERP_AXMI25_TEMP where no='" + FIELD_occano.Text + "' "; v1.0.6 
 
                 sb.Append("select tb.* from  (select no, field_name, max(t.modify_date) 'dt' from eipb.dbo.ERP_AXMI25_TEMP t ");
-                sb.AppendFormat(" where no = '{0}' group by field_name, no) a ", FIELD_occano.Text);
+                //sb.AppendFormat(" where no = '{0}' group by field_name, no) a ", FIELD_occano.Text);
+                sb.AppendFormat(" where ROWNO= '{0}' group by field_name, no) a ", Request.QueryString["ROWNO"]); //V1.0.13
                 sb.Append(" left join eipb.dbo.ERP_AXMI25_TEMP tb on a.field_name = tb.field_name and a.dt = tb.modify_date  ");
 
 
@@ -1038,7 +1040,7 @@ namespace CNE
                     //this.FIELD_ta_occa11.SelectedValue = rs["ta_occa11"].ToString().Substring(0,1);
 
                     this.FIELD_ta_occa14.Text = rs["ta_occa14"].ToString();
-                    this.FIELD_ta_occa15.Text = rs["ta_occa15"].ToString();
+                    this.FIELD_ta_occa15.Text = rs["ta_occa15"].ToString(); //從某廠區轉入 PlantID
 
                     this.FIELD_occanote.Text = rs["occanote"].ToString();
                     this.FIELD_ta_occa1201.Text = rs["ta_occa1201"].ToString();

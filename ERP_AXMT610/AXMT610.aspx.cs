@@ -219,7 +219,7 @@ public partial class AXMT610 : SmoothEnterprise.Web.Page
         if (whereis != "")
             whereis = " WHERE" + whereis;
 
-        if (this.CurrentUser.LogonID.ToString() == "ann.lin" || this.CurrentUser.LogonID.ToString() == "herzog.lin" || this.CurrentUser.LogonID.ToString() == "yc.chen" || this.CurrentUser.LogonID.ToString() == "frances.lee" || this.CurrentUser.LogonID.ToString() == "pearl.hsieh" || this.CurrentUser.LogonID.ToString() == "aifen" || this.CurrentUser.LogonID.ToString() == "al.hong" || this.CurrentUser.LogonID.ToString() == "yoyo.huang" || this.CurrentUser.LogonID.ToString() == "sandy.cheng" || this.CurrentUser.LogonID.ToString() == "jenny.tsai")
+        if (this.CurrentUser.LogonID.ToUpper() == "CATHERINE.WU" || this.CurrentUser.LogonID.ToUpper() == "CAROL.YEH" || this.CurrentUser.LogonID.ToString() == "smooth" || this.CurrentUser.LogonID.ToString() == "yc.chen" || this.CurrentUser.LogonID.ToString() == "frances.lee" || this.CurrentUser.LogonID.ToString() == "pearl.hsieh" || this.CurrentUser.LogonID.ToString() == "aifen" || this.CurrentUser.LogonID.ToString() == "al.hong" || this.CurrentUser.LogonID.ToString() == "yoyo.huang" || this.CurrentUser.LogonID.ToString() == "sandy.cheng" || this.CurrentUser.LogonID.ToString() == "jenny.tsai")
         {
 
             DataList1.SQL = "SELECT id,l_azp03,no,no_order,plantid,programid,oga00,oga01,CONVERT(varchar(12) , oga02, 111 ) oga02,oga03,oga011,occ02_1,gem02_3,gen02_4,status, "+

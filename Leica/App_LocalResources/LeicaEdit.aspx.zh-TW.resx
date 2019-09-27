@@ -270,5 +270,16 @@
   <data name="ts_stand" xml:space="preserve">
     <value>測試標準</value>
   </data>
-  
+  <data name="file_large" xml:space="preserve">
+    <value>檔案過大</value>
+  </data>
+  <data name="file_name_long" xml:space="preserve">
+    <value>文件名稱超過200字</value>
+  </data>
+  <data name="file_exist" xml:space="preserve">
+    <value>檔案已存在</value>
+  </data>
+  <data name="not_has_file" xml:space="preserve">
+    <value>沒有上傳檔案</value>
+  </data>
 </root>

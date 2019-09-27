@@ -22,15 +22,19 @@ public partial class EngineeringTestEdit : SmoothEnterprise.Web.Page
         data2 = "1";
         SmoothEnterprise.Database.DataSet rsa = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
         rsa.Open("select * from dgflowqueue where text='資材單位' and qseq='1' and reviewresult is not null and   requesturl like '%" + Request.QueryString["id"] + "'");
+
+            Response.Write(rsa.SQL);
+
         if (!rsa.EOF)
         {
             this.BUTTON_StopRequest.Visible = false;
         }
-        if (this.CurrentUser.LogonID.ToString() == "Rage.Mai")
-        {
-            this.BUTTON_StopRequest.Visible = true;
-            this.InputButton2.Visible = true;
-        }
+            
+        //if (this.CurrentUser.LogonID.ToString() == "Rage.Mai")
+        //{
+        //    this.BUTTON_StopRequest.Visible = true;
+        //    this.InputButton2.Visible = true;
+        //}
 
 
             this.BUTTON_StopRequest.Visible = Utility.MIS_Manager(CurrentUser.LogonID);

@@ -363,7 +363,7 @@
                     <tr>
 
                         <td>
-                            <asp:Label ID="LABEL_ta_occa15" runat="server" CssClass="NormalBold" Text="來源廠區  "></asp:Label></td>
+                            <asp:Label ID="LABEL_ta_occa15" runat="server" CssClass="NormalBold" Text="來源廠區  "></asp:Label></td> 
                         <td>
                             <SmoothEnterpriseWebControl:InputText ReadOnly="true" ID="FIELD_ta_occa15" runat="server" BackColor="#F0F0F0" CssClass="Normal" ErrorMessage="Please Input「Ta_occa15」!!">
                                 <Gradient GradientBegin="" GradientEnd="" GradientType="Top" />

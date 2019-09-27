@@ -157,12 +157,13 @@ public partial class Leica_Leica : LeicaBase
         StringBuilder sql = new StringBuilder();
 
         sql.AppendFormat("select  h.rowid 'id' , insp_no, pd.{0} 'product', pg.{0} 'program', h_operator,convert(nvarchar(10),insp_dt,121) 'insp_dt' ,h.status,k.{0} 'kind',r.{0} 'result'  ", CurrLang);
-        sql.Append(" ,u.name 'operator',custmer from eipe.dbo.leica_head h  ");
+        sql.AppendFormat(" ,u.name 'operator',c.{0} 'custmer' from eipe.dbo.leica_head h  ", CurrLang);
         sql.Append(" left join eipe.dbo.leica_base b on h.rowid=b.head_id ");
         sql.Append(" left join eipe.dbo.sys_option pd on h.product=pd.rowid ");
         sql.Append(" left join eipe.dbo.sys_option pg on h.program=pg.rowid  ");
         sql.Append(" left join eipe.dbo.sys_option k on h.kind=k.rowid ");
         sql.Append(" left join eipe.dbo.sys_option r on h.result=r.rowid ");
+        sql.Append(" left join eipe.dbo.sys_option c on h.custmer=r.rowid ");
         sql.Append(" left join eipa.dbo.dguser u on h.h_operator=u.logonid ");
 
         if (!string.IsNullOrEmpty(sb.ToString()))
@@ -170,11 +171,11 @@ public partial class Leica_Leica : LeicaBase
             sql.AppendFormat(" where 1=1 {0}",sb.ToString());
         }
 
-        sql.AppendFormat(" group by h.rowid, insp_no,pg.{0},pd.{0},h_operator,insp_dt,h.status,k.{0},r.{0} ,u.name", CurrLang);
-        //sql.AppendFormat(" group by h.rowid,status");
-
+        sql.AppendFormat(" group by h.rowid, insp_no,pg.{0},pd.{0},h_operator,insp_dt,h.status,k.{0},r.{0} ,u.name,c.{0}", CurrLang);
+         
         DataList1.SQL = sql.ToString();
-        
+
+        Utility.Debug(sql.ToString());
 
     }
 

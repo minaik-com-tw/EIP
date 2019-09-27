@@ -2,7 +2,7 @@
 
 using System;
 using System.Web;
-using Oracle.DataAccess.Client;
+
 
 public class jsonData : IHttpHandler
 {
@@ -42,16 +42,22 @@ public class jsonData : IHttpHandler
 
             int t = 1;
             SmoothEnterprise.Database.DataSet rsa = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenRead);
-            rsa.Open("select BMB03,ima02,CEILING(round((bmb06/bmb07*(1+(bmb08/100))),6)*'" + querystss + "') qpaq,ima63 " +
-                     "from " + db3 + ".MINAIK.dbo.BMB_FILE a left join " + db3 + ".MINAIK.dbo.BMA_FILE b on bmb01=bma01  " +
-                     "left join " + db3 + ".MINAIK.dbo.IMA_FILE c on bmb03=ima01  " +
-                     "where   bma01='" + querystrname.ToString() + "' AND bmb04<=getdate() AND (bmb05 IS NULL OR bmb05>getdate())  " +
-                     "union  " +
-                     "select bmd04,ima02,CEILING(round((bmb06/bmb07*(1+(bmb08/100))),6)*'" + querystss + "') qpaq,ima63  " +
-                     "from " + db3 + ".MINAIK.dbo.BMB_FILE a left join " + db3 + ".MINAIK.dbo.BMA_FILE b on bmb01=bma01  " +
-                     "left join " + db3 + ".MINAIK.dbo.BMD_FILE d on  bmb03=bmd01 and ( bmb01=bmd08 or bmd08='ALL')  " +
-                     "left join " + db3 + ".MINAIK.dbo.IMA_FILE c on bmd04=ima01  " +
-                     "where   bma01='" + querystrname.ToString() + "' AND bmb04<=getdate() AND (bmb05 IS NULL OR bmb05>getdate()) and bmd04 is not null   ");
+            string sqlx = "select BMB03,ima02,CEILING(round((bmb06/bmb07*(1+(bmb08/100))),6)*'" + querystss + "') qpaq,ima63 " +
+                      "from " + db3 + ".MINAIK.dbo.BMB_FILE a left join " + db3 + ".MINAIK.dbo.BMA_FILE b on bmb01=bma01  " +
+                      "left join " + db3 + ".MINAIK.dbo.IMA_FILE c on bmb03=ima01  " +
+                      "where   bma01='" + querystrname.ToString() + "' AND bmb04<=getdate() AND (bmb05 IS NULL OR bmb05>getdate())  " +
+                      "union  " +
+                      "select bmd04,ima02,CEILING(round((bmb06/bmb07*(1+(bmb08/100))),6)*'" + querystss + "') qpaq,ima63  " +
+                      "from " + db3 + ".MINAIK.dbo.BMB_FILE a left join " + db3 + ".MINAIK.dbo.BMA_FILE b on bmb01=bma01  " +
+                      "left join " + db3 + ".MINAIK.dbo.BMD_FILE d on  bmb03=bmd01 and ( bmb01=bmd08 or bmd08='ALL')  " +
+                      "left join " + db3 + ".MINAIK.dbo.IMA_FILE c on bmd04=ima01  " +
+                      "where   bma01='" + querystrname.ToString() + "' AND bmb04<=getdate() AND (bmb05 IS NULL OR bmb05>getdate()) and bmd04 is not null   ";
+
+                Utility.log(sqlx);
+
+                rsa.Open(sqlx);
+
+
             while (!rsa.EOF)
             {
                 data = data + "{\"name\":\"" + rsa["bmb03"].ToString() + "\",\"age\":\"" + rsa["ima02"].ToString().Replace('"', '&') + "\",\"ss\":\"" + rsa["qpaq"].ToString() + "\",\"jj\":\"" + rsa["ima63"].ToString() + "\"},";
@@ -60,7 +66,7 @@ public class jsonData : IHttpHandler
             }
             rsa.Close();
             string sql = rsa.SQL.ToString();
-           // context.Response.Write("1:" + sql + "<br>");
+            // context.Response.Write("1:" + sql + "<br>");
             data = data.Substring(0, data.Length - 1); //去除最後一個","
             data = data + "]";
             context.Response.Write(data);
@@ -86,13 +92,13 @@ public class jsonData : IHttpHandler
                 rsa.Close();
 
                 string sql2 = rsa.SQL.ToString();
-               // context.Response.Write("2-1:" + sql2 + "<br>");
+                // context.Response.Write("2-1:" + sql2 + "<br>");
                 rs.MoveNext();
 
             }
 
             string sql = rs.SQL.ToString();
-           // context.Response.Write("2:" + sql + "<br>");
+            // context.Response.Write("2:" + sql + "<br>");
             rs.Close();
 
             data = data.Substring(0, data.Length - 1); //去除最後一個","

@@ -53,9 +53,9 @@ public class CNE_receive : IHttpHandler
         try
         {
             cont = context;
-            string path = @"\\192.168.0.250\xml";
-            string des_folder = @"\\192.168.0.250\xml_back";
-            string source_folder = @"\\192.168.0.250\xml";
+            string path = @"\\192.168.0.216\xml";
+            string des_folder = @"\\192.168.0.216\xml_back";
+            string source_folder = @"\\192.168.0.216\xml";
             rowno = Guid.NewGuid().ToString();
             con = context.Request.QueryString["file"].ToString(); //filename
 

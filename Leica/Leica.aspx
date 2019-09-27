@@ -123,7 +123,7 @@
             CellPadding="3px" BorderWidth="1px" BorderStyle="Solid" HeaderHeight="30px" Font-Names="Arial" Font-Size="Small" CurrentColumn="123"
             Personalize="True" OnOnRenderCell="DataList1_OnRenderCell">
             <HeaderStyle Font-Bold="True" ForeColor="White" BackColor="#69352F" Font-Size="Small"></HeaderStyle>
-            <SelectStyle BackColor="#EB7A77" ForeColor="#D0104C" Font-Bold="true" ></SelectStyle>
+            <SelectStyle BackColor="#F4B6B4" ForeColor="#D0104C" Font-Bold="true" ></SelectStyle>
             <SelectColumnStyle BackColor="#F9ECE5"/>
             <HoverStyle BackColor="#F7D7D7"></HoverStyle>  
             <Columns>

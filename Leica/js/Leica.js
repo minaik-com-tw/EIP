@@ -2,10 +2,12 @@
 $(function () {
 
     init_work();
-
+    file_upload();
+    autopost_load();
     $("#ctl00_ContentPlaceHolder1_up_vmi").addClass("t1");
     $("#ctl00_ContentPlaceHolder1_up_ft").addClass("t1");
     $("#ctl00_ContentPlaceHolder1_up_list").addClass("t1");
+    $("#ctl00_ContentPlaceHolder1_up_file").addClass("uf_css");
 
     $("#ctl00_ContentPlaceHolder1_ddl_inspect").change(function () {
         var inspect = $(this).find(":selected").val();
@@ -36,11 +38,14 @@ $(function () {
 
         var parent_id = $(this).val();
 
-        if (parent_id == "") {
-            var Level = $(this).attr("level");
-            clear_list(Level);
-        }
-        else {
+        var Level = $(this).attr("level");
+        clear_list(Level);
+
+        var id = $(this).attr("id");
+        var obj = "#" + id + "_h";
+        $(obj).text(parent_id);
+
+        if (parent_id !== "" && Level !== "1") {
             getOption($(this));
         }
 
@@ -75,7 +80,7 @@ $(function () {
         }
         if (curr_page == "PF") {
             $("#ft_Area").css("display", "block");
-            $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "block")
+            $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "block");
         }
     }
     else {
@@ -84,11 +89,62 @@ $(function () {
 });
 
 
+
+
 function clear_all() {
     init_work();
     clear_base();
     clear_ft();
 }
+
+function autopost_load() {
+
+
+    //$(".AutoPost").each(function () {
+
+    //var id = $(this).attr("id");
+    //var value = $(this).val();
+
+    //var obj = "#" + id + "_h";
+    //$(obj).text(value);
+
+    //getOption(this);//一下階的資料; 
+
+
+    for (var i = 5; i > 0; i--) {
+
+        var obj = $(".AutoPost[level='" + i + "']");
+
+        var n = "#" + obj.attr("id") + "_h";
+        $(n).text(obj.val());
+
+        getOption(obj);//一下階的資料; 
+
+    }
+}
+
+
+//var kind = $("#ctl00_ContentPlaceHolder1_ddl_kind").val();
+//if (kind!=="") {
+//    getOption($("#ctl00_ContentPlaceHolder1_ddl_kind"));
+
+//    var product = $("#ctl00_ContentPlaceHolder1_ddl_product").val();
+//    if (product!=="") {
+//        getOption($("#ctl00_ContentPlaceHolder1_ddl_product"));
+
+//        var program = $("#ctl00_ContentPlaceHolder1_ddl_program").val();
+//        if (program!=="") {
+//            getOption($("#ctl00_ContentPlaceHolder1_ddl_program"));
+
+//            var test = $("#ctl00_ContentPlaceHolder1_ddl_test").val();
+//            if (test!=="") {
+//                getOption($("#ctl00_ContentPlaceHolder1_ddl_test"));
+//            }
+//        }
+//    }
+//}
+
+
 
 function clear_base() {
     $("#ctl00_ContentPlaceHolder1_ddl_inspect").val("");
@@ -133,6 +189,8 @@ function init_work() {
     $("#ft_Area").css("display", "none");
     $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "none");
 
+
+
 }
 
 function clear_list(curr) {
@@ -140,18 +198,12 @@ function clear_list(curr) {
 
     $(".AutoPost").each(function () {
         var level = $(this).attr("level") * 1;
-        //if (curr_obj > level) {
-
-        //    $(this).val("");
-        //    $(this).attr("disabled", true);
-        //}
-        //$(this).empty();
 
         if (curr_obj > level) {
-            $(this)[0].selectedIndex = 0;
+            $(this).empty();
+            var option = "<option value=''>select</option>";
+            $(this).append(option);
         }
-
-
     });
 
 }
@@ -179,7 +231,7 @@ function stand_chnage() {
             if (data == "") {
                 data = "0";
             }
-            $("#ctl00_ContentPlaceHolder1_txt_samp_count").val(data)
+            $("#ctl00_ContentPlaceHolder1_txt_samp_count").val(data);
 
 
 
@@ -189,41 +241,54 @@ function stand_chnage() {
 
 function getOption(obj) {
 
-    var parent_id = $(obj).val();
+    var value = $(obj).val();
     var next_name = $(obj).attr("Next");
-
+    var id = $(obj).attr("id");
 
     $.ajax({
         url: 'leicaconnector.ashx',                        // url位置
         type: 'post',                   // post/get
         data: {
             type: "option",
-            parent_id: parent_id
+            parent_id: value
 
         },       // 輸入的資料
         error: function error(xhr, status, error) {
             $("#debug").html(xhr.responseText);
+            console.log("[error]xhr:%s, status:%s, error:%s", xhr.responseText, status, error);
 
         },      // 錯誤後執行的函數
         success: function (data) {
 
             var next_obj = "#ctl00_ContentPlaceHolder1_ddl_" + next_name;
+
             $(next_obj).attr("disabled", false);
             $(next_obj).empty();
             var select = "";
+
             for (var i = 0; i < data.length; i++) {
 
                 var option = "<option value='" + data[i]["value"] + "'>" + data[i]["text"] + "</option>";
-                if (data[i]["selected"]) {
-                    $(next_obj).val(data[i]["value"]);
-                }
-
-
                 $(next_obj).append(option);
             }
 
+            /*setting  selected in ddl */
+            var key = $("#" + id + "_h").text();
+            $("#" + id + " option[value=" + key + "] ").attr("selected", "true");
+            $("#" + id).css({ "background-color": getRandomColor(), "color": "#fff" });
+            console.log("[success] obj:%s ,value:%s ", id, key);
+
         }// 成功後要執行的函數
     });
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 function upload_base(baseid, guid) {
@@ -323,7 +388,6 @@ function check_head() {
             $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "block");
         }
 
-
     }
 
     return isPass;
@@ -415,7 +479,7 @@ function Leica_chk() {
         else {
             isPass = true;
         }
-    }else{
+    } else {
         alert($("#required").text());
     }
     return isPass;
@@ -429,7 +493,7 @@ function ft_add_chk() {
 
     if (check_head()) {
 
-         isPass = true;
+        isPass = true;
         $("#ft_left").find(".required").each(function () {
 
             $(this).parent().removeClass("wrong");
@@ -544,10 +608,15 @@ function base_add_chk() {
             pass = false;
         }
     });
-
-
-
     return pass;
+}
+
+function file_upload() {
+    var w = $("#head .th").width();
+
+    console.log("w:" + w);
+
+    $("#file_up").css("width", w);
 }
 
 

@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Net;
+using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -8,15 +14,15 @@ using System.Web.UI.WebControls;
 /// </summary>
 public class LeicaBase : MABase
 {
-    protected string _insp_no = "", _kind = "", _h_operator = "", _product = "", _program = "", _inspect = "", _insp_date = "";
+    protected string _insp_no = "", _kind = "", _h_operator = "", _product = "", _program = "", _inspect = "", _insp_date = "", _custmer = "";
     protected string _test = "", _ts_standard = "", _result = "", _sp_stand = "", _samp_count = "", _insp_count = "", _birthDt = "", _b_opeartor = "", _prod_index;
     protected string _position = "", _vmi_qty = "0", _vmi_judg;
-    protected string _ft_qty = "", _ft_jdug = "", _s1 = "", _s2 = "", _s3 = "", _s4 = "", _s5 = "" ;
-    public string msg = "",   _insp_time = "", _shape = "", _head_id, _base_id, _ft_rowid;
-    
-   
+    protected string _ft_qty = "", _ft_jdug = "", _s1 = "", _s2 = "", _s3 = "", _s4 = "", _s5 = "";
+    public string msg = "", _insp_time = "", _shape = "", _head_id, _base_id, _ft_rowid;
 
-    protected data_table lbase, t_ft, vmi, t_vmi, shape, t_shape, track, t_S5,ft_S5 ;
+
+
+    protected data_table lbase, t_ft, vmi, t_vmi, shape, t_shape, track, t_S5, ft_S5, ft, S5;
     protected DataTable db = new DataTable();
 
     public LeicaBase()
@@ -42,7 +48,7 @@ public class LeicaBase : MABase
             //總判定 Result
             public static string Result = string.Format(sql, "Result");
             //檢驗別 Inspect
-            public static string Inspect = string.Format(sql, "Inspect");
+            // public static string Inspect = string.Format(sql, "Inspect");
             //異常現象 Shape
             public static string Shape = string.Format(sql, "Shape");
             //測試標準 Test Standard
@@ -50,6 +56,8 @@ public class LeicaBase : MABase
             //抽樣標準    Sample Standard
             public static string Sample_Standard = string.Format(sql, "Sp_standard");
 
+            //產品 Product
+            public static string Product = string.Format(sql, "Product");
             //機種 Program
             public static string Program = string.Format(sql, "Program");
             //異常位置 Position
@@ -59,15 +67,17 @@ public class LeicaBase : MABase
             //測試項目 Test
             public static string Test = string.Format(sql, "Test");
 
+            public static string Custmer = string.Format(sql, "Custmer");
+
 
         }
         public class All
         {
-            public static string Menu = "Select  name 'rowno' ,name 'en' ,tag 'tw',0 'def' from eipe.dbo.SYS_Category where program='Leica' and kind='Menu'  ";
+            public static string Menu = "Select  name 'rowno' ,name 'en' ,tag 'tw',0 'def' from eipe.dbo.SYS_Category where program='Leica' and kind='Menu' order by name ";
 
             public static string Result = string.Format(sql, "Result", "");
             //檢驗別 Inspect
-            public static string Inspect = string.Format(sql, "Inspect", "");
+            //public static string Inspect = string.Format(sql, "Inspect", "");
             //異常現象 Shape
             public static string Shape = string.Format(sql, "Shape", "");
             //測試標準 Test Standard
@@ -86,6 +96,8 @@ public class LeicaBase : MABase
             public static string Judge = string.Format(sql, "Judge", "");
             //測試項目 Test
             public static string Test = string.Format(sql, "Test", "");
+
+            public static string Custmer = string.Format(sql, "Custmer", "");
         }
 
     }
@@ -95,19 +107,19 @@ public class LeicaBase : MABase
     protected void Create_Table()
     {
         //thead = new data_table("main", "main_id",  "type", "operator",  "inspect_dt", "product", "program",  "result");
-        lbase = new data_table("lbase", "head_id", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator", "seq", "base_id");
+        lbase = new data_table("lbase", "head_id", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator", "seq", "base_id", "curr");
         //--------VMI--------------
-        vmi = new data_table("vmi", "base_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id");
-        t_vmi = new data_table("t_vmi", "base_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id");
-        shape = new data_table("shape", "vmi_id", "shape_id", "shape");
-        t_shape = new data_table("stemp", "shape_id", "shape");
+        vmi = new data_table("vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment");
+        t_vmi = new data_table("t_vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment");
+        shape = new data_table("shape", "vmi_id", "shape_txt", "shape", "seq");
+        t_shape = new data_table("stemp", "shape_txt", "shape");
         //----------------------
         t_ft = new data_table("t_ft", "base_id", "ft_id", "prod_index", "insp_time");
+        ft = new data_table("ft", "base_id", "ft_id", "prod_index", "insp_time");
 
-        t_S5 = new data_table("t_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug" ,"ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
+        t_S5 = new data_table("t_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug", "ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
         ft_S5 = new data_table("ft_S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug", "ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
-
-
+        S5 = new data_table("S5", "ft_id", "test", "test_id", "ts_standard", "ts_standard_id", "ft_qty", "ft_jdug", "ft_jdug_id", "s1", "s2", "s3", "s4", "s5");
 
     }
 
@@ -124,6 +136,9 @@ public class LeicaBase : MABase
         t_ft.Table = (DataTable)ViewState[t_ft.Name];
         t_S5.Table = (DataTable)ViewState[t_S5.Name];
         ft_S5.Table = (DataTable)ViewState[ft_S5.Name];
+
+        S5.Table = (DataTable)ViewState[S5.Name];
+        ft.Table = (DataTable)ViewState[ft.Name];
     }
 
     protected void OutTable()
@@ -139,6 +154,9 @@ public class LeicaBase : MABase
         ViewState[t_ft.Name] = t_ft.Table;
         ViewState[t_S5.Name] = t_S5.Table;
         ViewState[ft_S5.Name] = ft_S5.Table;
+
+        ViewState[S5.Name] = S5.Table;
+        ViewState[ft.Name] = ft.Table;
     }
 
     #region save
@@ -147,31 +165,32 @@ public class LeicaBase : MABase
     //ViewState[vmi.Name] = vmi.Table;
     //ViewState[shape.Name] = shape.Table;
 
-    private void save_base()
-    { 
-    }
-
-
     private void insert_vmi() { }
     private void insert_shape() { }
 
 
     #endregion save
 
-    #region  UI
-
     #region  ddl
+    public void getItem(DropDownList list, string sql, string defult)
+    {
+        if (string.IsNullOrEmpty(defult))
+        {
+            getItem(list, sql, false);
+        }
+    }
     public void getItem(DropDownList list, string sql, bool def)
     {
         try
         {
+
             ListItem[] Item = Utility.getOPItem(sql, list.SelectedValue, lang, def);
             list.Items.Clear();
             list.Items.AddRange(Item);
         }
         catch (Exception ex)
         {
-            Utility.log(ex.Message, ex.StackTrace, ex.Source, sql);
+            Utility.log(ex.Message, ex.StackTrace, ex.Source, sql, list.ID);
         }
     }
 
@@ -187,6 +206,25 @@ public class LeicaBase : MABase
     }
 
     #region  Operator
+
+    public void OperatorCustmer(DropDownList list, bool def)
+    {
+
+        getItem(list, SQL.Operator.Custmer, def);
+    }
+
+    public void OperatorProduct(DropDownList list, bool def)
+    {
+
+        getItem(list, SQL.Operator.Product, def);
+    }
+
+    public void OperatorProgram(DropDownList list, bool def)
+    {
+
+        getItem(list, SQL.Operator.Program, def);
+    }
+
     public void OperatorKind(DropDownList list, bool def)
     {
 
@@ -215,6 +253,9 @@ public class LeicaBase : MABase
 
     public void OperatorInpsert(DropDownList list, bool def)
     {
+        int index = list.SelectedIndex;
+
+
         list.Items.Clear();
 
         string vmi = lang.ToString() == "tw" ? "外觀" : "VMI";
@@ -222,10 +263,88 @@ public class LeicaBase : MABase
 
         list.Items.Add(new ListItem("Select ", ""));
         list.Items.Add(new ListItem(vmi, "VMI"));
-        list.Items.Add(new ListItem(pf, "Performance"));
+        list.Items.Add(new ListItem(pf, "PF"));
 
-       // getItem(list, SQL.Operator.Inspect, false);
+        if (index > 0) //form load 是-1 不設定
+        {
+            list.Items[index].Selected = true;
+        }
+        // getItem(list, SQL.Operator.Inspect, false);
     }
+
+    public string GetInspectTxt(string val)
+    {
+        string result = "";
+        string vmi = lang.ToString() == "tw" ? "外觀" : "VMI";
+        string pf = lang.ToString() == "tw" ? "功能性" : "Performance";
+
+        if (val == "PF")
+        {
+            result = pf;
+        }
+        else
+        {
+            result = vmi;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sql"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public string GetItemOption(DropDownList list, string value)
+    {
+        string result = "";
+        foreach (ListItem l in list.Items)
+        {
+            if (l.Value == value)
+            {
+                result = l.Text;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public string GetOptionTxt(string rowid)
+    {
+        string Text = "";
+
+        string sql = string.Format(" select {1} 'text' from eipe.dbo.sys_option where rowid='{0}' ", rowid, lang.ToString());
+
+        Text = Utility.getSingle(sql);
+
+        //using (SqlConnection conn = new SqlConnection(Utility.ConnStr))
+        //{
+        //    conn.Open();
+
+        //    using (SqlCommand cmd = new SqlCommand(SQL, conn))
+        //    {
+        //        using (SqlDataReader rd = cmd.ExecuteReader())
+        //        {
+
+        //            while (rd.Read())
+        //            {
+        //                string rowno = rd["rowno"].ToString();
+        //                Utility.Debug(value.ToUpper(), rowno.ToUpper());
+        //                if (value.ToUpper() == rowno.ToUpper())
+        //                {
+        //                    Text = (lang.ToString() == "tw") ? rd["tw"].ToString() : rd["en"].ToString();
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        return Text;
+    }
+
     #region Join (enableEventValidation 錯誤解決辦法)
     /*
      * /// 因為在網頁上 ddl_Product 的資料來源源自 leicaconnector.ashx 
@@ -243,7 +362,7 @@ public class LeicaBase : MABase
     /// <param name="list"></param>
     public void Join_Product(DropDownList list)
     {
-        list.Items.Clear();
+
         string sql = "select j.rowid,o.en,o.tw,o.def from eipe.dbo.sys_option o left join eipe.dbo.Leica_Join j on o.rowid=j.item_id  where o.main='leica' and kind='product' ";
         getItem(list, sql, false);
 
@@ -251,34 +370,31 @@ public class LeicaBase : MABase
 
     public void Join_Program(DropDownList list)
     {
-        list.Items.Clear();
+
         string sql = "select j.rowid,o.en,o.tw,o.def from eipe.dbo.sys_option o left join eipe.dbo.Leica_Join j on o.rowid=j.item_id  where o.main='leica' and kind='program' ";
         getItem(list, sql, false);
 
     }
     public void Join_Test(DropDownList list)
     {
-        list.Items.Clear();
+
         string sql = "select j.rowid,o.en,o.tw,o.def from eipe.dbo.sys_option o left join eipe.dbo.Leica_Join j on o.rowid=j.item_id  where o.main='leica' and kind='test' ";
         getItem(list, sql, false);
 
     }
     public void Join_TsSeand(DropDownList list)
     {
-        list.Items.Clear();
+
         string sql = "select j.rowid,o.en,o.tw,o.def from eipe.dbo.sys_option o left join eipe.dbo.Leica_Join j on o.rowid=j.item_id  where o.main='leica' and kind='ts_standard' ";
         getItem(list, sql, false);
     }
 
     #endregion Join 
 
-
-
     public void Sample_Standard(DropDownList list, bool def)
     {
         getItem(list, SQL.Operator.Sample_Standard, def);
     }
-
 
     public void ddl_join_parent(DropDownList list, string parent_id, bool def)
     {
@@ -311,10 +427,10 @@ public class LeicaBase : MABase
         getItem(list, SQL.All.Product, false);
     }
 
-    public void SearchInspect(DropDownList list)
-    {
-        getItem(list, SQL.All.Inspect, false);
-    }
+    //public void SearchInspect(DropDownList list)
+    //{
+    //    getItem(list, SQL.All.Inspect, false);
+    //}
 
     public void getMenu(DropDownList list)
     {
@@ -325,8 +441,8 @@ public class LeicaBase : MABase
         if (!Utility.MIS_Manager(CurrentUser.LogonID))
         {
             sql += "and name <> 'inspect' ";
-        } 
-        getItem(list, sql, false);         
+        }
+        getItem(list, sql, false);
     }
     #endregion
 
@@ -344,8 +460,6 @@ public class LeicaBase : MABase
 
     #endregion
 
-    #endregion
-
     #region source
 
     protected string ddl_Selected(DropDownList list, string parent_id)
@@ -360,12 +474,12 @@ public class LeicaBase : MABase
 
     protected void shape_temp_add(string text)
     {
-        string seach = string.Format(" shape_id ='{0}' ", _shape);
+        string seach = string.Format(" shape ='{0}' ", _shape);
 
         if (!t_shape.isExist(seach))
         {
             //stemp", "vmi_id", "shape_id", "shape_txt
-            t_shape.Table.Rows.Add(_shape, text);
+            t_shape.Table.Rows.Add(text, _shape);
         }
         else
         {
@@ -374,6 +488,25 @@ public class LeicaBase : MABase
 
         }
     }
+
+    protected void File_list(DataList list)
+    {
+
+        DataTable dt;
+        using (SqlConnection conn = new SqlConnection(Utility.ConnStr))
+        { 
+            conn.Open();
+            string sql = string.Format("select * from eipe.dbo.leica_file where head_id='{0}' ", _head_id);
+            SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "file");
+            dt = ds.Tables["file"]; 
+        }
+
+        DataList_Bind(list, dt);
+
+    }
+
 
     protected void DataList_Bind(DataList list, DataTable db)
     {
@@ -387,106 +520,190 @@ public class LeicaBase : MABase
         gv.DataBind();
     }
 
+
+
+    /// <summary>
+    /// 將join的代號轉成sys_option的 rowid 
+    /// </summary>
+    /// <param name="rowid"></param>
+    /// <returns></returns>
+    public static string ConvertToOption(string rowid)
+    {
+        string sql = string.Format(" select item_id from  eipe.dbo.leica_join where rowid='{0}' ", rowid);
+
+        string item = Utility.getSingle(sql);
+        return item;
+    }
+
+    /// <summary>
+    /// 將sys_opiton 轉成Join代號
+    /// </summary>
+    /// <param name="item_id">sys_opiton rowid</param>
+    /// <param name="parentid">join Parent id</param>
+    /// <returns></returns>
+    protected static string ConvertToJoin(string item_id, string parentid)
+    {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendFormat("  select rowid from eipe.dbo.leica_join c  where  c.item_id = '{0}'", item_id);
+        sb.AppendFormat("and parent_id = '{0}' ", parentid);
+
+        string item = Utility.getSingle(sb.ToString());
+        return item;
+    }
+
+
+    protected void Upload_Del(string uid)
+    {
+        string sql = string.Format(" delete from eipe.dbo.leica_file where head_id='{0}' and rowid='{1}' ", _head_id, uid);
+        Utility.execDel(sql);
+    }
+
+    protected void upload_download(string uid)
+    {
+        string sql = string.Format(" select * from eipe.dbo.leica_file where head_id='{0}' and rowid='{1}' ", _head_id, uid);
+        //using (WebClient wc = new WebClient())
+        //{
+        //    wc.Encoding = Encoding.UTF8;
+        //    wc.("/comm/download_handler.ashx", "GET", "sql="+sql); //Certify_AD_URL是api的URL、response是回傳的參數
+        //}
+        string url=Utility.LocalUrl+"/comm/download_handler.ashx";
+        
+        Utility.Send(url, HttpMethod.Get, "sql=" + sql, null);
+    }
     #endregion
 
 
-}
-/*
-public class Leica_Ft_Shape
+    #region save
 
-{
-    Container t;
-    public Leica_Ft_Shape(DataRow db)
+    protected void Save_Base()
     {
-        t = new Container(db);
-    }
+        int i = 1;
 
-    //"vmi_id", "shape_id", "shape"
-    public string VMI_Id
-    {
-        get { return t["vmi_id"]; }
-        set { t["vmi_id"] = value; }
-    }
-    public string Position
-    {
-        get { return t["position"]; }
-        set { t["position"] = value; }
-    }
-    public string Shape
-    {
-        get { return t["shape"]; }
-        set { t["shape"] = value; }
+        // Leica_Base.Delete(main_id);
+        foreach (DataRow row in lbase.Table.Rows)
+        {
+            Leica_Base lb = new Leica_Base(row);
+            lb.Head_ID = _head_id;
+            lb.Seq = i.ToString();
+            lb.Insert();
+            i++;
+        }
     }
 
-    /// <summary>
-    /// delete Table Leica_Base
-    /// </summary>
-    public static void Delete(string vmi_id)
+    protected void Save_VMI()
     {
-        string del_s = string.Format("delete from eipe.dbo.Leica_VMI_Shape where head_id='{0}' ", vmi_id);
-        Utility.execDel(del_s);
+        foreach (DataRow row in vmi.Table.Rows)
+        {
+            Leica_VMI v = new Leica_VMI(row);
+            v.Insert();
+
+            string sql = string.Format("vmi_id='{0}'", v.Rowid);
+
+            DataRow[] shape_row = shape.Table.Select(sql);
+
+            int i = 1;
+            foreach (DataRow s in shape_row)
+            {
+
+                Leica_VMI_Shape ls = new Leica_VMI_Shape(s);
+                ls.Seq = i.ToString();
+                ls.Insert();
+                i++;
+            }
+        }
     }
 
-    /// <summary>
-    /// Insert Table Leica_Base
-    /// </summary>
-    /// <returns></returns>
-    public bool Insert()
+
+
+    protected void Save_Feature()
     {
-        bool isInsert = false;
+
+        foreach (DataRow row in ft.Table.Rows)
+        {
+            Leica_Feature Feature = new Leica_Feature(row);
+            Feature.Insert();
+
+            string sql = string.Format(" ft_id='{0}'", Feature.FT_ID);
+
+            DataRow[] s5_rs = S5.Table.Select(sql);
+
+            int seq = 1;
+            foreach (DataRow s in s5_rs)
+            {
+                Leica_Ft_Track track = new Leica_Ft_Track(s);
+                track.Seq = Convert.ToString(seq++);
+                track.Insert();
+            }
+        }
+    }
+
+
+    #endregion save
+
+    protected Panel getShapeRegion(string guid)
+    {
+        DataRow[] Rows = shape.Table.Select(string.Format(" vmi_id='{0}' ", guid));
+        Panel p = new Panel();
+        Label lab_sp = new Label(); //名稱
+        string txt = "";
+        foreach (DataRow dr in Rows)
+        {
+
+            txt += "<p>" + dr["shape_txt"].ToString() + "</p>";
+        }
+
+        lab_sp.Text = txt;
+        p.Controls.Add(lab_sp);
+        return p;
+    }
+
+    protected string File_upload(FileUpload fu)
+    {
+        string result = "";
         try
         {
-            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+
+            if (fu.HasFile == false)
             {
-                string sql = string.Format("select * from eipe.dbo.Leica_VMI_Shape where vmi_id='{0}' ", Vmi_Id);
-
-                ds.Open(sql);
-                ds.Add();
-                ds["vmi_id"] = VMI_Id;
-                ds["shape"] = Shape;
-                ds["seq"] = seq;
-
-                ds.Update();
-                isInsert = true;
+                result = getStr("not_has_file");
             }
+            else
+            {
+                string sql = string.Format("select * from eipe.dbo.leica_file where  file_name='{0}' and head_id='{1}' ", fu.FileName,_head_id);
+                using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+                {
+                    ds.Open(sql);
+                    if (ds.EOF)
+                    {
+                        ds.Add();
+
+                        ds["head_id"] = _head_id;
+                        ds["rowid"] = Guid.NewGuid();
+                        ds["file_name"] = fu.FileName;
+                        ds["kind"] = Path.GetExtension(fu.FileName);
+                        ds["arguments"] = fu.FileBytes;
+                        ds.Update();
+                    }
+                    else
+                    {
+                        result = getStr("file_exist");
+                    }
+
+                }
+
+
+            }
+
         }
         catch (Exception ex)
         {
             throw ex;
         }
-
-        return isInsert;
-    }
-
-    /// <summary>
-    /// Update Table  Leica_Base
-    /// </summary>
-    /// <returns></returns>
-    public bool Update()
-    {
-        bool isUpdate = false;
-        try
-        {
-            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
-            {
-                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_VMI_Shape where vmi_id='{0}' ", Vmi_Id);
-                ds.Open(sql);
-
-                if (!string.IsNullOrEmpty(Vmi_Id)) ds["vmi_id"] = Vmi_Id;
-                if (!string.IsNullOrEmpty(Seq)) ds["seq"] = Seq;
-
-                ds.Update();
-                isUpdate = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-        return isUpdate;
+        return result;
     }
 }
-*/
 
 public class Leica_VMI
 {
@@ -519,8 +736,8 @@ public class Leica_VMI
 
     public string Judgment
     {
-        get { return t["judg"]; }
-        set { t["judg"] = value; }
+        get { return t["judgment"]; }
+        set { t["judgment"] = value; }
     }
 
     public Leica_VMI(DataRow db)
@@ -532,9 +749,9 @@ public class Leica_VMI
     ///  Delete  eipe.dbo.Leica_VMI
     /// </summary>
     /// <param name="base_id">Base ID</param>
-    public static void Delete(string base_id)
+    public static void Delete(string Rowid)
     {
-        string del_s = string.Format("delete from eipe.dbo.Leica_VMI where base_id='{0}' ", base_id);
+        string del_s = string.Format("delete from eipe.dbo.Leica_VMI where rowid='{0}' ", Rowid);
         Utility.execDel(del_s);
     }
 
@@ -552,15 +769,18 @@ public class Leica_VMI
                 string sql = string.Format("select * from eipe.dbo.Leica_VMI where base_id='{0}' and rowid='{1}' ", Base_Id, Rowid);
 
                 ds.Open(sql);
-                ds.Add();
-                ds["base_id"] = Base_Id;
-                ds["rowid"] = Rowid;
-                ds["position"] = Position;
-                ds["qty"] = Qty;
-                ds["judgment"] = Judgment;
+                if (ds.EOF)
+                {
+                    ds.Add();
+                    ds["base_id"] = Base_Id;
+                    ds["rowid"] = Rowid;
+                    ds["position"] = Position;
+                    ds["qty"] = Qty;
+                    ds["judgment"] = Judgment;
 
-                ds.Update();
-                isInsert = true;
+                    ds.Update();
+                    isInsert = true;
+                }
             }
         }
         catch (Exception ex)
@@ -584,13 +804,15 @@ public class Leica_VMI
             {
                 string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_VMI where rowid='{0}' ", Rowid);
                 ds.Open(sql);
+                if (!ds.EOF)
+                {
+                    if (!string.IsNullOrEmpty(Position)) ds["position"] = Position;
+                    if (!string.IsNullOrEmpty(Qty)) ds["qty"] = Qty;
+                    if (!string.IsNullOrEmpty(Judgment)) ds["judgment"] = Judgment;
 
-                if (!string.IsNullOrEmpty(Position)) ds["position"] = Position;
-                if (!string.IsNullOrEmpty(Qty)) ds["qty"] = Qty;
-                if (!string.IsNullOrEmpty(Judgment)) ds["judgment"] = Judgment;
-
-                ds.Update();
-                isUpdate = true;
+                    ds.Update();
+                    isUpdate = true;
+                }
             }
         }
         catch (Exception ex)
@@ -604,6 +826,7 @@ public class Leica_VMI
 public class Leica_VMI_Shape
 {
     Container t;
+    string _seq;
 
     public Leica_VMI_Shape(DataRow db)
     {
@@ -617,8 +840,8 @@ public class Leica_VMI_Shape
     }
     public string Seq
     {
-        get { return t["seq"]; }
-        set { t["seq"] = value; }
+
+        set { _seq = value; }
     }
     public string Shape
     {
@@ -647,16 +870,20 @@ public class Leica_VMI_Shape
         {
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
             {
-                string sql = string.Format("select * from eipe.dbo.Leica_VMI_Shape where vmi_id='{0}' ", VMI_Id);
+                string sql = string.Format("select * from eipe.dbo.Leica_VMI_Shape where vmi_id='{0}' and seq='{1}' ", VMI_Id, _seq);
 
                 ds.Open(sql);
-                ds.Add();
-                ds["vmi_id"] = VMI_Id;
-                ds["seq"] = Seq;
-                ds["shape"] = Shape;
 
-                ds.Update();
-                isInsert = true;
+                if (ds.EOF)
+                {
+                    ds.Add();
+                    ds["vmi_id"] = VMI_Id;
+                    ds["seq"] = _seq;
+                    ds["shape"] = Shape;
+
+                    ds.Update();
+                    isInsert = true;
+                }
             }
         }
         catch (Exception ex)
@@ -667,34 +894,36 @@ public class Leica_VMI_Shape
         return isInsert;
     }
 
-    /// <summary>
-    /// Update Table  Leica_Base
-    /// </summary>
-    /// <returns></returns>
-    public bool Update()
-    {
-        bool isUpdate = false;
-        try
-        {
-            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
-            {
-                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_VMI where rowid='{0}' ", VMI_Id);
-                ds.Open(sql);
+    ///// <summary>
+    ///// Update Table  Leica_Base
+    ///// </summary>
+    ///// <returns></returns>
+    //public bool Update()
+    //{
+    //    bool isUpdate = false;
+    //    try
+    //    {
+    //        using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+    //        {
+    //            string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_VMI where rowid='{0}' ", VMI_Id);
+    //            ds.Open(sql);
+    //            if (!ds.EOF)
+    //            {
+    //                if (!string.IsNullOrEmpty(VMI_Id)) ds["vmi"] = VMI_Id;
+    //                if (!string.IsNullOrEmpty(Seq)) ds["seq"] = Seq;
+    //                if (!string.IsNullOrEmpty(Shape)) ds["shape"] = Shape;
 
-                if (!string.IsNullOrEmpty(VMI_Id)) ds["vmi"] = VMI_Id;
-                if (!string.IsNullOrEmpty(Seq)) ds["seq"] = Seq;
-                if (!string.IsNullOrEmpty(Shape)) ds["shape"] = Shape;
-
-                ds.Update();
-                isUpdate = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-        return isUpdate;
-    }
+    //                ds.Update();
+    //                isUpdate = true;
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+    //    }
+    //    return isUpdate;
+    //}
 }
 
 public class Leica_Base
@@ -712,7 +941,6 @@ public class Leica_Base
         get { return t["head_id"]; }
         set { t["head_id"] = value; }
     }
-
     public string Insp_Count
     {
         get { return t["insp_count"]; }
@@ -743,6 +971,24 @@ public class Leica_Base
         get { return t["seq"]; }
         set { t["seq"] = value; }
     }
+    public string Base_ID
+    {
+        get
+        {
+            return t["base_id"];
+        }
+        set
+        {
+            t["base_id"] = value;
+        }
+    }
+    public string Inspect
+    {
+        get { return t["inspect_id"].ToString(); }
+        set { t["inspect_id"] = value; }
+    }
+
+
 
     /// <summary>
     /// delete Table Leica_Base
@@ -764,21 +1010,26 @@ public class Leica_Base
         {
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
             {
-                string sql = string.Format("select * from eipe.dbo.Leica_Base where head_id='{0}' ", Head_ID);
+                string sql = string.Format("select * from eipe.dbo.Leica_Base where rowid='{0}' ", Base_ID);
 
                 ds.Open(sql);
-                ds.Add();
-                ds["head_id"] = Head_ID;
-                ds["rowid"] = Guid.NewGuid().ToString();
-                ds["insp_count"] = Insp_Count;
-                ds["samp_count"] = Samp_Count;
-                ds["standard_id"] = Standard_Id;
-                ds["bith_date"] = Bith_Date;
-                ds["b_operator"] = B_Operator;
-                ds["seq"] = Seq;
 
-                ds.Update();
-                isInsert = true;
+                if (ds.EOF)
+                {
+                    ds.Add();
+                    ds["head_id"] = Head_ID;
+                    ds["rowid"] = Base_ID;
+                    ds["inspect"] = Inspect;
+                    ds["insp_count"] = Insp_Count;
+                    ds["samp_count"] = Samp_Count;
+                    ds["standard_id"] = Standard_Id;
+                    ds["bith_date"] = Bith_Date;
+                    ds["b_operator"] = B_Operator;
+                    ds["seq"] = Seq;
+
+                    ds.Update();
+                    isInsert = true;
+                }
             }
         }
         catch (Exception ex)
@@ -800,18 +1051,21 @@ public class Leica_Base
         {
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
             {
-                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_Base where rowid='{0}' ", _rowid);
+                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_Base where rowid='{0}' ", Base_ID);
                 ds.Open(sql);
+                if (!ds.EOF)
+                {
+                    ds["insp_count"] = string.IsNullOrEmpty(Insp_Count) ? "0" : Insp_Count;
+                    ds["samp_count"] = string.IsNullOrEmpty(Samp_Count) ? "0" : Samp_Count;
+                    ds["standard_id"] = string.IsNullOrEmpty(Standard_Id) ? Guid.Empty.ToString() : Standard_Id;
+                    ds["bith_date"] = string.IsNullOrEmpty(Bith_Date) ? "" : Bith_Date;
 
-                if (!string.IsNullOrEmpty(Insp_Count)) ds["insp_count"] = Insp_Count;
-                if (!string.IsNullOrEmpty(Samp_Count)) ds["samp_count"] = Samp_Count;
-                if (!string.IsNullOrEmpty(Standard_Id)) ds["standard_id"] = Standard_Id;
-                if (!string.IsNullOrEmpty(Bith_Date)) ds["bith_date"] = Bith_Date;
-                if (!string.IsNullOrEmpty(B_Operator)) ds["b_operator"] = B_Operator;
-                if (!string.IsNullOrEmpty(Seq)) ds["seq"] = Seq;
+                    if (!string.IsNullOrEmpty(B_Operator)) ds["b_operator"] = B_Operator;
+                    if (!string.IsNullOrEmpty(Seq)) ds["seq"] = Seq;
 
-                ds.Update();
-                isUpdate = true;
+                    ds.Update();
+                    isUpdate = true;
+                }
             }
         }
         catch (Exception ex)
@@ -825,8 +1079,9 @@ public class Leica_Base
 
 public class Leica_Head
 {
-    string _rowid = "", _insp_no = "", _kind = "", _h_operator = "", _status = "", _product = "", _program = "", _inspect = "", _result = "", _create_date = "", _create_user = "", _modify_date = "", _modify_user = "";
-
+    string _rowid = "", _insp_no = "", _kind = "", _h_operator = "", _status = "", _product = "", _program = "";
+    string _insp_dt = "", _result = "", _create_date = "", _create_user = "", _modify_date = "", _modify_user = "";
+    string _custmer;
     public string ROWID
     {
         set { _rowid = value; }
@@ -863,10 +1118,10 @@ public class Leica_Head
         get { return _program; }
         set { _program = value; }
     }
-    public string Inspect
+    public string Insp_Dt
     {
-        get { return _inspect; }
-        set { _inspect = value; }
+        get { return Convert.ToDateTime(_insp_dt).ToShortDateString(); }
+        set { _insp_dt = value; }
     }
     public string Result
     {
@@ -881,7 +1136,14 @@ public class Leica_Head
     public string Modify_User
     {
         set { _modify_user = value; }
-        get { return _modify_user; }
+
+    }
+
+    public string Custmer
+    {
+        set { _custmer = value; }
+        get { return _custmer; }
+
     }
 
     /// <summary>
@@ -893,6 +1155,50 @@ public class Leica_Head
         Utility.execDel(del_s);
     }
 
+
+    public void Query(string rowid)
+    {
+        using (System.Data.SqlClient.SqlConnection cn = new System.Data.SqlClient.SqlConnection(Utility.ConnStr))
+        {
+            cn.Open();
+            //3.引用SqlCommand物件
+            string sql = string.Format("select * from eipe.dbo.Leica_head where rowid='{0}' ", rowid);
+            using (SqlCommand command = new SqlCommand(sql, cn))
+            {
+                using (SqlDataReader rs = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (rs.Read())
+                        {
+                            //string _rowid = "", _insp_no = "", _kind = "", _h_operator = "", _status = "", _product = "", _program = "", _inspect = "", _result = "", _create_date = "", _create_user = "", _modify_date = "", _modify_user = "";
+
+                            _rowid = rs["rowid"].ToString();
+                            _insp_no = rs["insp_no"].ToString();
+                            _kind = rs["kind"].ToString();
+                            _h_operator = rs["h_operator"].ToString();
+                            _status = rs["status"].ToString();
+                            _product = rs["product"].ToString();
+                            _program = rs["program"].ToString();
+                            _result = rs["result"].ToString();
+                            _insp_dt = rs["Insp_Dt"].ToString();
+                            _custmer = rs["custemer"].ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        rs.Close();
+                    }
+
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Insert Table Leica_Base
     /// </summary>
@@ -902,26 +1208,31 @@ public class Leica_Head
         bool isInsert = false;
         try
         {
+
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
             {
                 string sql = string.Format("select  * from eipe.dbo.Leica_Head where rowid='{0}' ", ROWID);
                 ds.Open(sql);
 
-                ds.Add();
+                if (ds.EOF)
+                {
+                    ds.Add();
 
-                ds["rowid"] = ROWID;
-                ds["insp_no"] = Insp_No;
-                ds["kind"] = Kind;
-                ds["h_operator"] = H_Operator;
-                ds["status"] = Status;
-                ds["product"] = Product;
-                ds["program"] = Program;
-                ds["inspect"] = Inspect;
-                ds["result"] = Result;
-                ds["create_date"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                ds["create_user"] = Create_User;
-                ds.Update();
-                isInsert = true;
+                    ds["rowid"] = ROWID;
+                    ds["insp_no"] = Insp_No;
+                    ds["kind"] = Kind;
+                    ds["h_operator"] = H_Operator;
+                    ds["status"] = Status;
+                    ds["product"] = Product;
+                    ds["program"] = Program;
+                    ds["insp_dt"] = Insp_Dt;
+                    ds["result"] = Result;
+                    ds["create_date"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                    ds["create_user"] = Create_User;
+                    ds["custmer"] = Custmer;
+                    ds.Update();
+                    isInsert = true;
+                }
             }
         }
         catch (Exception ex)
@@ -944,21 +1255,159 @@ public class Leica_Head
         {
             using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
             {
-                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_Head where rowid='{0}' ", ROWID);
+                string sql = string.Format("select *  from eipe.dbo.Leica_Head where rowid='{0}' ", ROWID);
                 ds.Open(sql);
+                if (!ds.EOF)
+                {
+                    if (Kind != null) ds["kind"] = Kind;
+                    if (H_Operator != null) ds["h_operator"] = H_Operator;
+                    if (Status != null) ds["status"] = Status;
+                    if (Product != null) ds["product"] = Product;
+                    if (Program != null) ds["program"] = Program;
+                    if (Status != null) ds["insp_dt"] = Insp_Dt;
+                    if (Result != null) ds["result"] = Result;
+                    if (Custmer != null) ds["custerm"] = Custmer;
 
-                if (!string.IsNullOrEmpty(Kind)) ds["kind"] = Kind;
-                if (!string.IsNullOrEmpty(H_Operator)) ds["h_operator"] = H_Operator;
-                if (!string.IsNullOrEmpty(Status)) ds["status"] = Status;
-                if (!string.IsNullOrEmpty(Product)) ds["product"] = Product;
-                if (!string.IsNullOrEmpty(Program)) ds["program"] = Program;
-                if (!string.IsNullOrEmpty(Inspect)) ds["inspect"] = Inspect;
-                if (!string.IsNullOrEmpty(Result)) ds["result"] = Result;
-                ds["modify_date"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                ds["modify_user"] = Modify_User;
+                    ds["modify_date"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                    ds["modify_user"] = _modify_user;
 
+                    ds.Update();
+                    isUpdate = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isUpdate;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public static bool Stata_Change(status s, string rowid)
+    {
+        bool isUpdate = false;
+        using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+        {
+            string sql = string.Format("select * from eipe.dbo.Leica_Head where rowid='{0}' ", rowid);
+            ds.Open(sql);
+            if (!ds.EOF)
+            {
+                ds["status"] = (int)s;
                 ds.Update();
                 isUpdate = true;
+            }
+        }
+
+        return isUpdate;
+    }
+}
+
+public class Leica_Feature
+{
+    string _base_id = null, _ft_id = null, prod_index = null, insp_time = null;
+
+    Container t;
+    public Leica_Feature(DataRow db)
+    {
+        t = new Container(db);
+    }
+
+
+    public string Base_ID
+    {
+        set { t["base_id"] = value; }
+        get { return t["base_id"]; }
+    }
+
+    public string FT_ID
+    {
+        get { return t["ft_id"]; }
+        set { t["ft_id"] = value; }
+    }
+
+    public string Prod_Index
+    {
+        get { return t["prod_index"]; }
+        set { t["prod_index"] = value; }
+    }
+
+    public string Insp_Time
+    {
+        get { return t["insp_time"]; }
+        set { t["insp_time"] = value; }
+    }
+
+    /// <summary>
+    /// delete Table Leica_Base
+    /// </summary>
+    public static void Delete(string base_id)
+    {
+        string del_s = string.Format("delete from eipe.dbo.Leica_Feature where base_id='{0}' ", base_id);
+        Utility.execDel(del_s);
+    }
+
+    /// <summary>
+    /// Insert Table Leica_Base
+    /// </summary>
+    /// <returns></returns>
+    public bool Insert()
+    {
+        bool isInsert = false;
+        try
+        {
+            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+            {
+                string sql = string.Format("select  base_id,ft_id,prod_index,insp_time from eipe.dbo.Leica_Feature where ft_id='{0}' ", FT_ID);
+                ds.Open(sql);
+
+                if (ds.EOF)
+                {
+                    ds.Add();
+
+                    ds["ft_id"] = FT_ID;
+                    ds["base_id"] = Base_ID;
+                    ds["prod_index"] = Prod_Index;
+                    ds["insp_time"] = Insp_Time;
+
+                    ds.Update();
+                    isInsert = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Web.HttpContext.Current.Response.Write(ex.Message + "<br>" + ex.StackTrace);
+            throw ex;
+        }
+
+        return isInsert;
+    }
+
+    /// <summary>
+    /// Update Table  Leica_Base
+    /// </summary>
+    /// <returns></returns>
+    public bool Update()
+    {
+        bool isUpdate = false;
+        try
+        {
+            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+            {
+                string sql = string.Format("select base_id,rowid,prod_index,insp_time  from eipe.dbo.Leica_Feature where ft_id='{0}' ", FT_ID);
+                ds.Open(sql);
+                if (!ds.EOF)
+                {
+
+                    ds["prod_index"] = Prod_Index;
+                    ds["insp_time"] = Insp_Time;
+
+                    ds.Update();
+                    isUpdate = true;
+                }
             }
         }
         catch (Exception ex)
@@ -969,4 +1418,167 @@ public class Leica_Head
     }
 }
 
+public class Leica_Ft_Track
+{
+
+    string _seq;
+    Container t;
+    public Leica_Ft_Track(DataRow db)
+    {
+        t = new Container(db);
+    }
+
+    #region colnum
+
+    public string FT_ID
+    {
+        set { t["ft_id"] = value; }
+        get { return t["ft_id"]; }
+    }
+    public string Seq
+    {
+        set { _seq = value; }
+
+    }
+    public string Test
+    {
+        get { return t["test_id"]; }
+        set { t["test_id"] = value; }
+    }
+    public string Standard
+    {
+        get { return t["ts_standard_id"]; }
+        set { t["ts_standard_id"] = value; }
+    }
+    public string Qty
+    {
+        get { return t["ft_qty"]; }
+        set { t["ft_qty"] = value; }
+    }
+    public string Judgment
+    {
+        get { return t["ft_jdug_id"]; }
+        set { t["ft_jdug_id"] = value; }
+    }
+    public string S1
+    {
+        get { return t["s1"]; }
+        set { t["s1"] = value; }
+    }
+    public string S2
+    {
+        get { return t["s2"]; }
+        set { t["s2"] = value; }
+    }
+    public string S3
+    {
+        get { return t["s4"]; }
+        set { t["s1"] = value; }
+    }
+    public string S4
+    {
+        get { return t["s4"]; }
+        set { t["s4"] = value; }
+    }
+    public string S5
+    {
+        get { return t["s5"]; }
+        set { t["s5"] = value; }
+    }
+
+
+    #endregion
+
+    /// <summary>
+    /// delete Table Leica_Base
+    /// </summary>
+    public static void Delete(string ft_id)
+    {
+        string del_s = string.Format("delete from eipe.dbo.Leica_Ft_Track where ft_id ='{0}' ", ft_id);
+        Utility.execDel(del_s);
+    }
+
+    /// <summary>
+    /// Insert Table Leica_Base
+    /// </summary>
+    /// <returns></returns>
+    public bool Insert()
+    {
+        bool isInsert = false;
+        try
+        {
+            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+            {
+                string sql = string.Format("select  ft_id,seq,test,standard,qty,judgment,s1,s2,s3,s4,s5 from eipe.dbo.Leica_Ft_Track where ft_id='{0}' and seq='{1}' ", FT_ID, _seq);
+                ds.Open(sql);
+
+                if (ds.EOF)
+                {
+                    ds.Add();
+                    ds["ft_id"] = FT_ID;
+                    ds["seq"] = _seq;
+                    ds["test"] = LeicaBase.ConvertToOption(Test);
+                    ds["standard"] = LeicaBase.ConvertToOption(Standard);
+                    ds["qty"] = Qty;
+                    ds["judgment"] = Judgment;
+                    ds["s1"] = S1;
+                    ds["s2"] = S2;
+                    ds["s3"] = S3;
+                    ds["s4"] = S4;
+                    ds["s5"] = S5;
+
+                    ds.Update();
+                    isInsert = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Web.HttpContext.Current.Response.Write(ex.Message + "<br>" + ex.StackTrace);
+            throw ex;
+        }
+
+        return isInsert;
+    }
+
+    /// <summary>
+    /// Update Table  Leica_Base
+    /// </summary>
+    /// <returns></returns>
+    public bool Update()
+    {
+        bool isUpdate = false;
+        try
+        {
+            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
+            {
+                string sql = string.Format("select ft_id,seq,test,standard,qty,judgment,s1,s2,s3,s4,s5  from eipe.dbo.Leica_Feature where ft_id='{0}' ", FT_ID);
+                ds.Open(sql);
+
+                if (!ds.EOF)
+                {
+                    ds["test"] = Test;
+                    ds["standard"] = Standard;
+                    ds["qty"] = Qty;
+                    ds["judgment"] = Judgment;
+                    ds["s1"] = S1 == null ? "" : S1;
+                    ds["s2"] = S2 == null ? "" : S2;
+                    ds["s3"] = S3 == null ? "" : S3;
+                    ds["s4"] = S4 == null ? "" : S4;
+                    ds["s5"] = S5 == null ? "" : S5;
+
+                    ds.Update();
+                    isUpdate = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isUpdate;
+    }
+
+
+}
 

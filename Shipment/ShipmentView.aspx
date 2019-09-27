@@ -262,7 +262,7 @@
                 var rownumber = parseInt(rowIdx) + 1;
                 //將gridview的值?回去欄位中，便於修改
                 var gdview = document.getElementById("<%=GridView1.ClientID %>");
-                document.getElementById("ctl00_ContentPlaceHolder1_rember_item").value = gdview.rows(rownumber).cells(2).innerText
+                $("#ctl00_ContentPlaceHolder1_rember_item").val(gdview.rows(rownumber).cells(2).innerText);
                 $('#FIELD_PartNo').val(gdview.rows(rownumber).cells(3).innerText);
                 $('#FIELD_Component').val(gdview.rows(rownumber).cells(4).innerText);
                 $('#FIELD_DWG').val(gdview.rows(rownumber).cells(5).innerText);
@@ -332,9 +332,15 @@
                 }
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_purpose2").value = gdview.rows(rownumber).cells(19).innerText;
 
-                var labno_var = gdview.rows(rownumber).cells(20).innerText.replace(/\ /g, ",");//因lab_no如多個,Gridview以空白分割,故將空白取代為逗號(/\ /g-->尋找全部空白)
-                labno_var = labno_var.substring(0, labno_var.length - 1);                     //去除最後一個逗號
-                document.getElementById("ctl00_ContentPlaceHolder1_FIELD_labno").value = labno_var;
+                var obj = gdview.rows(rownumber).cells(20);
+                var id = $(obj).attr("id"); //用id回傳
+                
+                document.getElementById("ctl00_ContentPlaceHolder1_FIELD_Labno").value = id;
+
+                //var labno_var = gdview.rows(rownumber).cells(20).innerText.replace(/\ /g, ",");//因lab_no如多個,Gridview以空白分割,故將空白取代為逗號(/\ /g-->尋找全部空白)
+                //labno_var = labno_var.substring(0, labno_var.length - 1);                     //去除最後一個逗號
+                //document.getElementById("ctl00_ContentPlaceHolder1_FIELD_labno").value = labno_var;
+                 
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_labsn").value = gdview.rows(rownumber).cells(21).innerText;
                 document.getElementById("ctl00_ContentPlaceHolder1_FIELD_engineeringtestno").value = gdview.rows(rownumber).cells(22).innerText;
                 document.getElementById("ctl00_ContentPlaceHolder1_txt_remark").value = gdview.rows(rownumber).cells(26).innerText; //add by carol 20180719
@@ -360,6 +366,8 @@
                         document.all["ctl00_ContentPlaceHolder1_RadioButton1"].checked = false;
                         document.all["ctl00_ContentPlaceHolder1_RadioButton2"].checked = true;
                     }
+
+                   
 
                 }
 
@@ -390,6 +398,7 @@
 
                     }
                 }
+                 return false;
             }
         </script>
     </header>
@@ -924,7 +933,7 @@
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" />
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="aid" HeaderText="aid" SortExpression="aid">
+                                <asp:BoundField Data2Field="aid" HeaderText="aid" SortExpression="aid">
                                     <HeaderStyle CssClass="hiddencol" />
                                     <ItemStyle CssClass="hiddencol" />
                                 </asp:BoundField>
@@ -982,7 +991,6 @@
                                 </asp:BoundField>
 
                                 <asp:BoundField DataField="c_demand2" HeaderText="MA commitment date revise (ETD)" SortExpression="c_demand2" />
-                                <asp:BoundField DataField="purpose2" HeaderText="Purpose" SortExpression="purpose2" />
                                 <asp:BoundField DataField="purpose2" HeaderText="Purpose" SortExpression="purpose2" />
                                 <asp:BoundField DataField="lab_no" HeaderText="Lab No" HeaderStyle-Width="100" ItemStyle-Width="100" />
 
@@ -1087,7 +1095,8 @@
                             CssClass="Normal" Width="400px">
                             <ErrorStyle BorderStyle="NotSet" CssClass="" />
                             <Gradient GradientBegin="" GradientEnd="" GradientType="Top" />
-                        </SmoothEnterpriseWebControl:InputText><asp:Image ID="Image1" runat="server" meta:resourcekey="Image1Resource1" />
+                        </SmoothEnterpriseWebControl:InputText>
+                        <asp:Image ID="Image1" runat="server" meta:resourcekey="Image1Resource1" />
                     </HistoryTemplate>
                 </SmoothEnterpriseWebControlFlowwork:FlowFeedbackViewer>
             </td>

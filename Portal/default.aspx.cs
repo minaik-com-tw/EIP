@@ -269,22 +269,11 @@ namespace SmoothEnterprise.Web.Application.Portal
         // Token: 0x0600000F RID: 15 RVA: 0x00002754 File Offset: 0x00000954
         public object GetPersonalizeValues()
         {
-            
-            return new Hashtable
-            {
-                {
-                    this.ExpandedLevel.ClientID,
-                    this.ExpandedLevel.Value
-                },
-                {
-                    this.ShowCategory.ClientID,
-                    this.ShowCategory.Value
-                },
-                {
-                    this.Columns.ClientID,
-                    this.Columns.Value
-                }
-            };
+            Hashtable a = new Hashtable();
+            a.Add(this.ExpandedLevel.ClientID, this.ExpandedLevel.Value);
+            a.Add(this.ShowCategory.ClientID, this.ShowCategory.Value);
+            a.Add(this.Columns.ClientID, this.Columns.Value);
+            return a;
         }
 
         // Token: 0x06000010 RID: 16 RVA: 0x000027BC File Offset: 0x000009BC

@@ -23,13 +23,13 @@ public partial class Forwarder : SmoothEnterprise.Web.Page
 	{
 
 
-        //if (!this.IsPostBack)
-        //{
+    	if (!this.IsPostBack)
+    	{
 
 
-        //    this.KeepURL();G
-        //    this.Query();
-        //}
+            this.KeepURL();
+        	this.Query();
+    	}
 	}
 
 	protected void DataList1_OnRenderCell(object sender, System.Data.DataRowView rs, SmoothEnterprise.Web.UI.WebControl.DataColumn column, SmoothEnterprise.Web.UI.WebControl.DataCell cell, System.EventArgs e)
@@ -130,11 +130,9 @@ public partial class Forwarder : SmoothEnterprise.Web.Page
         string whereis = "";
 
         DBTransfer fg = new DBTransfer();
-        string fac=fg.GetTopfile("select  comid from  dguser where id='"+this.CurrentUser.ID+"'");
-       // Response.Write(fac.Trim() + "--");
-        
-        if (fac.Trim() == "MAT") whereis = "   PlantID='MINAIK' ";
-        else whereis = "   PlantID='MAP' ";
+        string fac=fg.GetTopfile("select comid from  dguser where id='"+this.CurrentUser.ID+"'");
+        if (fac == "MAT") whereis = " and  PlantID='MINAIK' ";
+        else whereis = " and PlantID='MAP' ";
 
 		
 
@@ -152,18 +150,17 @@ public partial class Forwarder : SmoothEnterprise.Web.Page
 
         string INVNum = this.TextBox7.Text;
 
-        //if (!String.IsNullOrEmpty(FacType))
-        //{
-        //    whereis = "";
-        //    whereis = whereis + " AND  PlantID like '%" + FacType + "%'";
-        //}
+        if (!String.IsNullOrEmpty(FacType))
+        {
+            whereis = "";
+            whereis = whereis + " AND  PlantID like '%" + FacType + "%'";
+        }
 
 
 
         if (DropDownList1.SelectedValue != "" && DropDownList1.SelectedValue != "X")
         {
-           if (whereis != "") whereis = whereis + " and    IsStatus = '" + DropDownList1.SelectedValue + "'";
-            else whereis = whereis + "   IsStatus = '" + DropDownList1.SelectedValue + "'";
+            whereis = whereis + " And IsStatus = '" + DropDownList1.SelectedValue + "'";
         }
 
 
@@ -171,74 +168,62 @@ public partial class Forwarder : SmoothEnterprise.Web.Page
 
         if (!String.IsNullOrEmpty(ERPNum1))
         {
-            if (whereis != "") whereis = whereis + " and  ERP_Key like '%" + ERPNum1 + "%'";
-            else    whereis =   "   ERP_Key like '%" + ERPNum1 + "%'";
+            whereis = whereis + " And ERP_Key like '%" + ERPNum1 + "%'";
         }
 
         if (!String.IsNullOrEmpty(ERPNum2))
         {
-            if (whereis != "") whereis = whereis + "  and  ERP_Key2 like '%" + ERPNum2 + "%'";
-            else whereis = "   ERP_Key2 like '%" + ERPNum2 + "%'";
+            whereis = whereis + " And ERP_Key2 like '%" + ERPNum2 + "%'";
         }
 
         if (!String.IsNullOrEmpty(PriceM))
         {
-            if (whereis != "") whereis = whereis + "  and  SHIPPING_No like '%" + PriceM + "%'";
-            else whereis =   "   SHIPPING_No like '%" + PriceM + "%'";
+            whereis = whereis + " And SHIPPING_No like '%" + PriceM + "%'";
         }
 
         if (!String.IsNullOrEmpty(FacCode))
         {
-            if (whereis != "") whereis = whereis + " and  (FORWARDER_Num like '%" + FacCode + "%'   or  FORWARDER_Dec  like '%" + FacCode + "%' )"; 
-            else whereis = "   (FORWARDER_Num like '%" + FacCode + "%'   or  FORWARDER_Dec  like '%" + FacCode + "%' )";
+            whereis = whereis + " And (FORWARDER_Num like '%" + FacCode + "%'   or  FORWARDER_Dec  like '%" + FacCode + "%' )";
         }
 
         if (!String.IsNullOrEmpty(HavNum))
         {
-            if (whereis != "") whereis = whereis + " and  HawbNo like '%" + HavNum + "%'";
-            else whereis = "  HawbNo like '%" + HavNum + "%'";
-       
-            
-            
+            whereis = whereis + " And HawbNo like '%" + HavNum + "%'";
         }
 
-        /*if (!String.IsNullOrEmpty(SETD))
+        if (!String.IsNullOrEmpty(SETD))
         {
-            whereis = whereis + "   ETD >= '" + SETD + "'";
+            whereis = whereis + " And ETD >= '" + SETD + "'";
         }
 
         if (!String.IsNullOrEmpty(SATD))
         {
-            whereis = whereis + "   ATD >= '" + SATD + "'";
+            whereis = whereis + " And ATD >= '" + SATD + "'";
         }
 
         if (!String.IsNullOrEmpty(SETA))
         {
-            whereis = whereis + "   ETA >= '" + SETA + "'";
+            whereis = whereis + " And ETA >= '" + SETA + "'";
         }
 
         if (!String.IsNullOrEmpty(SATAAS))
         {
-            whereis = whereis + "   ATAAS >= '" + SATAAS + "'";
+            whereis = whereis + " And ATAAS >= '" + SATAAS + "'";
         }
 
         if (!String.IsNullOrEmpty(SATAC))
         {
-            whereis = whereis + "   ATAC >= '" + SATAC + "'";
+            whereis = whereis + " And ATAC >= '" + SATAC + "'";
         }
-        */
+
         if (!String.IsNullOrEmpty(INVNum))
         {
-            if (whereis != "") whereis = whereis + " and INV_Num like '%" + INVNum + "%'";
-            else  whereis = "   INV_Num like '%" + INVNum + "%'";
+            whereis = whereis + " And INV_Num like '%" + INVNum + "%'";
         }
 
+		DataList1.SQL = "SELECT * FROM Forwarder where 1 = 1" + whereis;
 
-        if (whereis != "")  whereis="where " + whereis;
-
-        DataList1.SQL = "SELECT top 500 * FROM eipa.dbo.Forwarder  " + whereis + "   order by cdate   desc ";
-
-        Response.Write(DataList1.SQL);
+        // Response.Write(DataList1.SQL);
 	}
 
 	protected void BUTTON_add_Click(object sender, System.EventArgs e)
