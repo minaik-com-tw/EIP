@@ -3,8 +3,9 @@ $(function () {
 
     init_work();
     file_upload();
-    autopost_load();
-    $("#ctl00_ContentPlaceHolder1_up_vmi").addClass("t1");
+    autopost_load(); 
+
+    $("#ctl00_ContentPlaceHolder1_up_vmi").css({ "width": "90%", "float": "left","padding":"10px" });
     $("#ctl00_ContentPlaceHolder1_up_ft").addClass("t1");
     $("#ctl00_ContentPlaceHolder1_up_list").addClass("t1");
     $("#ctl00_ContentPlaceHolder1_up_file").addClass("uf_css");
@@ -41,19 +42,13 @@ $(function () {
         var Level = $(this).attr("level");
         clear_list(Level);
 
-        var id = $(this).attr("id");
-        var obj = "#" + id + "_h";
-        $(obj).text(parent_id);
+        var id = $(this).attr("id").rep
+
 
         if (parent_id !== "" && Level !== "1") {
             getOption($(this));
         }
 
-        // if (typeof msg == "undefined") //預備沒有找到msg 預設為空
-
-        //if (parent_id !== "" && typeof parent_id !== "undefined") {
-        //    getOption($(this));
-        //}
     });
 
     $("#ctl00_ContentPlaceHolder1_ddl_sp_stand").change(function () {
@@ -76,7 +71,8 @@ $(function () {
     curr_page = $("#ctl00_ContentPlaceHolder1_curr_page").val();
     if (curr_page !== "") {
         if (curr_page == "VMI") {
-            $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "block");
+            $("#vmi").css("display", "block");
+            
         }
         if (curr_page == "PF") {
             $("#ft_Area").css("display", "block");
@@ -88,8 +84,7 @@ $(function () {
     }
 });
 
-
-
+ 
 
 function clear_all() {
     init_work();
@@ -99,52 +94,60 @@ function clear_all() {
 
 function autopost_load() {
 
+    var kind = $("#ctl00_ContentPlaceHolder1_ddl_kind").val();
+    var product = $("#ctl00_ContentPlaceHolder1_ddl_product").val();
+    var program = $("#ctl00_ContentPlaceHolder1_ddl_program").val();
+    var ts = $("#ctl00_ContentPlaceHolder1_ddl_test").val();
+    var tssd = $("#ctl00_ContentPlaceHolder1_ddl_ts_standard").val();
 
-    //$(".AutoPost").each(function () {
+   
 
-    //var id = $(this).attr("id");
-    //var value = $(this).val();
+    $.ajax({
+        url: 'leicaconnector.ashx',      // url位置
+        type: 'get',                   // post/get
+        data: {
+            type: 'reload'
+            , kind: kind
+            , product: product
+            , program: program
+            , ts: ts
+            , tssd: tssd
 
-    //var obj = "#" + id + "_h";
-    //$(obj).text(value);
+        },       // 輸入的資料
+        error: function error(xhr, status, error) {
+            $("#debug").html(xhr.responseText);
+            console.log("[error]xhr:%s, status:%s, error:%s", xhr.responseText, status, error);
 
-    //getOption(this);//一下階的資料; 
+        },      // 錯誤後執行的函數
+        success: function (data) {
+            for (var x = 0; x < data.length; x++) {
+                var item = data[x]["name"];
+                var op = data[x]["op"];
 
+                var next_id = $("#ctl00_ContentPlaceHolder1_ddl_" + item).attr("next");
 
-    for (var i = 5; i > 0; i--) {
+             
+                var obj = $("#ctl00_ContentPlaceHolder1_ddl_" + next_id);
 
-        var obj = $(".AutoPost[level='" + i + "']");
+                obj.empty(); 
 
-        var n = "#" + obj.attr("id") + "_h";
-        $(n).text(obj.val());
+                for (var i = 0; i < op.length; i++) {
 
-        getOption(obj);//一下階的資料; 
+                    var chk = "";
+                    if (op[i]["selected"]) {
+                        chk = "selected=true";
+                           
+                    }
+                     
+                    var ops = "<option value='" + op[i]["value"] + "' " + chk +"  >" + op[i]["text"] + "</option>";
+                    $(obj).append(ops);
+                     
+                }
+            }
 
-    }
+        }// 成功後要執行的函數
+    });
 }
-
-
-//var kind = $("#ctl00_ContentPlaceHolder1_ddl_kind").val();
-//if (kind!=="") {
-//    getOption($("#ctl00_ContentPlaceHolder1_ddl_kind"));
-
-//    var product = $("#ctl00_ContentPlaceHolder1_ddl_product").val();
-//    if (product!=="") {
-//        getOption($("#ctl00_ContentPlaceHolder1_ddl_product"));
-
-//        var program = $("#ctl00_ContentPlaceHolder1_ddl_program").val();
-//        if (program!=="") {
-//            getOption($("#ctl00_ContentPlaceHolder1_ddl_program"));
-
-//            var test = $("#ctl00_ContentPlaceHolder1_ddl_test").val();
-//            if (test!=="") {
-//                getOption($("#ctl00_ContentPlaceHolder1_ddl_test"));
-//            }
-//        }
-//    }
-//}
-
-
 
 function clear_base() {
     $("#ctl00_ContentPlaceHolder1_ddl_inspect").val("");
@@ -184,7 +187,7 @@ function clear_vmi() {
 ///畫面隱藏
 function init_work() {
 
-    $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "none");
+    $("#vmi").css("display", "none");
 
     $("#ft_Area").css("display", "none");
     $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "none");
@@ -247,7 +250,7 @@ function getOption(obj) {
 
     $.ajax({
         url: 'leicaconnector.ashx',                        // url位置
-        type: 'post',                   // post/get
+        type: 'get',                   // post/get
         data: {
             type: "option",
             parent_id: value
@@ -273,10 +276,10 @@ function getOption(obj) {
             }
 
             /*setting  selected in ddl */
-            var key = $("#" + id + "_h").text();
-            $("#" + id + " option[value=" + key + "] ").attr("selected", "true");
-            $("#" + id).css({ "background-color": getRandomColor(), "color": "#fff" });
-            console.log("[success] obj:%s ,value:%s ", id, key);
+            //var key = $("#" + id + "_h").text();
+            //$("#" + id + " option[value=" + key + "] ").attr("selected", "true");
+            //$("#" + id).css({ "background-color": getRandomColor(), "color": "#fff" });
+            //console.log("[success] obj:%s ,value:%s ", id, key);
 
         }// 成功後要執行的函數
     });
@@ -335,7 +338,7 @@ function upload_base(baseid, guid) {
     $("#ctl00_ContentPlaceHolder1_ddl_inspect").val(inspect_id);
 
     if (inspect_id == "VMI") {
-        $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "block");
+        $("#vmi").css("display", "block");
         $('#ctl00_ContentPlaceHolder1_ddl_inspect option[value=VMI]').attr('selected', true);
     }
     if (inspect_id == "PF") {
@@ -381,15 +384,15 @@ function check_head() {
         $("#ctl00_ContentPlaceHolder1_curr_page").val(insp);
 
         if (insp == "VMI") {
-            $("#ctl00_ContentPlaceHolder1_up_vmi").css("display", "block");
+            $("#vmi").css("display", "block");
         }
         if (insp == "PF") {
             $("#ft_Area").css("display", "block");
             $("#ctl00_ContentPlaceHolder1_up_ft").css("display", "block");
-        }
-
+        } 
     }
 
+  
     return isPass;
     //return true;
 }
@@ -406,15 +409,14 @@ function add_shape() {
         $("#ctl00_ContentPlaceHolder1_ddl_shape").css("background-color", "red");
         pass = false;
 
-    }
-
+    } 
     return pass;
 }
 
 function vmi_add() {
 
     var isPass = true;
-    $("#ctl00_ContentPlaceHolder1_up_vmi").find(".required").each(function () {
+    $("#vmi").find(".required").each(function () {
 
         $(this).parent().removeClass("wrong");
         var value = $(this).val();
@@ -425,20 +427,21 @@ function vmi_add() {
     });
 
 
-    if (isPass) {
-        //   var tds = $(originalTable).children('tbody').children('tr').children('td').length;
-        var td = $("#ctl00_ContentPlaceHolder1_up_vmi").find("#ctl00_ContentPlaceHolder1_stemp_list").find("td").length;
-        $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().removeClass("wrong");
-        if (td == 0) {
-            $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().addClass("wrong");
-            isPass = false;
-        }
-    }
+    //if (isPass) {
+    //    //   var tds = $(originalTable).children('tbody').children('tr').children('td').length;
+    //    var td = $("#ctl00_ContentPlaceHolder1_up_vmi").find("#ctl00_ContentPlaceHolder1_stemp_list").find("td").length;
+    //    $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().removeClass("wrong");
+    //    if (td == 0) {
+    //        $("#ctl00_ContentPlaceHolder1_ddl_shape").parent().addClass("wrong");
+    //        isPass = false;
+    //    }
+    //}
 
     if (!isPass) {
         alert($("#required").text());
     }
 
+    
     return isPass;
 }
 
@@ -618,6 +621,7 @@ function file_upload() {
 
     $("#file_up").css("width", w);
 }
+
 
 
 

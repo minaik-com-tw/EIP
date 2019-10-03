@@ -183,4 +183,7 @@
   <data name="custmer.Caption" xml:space="preserve">
     <value>Custmer</value>
   </data>
+  <data name="insp_no" xml:space="preserve">
+    <value>Inspect NO.</value>
+  </data>
 </root>

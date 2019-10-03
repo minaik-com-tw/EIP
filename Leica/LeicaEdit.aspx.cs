@@ -14,7 +14,7 @@ namespace Leica
         MABase.Flow f = new Flow();
         int _all_row = 0;
         public StringBuilder all_sb = new StringBuilder();
-        string Title = "Leica IPQC生產資訊系統";
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -34,7 +34,7 @@ namespace Leica
                     InitUI();
                     OutTable();
                     DB_Load();
-
+                    upload_Bind();
                     txt_supervisor.Text = "carol.yeh"; //"eileen.wang";
                     txt_manager.Text = "carol.yeh";//"elliot.chang";
                 }
@@ -80,6 +80,7 @@ namespace Leica
                     _position = ddl_position.SelectedValue;
                     _vmi_qty = txt_vmi_qty.Text;
                     _vmi_judg = ddl_vmi_judg.SelectedValue;
+                    _vmi_time = txt_vmi_time.Text;
                 }
 
 
@@ -338,10 +339,13 @@ namespace Leica
                                 string position_txt = GetItemOption(ddl_position, position);
                                 string judg_txt = GetItemOption(ddl_vmi_judg, judgment);
 
+                                string vmi_time = rs["insp_time"].ToString();
+
+
                                 load_VMI_Shape(vmi_id);
                                 // "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment"
 
-                                vmi.Table.Rows.Add(base_id, vmi_id, position_txt, position, qty, judg_txt, judgment);
+                                vmi.Table.Rows.Add(base_id, vmi_id, position_txt, position, qty, judg_txt, judgment, vmi_time);
                             }
                         }
 
@@ -424,6 +428,16 @@ namespace Leica
             txt_operator.Text = CurrentUser.LogonID;
             _insp_count = "0";
             _samp_count = "0";
+
+            btn_file.Text = getStr("file_upload");
+            Btn_Back.Text = getStr("back");
+            
+            Btn_Save.Text = getStr("save");
+
+            Btn_RemindReviewer.Text= getStr("remind");
+            Btn_SendRequest.Text = getStr("submit");
+            Btn_Stop.Text = getStr("suspend");
+
         }
 
         #region event
@@ -444,7 +458,7 @@ namespace Leica
 
                 add_All(_base_id);
 
-                ScriptManager.RegisterStartupScript(Page, GetType(), "click", "clear_all()", true);
+                ScriptManager.RegisterStartupScript(Page, GetType(), "click", "clear_all();", true);
             }
         }
 
@@ -550,7 +564,7 @@ namespace Leica
 
             string vmi_id = Guid.NewGuid().ToString();
             //                  ( "base_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id");
-            t_vmi.Table.Rows.Add("", vmi_id, ddl_position.SelectedItem.Text, _position, _vmi_qty, ddl_vmi_judg.SelectedItem.Text, _vmi_judg);
+            t_vmi.Table.Rows.Add("", vmi_id, _position==""?"": ddl_position.SelectedItem.Text, _position, _vmi_qty, _vmi_judg==""?"": ddl_vmi_judg.SelectedItem.Text, _vmi_judg, txt_vmi_time.Text);
             shape_traffic(vmi_id);
 
             ddl_position.SelectedValue = "";
@@ -569,6 +583,8 @@ namespace Leica
                 DataRowView drv = (DataRowView)e.Row.DataItem;
                 getShape(e.Row.Cells[2], drv["vmi_id"].ToString());
             }
+
+            VMI_List_Head(e);
         }
 
         private void getShape(TableCell cell, string guid)
@@ -909,137 +925,6 @@ namespace Leica
         }
 
         #endregion all_list
-        private Table getView(string baseid)
-        {
-            Table tb = new Table();
-            tb = getVim(baseid);
-
-            if (tb.Rows.Count == 0)
-            {
-                tb = getFtList(baseid);
-            }
-            return tb;
-        }
-
-        private Table getFtList(string baseid)
-        {
-            Table tb = new Table();
-            tb.ID = baseid;
-            tb.GridLines = GridLines.None;
-
-
-            DataRow[] ft_dr = ft.Table.Select(" base_id='" + baseid + "' "); //不重覆
-            int i = 0;
-            foreach (DataRow f in ft_dr)
-            {
-                TableRow tr = new TableRow();
-
-                TableCell td = new TableCell();
-
-                //--------------------------------------
-
-                Table view = getFT2(f);
-
-                if (i % 2 == 0)
-                {
-                    view.CssClass = "comicGreen";
-                }
-                else
-                {
-                    view.CssClass = "comicYellow";
-                }
-
-                //--------------------------------------
-                td.Controls.Add(view);
-                td.Attributes.Add("align", "center");
-                tr.Cells.Add(td);
-                tb.Rows.Add(tr);
-                i++;
-            }
-
-            return tb;
-        }
-
-        private Table getFT2(DataRow f)
-        {
-            Table tb = new Table();
-
-            //prod_index insp_time
-            TableHeaderRow hr = new TableHeaderRow();
-
-
-            //hr.CssClass = "ft_hr";
-
-            //t_ft = new data_table("t_ft", "base_id", "ft_id", "prod_index", "insp_time");
-            TableHeaderCell hh_prod = new TableHeaderCell();
-            hh_prod.Text = f["prod_index"].ToString();
-            //colspan="要橫跨的列數"
-            hh_prod.ColumnSpan = 4;
-            hr.Cells.Add(hh_prod);
-
-
-            TableHeaderCell hh_time = new TableHeaderCell();
-            hh_time.Text = f["insp_time"].ToString();
-            hh_time.ColumnSpan = 5;
-            hr.Cells.Add(hh_time);
-            tb.Rows.Add(hr);
-
-
-            DataRow[] R_s5 = S5.Table.Select(string.Format(" ft_id='{0}' ", f["ft_id"].ToString()));
-            int i = 0;
-            foreach (DataRow s in R_s5)
-            {
-                TableRow tr = new TableRow();
-
-                //tr.CssClass = "s5_even";
-                if (i % 2 == 0)
-                {
-                    //  tr.CssClass = "s5_single";
-                }
-
-
-                TableCell td_ts = DefultTc(120);
-                td_ts.Text = s["test"].ToString();
-                tr.Cells.Add(td_ts);
-
-                TableCell td_ts_st = DefultTc(120);
-                td_ts_st.Text = s["ts_standard"].ToString();
-                tr.Cells.Add(td_ts_st);
-
-                TableCell td_qty = DefultTc(80);
-                td_qty.Text = s["ft_qty"].ToString();
-                tr.Cells.Add(td_qty);
-
-                TableCell td_jdug = DefultTc(120);
-                td_jdug.Text = s["ft_jdug"].ToString();
-                tr.Cells.Add(td_jdug);
-
-                TableCell td_s1 = DefultTc(60);
-                td_s1.Text = s["s1"].ToString();
-                tr.Cells.Add(td_s1);
-
-                TableCell td_s2 = DefultTc(60);
-                td_s2.Text = s["s2"].ToString();
-                tr.Cells.Add(td_s2);
-
-                TableCell td_s3 = DefultTc(60);
-                td_s3.Text = s["s3"].ToString();
-                tr.Cells.Add(td_s3);
-
-                TableCell td_s4 = DefultTc(60);
-                td_s4.Text = s["s4"].ToString();
-                tr.Cells.Add(td_s4);
-
-                TableCell td_s5 = DefultTc(60);
-                td_s5.Text = s["s5"].ToString();
-                tr.Cells.Add(td_s5);
-
-                tb.Rows.Add(tr);
-                i++;
-            }
-
-            return tb;
-        }
 
         //private TableRow getS5(string ft_id)
         //{
@@ -1090,53 +975,7 @@ namespace Leica
         //    return s5;
         //}
 
-        private Table getVim(string baseid)
-        {
-            Table tb = new Table();
-            tb.CssClass = "vmi_tb";
-            tb.Attributes.Add("align", "center");
-
-            //"vmi", "head_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id"
-            DataRow[] Vim_dr = vmi.Table.Select(" base_id='" + baseid + "' ");
-
-            if (Vim_dr.Length > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-
-
-                int i = 0;
-                foreach (DataRow row in Vim_dr)
-                {
-                    TableRow tr = new TableRow();
-
-                    TableCell cell01 = DefultTc(80);
-                    cell01.Text = row["position_txt"].ToString();
-                    tr.Cells.Add(cell01);
-
-
-                    TableCell cell02 = DefultTc(80);
-                    cell02.Controls.Add(getShapeRegion(row["vmi_id"].ToString()));
-                    tr.Cells.Add(cell02);
-
-                    TableCell cell03 = DefultTc(60);
-
-                    cell03.Text = row["qty"].ToString();
-                    tr.Cells.Add(cell03);
-
-                    TableCell cell04 = DefultTc(80);
-
-                    cell04.Text = row["judg_txt"].ToString();
-                    tr.Cells.Add(cell04);
-
-
-                    tb.Rows.Add(tr);
-                    i++;
-                }
-
-            }
-
-            return tb;
-        }
+         
 
         private TableCell DefultTc(int width)
         {
@@ -1361,6 +1200,12 @@ namespace Leica
             up_s5.Update();
         }
 
+        private void upload_Bind()
+        {
+            File_list(file_list);
+            up_file.Update();
+
+        }
 
         string curr_ft_id = "";
         int iRowspan = 1; //合併列數
@@ -1512,6 +1357,7 @@ namespace Leica
                 e.Row.Cells[11].Text = drv["s5"].ToString();
 
             }
+            s5_Head(e);
         }
 
         protected void ft_list_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -1596,7 +1442,7 @@ namespace Leica
             string subject = string.Format("{0} 單號:{1}-{2}", Title, insp_no, "(催審)");
             string url = string.Format("{0}{1}?rowid={2}", Utility.LocalUrl, @"/Leica/LeicaView.aspx", Request.QueryString["rowid"]);
             string body = Flow.MailFormat.Remind(Title, user, lab_NO.Text, url);
-            Utility.SendMail(mail, user, subject, body);
+            Utility.SendMail(mail, "EIP(員工入口網站)", subject, body);
         }
 
         protected void Btn_Stop_Click(object sender, SmoothEnterprise.Flowwork.UI.WebControl.FlowButtonEventArgs e)
@@ -1611,7 +1457,7 @@ namespace Leica
             string url = string.Format("{0}{1}?rowid={2}", Utility.LocalUrl, @"/Leica/LeicaView.aspx", Request.QueryString["rowid"]);
             string body = Flow.MailFormat.Stop(Title, user, lab_NO.Text, url);
 
-            Utility.SendMail(mail, user, subject, body);
+            Utility.SendMail(mail, "EIP(員工入口網站)", subject, body);
 
         }
 
@@ -1692,7 +1538,7 @@ namespace Leica
                     User_Info user = new User_Info();
                     user.GetUserByLogo(txt_supervisor.Text);
                    
-                    f.ToApproval(rowid, user.NAME , subject, mail);
+                    f.ToApproval(rowid, user.LOGONID , subject, mail);
                 }
                 catch (Exception ex)
                 {
@@ -1706,5 +1552,111 @@ namespace Leica
 
             f.FlowViewer_History("S_Comment", FlowFeedbackViewer1, e);
         }
+
+
+        protected void btn_file_Click(object sender, EventArgs e)
+        {
+
+            if (fileU.HasFile != false)
+            {
+                //3.上傳FTP
+                string filename = fileU.FileName;
+
+                // 限制檔案大小，限制為 2MB
+                int filesize = fileU.PostedFile.ContentLength / 1024;
+                if (filesize > 15360)
+                {
+                    msg.Value = getStr("file_large");
+
+                }
+                else
+                {
+
+                    if (filename.Length > 200)
+                    {
+                        msg.Value = getStr("file_name_long");
+                    }
+                    else
+                    {
+                        msg.Value = File_upload(fileU);
+                        upload_Bind();
+                    }
+
+
+                }
+
+            }
+        }
+
+
+        protected void f_list_DeleteCommand(object source, DataListCommandEventArgs e)
+        {
+            Upload_Del(e.CommandArgument.ToString());
+            upload_Bind();
+        }
+        protected void lab_file_Command(object sender, CommandEventArgs e)
+        {
+            upload_download(e.CommandArgument.ToString());
+        }
+
+        protected void file_list_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item ||
+             e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+
+                // Retrieve the Label control in the current DataListItem.
+                LinkButton lbtn = (LinkButton)e.Item.FindControl("lbtn_file");
+                DataRowView DRV = (DataRowView)e.Item.DataItem;
+
+                lbtn.Text = DRV.Row["file_name"].ToString();
+                //lbtn.OnClientClick = "return Download('" + DRV.Row["rowid"].ToString()+ "')";
+
+                string paramster = string.Format("rowid={0} and head_id={1}", "'" + DRV.Row["rowid"].ToString() + "'", "'" + _head_id + "'");
+
+                string Url = string.Format("{0}/comm/download_handler.ashx?table={1}&col_filename={2}&col_type={3}&col_content={4}&paramenter={5}", Utility.LocalUrl, "eipe.dbo.leica_file", "file_name", "kind", "arguments", paramster);
+                lbtn.Attributes.Add("href", Url);
+
+
+            }
+
+        }
+
+        public void Page_PreRender(object sender, System.EventArgs e)
+        {
+            string getStatus = string.Format("select status from eipe.dbo.leica_head where rowid='{0}'", _head_id);
+
+           int curr_status=Convert.ToInt16( Utility.getSingle(getStatus));
+            Btn_Back.Enabled = true;
+            Utility.setVisable(false, Btn_Save, Btn_SendRequest, Btn_RemindReviewer, Btn_Stop, Btn_fail);
+            switch (curr_status)
+            {
+                default:
+                case (int)status.Stop:
+                case (int) status.Waite:
+                    Utility.setVisable(true, Btn_Save, Btn_SendRequest, Btn_fail);
+                    break;
+
+                case (int)status.Send:
+                    Utility.setVisable(true, Btn_RemindReviewer, Btn_Stop);
+                    break;
+
+                //不作 用，因為只有back有用
+                //case (int)status.Complete:
+                //case (int)status.Fial:
+                //    Utility.setEnable(false, Btn_Save, Btn_SendRequest, Btn_RemindReviewer, Btn_Stop, Btn_fail);
+                //    break;
+                //case (int)status.Back: //沒有退回
+                //    break;
+
+            }
+
+            if (isManager(CurrentUser.LogonID))
+            {
+                Utility.setEnable(true, Btn_Save, Btn_SendRequest, Btn_RemindReviewer, Btn_Stop, Btn_fail);
+            }
+
+
+        } 
     }
 }

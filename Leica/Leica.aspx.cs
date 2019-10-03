@@ -36,7 +36,7 @@ public partial class Leica_Leica : LeicaBase
 
             _h_operator = string.IsNullOrEmpty(this["operator"]) ? "" : this["operator"];
             _custmer= string.IsNullOrEmpty(this["custmer"]) ? "" : this["custmer"];
-
+            _insp_no = string.IsNullOrEmpty(this["insp_no"]) ? "" : this["insp_no"];
 
             Query();
 
@@ -54,7 +54,8 @@ public partial class Leica_Leica : LeicaBase
             _product = ddl_product.SelectedValue;
             _program = ddl_program.SelectedValue;
             _h_operator = txt_h_operator.Text;
-            _custmer = ddl_custmer.SelectedValue; 
+            _custmer = ddl_custmer.SelectedValue;
+            _insp_no = txt_insp_no.Text;
 
             this["sDt"] = _sDt;
             this["eDt"] = _eDt;
@@ -65,6 +66,7 @@ public partial class Leica_Leica : LeicaBase
             this["program"] = _program;
             this["operator"] = _h_operator;
             this["custmer"] = _custmer;
+            this["insp_no"] = _insp_no;
 
         }
 
@@ -76,24 +78,23 @@ public partial class Leica_Leica : LeicaBase
         ddl_product.SelectedValue = _product;
         ddl_program.SelectedValue = _program;
         txt_h_operator.Text = _h_operator;
-        ddl_custmer.SelectedValue = _custmer ;
+        ddl_custmer.SelectedValue = _custmer;
+        txt_insp_no.Text = _insp_no;
     }
 
 
 
     protected void DataList1_OnRenderCell(object sender, System.Data.DataRowView rs, SmoothEnterprise.Web.UI.WebControl.DataColumn column, SmoothEnterprise.Web.UI.WebControl.DataCell cell, System.EventArgs e)
     { 
-        if (Utility.MIS_Manager(CurrentUser.LogonID))
+        if (isManager(CurrentUser.LogonID))
         {
             cell.OutputHTML = List_Default(column.ID, rs["id"].ToString(), true);
         }
         else
         {
-            bool isEdit = rs["create_user"].ToString().ToUpper() == CurrentUser.LogonID.ToUpper(); 
-            cell.OutputHTML = List_Default(column.ID, rs["id"].ToString(), isEdit);
-        }
- 
- 
+            
+            cell.OutputHTML = List_Default(column.ID, rs["id"].ToString(), false);
+        } 
 
         if (column.ID.ToUpper() == "STATUS")
         {
@@ -153,6 +154,11 @@ public partial class Leica_Leica : LeicaBase
             sb.AppendFormat(" and custmer ='{0}' ", _custmer);
         }
 
+        if (!string.IsNullOrEmpty(_insp_no))
+        {
+            sb.AppendFormat(" and insp_no ='{0}' ", _insp_no);
+        }
+
 
         StringBuilder sql = new StringBuilder();
 
@@ -163,7 +169,7 @@ public partial class Leica_Leica : LeicaBase
         sql.Append(" left join eipe.dbo.sys_option pg on h.program=pg.rowid  ");
         sql.Append(" left join eipe.dbo.sys_option k on h.kind=k.rowid ");
         sql.Append(" left join eipe.dbo.sys_option r on h.result=r.rowid ");
-        sql.Append(" left join eipe.dbo.sys_option c on h.custmer=r.rowid ");
+        sql.Append(" left join eipe.dbo.sys_option c on c.rowid=h.custmer");
         sql.Append(" left join eipa.dbo.dguser u on h.h_operator=u.logonid ");
 
         if (!string.IsNullOrEmpty(sb.ToString()))

@@ -172,7 +172,7 @@
     <value>類型</value>
   </data>
   <data name="custmer" xml:space="preserve">
-    <value>顧客</value>
+    <value>客戶</value>
   </data>
   <data name="custmer.Caption" xml:space="preserve">
     <value>顧客</value>
@@ -183,7 +183,7 @@
   <data name="insp_dt.Caption" xml:space="preserve">
     <value>檢查日期</value>
   </data>
-  <data name="custmer" xml:space="preserve">
-    <value>客戶</value>
+  <data name="insp_no" xml:space="preserve">
+    <value>檢驗單號</value>
   </data>
 </root>

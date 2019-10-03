@@ -282,4 +282,16 @@
   <data name="not_has_file" xml:space="preserve">
     <value>沒有上傳檔案</value>
   </data>
+  <data name="back" xml:space="preserve">
+    <value>回上頁</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>項次</value>
+  </data>
+    <data name="file_upload" xml:space="preserve">
+    <value>上傳檔案</value>
+  </data>
 </root>

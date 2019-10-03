@@ -10,14 +10,7 @@
     <header>
         <script src="js/Leica.js"></script>
         <link href="js/Lieca.css" rel="stylesheet" />
-        <script>
-            function Download(guid) {
 
-                var head = $("#ctl00_ContentPlaceHolder1_head_id").val();
-                $.get("../comm/download_handler.ashx?table=eipe.dbo.leica_file&col_filename=file_name&col_type=kind&col_content=arguments&paramenter=rowid='" + guid + "' and head_id='" + head + "' ");
-                return false;
-            }
-        </script>
     </header>
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
 
@@ -45,24 +38,7 @@
 
 
         </div>
-        <div>
-            ctl00_ContentPlaceHolder1_ddl_kind_h<div id="ctl00_ContentPlaceHolder1_ddl_kind_h">
-                <!--給javascrip-->
-            </div>
-            ctl00_ContentPlaceHolder1_ddl_product_h<div id="ctl00_ContentPlaceHolder1_ddl_product_h">
-                <!--給javascrip-->
-            </div>
-            ctl00_ContentPlaceHolder1_ddl_program_h<div id="ctl00_ContentPlaceHolder1_ddl_program_h">
-                <!--給javascrip-->
-            </div>
-            ctl00_ContentPlaceHolder1_ddl_test_h<div id="ctl00_ContentPlaceHolder1_ddl_test_h">
-                <!--給javascrip-->
-            </div>
-            ctl00_ContentPlaceHolder1_ddl_ts_standard_h<div id="ctl00_ContentPlaceHolder1_ddl_ts_standard_h">
-                <!--給javascrip-->
-            </div>
 
-        </div>
         <div style="font-size: 2em; color: #9b1e64; height: 35px; font-weight: bolder;">
             <%=getStr("insp_record") %>
         </div>
@@ -73,7 +49,7 @@
                     <div class="td">
                         <asp:DropDownList ID="ddl_kind" runat="server" Next="product" level="5" CssClass="required AutoPost">
                         </asp:DropDownList>
-                        <asp:HiddenField ID="kind" runat="server"  />
+                        <asp:HiddenField ID="kind" runat="server" />
                     </div>
 
                     <div class="th"><%=getStr("inpecter") %></div>
@@ -92,13 +68,13 @@
                     <div class="td">
                         <asp:DropDownList ID="ddl_product" runat="server" Next="program" level="4" CssClass="required AutoPost">
                         </asp:DropDownList>
-                        <asp:HiddenField ID="product" runat="server"  />
+                        <asp:HiddenField ID="product" runat="server" />
                     </div>
                     <div class="th"><%=getStr("program") %></div>
                     <div class="td">
                         <asp:DropDownList ID="ddl_program" runat="server" Next="test" level="3" CssClass="required AutoPost">
                         </asp:DropDownList>
-                        <asp:HiddenField ID="program" runat="server"  />
+                        <asp:HiddenField ID="program" runat="server" />
                     </div>
 
                     <div class="th"><%=getStr("result") %></div>
@@ -152,14 +128,14 @@
         </div>
         <div class="t1" id="lbase">
 
-            <div class="tb1" style="width: 100%; border-bottom: 0px">
+            <div class="tb1">
                 <div class="tr ">
                     <div class="td" style="text-align: center; font-size: 1.4em; color: #bf3553; font-weight: bold">
                         <%=getStr("insp_info") %>
                     </div>
                 </div>
             </div>
-            <div class="tb1" style="border-bottom: 0px">
+            <div class="tb1">
                 <div class="tr">
                     <div class="th"><%=getStr("insp_type") %></div>
                     <div class="td">
@@ -202,159 +178,168 @@
             </div>
 
         </div>
-        <asp:UpdatePanel runat="server" ID="up_vmi" UpdateMode="Conditional" ChildrenAsTriggers="true">
-            <ContentTemplate>
-                <div class="tb1 all" style="border-bottom: 0px">
-                    <div class="tr">
-                        <div class="td" style="text-align: center; font-size: 1.4em; color: #7B90D2; font-weight: bold; height: 30px">
-                            <%=getStr("vmi")%>
-                        </div>
+
+        <div class="t1" id="vmi">
+            <div class="tb1 all" style="border-bottom: 0px">
+                <div class="tr">
+                    <div class="td" style="text-align: center; font-size: 1.4em; color: #7B90D2; font-weight: bold; height: 30px">
+                        <%=getStr("vmi")%>
                     </div>
                 </div>
-                <div class="tb1 all">
-                    <div class="tr">
-                        <div class="td">
-                            <div class="cell" style="width: 45%; border-right: 2px solid #B19693;">
-                                <div style="float: left; width: 90%; margin: 5px">
-                                    <div class="tb1 edit " style="width: 100%; float: left; font-size: medium">
-                                        <div class="tr ">
-                                            <div class="th">*<%=getStr("position")%></div>
-                                            <div class="td">
-                                                <asp:DropDownList ID="ddl_position" runat="server" CssClass="required"></asp:DropDownList>
+            </div>
+            <div class="tb1 all" style="border-bottom: 0px">
+                <div class="tr">
+                    <div class="td" style="vertical-align: top">
+                        <div style="float: left; margin: 5px 5px 5px 0px">
+                            <div class="tr ">
+                                <div class="th"><%=getStr("insp_time") %></div>
+                                <div class="td">
+                                    <asp:TextBox ID="txt_vmi_time" runat="server" CssClass="Mclock required"></asp:TextBox>
 
-                                            </div>
-                                        </div>
-                                        <div class="tr ">
-                                            <div class="th">*<%=getStr("shape")%></div>
-                                            <div class="td">
-                                                <div style="padding: 2px">
-                                                    <asp:DropDownList ID="ddl_shape" runat="server"></asp:DropDownList>
-                                                    <asp:LinkButton ID="lbin_shape_add" CssClass="fa fa-1x fa-plus" runat="server" Style="padding: 2px; cursor: pointer; text-decoration: none;" OnClick="lbin_shape_add_Click" OnClientClick="return add_shape()" ToolTip="add"></asp:LinkButton>
-                                                </div>
-                                                <div style="padding: 2px">
+                                </div>
+                            </div>
+                            <div class="tr ">
+                                <div class="th">*<%=getStr("position")%></div>
+                                <div class="td">
+                                    <asp:DropDownList ID="ddl_position" runat="server"></asp:DropDownList>
 
-                                                    <asp:DataList ID="stemp_list" runat="server" OnDeleteCommand="stemp_list_DeleteCommand">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lab_stemp" runat="server"><%#Eval("shape_txt").ToString().Trim() %></asp:Label>
+                                </div>
+                            </div>
+                            <div class="tr ">
+                                <div class="th">*<%=getStr("shape")%></div>
+                                <div class="td">
+                                    <div style="padding: 2px">
+                                        <asp:DropDownList ID="ddl_shape" runat="server"></asp:DropDownList>
+                                        <asp:LinkButton ID="lbin_shape_add" CssClass="fa fa-1x fa-plus" runat="server" Style="padding: 2px; cursor: pointer; text-decoration: none;" OnClick="lbin_shape_add_Click" OnClientClick="return add_shape();" ToolTip="add"></asp:LinkButton>
+                                    </div>
+                                    <div style="padding: 2px">
+                                        <asp:UpdatePanel runat="server" ID="up_stemp" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                                            <ContentTemplate>
+                                            <asp:DataList ID="stemp_list" runat="server" OnDeleteCommand="stemp_list_DeleteCommand">
+                                                <itemtemplate>
+                                                <asp:Label ID="lab_stemp" runat="server"><%#Eval("shape_txt").ToString().Trim() %></asp:Label>
 
-                                                            <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape") %>' ID="del_shape" runat="server" ToolTip="Del">
+                                                <asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("shape") %>' ID="del_shape" runat="server" ToolTip="Del">
                                                               
                                                             <i class="fas fa-minus"></i>
-                                                            </asp:LinkButton>
+                                                </asp:LinkButton>
 
-                                                        </ItemTemplate>
-                                                    </asp:DataList>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="tr ">
-                                            <div class="th"><%=getStr("d_qty") %></div>
-                                            <div class="td">
-                                                <asp:TextBox ID="txt_vmi_qty" runat="server" Text="0" CssClass="qty required"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="tr ">
-                                            <div class="th"><%=getStr("judgment") %></div>
-                                            <div class="td">
-                                                <asp:DropDownList ID="ddl_vmi_judg" runat="server" CssClass="required">
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
-
+                                            </itemtemplate>
+                                            </asp:DataList>
+                                                </ContentTemplate>
+                                            <Triggers  >
+                                                <asp:AsyncPostBackTrigger ControlID="lbin_shape_add" EventName="Click"  />
+                                            </Triggers>
+                                        </asp:UpdatePanel>
                                     </div>
-                                </div>
-                                <div style="float: left; margin: 5px 5px;">
 
-                                    <asp:LinkButton ID="lbtn_vmi_add" runat="server" CssClass="far fa-plus-square add_btn" OnClick="lbtn_vmi_add_Click" OnClientClick="return vmi_add()" Style="text-decoration: none;" title="lbtn_vmi_add_Click"></asp:LinkButton>
+                                </div>
+
+                            </div>
+                            <div class="tr ">
+                                <div class="th"><%=getStr("d_qty") %></div>
+                                <div class="td">
+                                    <asp:TextBox ID="txt_vmi_qty" runat="server" Text="0" CssClass="qty required"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="cell" style="width: 55%">
-                                <div style="float: left; margin: 5px; width: 90%;">
-
-                                    <asp:GridView ID="vmi_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
-                                        OnRowDataBound="vmi_list_RowDataBound" OnRowDeleting="vmi_list_RowDeleting" DataKeyNames="vmi_id"
-                                        CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="100%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
-                                        <AlternatingRowStyle BackColor="#F4F6F7" />
-                                        <FooterStyle BackColor="#F4F6F7" />
-                                        <HeaderStyle BackColor=" #F4F6F7" Font-Bold="True" ForeColor="#7B90D2" Font-Size="Medium" />
-                                        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
-
-                                        <Columns>
-
-                                            <asp:BoundField DataField="vmi_id" HeaderText="vmi_id" Visible="false">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="position_txt" HeaderText="Position of defective">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:TemplateField HeaderText="Shape of defective">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:TemplateField>
-                                            <asp:BoundField DataField="qty" HeaderText="Defect Quantity">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-                                            <asp:BoundField DataField="judg_txt" HeaderText="Judgement">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                            </asp:BoundField>
-
-                                            <asp:TemplateField HeaderText="Delete">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                                <ItemTemplate>
-                                                    <%--<asp:Button ID="lbtn_vmi_del" runat="server" CommandName="Delete" Text="Delete"  CommandArgument='<%# Eval("vmi_id") %>' />
-                                            <i class="far fa-trash-alt"></i>--%>
-                                                    <asp:LinkButton ID="lbtn_vmi_del" runat="server" CommandName="Delete" title="Del" class="far fa-trash-alt" Width="50"></asp:LinkButton>
-                                                </ItemTemplate>
-
-                                            </asp:TemplateField>
-
-                                        </Columns>
-                                        <EmptyDataTemplate>
-                                            <div class="tb1 Tempty" style="background-color: #F4F6F7; color: #7B90D2; width: 100%; height: 25px; text-align: center; border: 0px; font-size: medium">
-                                                <div class="tr">
-                                                    <div class="td">
-                                                        <%=getStr("position")%>
-                                                    </div>
-                                                    <div class="td">
-                                                        <%=getStr("shape")%>
-                                                    </div>
-                                                    <div class="td">
-                                                        <%=getStr("d_qty")%>
-                                                    </div>
-                                                    <div class="td" style="border-right: 0px">
-                                                        <%=getStr("judgment")%>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style="background-color: #FFF; color: #7B90D2; width: 100%; height: 25px">
-                                                <%=getStr("not_data")%>
-                                            </div>
-                                        </EmptyDataTemplate>
-                                    </asp:GridView>
+                            <div class="tr ">
+                                <div class="th"><%=getStr("judgment") %></div>
+                                <div class="td">
+                                    <asp:DropDownList ID="ddl_vmi_judg" runat="server" CssClass="required">
+                                    </asp:DropDownList>
                                 </div>
-
-                                <div style="float: left; margin: 5px;">
-                                    <asp:LinkButton ID="lbtn_base_add" runat="server" class="far fa-file-alt add_btn" title="save" OnClick="lbtn_base_add_Click" OnClientClick="return base_add_chk()">
-                                    </asp:LinkButton>
-                                </div>
-
                             </div>
                         </div>
+                        <div style="float: left; margin: 5px">
+                            <asp:LinkButton ID="lbtn_vmi_add" runat="server" CssClass="far fa-plus-square add_btn" OnClick="lbtn_vmi_add_Click" OnClientClick="return vmi_add()" Style="text-decoration: none;" title="lbtn_vmi_add_Click"></asp:LinkButton>
+                        </div>
+                    </div>
+                    <div class="td" style="width: 60%; vertical-align: top">
+                        <asp:UpdatePanel runat="server" ID="up_vmi" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                            <ContentTemplate>
+                                <asp:GridView ID="vmi_list" runat="server" AllowPaging="false" AutoGenerateColumns="False" OnRowDataBound="vmi_list_RowDataBound" OnRowDeleting="vmi_list_RowDeleting" DataKeyNames="vmi_id"
+                                    CellPadding="0" BorderColor="#B19693" BorderStyle="Solid" BorderWidth="1px" Width="90%" EnableModelValidation="True" ForeColor="#9fa39a" GridLines="Both">
+                                    <AlternatingRowStyle BackColor="#F4F6F7" />
+                                    <FooterStyle BackColor="#F4F6F7" />
+                                    <HeaderStyle BackColor="#F4F6F7" Font-Bold="True" ForeColor="#7B90D2" Font-Size="Medium" />
+                                    <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+
+                                    <Columns>
+
+                                        <asp:BoundField DataField="vmi_id" HeaderText="vmi_id" Visible="false">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="position_txt" HeaderText="Position of defective">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:TemplateField HeaderText="Shape of defective">
+                                            <HeaderStyle HorizontalAlign="Center" Height="30px" />
+                                            <ItemStyle HorizontalAlign="Center" Height="30px" />
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="qty" HeaderText="Defect Quantity">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="judg_txt" HeaderText="Judgement">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="vmi_time" HeaderText="insp_time">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:BoundField>
+
+                                        <asp:TemplateField HeaderText="Delete">
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                            <ItemTemplate>
+                                                <%--<asp:Button ID="lbtn_vmi_del" runat="server" CommandName="Delete" Text="Delete"  CommandArgument='<%# Eval("vmi_id") %>' />
+                                            <i class="far fa-trash-alt"></i>--%>
+                                                <asp:LinkButton ID="lbtn_vmi_del" runat="server" CommandName="Delete" title="Del" class="far fa-trash-alt" Width="50"></asp:LinkButton>
+                                            </ItemTemplate>
+
+                                        </asp:TemplateField>
+
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                                        <thead style="background-color: #F4F6F7; color: #7B90D2; font-size: Medium">
+                                            <tr>
+                                                <th style="width: 19%"><%=getStr("position") %></th>
+                                                <th style="width: 19%"><%=getStr("shape") %></th>
+                                                <th style="width: 19%"><%=getStr("d_qty") %></th>
+                                                <th style="width: 19%"><%=getStr("judgment") %></th>
+                                                <th style="width: 19%"><%=getStr("insp_time") %></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5" style="text-align: center">
+                                                    <%=getStr("not_data")%>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </EmptyDataTemplate>
+
+                                </asp:GridView>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="lbin_shape_add" EventName="Click" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+                        <div style="float: left; margin: 5px; width: auto">
+                            <asp:LinkButton ID="lbtn_base_add" runat="server" class="far fa-file-alt add_btn" title="save" OnClick="lbtn_base_add_Click" OnClientClick="return base_add_chk()">
+                            </asp:LinkButton>
+                        </div>
+
+
                     </div>
                 </div>
+            </div>
+        </div>
 
-            </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="lbin_shape_add" EventName="Click" />
-            </Triggers>
-        </asp:UpdatePanel>
+
 
         <div id="ft_Area" class="t1" style="display: none">
             <div class="tb1">
@@ -369,12 +354,12 @@
                             <div class="th"><%=getStr("ts_item") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_test" runat="server" Next="ts_standard" level="2" CssClass="required AutoPost"></asp:DropDownList>
-                                <asp:HiddenField ID="test" runat="server"  />
+                                <asp:HiddenField ID="test" runat="server" />
                             </div>
                             <div class="th"><%=getStr("ts_stand") %></div>
                             <div class="td">
                                 <asp:DropDownList ID="ddl_ts_standard" runat="server" level="1" CssClass="required AutoPost"></asp:DropDownList>
-                                <asp:HiddenField ID="ts_stand" runat="server"  />
+                                <asp:HiddenField ID="ts_stand" runat="server" />
                             </div>
 
                         </div>
@@ -451,7 +436,7 @@
                             <ContentTemplate>
 
                                 <asp:GridView ID="s5_list" runat="server" AllowPaging="false" AutoGenerateColumns="False"
-                                    OnRowDeleting="s5_list_RowDeleting" DataKeyNames="ft_id"
+                                    OnRowDeleting="s5_list_RowDeleting" DataKeyNames="ft_id" OnRowDataBound="s5_list_RowDataBound"
                                     BorderColor="#5e616d" BorderStyle="Solid" BorderWidth="1px" Width="100%" CellPadding="0" GridLines="Both"
                                     ForeColor="#856CAE" Font-Size="Small" Font-Bold="true">
                                     <%--<AlternatingRowStyle BackColor="#a7a8bd" Height="25" ForeColor="#592C63" />--%>

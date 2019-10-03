@@ -1,7 +1,7 @@
 ﻿
 //網頁完全載入才觸發
 $(window).load(function () {
-    
+
     var msg = $("#ctl00_ContentPlaceHolder1_msg").val();
 
     if (typeof msg == "undefined") //預備沒有找到msg 預設為空
@@ -28,61 +28,12 @@ $(function () {
         b_h = $(window).height();
     });
 
-    //僅日期
-    $(".date").each(function () {
-        var id = $(this).attr("id");
-        var obj = "#" + id;
-        setDatepicker(obj);
-
-    });
-
-    $(".Muser").each(function () {
-
-        var id = "'" + $(this).attr("id") + "'";
-        var txt = $(this).val();
-        $(this).hide();
-
-        var cc = $(this).attr("class");
-
-        var add = "";
-        //如果要检索的字符串值没有出现，则该方法返回 -1。
-        if (cc.indexOf("required") > -1) {
-            add = "class='required'";
-        }
-
-
-        var temp = $(this).attr("id") + "_show";
-
-        $(this).parent().append('<div style="float:left;width:130px;margin:0px;padding:0px; border:0px solid #849483; cursor: pointer;" ><input id="' + temp + '" type="text" value="' + txt + '" ' + add + '  onchange="member_change(this,\'' + $(this).attr("id") + '\' )" /></div>');
-        $(this).parent().append('<div title="select member" style="border:0px;float:left;width:auto;cursor: pointer;color:#fd7e14" class="fa-x fa fa-users" onclick="setMember(' + id + ')" ></div>');
-
-
-    });
-
-    //僅時間
-    $(".Mclock").each(function () {
-
-    
-        var id = "#" + $(this).attr("id").trim();
-
-        $(id).timepicker({
-            timeFormat: 'HH:mm:00',
-            hour: 12,
-            minute: 30
-
-        });
-
-        //$(this).parent().append("<div id='clock' class='fa-user-edit' style='margin:1px;padding:0px;border: 1px solid red;mcursor:pointer;width:25px' onclick='clock_trigger(\"" + id + "\");' ><img style='width: 22px;' src='.././gif/clock4.png'></div>");
-        $(this).parent().append("<a href='#' style='cursor: pointer'  onclick='clock_trigger(\"" + id + "\");' ><img src='../../gif/clock4.png' width='22'/></a>");
-        
-        $(this).click(function () { setClock(id); });
-    });
-
-
+    Nomarl.UI_Local();
 });
- 
+
+
 var txtbox = "";
- 
+
 function setMember(obj) {
 
 
@@ -318,6 +269,70 @@ function member_change(obj, ctr) {
 
 //https://dotblogs.com.tw/threeday0905/2011/01/10/20699
 var Nomarl = {                  //共用的AjaxOnError函式
+
+
+    UI_Local: function () {
+
+        this.Mclock();
+        this.Mdate();
+        this.Muser();
+    },
+
+    Mdate: function () {
+        //僅日期
+        $(".date").each(function () {
+            var id = $(this).attr("id");
+            var obj = "#" + id;
+            setDatepicker(obj);
+
+        });
+    },
+    Muser: function () {
+
+        $(".Muser").each(function () {
+
+            var id = "'" + $(this).attr("id") + "'";
+            var txt = $(this).val();
+            $(this).hide();
+
+            var cc = $(this).attr("class");
+
+            var add = "";
+            //如果要检索的字符串值没有出现，则该方法返回 -1。
+            if (cc.indexOf("required") > -1) {
+                add = "class='required'";
+            }
+
+
+            var temp = $(this).attr("id") + "_show";
+
+            $(this).parent().append('<div style="float:left;width:130px;margin:0px;padding:0px; border:0px solid #849483; cursor: pointer;" ><input id="' + temp + '" type="text" value="' + txt + '" ' + add + '  onchange="member_change(this,\'' + $(this).attr("id") + '\' )" /></div>');
+            $(this).parent().append('<div title="select member" style="border:0px;float:left;width:auto;cursor: pointer;color:#fd7e14" class="fa-x fa fa-users" onclick="setMember(' + id + ')" ></div>');
+
+
+        });
+    },
+    Mclock: function () {
+
+        $(".Mclock").each(function () {
+
+
+            var id = "#" + $(this).attr("id").trim();
+
+            $(id).timepicker({
+                timeFormat: 'HH:mm:00',
+                hour: 12,
+                minute: 30
+
+            });
+
+            //$(this).parent().append("<div id='clock' class='fa-user-edit' style='margin:1px;padding:0px;border: 1px solid red;mcursor:pointer;width:25px' onclick='clock_trigger(\"" + id + "\");' ><img style='width: 22px;' src='.././gif/clock4.png'></div>");
+            $(this).parent().append("<a href='#' style='cursor: pointer'  onclick='clock_trigger(\"" + id + "\");' ><img src='../../gif/clock4.png' width='22'/></a>");
+
+            $(this).click(function () { setClock(id); });
+        });
+    },
+
     getCookie: function (cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
@@ -350,7 +365,7 @@ var Nomarl = {                  //共用的AjaxOnError函式
     reload: function () {
         history.go(0);
     },
-     
+
     Check: function () {
         check();
 
@@ -422,4 +437,6 @@ var Nomarl = {                  //共用的AjaxOnError函式
             alert(show);
         }
     }
+
+
 };

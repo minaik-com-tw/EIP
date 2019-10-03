@@ -103,13 +103,13 @@
 
 
 
-#ctl00_ContentPlaceHolder1_up_vmi .cell {
+#vmi .cell {
     padding: 4px 4px 4px 4px;
 }
 
 
 
-#ctl00_ContentPlaceHolder1_up_vmi .th {
+#vmi .th {
     background-color: #F4F6F7;
     color: #5e665b;
 }

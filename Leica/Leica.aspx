@@ -97,6 +97,15 @@
             <div class="td">
                 <asp:DropDownList id="ddl_custmer" runat="server" ></asp:DropDownList>
             </div>
+            <div class="th"><%=getStr("insp_no") %></div>
+            <div class="td">
+                <asp:TextBox runat="server" Text="" ID="txt_insp_no" ></asp:TextBox>
+            </div>
+            <div class="td">
+                
+            </div>
+        </div>
+        <div class="tr"> 
             <div class="th"><%=getStr("insp_dt") %></div>
             <div class="td">
                 <asp:TextBox runat="server" Text="" ID="txt_sDt" CssClass="date"></asp:TextBox>
@@ -104,6 +113,8 @@
             <div class="td">
                 <asp:TextBox runat="server" Text="" ID="txt_eDt" CssClass="date"></asp:TextBox>
             </div>
+            <div class="td"></div>
+            <div class="td"></div>
         </div>
 
     </div>

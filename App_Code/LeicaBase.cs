@@ -16,12 +16,12 @@ public class LeicaBase : MABase
 {
     protected string _insp_no = "", _kind = "", _h_operator = "", _product = "", _program = "", _inspect = "", _insp_date = "", _custmer = "";
     protected string _test = "", _ts_standard = "", _result = "", _sp_stand = "", _samp_count = "", _insp_count = "", _birthDt = "", _b_opeartor = "", _prod_index;
-    protected string _position = "", _vmi_qty = "0", _vmi_judg;
+    protected string _position = "", _vmi_qty = "0", _vmi_judg,_vmi_time;
     protected string _ft_qty = "", _ft_jdug = "", _s1 = "", _s2 = "", _s3 = "", _s4 = "", _s5 = "";
     public string msg = "", _insp_time = "", _shape = "", _head_id, _base_id, _ft_rowid;
+    static string[] Managers = { "eileen.wang", "Casper.Lin" };
 
-
-
+    protected string Title = "Leica IPQC生產資訊系統";
     protected data_table lbase, t_ft, vmi, t_vmi, shape, t_shape, track, t_S5, ft_S5, ft, S5;
     protected DataTable db = new DataTable();
 
@@ -109,8 +109,8 @@ public class LeicaBase : MABase
         //thead = new data_table("main", "main_id",  "type", "operator",  "inspect_dt", "product", "program",  "result");
         lbase = new data_table("lbase", "head_id", "inspect_id", "inspect", "insp_count", "samp_count", "standard_id", "standard", "bith_date", "b_operator", "seq", "base_id", "curr");
         //--------VMI--------------
-        vmi = new data_table("vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment");
-        t_vmi = new data_table("t_vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment");
+        vmi = new data_table("vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment","vmi_time");
+        t_vmi = new data_table("t_vmi", "base_id", "vmi_id", "position_txt", "position", "qty", "judg_txt", "judgment", "vmi_time");
         shape = new data_table("shape", "vmi_id", "shape_txt", "shape", "seq");
         t_shape = new data_table("stemp", "shape_txt", "shape");
         //----------------------
@@ -615,8 +615,7 @@ public class LeicaBase : MABase
         }
     }
 
-
-
+     
     protected void Save_Feature()
     {
 
@@ -703,6 +702,249 @@ public class LeicaBase : MABase
         }
         return result;
     }
+
+    public static bool isManager(string logonid)
+    {
+        bool pass = false;
+
+        foreach (string m in Managers)
+        {
+            if (logonid.ToUpper() == m.ToUpper())
+            {
+                pass = true;
+                break;
+            }
+        }
+
+        if (!pass)
+        {
+            pass=Utility.MIS_Manager(logonid);
+        }
+
+        return pass;
+    }
+
+    public void VMI_List_Head(GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            e.Row.Cells[1].Text = getStr("position");
+            e.Row.Cells[2].Text = getStr("shape");
+            e.Row.Cells[3].Text = getStr("d_qty");
+            e.Row.Cells[4].Text = getStr("judgment");
+        }
+    }
+
+    protected void s5_Head(GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            e.Row.Cells[1].Text = getStr("item");
+            e.Row.Cells[2].Text = getStr("prod_no");
+            e.Row.Cells[3].Text = getStr("insp_time");
+            e.Row.Cells[4].Text = getStr("ts_stand");
+            e.Row.Cells[5].Text = getStr("qty");
+            e.Row.Cells[6].Text = getStr("judg");
+            e.Row.Cells[7].Text = getStr("insp_time");
+            
+
+        }
+    }
+
+    protected Table getView(string baseid)
+    {
+        Table tb = new Table();
+        tb = getVim(baseid);
+
+        if (tb.Rows.Count == 0)
+        {
+            tb = getFtList(baseid);
+        }
+        return tb;
+    }
+
+
+    private Table getFtList(string baseid)
+    {
+        Table tb = new Table();
+        tb.ID = baseid;
+        tb.GridLines = GridLines.None;
+
+
+        DataRow[] ft_dr = ft.Table.Select(" base_id='" + baseid + "' "); //不重覆
+        int i = 0;
+        foreach (DataRow f in ft_dr)
+        {
+            TableRow tr = new TableRow();
+
+            TableCell td = new TableCell();
+
+            //--------------------------------------
+
+            Table view = getFT2(f);
+
+            if (i % 2 == 0)
+            {
+                view.CssClass = "comicGreen";
+            }
+            else
+            {
+                view.CssClass = "comicYellow";
+            }
+
+            //--------------------------------------
+            td.Controls.Add(view);
+            td.Attributes.Add("align", "center");
+            tr.Cells.Add(td);
+            tb.Rows.Add(tr);
+            i++;
+        }
+
+        return tb;
+    }
+
+    private Table getFT2(DataRow f)
+    {
+        Table tb = new Table();
+
+        //prod_index insp_time
+        TableHeaderRow hr = new TableHeaderRow();
+
+
+        //hr.CssClass = "ft_hr";
+
+        //t_ft = new data_table("t_ft", "base_id", "ft_id", "prod_index", "insp_time");
+        TableHeaderCell hh_prod = new TableHeaderCell();
+        hh_prod.Text = f["prod_index"].ToString();
+        //colspan="要橫跨的列數"
+        hh_prod.ColumnSpan = 4;
+        hr.Cells.Add(hh_prod);
+
+
+        TableHeaderCell hh_time = new TableHeaderCell();
+        hh_time.Text = f["insp_time"].ToString();
+        hh_time.ColumnSpan = 5;
+        hr.Cells.Add(hh_time);
+        tb.Rows.Add(hr);
+
+
+        DataRow[] R_s5 = S5.Table.Select(string.Format(" ft_id='{0}' ", f["ft_id"].ToString()));
+        int i = 0;
+        foreach (DataRow s in R_s5)
+        {
+            TableRow tr = new TableRow();
+
+            //tr.CssClass = "s5_even";
+            if (i % 2 == 0)
+            {
+                //  tr.CssClass = "s5_single";
+            }
+
+
+            TableCell td_ts = DefultTc(120);
+            td_ts.Text = s["test"].ToString();
+            tr.Cells.Add(td_ts);
+
+            TableCell td_ts_st = DefultTc(120);
+            td_ts_st.Text = s["ts_standard"].ToString();
+            tr.Cells.Add(td_ts_st);
+
+            TableCell td_qty = DefultTc(80);
+            td_qty.Text = s["ft_qty"].ToString();
+            tr.Cells.Add(td_qty);
+
+            TableCell td_jdug = DefultTc(120);
+            td_jdug.Text = s["ft_jdug"].ToString();
+            tr.Cells.Add(td_jdug);
+
+            TableCell td_s1 = DefultTc(60);
+            td_s1.Text = s["s1"].ToString();
+            tr.Cells.Add(td_s1);
+
+            TableCell td_s2 = DefultTc(60);
+            td_s2.Text = s["s2"].ToString();
+            tr.Cells.Add(td_s2);
+
+            TableCell td_s3 = DefultTc(60);
+            td_s3.Text = s["s3"].ToString();
+            tr.Cells.Add(td_s3);
+
+            TableCell td_s4 = DefultTc(60);
+            td_s4.Text = s["s4"].ToString();
+            tr.Cells.Add(td_s4);
+
+            TableCell td_s5 = DefultTc(60);
+            td_s5.Text = s["s5"].ToString();
+            tr.Cells.Add(td_s5);
+
+            tb.Rows.Add(tr);
+            i++;
+        }
+
+        return tb;
+    }
+
+
+
+    protected Table getVim(string baseid)
+    {
+        Table tb = new Table();
+        tb.CssClass = "vmi_tb";
+        tb.Attributes.Add("align", "center");
+
+        //"vmi", "head_id", "vmi_id", "position", "position_id", "qty", "judg", "judg_id"
+        DataRow[] Vim_dr = vmi.Table.Select(" base_id='" + baseid + "' ");
+
+        if (Vim_dr.Length > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+
+            int i = 0;
+            foreach (DataRow row in Vim_dr)
+            {
+                TableRow tr = new TableRow();
+
+                TableCell cell01 = DefultTc(80);
+                cell01.Text = row["position_txt"].ToString();
+                tr.Cells.Add(cell01);
+
+
+                TableCell cell02 = DefultTc(80);
+                cell02.Controls.Add(getShapeRegion(row["vmi_id"].ToString()));
+                tr.Cells.Add(cell02);
+
+                TableCell cell03 = DefultTc(60);
+                cell03.Text = row["qty"].ToString();
+                tr.Cells.Add(cell03);
+
+                TableCell cell04 = DefultTc(80);
+                cell04.Text = row["judg_txt"].ToString();
+                tr.Cells.Add(cell04);
+
+                TableCell cell05 = DefultTc(80);
+                cell05.Text = row["vmi_time"].ToString();
+                tr.Cells.Add(cell05);
+
+                tb.Rows.Add(tr);
+
+                i++;
+            }
+        }
+        return tb;
+    }
+
+    protected TableCell DefultTc(int width)
+    {
+        TableCell cell01 = new TableCell(); //Position 
+        cell01.Width = width;
+        cell01.BorderWidth = 1;
+        // cell01.BorderColor = Utility.HexColor("#5d3d21");
+        cell01.Style.Add("padding", "2px");
+
+        return cell01;
+
+    }
 }
 
 public class Leica_VMI
@@ -738,6 +980,12 @@ public class Leica_VMI
     {
         get { return t["judgment"]; }
         set { t["judgment"] = value; }
+    }
+
+    public string VMI_Time
+    {
+        get { return t["vmi_time"]; }
+        set { t["vmi_time"] = value; }
     }
 
     public Leica_VMI(DataRow db)
@@ -777,7 +1025,7 @@ public class Leica_VMI
                     ds["position"] = Position;
                     ds["qty"] = Qty;
                     ds["judgment"] = Judgment;
-
+                    ds["insp_time"] = VMI_Time;
                     ds.Update();
                     isInsert = true;
                 }
@@ -790,37 +1038,7 @@ public class Leica_VMI
 
         return isInsert;
     }
-
-    /// <summary>
-    /// Update Table  Leica_Base
-    /// </summary>
-    /// <returns></returns>
-    public bool Update()
-    {
-        bool isUpdate = false;
-        try
-        {
-            using (SmoothEnterprise.Database.DataSet ds = new SmoothEnterprise.Database.DataSet(SmoothEnterprise.Database.DataSetType.OpenUpdate))
-            {
-                string sql = string.Format("select rowid,insp_count,samp_count,standard_id,bith_date,b_operator,seq from eipe.dbo.Leica_VMI where rowid='{0}' ", Rowid);
-                ds.Open(sql);
-                if (!ds.EOF)
-                {
-                    if (!string.IsNullOrEmpty(Position)) ds["position"] = Position;
-                    if (!string.IsNullOrEmpty(Qty)) ds["qty"] = Qty;
-                    if (!string.IsNullOrEmpty(Judgment)) ds["judgment"] = Judgment;
-
-                    ds.Update();
-                    isUpdate = true;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-        return isUpdate;
-    }
+ 
 }
 
 public class Leica_VMI_Shape
@@ -1182,7 +1400,7 @@ public class Leica_Head
                             _program = rs["program"].ToString();
                             _result = rs["result"].ToString();
                             _insp_dt = rs["Insp_Dt"].ToString();
-                            _custmer = rs["custemer"].ToString();
+                            _custmer = rs["custmer"].ToString();
                         }
                     }
                     catch (Exception ex)
@@ -1578,6 +1796,8 @@ public class Leica_Ft_Track
         }
         return isUpdate;
     }
+
+
 
 
 }

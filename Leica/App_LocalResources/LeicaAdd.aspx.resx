@@ -159,7 +159,7 @@
   <data name="isnum" xml:space="preserve">
     <value>Not a number</value>
   </data>
-  <data name="is_exist" xml:space="preserve">
+  <data name="is_exist" xml:space="preserve">                                 VMI_List_Head(e);
     <value>Data is exist</value>
   </data>
   <data name="is_zero" xml:space="preserve">
@@ -258,4 +258,19 @@
   <data name="not_has_file" xml:space="preserve">
     <value>Not has file upload</value>
   </data>
+    <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  
+  
+  
 </root>

@@ -288,4 +288,13 @@
   <data name="not_has_file" xml:space="preserve">
     <value>Not has file upload</value>
   </data>
+    <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Canel</value>
+  </data>
+       <data name="item" xml:space="preserve">
+    <value>Item</value>
+  </data>
 </root>

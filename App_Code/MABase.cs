@@ -461,7 +461,7 @@ public class MABase : SmoothEnterprise.Web.Page
             if (!string.IsNullOrEmpty(user_guid))
             {
                 autograph.Visible = true; //顯示簽名檔  
-                string img_name = string.Format(@"../../image/{0}.jpg", user_guid); //確定檔案存在 
+                string img_name = string.Format(@"../../images/{0}.jpg", user_guid); //確定檔案存在 
                 autograph.ImageUrl = img_name;
                 autograph.Visible = true; 
             }
@@ -475,7 +475,7 @@ public class MABase : SmoothEnterprise.Web.Page
             {
                 //判斷圖檔是否存在 
                 autograph.Visible = true; //顯示簽名檔  
-                string img_name = string.Format(@"../../image/{0}.jpg", AppDeputy); //確定檔案存在 
+                string img_name = string.Format(@"../../images/{0}.jpg", AppDeputy); //確定檔案存在 
                 autograph.ImageUrl = img_name;
                 autograph.Visible = true;
                 signature.Visible = true;
@@ -651,7 +651,7 @@ public class MABase : SmoothEnterprise.Web.Page
 
                 sb.AppendFormat("Dear {0},<br><br>", UserName);
                 sb.AppendFormat("{0}<br>", Discript);
-                sb.AppendFormat("資料內容請點選連結查詢{0}<br>", Url);
+                sb.AppendFormat("資料內容請點選連結查詢<a href='{0}' >{0}</a><br>", Url);
                 sb.Append(Bottom());
                 return sb.ToString();
             }

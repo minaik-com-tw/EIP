@@ -88,6 +88,26 @@
                     </div>
                 </div>
             </div>
+              <div class="tb1" style="border-top: 0px">
+                <div class="tr"> 
+                    <div class="td" style="vertical-align: central; width: auto; border-top: 0px;">
+                        <asp:UpdatePanel runat="server" ID="up_file" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                            <ContentTemplate>
+                                <asp:DataList ID="file_list" runat="server"  OnItemDataBound="file_list_ItemDataBound">
+                                    <ItemTemplate>
+                                        <%--<asp:LinkButton CommandName="Delete" CommandArgument='<%# Bind("rowid") %>' ID="del_file" runat="server" ToolTip="Del" Height="30">
+                                    <i class="fas fa-trash" style="font-size:1.2em" ></i>
+                                        </asp:LinkButton>--%>
+                                         <i class="fas fa-download" style="font-size:1.2em"></i>
+                                        <asp:LinkButton ID="lbtn_file" runat="server"></asp:LinkButton>
+
+                                    </ItemTemplate>
+                                </asp:DataList>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -183,7 +203,7 @@
             </ContentTemplate>
         </asp:UpdatePanel>
 
-        <div style="text-align: left">
+        <div style="text-align:left;margin:5px 0px ">
            <SmoothEnterpriseWebControlFlowwork:FlowFeedback ID="FlowFeedback1" runat="server"
                     BackColor="#F0F0F0" BorderColor="#E0E0E0" BorderStyle="Solid" BorderWidth="1px"
                     CssClass="Normal" Font-Size="12px" OnFeedbackComplete="FlowFeedback1_FeedbackComplete" OnFlowStop="FlowFeedback1_FlowStop" OnFlowNodeComplete="FlowFeedback1_FlowNodeComplete" RedirectAfterCommit="False">
@@ -231,25 +251,17 @@
                         <SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn FieldName="ResultIcon" Label=""></SmoothEnterpriseWebControlFlowwork:FlowFeedbackColumn>
                   </Columns>
                 <HistoryTemplate>
-                    <div style="text-align:center" >
+                    
                    <asp:Label runat="server" ID="S_Comment" ReadOnly="true" ForeColor="Red"></asp:Label>
                     <asp:Image ID="Image2" runat="server" ImageAlign="Right" ImageUrl="/gif/AppDeputy.png" Visible="False" />
                     <asp:Image ID="Image1" runat="server" />
-                     </div>
+                    
                 </HistoryTemplate>
             </SmoothEnterpriseWebControlFlowwork:FlowFeedbackViewer>
 
         </div>
-        <div>
-            <div class="tb1">
-                <div class="tr" style="text-align: left">
-                    <div class="td">
-
-                        <SmoothEnterpriseWebControl:InputButton ID="Btn_Back" runat="server" Text="Back" Visible="true" OnClientClick="return Nomarl.goto('Leica.aspx')" />
-                    </div>
-
-                </div>
-            </div>
+        <div style="text-align:left;margin:10px 0px" >
+            <SmoothEnterpriseWebControl:InputButton ID="Btn_Back" runat="server" Text="Back" Visible="true" OnClientClick="return Nomarl.goto('Leica.aspx')" />
         </div>
     </div>
 
