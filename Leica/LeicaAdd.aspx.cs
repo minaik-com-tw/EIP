@@ -433,6 +433,7 @@ namespace Leica
         #endregion input 
 
         #region all_list
+        
 
         protected void all_list_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -540,7 +541,7 @@ namespace Leica
 
             }
         }
-
+        #endregion
         private void Copy_To_ft(string guid)
         {
             string get_ft = string.Format(" base_id='{0}' ", guid);

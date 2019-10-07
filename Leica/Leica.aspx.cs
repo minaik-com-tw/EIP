@@ -99,7 +99,7 @@ public partial class Leica_Leica : LeicaBase
         if (column.ID.ToUpper() == "STATUS")
         {
             cell.Value = tranfer_status(rs["status"].ToString());
-
+            
         }
 
     }
@@ -176,6 +176,8 @@ public partial class Leica_Leica : LeicaBase
         {
             sql.AppendFormat(" where 1=1 {0}",sb.ToString());
         }
+
+
 
         sql.AppendFormat(" group by h.rowid, insp_no,pg.{0},pd.{0},h_operator,insp_dt,h.status,k.{0},r.{0} ,u.name,c.{0}", CurrLang);
          
